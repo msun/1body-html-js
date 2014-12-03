@@ -1,0 +1,28 @@
+<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+<button class="button button-dark" ng-click="collapse = !collapse">
+    <i class="icon ion-calendar"></i>
+</button>
+
+<div collapse="collapse" >
+    <datepicker ng-model="dt" min-date="minDate" class="well well-sm" show-weeks="false"></datepicker>
+</div>
+
+<table style="width: 100%">
+    <tr ng-repeat="time in timeslots track by $index" style="height: 30px">
+        <td style="width: 50%; border-bottom: 1px solid white; vertical-align: middle; text-align: center;">
+            {{time | displayTime}}
+        </td>
+        <td style="width: 35%; border-bottom: 1px solid white; height: 30px; vertical-align: middle;">
+            <div ng-show="!chosen[$index]" style="width: 100%; border-radius: 5px; vertical-align: middle; text-align: center;">Available</div>
+            <div ng-show="chosen[$index]" style="width: 100%; border-radius: 5px; vertical-align: middle; text-align: center;">Selected</div>
+        </td>
+        <td style="width: 15%; border-bottom: 1px solid white; height: 30px">
+            <button ng-show="!chosen[$index]" class="button button-dark" ng-click="selectTime($index)">
+                <i class="icon ion-plus"></i>
+            </button>
+            <button ng-show="chosen[$index]" class="button button-dark" ng-click="selectTime($index)">
+                <i class="icon ion-checkmark"></i>
+            </button>
+        </td>
+    </tr>
+</table>

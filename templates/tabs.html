@@ -1,0 +1,20 @@
+<ion-tabs class="tabs-icon-top">
+
+
+  <ion-tab title="Trainers" icon="icon ion-ios7-stopwatch" on-select="clickontab('trainer')" hide-nav-bar="true">
+    <ion-nav-view name="tab-dash"></ion-nav-view>
+  </ion-tab>
+
+
+  <ion-tab title="Workout Buddy" icon="icon ion-ios7-americanfootball" on-select="clickontab('event')">
+    <!--<ion-nav-view name="tab-event"></ion-nav-view>-->
+      <ion-nav-view name="tab-dash"></ion-nav-view>
+  </ion-tab>
+
+
+  <ion-tab title="Class" icon="icon ion-gear-b" ng-click="clickontab('class')">
+    <!--<ion-nav-view name="tab-account"></ion-nav-view>-->
+  </ion-tab>
+
+
+</ion-tabs>

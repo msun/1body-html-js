@@ -1,0 +1,13 @@
+<ion-view title="Set Location">
+    <ion-content class="has-header">
+        <ion-content>
+            <div class="input-label">
+                Please select work-out
+            </div>
+            <select ng-model="transaction" ng-options="transaction.trainer for transaction in transactions" ng-change="update(transaction)">
+            </select>
+            <p>{{transaction.$id}}</p>
+            <div id="qrcode"></div>
+        </ion-content>
+    </ion-content>
+</ion-view>

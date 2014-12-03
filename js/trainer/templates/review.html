@@ -1,0 +1,28 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Add Review</h1>
+    </ion-header-bar>
+    <ion-content>
+        <div class="list">
+            <div class="item item-divider">
+                <p>
+                    Transaction at: {{transaction.creation}}
+                </p>
+                <p>
+                    Between {{transaction.trainer}} and {{transaction.user}}
+                </p>
+            </div>
+            <div class="item" style="font-size: 40px;">
+                <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="setRating()"></rating>
+            </div>
+            <label class="item item-input item-stacked-label">
+                <textarea type="text" ng-model="newreview.text" placeholder="Leave your review" />
+            </label>
+            <div class="button-bar">
+                <button class="button button-calm" ng-click="closeReviewModal()">Close </button>
+                <button class="button button-calm" ng-click="addReview()">Confirm </button>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-modal-view>

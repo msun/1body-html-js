@@ -1,0 +1,43 @@
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon" >
+                <i class = "icon ion-navicon">
+                </i>
+            </button>
+            <h2 class="title">Events</h2>
+            <a href="#/menu/map" class = "button button-icon" >
+                <i class = "icon ion-map">
+                </i> Mapview
+            </a>
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+        <ion-header-bar>
+            <!--<div class="tabs tabs-icon-left tabs-background-positive">-->
+            <div class="tabs tabs-icon-left">
+                <a class="tab-item" href="#/menu/Trainers" >
+                    <i class="icon ion-home"></i>
+                    Trainers
+                </a>
+                <a class="tab-item" href="#/menu/Events" >
+                    <i class="icon ion-star"></i>
+                    Events
+                </a>
+                <a class="tab-item" href="#/menu/Trainers" >
+                    <i class="icon ion-gear-a"></i>
+                    Classes
+                </a>
+            </div>
+            <!--</div>-->
+        </ion-header-bar>
+        <ion-content>
+            <ion-list>
+                <ion-item ng-repeat="event in events | orderBy:'distance'" type="item-text-wrap" href="#/menu/Events/{{event.$id}}">
+                    {{event.name}}
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-content>
+</ion-view>

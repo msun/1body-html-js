@@ -1,0 +1,52 @@
+
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <a href="#/menu/Trainers" class = "button button-icon" >
+                <i class = "icon ion-arrow-left-c">
+                </i> Back
+            </a>
+            <h2 class="title">{{selectedTrainer.username}}</h2>
+        </div>
+    </ion-header-bar>
+
+    <ion-content has-header="true">
+        <div class="row">
+            <div class="col-33" style="padding: 5px">
+                <img src="{{selectedTrainer.imgLink}}" width="100%">
+            </div>
+            <div class="col-67">
+                <h2>{{selectedTrainer.username}}</h2>
+                <h2>{{selectedTrainer.name}}</h2>
+                <p>{{selectedTrainer.information}}</p>
+                <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+            </div>
+        </div>
+
+        <scheduler-user-view></scheduler-user-view>
+
+        <div class="item item-input-inset">
+            <label class="item-input-wrapper">
+                <input type="text" ng-model="amount" placeholder="Amount">
+            </label>
+            <button class="button button-small" ng-click="charge(amount)">
+                Charge Me
+            </button>
+        </div>
+
+
+        <div>
+            <ion-list>
+                <ion-item ng-repeat="review in selectedTrainer.reviews" ng-click="replyto()">
+                    <p><strong>{{review.user}}</strong></p>
+                    <p>
+                        <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating> {{review.creation}}
+                    </p>
+                    <p>{{review.text}}</p>
+                    <p style="font-size: 10px">{{review.username}} left at: {{review.creation}}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <button ng-show="showAddReview()" class="button button-calm" ng-click="showReviewModal()">Leave Feedback</button>
+    </ion-content>
+</ion-view>

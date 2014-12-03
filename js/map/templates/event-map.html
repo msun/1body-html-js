@@ -1,0 +1,24 @@
+<ion-view>
+    <ion-header-bar type="bar-dark">
+        <div class="buttons">
+            <a href="#/menu/tab/event/events" class = "button button-icon" >
+                <i class = "icon ion-ios7-paper-outline">
+                </i>Listview
+            </a>
+            <h2 class="title">Events</h2>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-header padding">
+        <ion-header-bar class="bar-dark" >
+            <h1 class="title">Map</h1>
+        </ion-header-bar>
+        <ion-content>
+            <div id="eventmap" data-tap-disabled="true"></div>
+        </ion-content>
+        <ion-footer-bar class="bar-dark">
+            <a ng-click="centerOnMe()" class="button button-icon icon ion-location">Find Me</a>
+            <a ng-click="createEvent()" class="button button-icon icon ion-compose">Create Event</a>
+        </ion-footer-bar>
+    </ion-content>
+</ion-view>

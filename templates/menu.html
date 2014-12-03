@@ -1,0 +1,36 @@
+<ion-side-menus>
+    <ion-pane ion-side-menu-content drag-content="false">
+        <ion-view>
+            <ion-content>
+                <a ng-show="showWarning" ng-click="warningClick()" animation="fade-in" id="warningMsg" class="button button-block">
+                    <p>{{warningMsg}}</p>
+                </a>
+            </ion-content>
+        </ion-view>
+        <ion-nav-view name="menu"></ion-nav-view>
+    </ion-pane>
+    <ion-side-menu side="left">
+        <header class="bar bar-header bar-dark">
+            <div class="title">Side Menu</div>
+        </header>
+        <ion-content has-header="true" >
+            <ul class="list">
+                <a ng-click ="toggleMenu()" class="item item-icon-left" href="#/menu/account/settings">
+                    <i class="icon ion-gear-b"></i>
+                    Account
+                </a>
+                <a ng-click ="toggleMenu()" href="#/menu/map" class="item menu-font"><b>MapView</b></a>
+                <a ng-click ="toggleMenu()" href="#/menu/Trainers" class="item menu-font"><b>ListView</b></a>
+                <a ng-show="user.group == 'user'" ng-click ="toggleMenu()" href="#/tab/account/payment-method"  class="item menu-font"><b>Payment Method</b></a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/my-profile" class="item menu-font"><b>My Profile</b></a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/my-events" class="item menu-font"><b>My Events</b></a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/qrcode/a" class="item menu-font"><b>My QRcode</b></a>
+                <a ng-show="user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/my-schedule"  class="item menu-font"><b>My Schedule</b></a>
+                <a ng-show="user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/my-money"  class="item menu-font"><b>My Money</b></a>
+                <a ng-show="user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/set-location" class="item menu-font"><b>Set Location</b></a>
+                <a ng-show="user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/scan" class="item menu-font"><b>Scan Client</b></a>
+                <a ng-show="user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/add-class" class="item menu-font"><b>Add Class</b></a>
+            </ul>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>

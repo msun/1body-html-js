@@ -1,0 +1,50 @@
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <a class = "button button-icon" href="#">
+                <i class = "icon ion-navicon">
+                </i>
+            </a>
+
+            <h2 class="title">Register</h2>
+        </div>
+    </ion-header-bar>
+
+    <ion-content has-header="true">
+        <form class="list form-spacing">
+            <label class="item item-input item-select list-item-spacing">
+                <div class="input-label">
+                    Please select which user group you belong to
+                </div>
+                <select ng-model="newuser.group" ng-options="group.name for group in groups">
+                </select>
+            </label>
+            <label class="item item-input list-item-spacing">
+                <input type="text" ng-model="newuser.username" placeholder="Username">
+            </label>
+            <label class="item item-input list-item-spacing">
+                <input type="email" ng-model="newuser.email" placeholder="Email">
+            </label>
+            <label class="item item-input list-item-spacing">
+                <input type="password" ng-model="newuser.password" placeholder="Password">
+            </label>
+            <label class="item item-input list-item-spacing">
+                <input type="password" ng-model="newuser.confirmPassword" placeholder="Confirm Password">
+            </label>
+            <label class="item item-input list-item-spacing" ng-show="newuser.group.name == 'trainer'">
+                <input type="text" ng-model="newuser.gym" placeholder="Gym">
+            </label>
+            <label class="item item-input list-item-spacing" ng-show="newuser.group.name == 'trainer'">
+                <input type="text" ng-model="newuser.token" placeholder="Token">
+            </label>
+            <label class="item item-input list-item-spacing" ng-show="newuser.group.name == 'trainer'">
+                <input type="text" ng-model="newuser.firstname" placeholder="First name">
+            </label>
+            <label class="item item-input list-item-spacing" ng-show="newuser.group.name == 'trainer'">
+                <input type="text" ng-model="newuser.lastname" placeholder="Last name">
+            </label>
+
+            <input type="submit" class="button button-block button-dark list-item-spacing" ng-click="register()" value="Register" />
+        </form>
+    </ion-content>
+</ion-view>

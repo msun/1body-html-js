@@ -1,0 +1,30 @@
+<ion-view title="Account">
+    <ion-content has-header="true">
+        <ul class="list">
+            <a ng-show="user.group == 'user'" class="item item-icon-left" href="#/tab/account/payment-method">
+                <i class="icon ion-card"></i>Payment Method
+            </a>
+            <a href="#/tab/account/myinfo" class="item item-icon-left">
+                <i class="icon ion-person"></i> My Info
+            </a>
+            <a ng-show="user.group == 'trainer'" href="#/tab/account/set-location" class="item item-icon-left">
+                <i class="icon ion-map"></i>Set Location
+            </a>
+            <a ng-show="user.group == 'trainer'" href="#/tab/account/direct-deposit"   class="item">
+                <i class="icon ion-card"></i>Direct Deposit
+            </a>
+            <a ng-show="user.group == 'trainer'" href="#/tab/account/my-money"  class="item">
+                <i class="icon ion-calculator"></i>My Money
+            </a>
+            <a ng-show="user.group == 'trainer'" href="#/tab/account/scan"  class="item">
+                <i class="icon ion-calculator"></i>Scan Client
+            </a>
+            <a href="#/tab/account/my-events"  class="item">
+                <i class="icon ion-filing"></i>My Events
+            </a>
+            <a href="#/tab/account/qrcode/a"  class="item">
+                <i class="icon ion-filing"></i>My QR code
+            </a>
+        </ul>
+    </ion-content>
+</ion-view>

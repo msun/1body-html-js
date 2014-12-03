@@ -1,0 +1,89 @@
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon" >
+                <i class = "icon ion-navicon">
+                </i>
+            </button>
+
+            <h2 class="title">{{header}}</h2>
+
+            <a href="#/menu/{{header}}" class = "button button-icon" >
+                <i class = "icon ion-ios7-paper-outline">
+                </i>Listview
+            </a>
+
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+        <ul class="list">
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Class Name</span>
+                <input type="text" ng-model="newclass.name" placeholder="Class Name">
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Category
+                </div>
+                <select ng-model="newclass.category" ng-options="category.name for category in categories">
+                </select>
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Description</span>
+                <input type="text" ng-model="newclass.information" placeholder="Description">
+            </label>
+            <label class="item item-input" ng-click="openDatePicker()">
+                <span class="input-label">Start time </span>
+                <span>{{newclass.starttime}}</span>
+            </label>
+
+            <div class="item range range-positive">
+                <span class="input-label">Duration {{newclass.duration}}min</span>
+                <input type="range" name="volume" min="0" max="120" ng-model="newclass.duration">
+            </div>
+
+            <div class="item range range-positive">
+                <span class="input-label">Slots Open {{newclass.slotsopen}}</span>
+                <input type="range" name="volume" min="0" max="200" ng-model="newclass.slotsopen">
+            </div>
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Repeat
+                </div>
+                <select ng-model="newclass.repeat" ng-options="repeat.interval for repeat in repeatInterval">
+                </select>
+            </label>
+
+            <li class="item item-toggle">
+                Private
+                <label class="toggle toggle-assertive">
+                    <input type="checkbox" ng-model="newclass.private">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Select from map</span>
+                <button ng-click="openMap()" class="button button-calm">open map</button>
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Enter Location </span>
+                <input type="text" ng-model="newclass.location" placeholder="Class Location">
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Comment on Location</span>
+                <input type="text" ng-model="newclass.commentlocation" placeholder="Where will I be?">
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <button ng-click="createClass()" class="button button-calm">Confirm</button>
+            </label>
+        </ul>
+    </ion-content>
+</ion-view>
