@@ -336,6 +336,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $scope.toggleMenu = function() {
             console.log("toggle left");
             $ionicSideMenuDelegate.toggleLeft();
+
         }
 
         $scope.showWarning = false;
