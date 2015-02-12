@@ -1,0 +1,56 @@
+
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon button-dark">
+                <i class = "icon ion-navicon-round">
+                </i>
+            </button>
+
+            <label class="title item-input"  style="margin: 7px; border-radius: 5px; background: #6b6b6b; border: 1px solid #ffffff">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text"  ng-model="searchContainer.searchTerms" placeholder="ex. hot yoga, boxing" style="" ng-keypress="search_popover.show($event)">
+            </label>
+            <!--<h2 class="title" ng-click="popover.show($event)">{{header}}</h2>-->
+
+            <a href="#/menu/{{header}}" class = "button button-icon button-dark" style="padding: 5px">
+                <i class = "icon ion-clipboard">
+                </i>
+            </a>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+        <ion-content>
+
+            <div style="width: 80%; margin-left: 10%; margin-top: 70px; position: absolute; z-index: 100">
+                <div class="tabs tabs-icon-left">
+                    <a class="tab-item" ng-class="{'tab-active':header === 'Trainers'}" style="width: 40%; font-size: 18px; border-top-left-radius:15px; border-bottom-left-radius:15px;" ng-click="clickontab('Trainers', $event)">
+                        &nbsp;Professionals&nbsp;
+                    </a>
+                    <a class="tab-item" ng-class="{'tab-active':header === 'Classes'}" style="width: 30%; font-size: 18px;" ng-click="clickontab('Classes', $event)">
+                        Classes
+                    </a>
+                    <a class="tab-item" ng-class="{'tab-active':header === 'Events'}" style="width: 30%; font-size: 18px; border-top-right-radius:15px; border-bottom-right-radius:15px;" ng-click="clickontab('Events', $event)">
+                        Events
+                    </a>
+                </div>
+            </div>
+
+            <button ng-click="mobile_popover.show($event)" class="button button-icon button-dark" style="background-color: #444444; position: absolute; z-index: 100; bottom: 30px; left: 10%;">
+                <i class = "icon ion-search">
+                </i>
+            </button>
+
+            <button ng-click="centerOnMe()" class="button button-icon button-dark" style="background-color: #444444; position: absolute; z-index: 100; bottom: 30px; right: 10%;">
+                <i class = "icon ion-ios7-navigate-outline">
+                </i>
+            </button>
+
+
+            <div id="info"></div>
+            <div id="dashmap" data-tap-disabled="true"></div>
+        </ion-content>
+
+    </ion-content>
+</ion-view>
