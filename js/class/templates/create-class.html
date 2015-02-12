@@ -24,11 +24,20 @@
             </label>
             <label class="item item-input item-select">
                 <div class="input-label">
+                    Gym
+                </div>
+                <select ng-model="newclass.gym" ng-options="gym.name for gym in gyms">
+                </select>
+            </label>
+
+            <label class="item item-input item-select">
+                <div class="input-label">
                     Category
                 </div>
                 <select ng-model="newclass.category" ng-options="category.name for category in categories">
                 </select>
             </label>
+
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Description</span>
                 <input type="text" ng-model="newclass.information" placeholder="Description">
@@ -52,33 +61,18 @@
                 <div class="input-label">
                     Repeat
                 </div>
-                <select ng-model="newclass.repeat" ng-options="repeat.interval for repeat in repeatInterval">
+                <select ng-model="newclass.repeat" ng-options="repeat.interval for repeat in repeatIntervals">
                 </select>
             </label>
 
-            <li class="item item-toggle">
-                Private
-                <label class="toggle toggle-assertive">
-                    <input type="checkbox" ng-model="newclass.private">
-                    <div class="track">
-                        <div class="handle"></div>
-                    </div>
-                </label>
-            </li>
+            <div class="item range range-positive" ng-show="newclass.repeat && newclass.repeat.interval == 'Weekly'">
+                <span class="input-label">Select day</span>
+                <input type="range" name="volume" min="0" max="200" ng-model="newclass.slotsopen">
+            </div>
 
             <label class="item item-input item-stacked-label">
-                <span class="input-label">Select from map</span>
-                <button ng-click="openMap()" class="button button-calm">open map</button>
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Enter Location </span>
-                <input type="text" ng-model="newclass.location" placeholder="Class Location">
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Comment on Location</span>
-                <input type="text" ng-model="newclass.commentlocation" placeholder="Where will I be?">
+                <span class="input-label">Additional Comments</span>
+                <input type="text" ng-model="newclass.comment" placeholder="Where is the class?">
             </label>
 
             <label class="item item-input item-stacked-label">

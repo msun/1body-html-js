@@ -31,7 +31,7 @@ account.factory('accountFactory', function($http, baseUrl) {
     return factory;
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate) {
+account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope) {
     // if ref points to a data collection
     var successCallback = function(result){
         console.log(result);
@@ -87,6 +87,7 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, F
                 appFactory.user = sync.$asObject();
                 appFactory.userRef = Trainers.ref();
             }
+            $rootScope.user = appFactory.user;
             $ionicLoading.hide();
 //            window.location.href = "#/tab/dash/map";
             $state.transitionTo(mapstate);
@@ -106,6 +107,7 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, F
                 }
                 $ionicLoading.hide();
 //            window.location.href = "#/tab/dash/map";
+                $rootScope.user = appFactory.user;
                 $state.transitionTo(mapstate);
             }, function (error) {
                 console.error("Login failed: ", error);
@@ -117,11 +119,15 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, F
 
 });
 
-account.controller('RegisterCtrl', function(appFactory, $firebase, UserAuth, $scope, Users, Trainers, $state, mapstate) {
+account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, appFactory, $firebase, UserAuth, $scope, Users, Trainers, $state, mapstate) {
     $scope.newuser = {};
-    $scope.newuser.group = "";
+    $scope.newuser.group = "User";
     console.log(UserAuth);
     UserAuth.$logout(); //FOR TESTING
+
+    $scope.nextSlide = function() {
+        $ionicSlideBoxDelegate.next();
+    }
 
     $scope.groups = [{name: "user"}, {name: "trainer"}];
 
@@ -609,7 +615,7 @@ account.controller('MoneyCtrl', function($scope, User, appFactory, baseUrl, $tim
         console.log(result);
     }
 
-    exec(successCallback, errorCallback, 'Card_io', 'timer', {ms: 5000});
+    exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', []);
 
 });
 
@@ -720,4 +726,230 @@ account.controller('SetLocationCtrl', function($scope, User, appFactory, baseUrl
         });
     }, 200);
 
+});
+
+account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebase, Requests, Trainers){
+    var ref = $firebase(appFactory.userRef.child(appFactory.user.$id).child("requests"));
+    var requests = ref.$asArray();
+    $scope.requests = [];
+    var now = Date.now();
+    requests.$loaded(function(){
+        console.log(requests);
+        var mReqs = [];
+        for(var j=0; j<requests.length; j++) {
+            for (var prop in requests[j]) {
+                if (requests[j].hasOwnProperty(prop)) {
+                    console.log(prop);
+                    if (prop.indexOf("$") != 0) {
+                        console.log(requests[j][prop]);
+                        mReqs.push(requests[j][prop]);
+                    }
+                }
+            }
+
+            if (now - mReqs[mReqs.length-1].created > 86400000) {
+                console.log("remove");
+                (function (req) {
+                    requests.$remove(req).then(function (ref) {
+                        console.log(ref);
+                    });
+                }(requests[j]));
+            }
+        }
+
+        for(var k=0; k<mReqs.length; k++){
+            if (now - mReqs[k].created > 3600000) {
+                mReqs[k].expired = true;
+            }
+            console.log(now - mReqs[k].created);
+        }
+        $timeout(function(){
+            $scope.requests = mReqs;
+            console.log($scope.requests);
+        })
+    });
+});
+
+account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebase, Requests, Trainers, $window){
+    $scope.bundles = [
+        {numberTokens: 20, price: 400},
+        {numberTokens: 10, price: 220},
+        {numberTokens: 5, price: 120}
+    ];
+
+    if(!appFactory.user.tokens){
+        appFactory.user.tokens = 0;
+    }
+    $scope.currentTokens = appFactory.user.tokens;
+
+    $scope.amount = 0;
+    $scope.totalTokens = 0;
+
+    $scope.addBundle = function(item) {
+        $scope.amount = 0;
+        $scope.totalTokens += item.numberTokens;
+        var remainder = $scope.totalTokens;
+        for (var i = 0; i < $scope.bundles.length; i++) {
+            $scope.amount += Math.floor(remainder / $scope.bundles[i].numberTokens) * $scope.bundles[i].price;
+            remainder = remainder % $scope.bundles[i].numberTokens;
+        }
+    }
+
+    $scope.removeBundle = function(item) {
+        $scope.amount = 0;
+        $scope.totalTokens -= item.numberTokens;
+        if($scope.totalTokens < 0){
+            $scope.totalTokens = 0;
+        }
+        var remainder = $scope.totalTokens;
+        for (var i = 0; i < $scope.bundles.length; i++) {
+            $scope.amount += Math.floor(remainder / $scope.bundles[i].numberTokens) * $scope.bundles[i].price;
+            remainder = remainder % $scope.bundles[i].numberTokens;
+        }
+    }
+
+    $scope.clear = function(){
+        $scope.totalTokens = 0;
+        $scope.amount = 0;
+        $window.history.back();
+    }
+
+    $scope.confirm = function(){
+//        var ref = $firebase(appFactory.userRef.child(appFactory.user.$id).child("payments"));
+//        var payments = ref.$asArray();
+//        payments.$loaded(function(){
+//
+//        });
+
+        var exec = cordova.require("cordova/exec");
+
+        var successCallback = function(result){
+            console.log(result);
+            alert($scope.totalTokens + " tokens purchased.");
+            appFactory.user.tokens += $scope.totalTokens;
+            $scope.totalTokens = 0;
+            $scope.amount = 0;
+            $window.history.back();
+        }
+        var errorCallback = function(result){
+            console.log(result);
+        }
+
+        exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', [{amount:$scope.amount, item: $scope.totalTokens + " Tokens"}]);
+
+    }
+});
+
+account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebase, Requests, Trainers){
+    console.log(appFactory.user);
+    var ref = $firebase(appFactory.userRef.child(appFactory.user.$id).child("incoming_requests"));
+    $scope.requests = ref.$asArray();
+    $scope.requests.$loaded(function(){
+        console.log($scope.requests);
+        for(var j=0; j<$scope.requests.length; j++){
+            $scope.requests[j].trainerAccepted = false;
+            var now = Date.now();
+            if(now - $scope.requests[j].created > 3600000){
+                $scope.requests[j].expired = true;
+            }
+            console.log(now - $scope.requests[j].created);
+            if(now - $scope.requests[j].created > 86400000){
+                console.log("remove");
+                $scope.requests[j].remove = true;
+                (function(req){
+                    $scope.requests.$remove(req).then(function(ref){
+                        console.log(ref);
+                    });
+                }($scope.requests[j]));
+
+            }
+        }
+    })
+
+    var map = new google.maps.Map(document.getElementById('request-location'), {
+        zoom: 11,
+        center: new google.maps.LatLng(appFactory.user.latitude, appFactory.user.longitude),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    $scope.showOnMap = function(item) {
+        console.log(item);
+        if($scope.marker){
+            $scope.marker.setMap(null);
+        }
+
+        var center = new google.maps.LatLng(item.latitude, item.longitude);
+        $scope.marker = new google.maps.Marker({
+            position: center,
+            map: map,
+            draggable: true
+        });
+
+        map.setCenter(center);
+    }
+
+    $scope.acceptRequests = function(){
+        console.log($scope.requests);
+        for(var k=0; k<$scope.requests.length; k++){
+            var mRequest = $scope.requests[k];
+            console.log(mRequest.accepted);
+
+            if(!mRequest.accepted && mRequest.trainerAccepted) {
+                console.log(mRequest);
+                (function (req, num) {
+                    $scope.requests.$save(num).then(function(){
+                        console.log($scope.requests);
+                        console.log(req);
+                        var _req = $firebase(Requests.ref().child(req.$id)).$asObject();
+                        _req.$loaded(function () {
+                            console.log(_req);
+                            _req.trainers[appFactory.user.$id].trainerAccecpted = true;
+                            _req.$save().then(function(){
+                                var acceptRequest = function(_user){
+                                    console.log(_user);
+                                    _user[appFactory.user.$id].trainerAccecpted = true;
+                                    _user.$save().then(function(){
+                                        console.log(_user);
+                                    });
+                                }
+
+                                var mUser = $firebase(Users.ref().child(req.userID)).$asObject();
+                                mUser.$loaded(function(){
+                                    console.log(mUser);
+                                    if(mUser.requests){
+                                        mUser.requests[_req.$id][appFactory.user.$id].trainerAccecpted = true;
+                                        mUser.$save().then(function(){
+                                            console.log(mUser);
+                                        });
+                                    }
+                                });
+                                var mTrainer = $firebase(Trainers.ref().child(req.userID)).$asObject();
+                                mTrainer.$loaded(function(){
+                                    console.log(mTrainer);
+                                    console.log(_req.$id);
+                                    if(mTrainer.requests){
+                                        mTrainer.requests[_req.$id][appFactory.user.$id].trainerAccecpted = true;
+                                        mTrainer.$save().then(function(){
+                                            console.log(mTrainer);
+                                        });
+                                    }
+                                });
+                            })
+                        })
+                    });
+                }(mRequest, k));
+            }
+        }
+    }
+
+    $scope.delete = function(item){
+        $scope.requests.splice($scope.requests.indexOf(item), 1);
+        $scope.requests.$save();
+    }
+});
+
+account.filter('parseTimestamp', function() {
+    return function(timestamp) {
+        return new Date(timestamp);
+    };
 });

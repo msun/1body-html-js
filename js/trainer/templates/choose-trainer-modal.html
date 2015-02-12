@@ -1,0 +1,33 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Select Mobile Trainer</h1>
+    </ion-header-bar>
+    <ion-content>
+        <ion-scroll direction="y" style="width: 100%; height: 200px">
+            <div class="list">
+                <div class="item" type="item-text-wrap" ng-repeat="item in mobile_trainers | orderBy:'distance'" style="padding: 0px">
+                    <img src="{{item.imgLink}}" style="margin: 12px; width: 40px; height: 40px; float: left">
+                    <div ng-click="showOnMap(item)" style="width: 70%; height: 64px; padding: 5px; float: left;">
+                        <h2>{{item.username}}{{item.name}} <span>{{item.distance}}</span></h2>
+                    </div>
+                    <!--<div class="item item-checkbox" >-->
+                        <label class="checkbox" style="float: right;">
+                            <input type="checkbox" ng-model="item.checked">
+                        </label>
+                    <!--</div>-->
+                </div>
+
+            </div>
+        </ion-scroll>
+        <div class="item" style="width: 100%; height: 250px">
+            <div id="mobile-trainer-location" data-tap-disabled="true"></div>
+        </div>
+
+        <div class="button-bar">
+            <button class="button button-calm" ng-click="closeSelectTrainerModal()">Close </button>
+            <button class="button button-calm" ng-click="confirmSelectTrainerModal()">Confirm </button>
+        </div>
+
+        </div>
+    </ion-content>
+</ion-modal-view>

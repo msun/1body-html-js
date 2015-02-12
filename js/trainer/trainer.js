@@ -1,4 +1,4 @@
-var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'ui.bootstrap', 'ui.calendar']);
+var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'ui.bootstrap', 'ui.calendar', 'eventModule']);
 
 trainer.factory('Time', function(){
     var Time = function(hour, minute){
@@ -8,7 +8,7 @@ trainer.factory('Time', function(){
     return Time;
 });
 
-trainer.controller('TrainerDetailCtrl', function(Review, Transaction, Trainers, $ionicModal, $firebase, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope) {
+trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction, Trainers, $ionicModal, $firebase, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers) {
     console.log($stateParams.trainerName);
     $scope.trainerName = $stateParams.trainerName;
     $scope.max = 5;
@@ -27,6 +27,35 @@ trainer.controller('TrainerDetailCtrl', function(Review, Transaction, Trainers, 
     });
 
     $scope.selectedTrainer = $firebase(Trainers.ref().child($scope.trainerName)).$asObject();
+
+    $scope.selectedTrainerLocation = $firebase(GeoTrainers.ref().child($scope.trainerName)).$asObject();
+
+    $scope.selectedTrainerLocation.$loaded(function(){
+        $scope.map = mapFactory.initialize([], "trainer-detail-", {latitude: $scope.selectedTrainerLocation.l[0], longitude: $scope.selectedTrainerLocation.l[1]}, []);
+        var marker;
+
+        marker = new google.maps.Marker({
+            position: $scope.map.getCenter(),
+            map: $scope.map
+        });
+
+        if($scope.selectedTrainer.mobile){
+            var populationOptions = {
+                strokeColor: '#2861ff',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#2861ff',
+                fillOpacity: 0.35,
+                map: $scope.map,
+                center: new google.maps.LatLng($scope.selectedTrainerLocation.l[0], $scope.selectedTrainerLocation.l[1]),
+                radius: $scope.selectedTrainer.radius
+            };
+            // Add the circle for this city to the map.
+            var trainerCircle = new google.maps.Circle(populationOptions);
+        }
+    });
+
+
     console.log($scope.selectedTrainer);
 
     var userRef = appFactory.userRef.child(appFactory.user.$id).child("transactions");
@@ -134,6 +163,252 @@ trainer.controller('ListCtrl', function($scope, User, appFactory, $timeout, $sta
         $scope.items = appFactory.trainers;
     }
 
+
+
+});
+
+trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebase, eventFactory, apikey, Requests, GeoRequests, Trainers) {
+    $scope.newrequest = {};
+    $scope.newrequest.duration = 30;
+
+    $scope.mobile_trainers = [];
+
+    $timeout(function(){
+        for(var i=0; i< appFactory.trainers.length; i++){
+            if(appFactory.trainers[i].mobile){
+                $scope.mobile_trainers.push(appFactory.trainers[i]);
+            }
+        }
+        console.log($scope.mobile_trainers);
+    })
+
+
+    $ionicModal.fromTemplateUrl('js/trainer/templates/choose-trainer-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.modal = modal;
+    });
+
+
+    $scope.openDatePicker = function() {
+        console.log('openDatePicker');
+        $scope.tmp = {};
+        $scope.tmp.newDate = {};
+
+        var birthDatePopup = $ionicPopup.show({
+            template: '<datetimepicker ng-model="tmp.newDate"></datetimepicker>',
+            title: "Choose Start Time",
+            scope: $scope,
+            buttons: [
+                { text: 'Cancel' },
+                {
+                    text: '<b>Save</b>',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        $scope.newrequest.starttime = $scope.tmp.newDate.getTime();
+//                        console.log($scope.newrequest.starttime.getTime());
+                        if(typeof $scope.tmp.newDate.getTime === 'undefined'){
+                            alert("please select a valid time");
+                        }
+                    }
+                }
+            ]
+        });
+    }
+
+    $scope.openMap = function(){
+        var marker;
+        setTimeout(function(){
+            console.log("ready to load map");
+            console.log(appFactory.user);
+//            $scope.map = mapFactory.initialize([], "create-event", appFactory.user, []);
+            var map = new google.maps.Map(document.getElementById('create-requestmap'), {
+                zoom: 11,
+                center: new google.maps.LatLng(appFactory.user.latitude, appFactory.user.longitude),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            marker = new google.maps.Marker({
+                position: map.getCenter(), //new google.maps.LatLng(appFactory.user.latitude, appFactory.users.longitude),
+                map: map,
+                draggable: true
+            });
+
+            google.maps.event.addListener(map, 'center_changed', function() {
+                marker.setPosition(map.getCenter());
+            });
+        }, 500);
+
+        var mappopup = $ionicPopup.show({
+            template: '<div id="create-requestmap" data-tap-disabled="true"></div>',
+            title: "Choose Start Time",
+            scope: $scope,
+            buttons: [
+                { text: 'Cancel' },
+                {
+                    text: '<b>Save</b>',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        console.log(marker.getPosition());
+                        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + marker.getPosition().lat() + "," + marker.getPosition().lng() + "&key=" + apikey;
+                        console.log(url);
+                        eventFactory.getStreetAddress(url, function(data, status){
+                            console.log(data);
+                            $scope.newrequest.location = data.results[0].formatted_address;
+                        });
+                    }
+                }
+            ]
+        });
+    }
+
+    $scope.openSelectTrainerModal = function(){
+        $scope.modal.show();
+
+        $scope.mobile_trainer_location = new google.maps.Map(document.getElementById('mobile-trainer-location'), {
+            zoom: 13,
+            center: new google.maps.LatLng(appFactory.user.latitude, appFactory.user.longitude),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+//        var marker = new google.maps.Marker({
+//            position: $scope.mobile_trainer_location.getCenter(),
+//            map: $scope.mobile_trainer_location,
+//            draggable: true
+//        });
+    }
+
+    $scope.showOnMap = function(item){
+        var center = new google.maps.LatLng(item.latitude, item.longitude);
+        if($scope.marker){
+            $scope.marker.setMap(null);
+        }
+        $scope.marker = new google.maps.Marker({
+            position: center,
+            map: $scope.mobile_trainer_location,
+            draggable: true
+        });
+
+        if($scope.trainerCircle){
+            $scope.trainerCircle.setMap(null);
+        }
+
+        var populationOptions = {
+            strokeColor: '#2861ff',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#2861ff',
+            fillOpacity: 0.35,
+            map: $scope.mobile_trainer_location,
+            center: center,
+            radius: item.radius
+        };
+
+        $scope.mobile_trainer_location.setCenter(center);
+        // Add the circle for this city to the map.
+        $scope.trainerCircle = new google.maps.Circle(populationOptions);
+
+    }
+
+    $scope.closeSelectTrainerModal = function(){
+        $scope.checked = [];
+        for(var j=0; j<$scope.mobile_trainers.length; j++){
+            var mobile = $scope.mobile_trainers[j];
+            if(mobile.checked){
+                mobile.checked = false;
+            }
+        }
+        $scope.modal.hide();
+    }
+
+    $scope.confirmSelectTrainerModal = function(){
+        $scope.checked = [];
+        for(var j=0; j<$scope.mobile_trainers.length; j++){
+            var mobile = $scope.mobile_trainers[j];
+            if(mobile.checked){
+                $scope.checked.push({
+                    id: mobile.$id,
+                    username: mobile.username
+                });
+            }
+        }
+        $scope.modal.hide();
+    }
+
+    $scope.$on('$destroy', function() {
+        $scope.modal.remove();
+    });
+
+    $scope.confirmRequest = function(){
+        console.log($scope.mobile_trainers);
+
+
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newrequest.location.replace(/ /g, "+") + "&key=" + apikey;
+        eventFactory.getStreetAddress(url, function(data, status) {
+            console.log(data);
+            $scope.newrequest.latitude = data.results[0].geometry.location.lat;
+            $scope.newrequest.longitude = data.results[0].geometry.location.lng;
+
+            $scope.newrequest.userID = appFactory.user.$id;
+
+            $scope.newrequest.created = Date.now();
+            $scope.newrequest.trainers = [];
+
+            var noTrainer = true;
+            for (var j = 0; j < $scope.checked.length; j++) {
+                noTrainer = false;
+                $scope.newrequest.trainers[$scope.checked[j].id] = {trainerAccecpted: false, created: $scope.newrequest.created, trainer: $scope.checked[j].username, starttime: $scope.newrequest.starttime};
+            }
+
+            if(noTrainer){
+                alert("please select trainer");
+                return;
+            }
+
+            console.log($scope.newrequest);
+            Requests.sync().$push($scope.newrequest).then(function (ref) {
+                console.log(ref.path.m[1]);
+                var requestID = ref.path.m[1];
+                GeoRequests.set(requestID, [$scope.newrequest.latitude, $scope.newrequest.longitude]).then(function () {
+                    console.log("Provided key has been added to GeoFire");
+                });
+
+                if (!appFactory.user.requests) {
+                    appFactory.user.requests = [];
+                }
+
+                appFactory.user.requests[requestID] = $scope.newrequest.trainers;
+                appFactory.user.$save().then(function () {
+                    var numTrainerSaved = 0;
+                    for (var j = 0; j < $scope.checked.length; j++) {
+                        var temp = $scope.checked[j].id;
+                        console.log($scope.checked[j]);
+                        (function(t_id) {
+                            console.log(t_id);
+                            var m_trainer = $firebase(Trainers.ref().child(t_id)).$asObject();
+                            m_trainer.$loaded(function () {
+                                console.log(m_trainer);
+                                if (!m_trainer.incoming_requests) {
+                                    m_trainer.incoming_requests = [];
+                                }
+                                m_trainer["incoming_requests"][requestID] = {userID: appFactory.user.$id, accepted: false, created: $scope.newrequest.created, starttime: $scope.newrequest.starttime, username: appFactory.user.username, imgLink: appFactory.user.imgLink, latitude: $scope.newrequest.latitude, longitude: $scope.newrequest.longitude, message:$scope.newrequest.message};
+                                console.log(m_trainer);
+                                m_trainer.$save().then(function () {
+                                    numTrainerSaved++;
+                                    if (numTrainerSaved == $scope.checked.length) {
+                                        alert(numTrainerSaved);
+                                        window.location.href = "#/menu/map";
+                                    }
+                                    console.log("trainer " + m_trainer.$id + " saved.");
+                                })
+                            })
+                        }(temp));
+                    }
+                });
+            });
+        });
+    }
 });
 
 trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopup, Transaction) {
@@ -276,17 +551,32 @@ trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopu
                     console.log(utcstarttime);
                     var newtransaction = new Transaction(appFactory.user, scope.selectedTrainer, bookedReduced[i].period*30, bookedReduced[i].period*30, epoch);
                     console.log(newtransaction);
-                    newtransaction.add(function () {
-                        if(i==bookedReduced.length-1){
-                            var alertPopup = $ionicPopup.alert({
-                                title: 'Success',
-                                template: 'Transactions Added Successfully'
-                            });
-                            alertPopup.then(function (res) {
-                                console.log('popup closed');
-                            });
-                        }
-                    });
+
+                    var successCallback = function(result){
+                        console.log(result);
+                        newtransaction.add(function () {
+                            if(i==bookedReduced.length-1){
+
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Success',
+                                    template: 'Transactions Added Successfully'
+                                });
+                                alertPopup.then(function (res) {
+                                    console.log('popup closed');
+                                });
+                            }
+                        });
+                    }
+                    var errorCallback = function(result){
+                        console.log(result);
+                    }
+
+                    exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', [
+                        {amount: scope.amount, currency: "cad", type: "training"}
+                    ]);
+
+
+
                 }
                 for(var i=0; i<slots.half.length; i++){
                     for(var j=0; j<booked.length; j++){
@@ -408,3 +698,5 @@ trainer.filter('displayTime', function() {
         }
     }
 });
+
+

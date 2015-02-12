@@ -14,18 +14,68 @@
     height: 300px;
 }
 
+#create-requestmap {
+    width: 100%;
+    height: 300px;
+}
+
 #set-location-map {
     width: 100%;
     height: 300px;
+}
+
+#mobile-trainer-location{
+    width: 100%;
+    height: 250px;
 }
 
 .scroll {
     height: 100%;
 }
 
+.detail-page-top{
+    background: #444444;
+    opacity: 0.8;
+    height: 280px;
+}
+
+.information-and-icon{
+    font-size: 16px;
+    color: white;
+}
+
+.slider {
+    height: 100%;
+}
+
+.slider-slides{
+    padding-top: 40px;
+}
+
+.slider-pager {
+    top: 20px;
+    /*padding-top: 80px;*/
+    /*color: #000;*/
+    /*background-color: #fff;*/
+    /*text-align: center;*/
+}
+
+
 .fc-time-grid-container{
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+}
+
+.form-container{
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    /*border: 1px solid;*/
+    /*border-radius: 15px;*/
+}
+
+.has-header{
+    top: 60px;
 }
 
 .popup {
@@ -35,17 +85,92 @@
 
 .popover {
     display: block;
+    background: #e2e2e2;
 }
 
 .list-item-spacing{
     width: 100%;
-    margin-top: 2%
+}
+
+.mid-align {
+    display: table-cell;
+    vertical-align: middle;
+    /*line-height: normal;*/
+}
+
+.top-list-item{
+    width: 100%;
+    /*border-bottom: 1px solid;*/
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.button-no-padding{
+    padding: 0px;
+}
+
+.clear-button{
+    border: 0px;
+    background: transparent;
+}
+
+.bottom-list-item{
+    width: 100%;
+    /*border-bottom: 1px solid;*/
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 .form-spacing{
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
+}
+
+.form-spacing .item{
+    background-color: transparent;
+    border-color: white;
+    color: white;
+}
+
+.form-spacing input{
+    color: white;
+}
+
+.form-spacing .button{
+    color: white;
+    font-weight: 700;
+}
+
+.form-spacing .button-active{
+    color: Black;
+    background-color: white;
+}
+
+.bar {
+    height: 60px;
+}
+
+.tabs{
+    background: transparent;
+    /*opacity: 0.7;*/
+    border-radius: 15px;
+}
+
+.tab-item{
+    color: white;
+    max-width: 200%;
+    font-size: 20px;
+    font-weight: 600;
+    display: inline-table;
+    margin-top: -2px;
+    opacity: 0.7;
+    background: #444444;
+}
+
+.tab-active{
+    background: orange;
+    opacity: 1;
 }
 
 .menu-font{

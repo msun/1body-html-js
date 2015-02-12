@@ -2,28 +2,47 @@
 <ion-view>
     <ion-header-bar class="bar-dark">
         <div class="buttons">
-            <a href="#/menu/Trainers" class = "button button-icon" >
-                <i class = "icon ion-arrow-left-c">
-                </i> Back
+            <button ng-click ="toggleMenu()" class = "button button-icon button-dark">
+                <i class = "icon ion-navicon-round">
+                </i>
+            </button>
+
+            <h2 class="title" style="padding: 7px">
+                {{selectedTrainer.username}}
+                <a href="#/menu/{{$root.header}}" class = "button button-icon button-dark">
+                    <i class = "icon ion-gear-b">
+                    </i>
+                </a>
+            </h2>
+
+            <a href="#/menu/{{$root.header}}" style="padding: 5px" class = "button button-icon button-dark">
+                <i class = "icon ion-arrow-return-left">
+                </i>
             </a>
-            <h2 class="title">{{selectedTrainer.username}}</h2>
+
         </div>
     </ion-header-bar>
 
     <ion-content has-header="true">
-        <div class="row">
-            <div class="col-33" style="padding: 5px">
-                <img src="{{selectedTrainer.imgLink}}" width="100%">
+        <div class="detail-page-top">
+            <div class="row" >
+                <div class="col-33">
+                    <img src="{{selectedTrainer.imgLink}}" style="border-radius: 50%; width: 80%; margin-left: 10%; margin-right: 10%">
+                </div>
+                <div class="col-67" >
+                    <h2 style="color: white"></i>&nbsp;N{{selectedTrainer.name}} </h2>
+                    <!--<h2><i class = "icon ion-person"></i> {{selectedTrainer.username}}</h2>-->
+                    <p class="information-and-icon"><i class = "icon ion-person"></i> &nbsp;Professional</p>
+                    <p class="information-and-icon"><i class = "icon ion-location"></i> &nbsp;Toronto</p>
+                    <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </div>
             </div>
-            <div class="col-67">
-                <h2>{{selectedTrainer.username}}</h2>
-                <h2>{{selectedTrainer.name}}</h2>
-                <p>{{selectedTrainer.information}}</p>
-                <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-            </div>
-        </div>
+            <div class="item" id="trainer-detail-map" data-tap-disabled="true" style="width: 90%; margin-left: 5%; margin-right: 5%; height: 150px; border-radius: 15px; margin-top: 20px"></div>
+            <scheduler-user-view></scheduler-user-view>
 
-        <scheduler-user-view></scheduler-user-view>
+
+
+
 
         <div class="item item-input-inset">
             <label class="item-input-wrapper">
@@ -48,5 +67,6 @@
             </ion-list>
         </div>
         <button ng-show="showAddReview()" class="button button-calm" ng-click="showReviewModal()">Leave Feedback</button>
+        </div>
     </ion-content>
 </ion-view>

@@ -1,0 +1,48 @@
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon" >
+                <i class = "icon ion-navicon">
+                </i>
+            </button>
+
+            <h2 class="title">My Requests</h2>
+
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+        <div class="list">
+            <div class="item">
+                <ion-scroll direction="y" style="width: 100%; height: 30vh">
+                    <div class="list">
+                        <div class="item" ng-repeat="item in requests" style="padding: 0px">
+                            <img src="{{item.imgLink}}" style="margin: 8px; width: 50px; height: 50px; float: left">
+                            <div ng-click="showOnMap(item)" style="width: 50%; height: 66px; float: left;">
+                                <p>
+                                    User: {{item.username}}{{item.name}}
+                                    Message: {{item.message}}
+                                    Start: {{item.starttime | parseTimestamp}}
+                                </p>
+                            </div>
+                            <label class="checkbox" style="float: right;" ng-hide="item.expired">
+                                <input type="checkbox" ng-model="item.trainerAccepted">
+                            </label>
+                            <span ng-show="item.expired">Expired</span>
+                        </div>
+
+                    </div>
+                </ion-scroll>
+            </div>
+
+            <div class="item" style="height: 30vh; width: 100%">
+                <div id="request-location" data-tap-disabled="true" style="height: 30vh; width: 100%"></div>
+            </div>
+            <div class="item">
+                <div class="button-bar">
+                    <button class="button button-calm" ng-click="closeReviewModal()">Close </button>
+                    <button class="button button-calm" ng-click="acceptRequests()">Confirm </button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,73 @@
+
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <a href="#/menu/Gyms" class = "button button-icon" >
+                <i class = "icon ion-arrow-left-c">
+                </i> Back
+            </a>
+            <h2 class="title">{{selectedGym.name}}</h2>
+        </div>
+    </ion-header-bar>
+
+    <ion-content has-header="true">
+        <div class="list card">
+
+            <div class="item item-avatar">
+                <img src="{{selectedGym.user.imgLink}}">
+                <h2>{{selectedGym.user.username}}</h2>
+                <p>{{selectedGym.user.group}}</p>
+            </div>
+
+            <div class="item item-body">
+                <h2>{{selectedGym.name}}</h2>
+                <p>
+                    {{selectedGym.information}}
+                </p>
+                <p>
+                    {{selectedGym.location}}
+                </p>
+                <div id="gym-detail-map" data-tap-disabled="true" style="width: 100%; height: 200px"></div>
+                <p>
+                    <a href="#" class="subdued">1 Like</a>
+                    <a href="#" class="subdued">{{selectedGym.comments.length}} Comments</a>
+                </p>
+            </div>
+
+            <button class="item button button-block button-dark">
+                Join Gym
+            </button>
+        </div>
+
+
+        <div>
+            <ion-list>
+                <ion-item ng-repeat="comment in selectedGym.comments" ng-click="replyto()">
+                    <p>{{comment.text}}</p>
+                    <p style="font-size: 10px">{{comment.username}} left at: {{comment.creation}}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <label class="item item-input item-stacked-label">
+            <input type="text" ng-model="newcomment.text" placeholder="Comment">
+        </label>
+        <button class="button button-dark" ng-click="addcomment()">Enter</button>
+
+            <!--<div class="item tabs tabs-secondary tabs-icon-left">-->
+                <!--<a class="tab-item" href="#">-->
+                    <!--<i class="icon ion-thumbsup"></i>-->
+                    <!--Like-->
+                <!--</a>-->
+                <!--<a class="tab-item" href="#">-->
+                    <!--<i class="icon ion-chatbox"></i>-->
+                    <!--Comment-->
+                <!--</a>-->
+                <!--<a class="tab-item" href="#">-->
+                    <!--<i class="icon ion-share"></i>-->
+                    <!--Share-->
+                <!--</a>-->
+            <!--</div>-->
+
+
+    </ion-content>
+</ion-view>

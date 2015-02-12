@@ -1,0 +1,60 @@
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon" >
+                <i class = "icon ion-navicon">
+                </i>
+            </button>
+
+            <h2 class="title">{{header}}</h2>
+
+            <a href="#/menu/{{header}}" class = "button button-icon" >
+                <i class = "icon ion-ios7-paper-outline">
+                </i>Listview
+            </a>
+
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+        <ul class="list">
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Message to trainers</span>
+                <input type="text" ng-model="newrequest.message" placeholder="Description">
+            </label>
+            <label class="item item-input" ng-click="openDatePicker()">
+                <span class="input-label">Start time </span>
+                <span>{{newrequest.starttime}}</span>
+            </label>
+
+            <div class="item range range-positive">
+                <span class="input-label">Duration {{newrequest.duration}}min</span>
+                <input type="range" name="volume" min="0" max="120" ng-model="newrequest.duration">
+            </div>
+
+            <label class="item item-input item-stacked-label">
+                <!--<span class="input-label">Location of workout</span>-->
+                <button ng-click="openMap()" class="button button-calm">open map</button>
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Location </span>
+                <input type="text" ng-model="newrequest.location" placeholder="Location">
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Comment on Location</span>
+                <input type="text" ng-model="newrequest.commentlocation" placeholder="Where will I be?">
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Location of workout</span>
+                <button ng-click="openSelectTrainerModal()" class="button button-calm">Select Mobile Trainer</button>
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <button ng-click="confirmRequest()" class="button button-calm">Confirm</button>
+            </label>
+        </ul>
+    </ion-content>
+</ion-view>

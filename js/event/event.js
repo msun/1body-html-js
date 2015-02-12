@@ -157,8 +157,7 @@ event.controller('CreateEventCtrl', function($firebase, baseUrl, $scope, $timeou
                     text: '<b>Save</b>',
                     type: 'button-positive',
                     onTap: function(e) {
-                        console.log(marker.getPosition());
-                        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + marker.getPosition().k + "," + marker.getPosition().B + "&key=" + apikey;
+                        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + marker.getPosition().lat() + "," + marker.getPosition().lng() + "&key=" + apikey;
                         eventFactory.getStreetAddress(url, function(data, status){
                             console.log(data);
                             $scope.newevent.location = data.results[0].formatted_address;

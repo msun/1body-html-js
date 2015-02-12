@@ -1,0 +1,28 @@
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon" >
+                <i class = "icon ion-navicon">
+                </i>
+            </button>
+
+            <h2 class="title">My Requests</h2>
+
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+        <div class="list">
+            <div class="item" ng-repeat="item in requests" style="padding: 0px">
+                <img src="{{item.imgLink}}" style="margin: 8px; width: 40px; height: 40px; float: left">
+                <div ng-click="showOnMap(item)" style="width: 70%; height: 56px; float: left;">
+                    <p>{{item.username}}{{item.name}}{{item.trainer}}</p>
+                    <p>Start: {{item.starttime | parseTimestamp}}</p>
+                </div>
+
+                <span ng-show="item.expired" ng-hide="item.trainerAccecpted">Expired</span>
+                <span ng-show="item.trainerAccecpted">Accepted</span>
+                <span ng-hide="item.trainerAccecpted || item.expired">Waiting...</span>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

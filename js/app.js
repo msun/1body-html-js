@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services', 'eventModule', 'classModule'])
+angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services', 'eventModule', 'classModule', 'gymModule'])
 //    .value("baseUrl", "http://108.168.247.49:10355/")
     .value("baseUrl", "http://localhost:8888/")
     .value("apikey", "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc")
@@ -47,16 +47,24 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                controller: 'TabCtrl'
 //            })
 
-            .state('home', {
+            .state('menu.home', {
                 url: "/home",
-                templateUrl: "js/account/templates/home.html",
-                controller: 'LoginCtrl'
+                views: {
+                    'menu': {
+                        templateUrl: "js/account/templates/home.html",
+                        controller: 'LoginCtrl'
+                    }
+                }
             })
 
-            .state('login', {
+            .state('menu.login', {
                 url: "/login",
-                templateUrl: "js/account/templates/login.html",
-                controller: 'LoginCtrl'
+                views: {
+                    'menu': {
+                        templateUrl: "js/account/templates/login.html",
+                        controller: 'LoginCtrl'
+                    }
+                }
             })
 
             .state('register', {
@@ -112,6 +120,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     'menu': {
                         templateUrl: 'js/trainer/templates/trainer-detail.html',
                         controller: 'TrainerDetailCtrl'
+                    }
+                }
+            })
+
+            .state('menu.trainer-request', {
+                url: '/Mobile-Trainer-Request',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/trainer/templates/mobile-trainer-request.html',
+                        controller: 'MobileTrainerRequestCtrl'
                     }
                 }
             })
@@ -172,6 +190,36 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     'menu': {
                         templateUrl: 'js/class/templates/create-class.html',
                         controller: 'CreateClassCtrl'
+                    }
+                }
+            })
+
+            .state('menu.gym', {
+                url: '/Gyms',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/gym/templates/gyms.html',
+                        controller: 'GymsCtrl'
+                    }
+                }
+            })
+
+            .state('menu.gym-detail', {
+                url: '/Gyms/:gymID',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/gym/templates/gym-detail.html',
+                        controller: 'GymDetailCtrl'
+                    }
+                }
+            })
+
+            .state('menu.add-gym', {
+                url: '/editgym/:gymID',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/gym/templates/create-gym.html',
+                        controller: 'CreateGymCtrl'
                     }
                 }
             })
@@ -297,6 +345,45 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.account.requested-sessions', {
+                url: '/requested-sessions',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/incoming-requests.html',
+                        controller: 'IncomingRequestsCtrl'
+                    }
+                }
+            })
+
+            .state('menu.account.my-requests', {
+                url: '/my-requests',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/my-requests.html',
+                        controller: 'MyRequestsCtrl'
+                    }
+                }
+            })
+
+            .state('menu.account.buy-tokens', {
+                url: '/buy-tokens',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/buy-tokens.html',
+                        controller: 'BuyTokensCtrl'
+                    }
+                }
+            })
+
+//            .state('menu.account.add-class', {
+//                url: '/add-class',
+//                views: {
+//                    'account': {
+//                        templateUrl: 'js/account/templates/add-class.html',
+//                        controller: 'AddClassCtrl'
+//                    }
+//                }
+//            })
 //            .state('menu.account.qrcode.transactionID', {
 //                url: '/qrcode/:transactionID',
 //                views: {
@@ -307,26 +394,25 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                }
 //            })
         // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/home');
+        $urlRouterProvider.otherwise('/menu/home');
 
     })
-    .run(function($rootScope){
-        $rootScope.$on("$routeChangeSuccess", function(currentRoute, previousRoute){
-            //Change page title, based on Route information
-//            alert(currentRoute);
-            console.log(currentRoute);
-        });
-
+    .controller("MenuCtrl", function($scope, $ionicSideMenuDelegate, appFactory, $rootScope, $firebase, $timeout, $ionicPopup, $state, $interval){
+//        window.plugin.backgroundMode.enable();
+        $rootScope.header = "Trainers";
         navigator.geolocation.getCurrentPosition(function(position){
             console.log("location ready");
             $rootScope.position = position;
+            console.log(position);
+            appFactory.getObjsWithinRadius("trainers", [position.coords.latitude, position.coords.longitude], 30);
+            appFactory.getObjsWithinRadius("events", [position.coords.latitude, position.coords.longitude], 30);
+            appFactory.getObjsWithinRadius("classes", [position.coords.latitude, position.coords.longitude], 30);
+
             $rootScope.$broadcast('locationReady', 'locationReady');
         });
 
-    })
-    .controller("MenuCtrl", function($scope, $ionicSideMenuDelegate, appFactory, $rootScope, $firebase, $timeout, $ionicPopup, $state){
-//        window.plugin.backgroundMode.enable();
-        $scope.user = appFactory.user;
+
+        $rootScope.user = appFactory.user;
         $ionicSideMenuDelegate.toggleLeft();
 
 
@@ -353,62 +439,65 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         }
 
         $scope.warningMsg = "";
-        console.log(appFactory.userRef.child('transactions'));
-        var myTransactions = $firebase(appFactory.userRef.child(appFactory.user.$id).child('transactions')).$asArray();
-        myTransactions.$loaded(function(){
-            console.log(myTransactions);
-            if(myTransactions.length > 0) {
-                var closestScan = undefined;
-                var closestReview = undefined;
-                for (var i = 0; i < myTransactions.length; i++) {
-                    if (!myTransactions[i].scanned) {
-                        if(closestScan == undefined || (myTransactions[i].schedule < closestScan.schedule)){
-                            closestScan = myTransactions[i];
-                        }
-                    }
-                    if (!myTransactions[i].leftreview){
-                        if(closestReview == undefined || (myTransactions[i].schedule < closestReview.schedule)){
-                            closestReview = myTransactions[i];
-                        }
-                    }
-                }
-                var timedifference = 0;
-                var message = "";
-                var trainerID = "";
-                if(closestReview != undefined) {
-                    console.log(closestReview)
-                    trainerID = closestReview.trainerID;
-                    message = "Please leave a review for your last workout"
-                }
-
-                if(closestScan != undefined) {
-                    console.log(closestScan)
-                    var d = new Date().getTime();
-                    timedifference = closestScan.schedule - d;
-                    trainerID = closestScan.trainerID;
-                    console.log(timedifference);
-                    message = "Time to scan your qrcode";
-                }
-
-                $timeout(function () {
-                    var mappopup = $ionicPopup.show({
-                        template: '<p>' + message + '</p>',
-                        title: "Alert",
-                        scope: $scope,
-                        buttons: [
-                            {
-                                text: '<b>Okay</b>',
-                                onTap: function(e) {
-                                    window.location.href = "#/menu/Trainers/" + trainerID;
+//        console.log(appFactory.userRef.child('transactions'));
+        $interval(function(){
+            if(appFactory.userRef != undefined) {
+                var myTransactions = $firebase(appFactory.userRef.child(appFactory.user.$id).child('transactions')).$asArray();
+                myTransactions.$loaded(function () {
+                    console.log(myTransactions);
+                    if (myTransactions.length > 0) {
+                        var closestScan = undefined;
+                        var closestReview = undefined;
+                        for (var i = 0; i < myTransactions.length; i++) {
+                            if (!myTransactions[i].scanned) {
+                                if (closestScan == undefined || (myTransactions[i].schedule < closestScan.schedule)) {
+                                    closestScan = myTransactions[i];
                                 }
-                            },
-                            { text: 'Cancel' }
-                        ]
-                    });
-                }, timedifference);
-            }
-        });
+                            }
+                            if (!myTransactions[i].leftreview) {
+                                if (closestReview == undefined || (myTransactions[i].schedule < closestReview.schedule)) {
+                                    closestReview = myTransactions[i];
+                                }
+                            }
+                        }
+                        var timedifference = 0;
+                        var message = "";
+                        var trainerID = "";
+                        if (closestReview != undefined) {
+                            console.log(closestReview)
+                            trainerID = closestReview.trainerID;
+                            message = "Please leave a review for your last workout"
+                        }
 
+                        if (closestScan != undefined) {
+                            console.log(closestScan)
+                            var d = new Date().getTime();
+                            timedifference = closestScan.schedule - d;
+                            trainerID = closestScan.trainerID;
+                            console.log(timedifference);
+                            message = "Time to scan your qrcode";
+                        }
+
+                        $timeout(function () {
+                            var mappopup = $ionicPopup.show({
+                                template: '<p>' + message + '</p>',
+                                title: "Alert",
+                                scope: $scope,
+                                buttons: [
+                                    {
+                                        text: '<b>Okay</b>',
+                                        onTap: function (e) {
+                                            window.location.href = "#/menu/Trainers/" + trainerID;
+                                        }
+                                    },
+                                    { text: 'Cancel' }
+                                ]
+                            });
+                        }, timedifference);
+                    }
+                });
+            }
+        }, 300000);
 //            var exec = cordova.require("cordova/exec");
 //            exec(successCallback, errorCallback, 'Card_io', 'timer', [{id: appFactory.user.$id}]);
     })

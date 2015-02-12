@@ -78,11 +78,12 @@ classModule.controller('ClassDetailCtrl', function($scope, $firebase, User, appF
     }
 });
 
-classModule.controller('CreateClassCtrl', function($firebase, baseUrl, RepeatIntervals, $scope, $timeout, $stateParams, $ionicPopup, Trainers, classModuleFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, apikey, Classes, GeoClasses, Categories) {
+classModule.controller('CreateClassCtrl', function($firebase, baseUrl, RepeatIntervals, $scope, $timeout, $stateParams, $ionicPopup, Trainers, classModuleFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, apikey, Classes, GeoClasses, Categories, Gyms) {
     console.log('CreateClassCtrl');
     console.log($stateParams.classID);
 
     $scope.categories = Categories;
+    $scope.gyms = $firebase(Gyms.ref()).$asArray();
     $scope.repeatIntervals = RepeatIntervals;
 
     var href = "";
@@ -160,7 +161,7 @@ classModule.controller('CreateClassCtrl', function($firebase, baseUrl, RepeatInt
                     type: 'button-positive',
                     onTap: function(e) {
                         console.log(marker.getPosition());
-                        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + marker.getPosition().k + "," + marker.getPosition().B + "&key=" + apikey;
+                        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + marker.getPosition().lat() + "," + marker.getPosition().lng() + "&key=" + apikey;
                         classModuleFactory.getStreetAddress(url, function(data, status){
                             console.log(data);
                             $scope.newclass.location = data.results[0].formatted_address;

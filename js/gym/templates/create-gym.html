@@ -1,0 +1,46 @@
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon" >
+                <i class = "icon ion-navicon">
+                </i>
+            </button>
+
+            <h2 class="title" ng-click="popover.show($gym)">{{header}}</h2>
+
+            <a href="#/menu/{{header}}" class = "button button-icon" >
+                <i class = "icon ion-ios7-paper-outline">
+                </i>Listview
+            </a>
+
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+        <ul class="list">
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Gym Name</span>
+                <input type="text" ng-model="newgym.name" placeholder="Gym Name">
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Description</span>
+                <input type="text" ng-model="newgym.information" placeholder="Description">
+            </label>
+
+            <label class="item item-input item-stacked-label" >
+                <span class="input-label">Enter Location </span>
+                <input type="text" ng-model="newgym.location" placeholder="Gym Location">
+            </label>
+            <button ng-click="openMap()" class="item button button-calm">open map</button>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Additional Comments</span>
+                <input type="text" ng-model="newgym.commentlocation" placeholder="Location/Hours/Numbers">
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <button ng-click="createGym()" class="button button-calm">Confirm</button>
+            </label>
+        </ul>
+    </ion-content>
+</ion-view>
