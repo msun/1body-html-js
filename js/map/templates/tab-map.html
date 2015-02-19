@@ -1,4 +1,5 @@
 
+<link rel="stylesheet" type="text/css" href="css/map.css">
 <ion-view>
     <ion-header-bar class="bar-dark">
         <div class="buttons">
@@ -21,20 +22,18 @@
     </ion-header-bar>
 
     <ion-content class="has-header">
-        <ion-content>
-
-            <div style="width: 80%; margin-left: 10%; margin-top: 70px; position: absolute; z-index: 100">
-                <div class="tabs tabs-icon-left">
-                    <a class="tab-item" ng-class="{'tab-active':header === 'Trainers'}" style="width: 40%; font-size: 18px; border-top-left-radius:15px; border-bottom-left-radius:15px;" ng-click="clickontab('Trainers', $event)">
-                        &nbsp;Professionals&nbsp;
-                    </a>
-                    <a class="tab-item" ng-class="{'tab-active':header === 'Classes'}" style="width: 30%; font-size: 18px;" ng-click="clickontab('Classes', $event)">
-                        Classes
-                    </a>
-                    <a class="tab-item" ng-class="{'tab-active':header === 'Events'}" style="width: 30%; font-size: 18px; border-top-right-radius:15px; border-bottom-right-radius:15px;" ng-click="clickontab('Events', $event)">
-                        Events
-                    </a>
-                </div>
+        <ion-content class="map-content">
+            <div class="map-gradient"></div>
+            <div class="ob-tabs">
+                <a class="ob-tab-item" ng-class="{'ob-tab-active':header === 'Trainers'}" ng-click="clickontab('Trainers', $event)">
+                    &nbsp;Professionals&nbsp;
+                </a>
+                <a class="ob-tab-item" ng-class="{'ob-tab-active':header === 'Classes'}" ng-click="clickontab('Classes', $event)">
+                    Classes
+                </a>
+                <a class="ob-tab-item" ng-class="{'ob-tab-active':header === 'Events'}" ng-click="clickontab('Events', $event)">
+                    Events
+                </a>
             </div>
 
             <button ng-click="mobile_popover.show($event)" class="button button-icon button-dark" style="background-color: #444444; position: absolute; z-index: 100; bottom: 30px; left: 10%;">
