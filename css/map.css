@@ -52,3 +52,20 @@
 .ob-tab-active {
     background: rgb(56, 132, 237);
 }
+
+.ob-map-button {
+    background-color: transparent;
+    color: rgb(68, 68, 68);
+    position: absolute;
+    z-index: 100;
+}
+
+.map-search-button {
+    bottom: 30px;
+    left: 5%;
+}
+
+.map-center-button {
+    bottom: 30px;
+    right: 5%;
+}
