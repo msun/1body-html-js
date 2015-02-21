@@ -375,6 +375,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.account.test1', {
+                url: '/test1',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/test1.html',
+                        controller: 'Test1Ctrl'
+                    }
+                }
+            })
+
 //            .state('menu.account.add-class', {
 //                url: '/add-class',
 //                views: {

@@ -1006,3 +1006,6 @@ account.filter('parseTimestamp', function() {
         return new Date(timestamp);
     };
 });
+
+account.controller('Test1Ctrl', function($scope, User, appFactory, baseUrl, $timeout, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
+});
