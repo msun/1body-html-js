@@ -29,6 +29,12 @@
          url('../font/AvenirNextLTPro-Bold.woff');
 }
 
+@font-face {
+    font-family: 'AvenirNextLTPro-It';
+    src: local('AvenirNextLTPro-It'),
+         url('../font/AvenirNextLTPro-It.woff');
+}
+
 #eventmap {
     width: 100%;
     height: 100%;
