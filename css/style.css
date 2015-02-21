@@ -304,3 +304,23 @@
     top: 50vw;
     left: 50vw;
 }
+
+.ob-dark-bg {
+    background-color: #1f101c;
+}
+
+.ob-white-color {
+    color: white;
+}
+
+.nav-bar-logo {
+    width: 114px;
+    height: 41px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
