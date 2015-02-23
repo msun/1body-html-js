@@ -89,11 +89,11 @@
     margin: 0px 4px;
 }
 
-.time-slots {
+.time-slots-class {
 
 }
 
-.time-slot {
+.time-slot-class {
     display: -moz-flex;
     display: -webkit-flex;
     display: flex;
@@ -107,39 +107,97 @@
     border-bottom: 1px solid #a3a2a1;
 }
 
-.time-slot-main-column {
+.time-slot-class-main-column {
     flex: 99 99 auto;
 }
 
-.time-slot-title {
+.time-slot-class-title {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
 }
 
-.time-slot-description {
+.time-slot-class-description {
 
 }
 
-.time-slot-time {
+.time-slot-class-time {
     margin-top: 19px;
 }
 
-.time-slot-spots-left {
+.time-slot-class-spots-left {
     margin-left: 2px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     color: #3988f6;
 }
 
-.time-slot-check-column {
+.time-slot-class-check-column {
     flex: 0 0 47px;
     text-align: center;
 }
 
-.time-slot-check {
+.time-slot-class-check {
     display: inline-block;
     width: 31px;
     height: 31px;
     margin: auto;
     vertical-align: middle;
+}
+
+.time-slots-prof {
+
+}
+
+.time-slot-prof {
+    height: 53px;
+    border-bottom: 1px solid #9fa0a2;
+}
+
+.time-slot-prof-time {
+    float: left;
+    margin: 19px 8px 0px;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 15px;
+    color: white;
+}
+
+.time-slot-prof-checkable {
+    position: relative;
+    float: right;
+    margin: 11px 8px 0px 0px;
+    padding: 0px;
+    width: 33px;
+    height: 33px;
+    background: transparent;
+}
+
+.time-slot-prof-check {
+    width: 31px;
+    height: 31px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.time-slot-prof-no-check {
+    width: 31px;
+    height: 31px;
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid white;
+    border-radius: 15px;
+}
+
+.time-slot-prof-checkable-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+}
+
+.time-slot-prof-checkable-overlay:active {
+    background: white;
 }
 
 .footer-button {
