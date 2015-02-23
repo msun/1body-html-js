@@ -1,5 +1,5 @@
 
-.profile-content-top {
+.profile-top {
     position: relative;
     float: left;
     width: 100%;
@@ -23,7 +23,7 @@
     font-size: 1em;
 }
 
-.profile-content-top-padding-div {
+.profile-top-padding-div {
     width: 100%;
     height: 3vh;
     min-height: 8px;
@@ -194,7 +194,7 @@
     font-weight: bold;
 }
 
-.profile-content-bottom {
+.profile-bottom {
     height: 100%;
     min-height: 300px;
     background-color: rgb(225,225,225);
@@ -273,6 +273,34 @@
     background: #999 url("../img/professional-profile/tmp/map-background.png") center/320px 99px no-repeat;
 }
 
+.profile-photos {
+    position: relative;
+    width: 320px;
+    height: 105px;
+    margin: 0px auto;
+}
+
+.profile-photo {
+    width: 33.33333%;
+    border-right: 1px solid #b7b7b7;
+}
+
+.profile-photo:last-child {
+    border-right: none;
+}
+
+.profile-photos-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    -webkit-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
+    right: 4px;
+    width: 21px;
+    height: 21px;
+}
+
 .profile-feed {
     width: 100%;
     border-bottom: 1px solid rgb(159, 159, 159);
@@ -335,4 +363,46 @@
 
 #profile-feed-review-star-5 {
     visibility: hidden;
+}
+
+.activity-feed {
+
+}
+
+.activity-row {
+    display: table;
+    text-align: left;
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+.activity-image {
+    float: left;
+    width: 36px;
+    height: 36px;
+    margin: 7px 10px;
+}
+
+.activity-text {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 8px 10px 8px 3px;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.activity-row-end {
+    clear: both;
+}
+
+.linked-text {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    color: #3884ed;
+}
+
+.activity-time {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    color: #898989;
 }
