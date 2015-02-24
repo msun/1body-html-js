@@ -1,0 +1,195 @@
+
+.register-class-content1 {
+    background: url("../img/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
+                url("../img/register-class/tmp/background-blur.png") center/100% 100% no-repeat,
+                url("../img/sign-up/Background-Image.png") center/100% 100% no-repeat;
+}
+
+.register-class-content1-div {
+    border: 1px solid transparent;
+}
+
+.main-instructions {
+    width: 220px;
+    margin: 23px auto 0px;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+}
+
+.sub-instructions {
+    width: 200px;
+    margin: 10px auto 43px;
+    font-family: 'Lato-Light', sans-serif;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+}
+
+.register-class-form {
+    background-color: transparent;
+    border-radius: 8px;
+    border: 1px solid #7f7b73;
+    margin: 30px 9px 0px;
+}
+
+.register-class-form input {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 20px 9px;
+    border-bottom: 1px solid #7f7b73;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: white;
+}
+
+.register-class-form input::-webkit-input-placeholder {
+    color: #9a9a9a;
+}
+
+.register-class-form input:-moz-placeholder { /* Firefox 18- */
+    color: #9a9a9a;
+}
+
+.register-class-form input::-moz-placeholder {  /* Firefox 19+ */
+    color: #9a9a9a;
+}
+
+.register-class-form input:-ms-input-placeholder {
+    color: #9a9a9a;
+}
+
+.register-class-form input:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.register-class-form input:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom: none;
+}
+
+.select-row {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 0px 9px;
+    border-bottom: 1px solid #7f7b73;
+    height: 45px;
+}
+
+.select-text {
+    display: inline-block;
+    position: relative;
+    bottom: 10px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: white;
+    white-space: nowrap;
+    margin: 0px 9px 0px 0px;
+}
+
+.select-container {
+    width: 70px;
+    display: inline-block;
+    overflow: hidden;
+    background: url("../img/register-class/dropdown-white-arrow.png") calc(100% - 4px) calc(50%) / 12.5px 8px no-repeat;
+    border: 1px solid #7f7b73;
+    border-radius: 14px;
+    margin: 7px 4px 0px 0px;
+}
+
+.select-container:first-child {
+    margin-left: 12px;
+}
+
+.register-class-form select {
+    width: 90px;
+    background: transparent;
+    color: white;
+    border: none;
+    border-radius: 0px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    white-space: nowrap;
+    margin: 5px 0px 0px 0px;
+}
+
+.block-blue-button {
+    display: block;
+    width: 301px;
+    border-radius: 5px;
+    border: none;
+    background-color: #3884ed;
+    margin: 22px auto 11px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.69px;
+    color: white;
+    padding: 8px 0px;
+}
+
+.block-blue-button:active {
+    background-color: #3172cc;
+}
+
+.ob-form-row {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #7f7b73;
+}
+
+.ob-form-switch {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: stretch;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+    height: 42.5px;
+}
+
+.ob-form-switch-button {
+    flex: 1 1 50px;
+    width: 50%;
+    background: transparent;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: white;
+    border: none;
+    border-right: 1px solid #7f7b73;
+}
+
+.ob-form-switch-button:last-child {
+    border-right: none;
+}
+
+.ob-form-switch-button:active {
+    background: white;
+    color: black;
+}
+
+.ob-blue-text {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #3884ed;
+}
+
+.ob-date-prompt-text {
+    display: inline-block;
+    margin: 12px 0px 12px 11px;
+}
+
+.ob-date {
+    display: inline-block;
+    margin: 12px 0px 12px 12px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #bcbbbb;
+    border-bottom: 1px solid #3884ed;
+
+}
+
+.ob-date-picker-button {
+    float: right;
+    width: 18px;
+    height: 18px;
+    margin: 13px 9.5px;
+}
