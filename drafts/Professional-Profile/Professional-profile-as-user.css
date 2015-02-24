@@ -191,7 +191,7 @@
     flex: 99 99 0px;
 }
 
-.followers-item, .following-item, .reviews-item {
+.followers-item, .following-item, .achieved-item, .reviews-item {
     -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -200,7 +200,7 @@
     text-align: center;
 }
 
-.followers-item, .following-item {
+.followers-item, .following-item, .achieved-item {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 1em;
     line-height: 1.2em;
@@ -215,7 +215,12 @@
     padding-left: 10px;
 }
 
-.following-count, .followers-count {
+.achieved-item {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.following-count, .followers-count, .achieved-count {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 1.2em;
 }
