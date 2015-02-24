@@ -8,19 +8,47 @@
     padding-bottom: 2em;
 }
 
-.follow-button {
+.follow-button, .following-button {
     font-family: 'Avenir Next LT Pro', sans-serif;
-    display: inline-block;
-    float: left;
-    margin: 8px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
     height: 30px;
     padding: 4px 8px;
     border-radius: 5px;
     border: 1px solid white;
-    background-color: transparent;
-    color: white;
     text-align: center;
     font-size: 1em;
+}
+
+.follow-button {
+    color: white;
+    background-color: transparent;
+}
+
+.following-button {
+    color: black;
+    background-color: white;
+}
+
+.follow-button:active {
+    background-color: white;
+}
+
+.following-button:active {
+    background-color: black;
+}
+
+.plus-icon {
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+}
+
+.checkmark-icon {
+    width: 12.5px;
+    height: 9.5px;
+    margin-right: 6px;
 }
 
 .profile-top-padding-div {
@@ -51,6 +79,29 @@
     height: 30%;
     left: 65%;
     top: 0%;
+}
+
+.profile-picture-tag-centered-div {
+    position: relative;
+    margin: 0 auto 1vh;
+    width: 10vh;
+    height: 10vh;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.profile-picture-tag-centered {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
 }
 
 .full-name-container {
@@ -91,7 +142,7 @@
 }
 
 .profession {
-    margin: 0.2em auto;
+    margin: 0.2em auto 0em;
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 1.2em;
     text-align: center;
@@ -99,12 +150,32 @@
 }
 
 .personal-quote {
-    margin: 0.3em auto 0.1em auto;
+    margin: 0.5em auto 0.1em auto;
     width: 78%;
     font-size: 1.2em;
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-style: italic;
     text-align: center;
+    color: white;
+}
+
+.time-block {
+
+}
+
+.clock-icon {
+    width: 14.5px;
+    height: 14.5px;
+    display: block;
+    margin: 26px auto 0px;
+}
+
+.time-text {
+    text-align: center;
+    margin: 5px auto 17px;
+    width: 184px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
     color: white;
 }
 
@@ -169,7 +240,7 @@
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
-    z-index: 1;
+    z-index: 100;
     min-width: 264px;
     max-width: 80%;
     border: none;
@@ -192,6 +263,54 @@
 .profile-main-action-button .first-word {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-weight: bold;
+}
+
+.profile-main-action-bar {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: #3177e8;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.profile-main-action-bar-button {
+    background-color: #2b6acf;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 15.5px;
+    color: white;
+    border: none;
+    border-right: 1px solid #70727f;
+    width: 120px;
+    height: 45px;
+}
+
+.profile-main-action-bar-button:active {
+    background-color: white;
+}
+
+.profile-main-action-bar-button:first-child {
+    width: 110px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.profile-main-action-bar-button:last-child {
+    width: 59px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-right: none;
+}
+
+.profile-ellipsis-icon {
+    width: 23.5px;
+    height: 4.5px;
 }
 
 .profile-bottom {
