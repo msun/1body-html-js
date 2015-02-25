@@ -1,0 +1,174 @@
+
+.register-class-content1 {
+    background: url("../img/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
+                url("../img/register-class/tmp/background-blur.png") center/100% 100% no-repeat,
+                url("../img/sign-up/Background-Image.png") center/100% 100% no-repeat;
+}
+
+.register-class-content1-div {
+    border: 1px solid transparent;
+}
+
+.main-instructions {
+    width: 220px;
+    margin: 23px auto 0px;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+}
+
+.sub-instructions {
+    width: 200px;
+    margin: 10px auto 43px;
+    font-family: 'Lato-Light', sans-serif;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+}
+
+.ob-form {
+    background-color: transparent;
+    border-radius: 8px;
+    border: 1px solid #7f7b73;
+    margin: 40px 9px 0px;
+    overflow: hidden;
+}
+
+.ob-form-row {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #7f7b73;
+    overflow: hidden;
+}
+
+.ob-form-row-:first-child {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #7f7b73;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.ob-form-row:last-child {
+    border-bottom: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.ob-sectioned-row {
+    display: -mox-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.ob-sectioned-row > .left-prompt-text {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    padding: 12px 0px 12px 11px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+}
+
+.ob-sectioned-row > .main-content {
+    -moz-flex: 99 99 auto;
+    -webkit-flex: 99 99 auto;
+    flex: 99 99 auto;
+    padding: 11px 10px;
+}
+
+.ob-tag-2 {
+    display: inline-block;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: white;
+    border-bottom: 1px solid white;
+    margin-bottom: 11px;
+}
+
+.ob-tag-2:last-child {
+    margin-bottom: 0px;
+}
+
+.ob-sectioned-row > .right-icon-container {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -moz-align-self: flex-end;
+    -webkit-align-self: flex-end;
+    align-self: flex-end;
+    padding: 6px 9px;
+}
+
+.ob-sectioned-row > .right-icon-container > .small-plus-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.ob-blue-text {
+    color: #3884ed;
+}
+
+.ob-form-textarea {
+    resize: none;
+    background: transparent;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5;
+    color: white;
+    padding: 11px;
+    height: 90px;
+}
+
+.ob-form-textarea::-webkit-input-placeholder {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #bebbbb;
+}
+
+.ob-form-textarea:-moz-placeholder { /* Firefox 18- */
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #bebbbb;
+}
+
+.ob-form-textarea::-moz-placeholder {  /* Firefox 19+ */
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #bebbbb;
+}
+
+.ob-form-textarea:-ms-input-placeholder {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #bebbbb;
+}
+
+.block-blue-button {
+    display: block;
+    width: 301px;
+    border-radius: 5px;
+    border: none;
+    background-color: #3884ed;
+    margin: 15px auto 11px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.69px;
+    color: white;
+    padding: 8px 0px;
+}
+
+.block-blue-button:active {
+    background-color: #3172cc;
+}
+
+.block-transparent-button {
+    display: block;
+    margin: 0px auto;
+    background: transparent;
+    border: none;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 15px;
+    color: white;
+}
+
+.block-transparent-button:active {
+    color: #888888;
+}
