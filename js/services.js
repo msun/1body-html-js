@@ -38,21 +38,12 @@ angular.module('starter.services', ["firebase"])
         var ref = Firebase.child("requests");
         var sync = $firebase(ref);
 
-        var list = sync.$asArray();
-        var obj = sync.$asObject();
-
         return {
             ref: function(){
                 return ref;
             },
             sync: function(){
                 return sync;
-            },
-            list: function(){
-                return list;
-            },
-            obj: function(){
-                return obj;
             }
         };
     })
@@ -61,21 +52,12 @@ angular.module('starter.services', ["firebase"])
         var ref = Firebase.child("events");
         var sync = $firebase(ref);
 
-        var list = sync.$asArray();
-        var obj = sync.$asObject();
-
         return {
             ref: function(){
                 return ref;
             },
             sync: function(){
                 return sync;
-            },
-            list: function(){
-                return list;
-            },
-            obj: function(){
-                return obj;
             }
         };
     })
@@ -89,21 +71,12 @@ angular.module('starter.services', ["firebase"])
         var ref = Firebase.child("classes");
         var sync = $firebase(ref);
 
-        var list = sync.$asArray();
-        var obj = sync.$asObject();
-
         return {
             ref: function(){
                 return ref;
             },
             sync: function(){
                 return sync;
-            },
-            list: function(){
-                return list;
-            },
-            obj: function(){
-                return obj;
             }
         };
     })
@@ -117,21 +90,12 @@ angular.module('starter.services', ["firebase"])
         var ref = Firebase.child("gyms");
         var sync = $firebase(ref);
 
-        var list = sync.$asArray();
-        var obj = sync.$asObject();
-
         return {
             ref: function(){
                 return ref;
             },
             sync: function(){
                 return sync;
-            },
-            list: function(){
-                return list;
-            },
-            obj: function(){
-                return obj;
             }
         };
     })
@@ -180,11 +144,22 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
+    .factory("Images", function($firebase, Firebase) {
+        var ref = Firebase.child("images");
+        var sync = $firebase(ref);
+        return {
+            ref: function(){
+                return ref;
+            },
+            sync: function(){
+                return sync;
+            }
+        };
+    })
+
     .factory("Transactions", function($firebase, Firebase) {
         var ref = Firebase.child("transactions");
         var sync = $firebase(ref);
-        var list = sync.$asArray();
-        var obj = sync.$asObject();
 
         return {
             ref: function(){
@@ -192,12 +167,6 @@ angular.module('starter.services', ["firebase"])
             },
             sync: function(){
                 return sync;
-            },
-            list: function(){
-                return list;
-            },
-            obj: function(){
-                return obj;
             }
         };
     })

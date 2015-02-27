@@ -31,6 +31,16 @@ account.factory('accountFactory', function($http, baseUrl) {
     return factory;
 });
 
+account.controller('HomeCtrl', function($scope){
+    $scope.googleLogin = function(){
+
+    };
+
+    $scope.passwordLogin = function(){
+
+    };
+});
+
 account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope) {
     // if ref points to a data collection
     var successCallback = function(result){
@@ -60,11 +70,11 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, F
         var exec = cordova.require("cordova/exec");
         exec(successCallback, errorCallback, 'Card_io', 'googlelogin', []);
     }
-
-    $scope.facebookLogin = function(){
-        var exec = cordova.require("cordova/exec");
-        exec(successCallback, errorCallback, 'Card_io', 'facebooklogin', []);
-    }
+//
+//    $scope.facebookLogin = function(){
+//        var exec = cordova.require("cordova/exec");
+//        exec(successCallback, errorCallback, 'Card_io', 'facebooklogin', []);
+//    }
 
     $scope.user = {};
     $scope.signin = function(){
@@ -303,7 +313,19 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
     var exec = cordova.require("cordova/exec");
 
     var image = document.getElementById('displayPic');
-    image.src = $scope.user.imgLink;
+
+    exec(function(result){
+        image.src = result.uri;
+    }, function(err){
+        console.log(err);
+    }, 'Card_io', 'loadimg', [
+        {id: $scope.user.$id}
+    ]);
+    $scope.modal.hide();
+
+
+
+//    image.src = $scope.user.imgLink;
 
     $ionicModal.fromTemplateUrl('js/account/templates/image-rotate.html', {
         scope: $scope,
@@ -449,24 +471,54 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
         console.log('x: ' + x + ' y: ' + y + ' width: ' + cropwidth + ' height: ' + cropheight + 'uri: ' + image.src);
 
         var successCallback = function(result){
-            console.log(result);
-            image.src = result.uri;
-            $scope.useimg();
+
+//            image.src = result.uri;
+            $timeout(function(){
+                $scope.payload = "data:image/jpeg;base64," +  result.load;
+            })
+            console.log(result.load);
+//            $scope.useimg();
         }
         var errorCallback = function(result){
             console.log(result);
         }
 
         exec(successCallback, errorCallback, 'Card_io', 'crop', [
-            {"top": y, "left": x, "width": cropwidth, 'height': cropheight, 'uri': image.src}
+            {"top": y, "left": x, "width": cropwidth, 'height': cropheight, 'uri': image.src, 'id': appFactory.user.$id}
         ]);
     }
 
     function uploadPhoto(imageURI) {
+        console.log(imageURI);
+
         var options = new FileUploadOptions();
         options.fileKey="file";
         options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
         options.mimeType="image/jpeg";
+
+        console.log(options.fileName);
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+            window.resolveLocalFileSystemURL(imageURI, function(fileEntry){
+                    fileEntry.file(function(file) {
+                        var reader = new FileReader();
+
+                        reader.onloadend = function(e) {
+                            console.log("Text is: "+ e.target.result);
+                            $timeout(function(){
+                                $scope.payload = e.target.result;
+                            })
+
+//                            document.querySelector("#loadimage").src = this.result;
+                        }
+
+                        reader.readAsText(file);
+                    });
+            }, fail);
+
+        }, function(err){
+            console.log(err);
+        });
+
 
         var params = new Object();
         params.value1 = "test";
@@ -474,12 +526,13 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
 
         options.params = params;
 
-        var ft = new FileTransfer();
-        ft.upload(imageURI, "http://108.168.247.49:10355/fileupload", win, fail, options);
-        alert(options.fileName);
+//        var ft = new FileTransfer();
+//        ft.upload(imageURI, "http://108.168.247.49:10355/fileupload", win, fail, options);
+//        alert(options.fileName);
     }
 
     function win(r) {
+        console.log(r);
         console.log("Code = " + r.responseCode);
         $scope.imageLink = r.response;
 
@@ -493,7 +546,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
     }
 
     function onSuccess(imageURI) {
-        $scope.user.imgLink = imageURI;
+//        $scope.user.imgLink = imageURI;
         image.src = imageURI;
     }
 

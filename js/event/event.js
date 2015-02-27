@@ -1,4 +1,4 @@
-var event = angular.module('eventModule', ['ionic', 'accountModule', 'ui.bootstrap', 'starter', 'ui.bootstrap.datetimepicker']);
+var event = angular.module('eventModule', ['ionic', 'accountModule', 'ui.bootstrap', 'starter', 'timeAndDate']);
 
 event.factory('eventFactory', function($resource, baseUrl, $http, appFactory){
     var factory = {};
@@ -94,30 +94,31 @@ event.controller('CreateEventCtrl', function($firebase, baseUrl, $scope, $timeou
     console.log($scope.newevent);
     $scope.newevent.duration = 30;
 
-    $scope.openDatePicker = function() {
-        console.log('openDatePicker');
-        $scope.tmp = {};
-        $scope.tmp.newDate = {};
 
-        var birthDatePopup = $ionicPopup.show({
-            template: '<datetimepicker ng-model="tmp.newDate"></datetimepicker>',
-            title: "Choose Start Time",
-            scope: $scope,
-            buttons: [
-                { text: 'Cancel' },
-                {
-                    text: '<b>Save</b>',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        $scope.newevent.starttime = $scope.tmp.newDate;
-                        if(typeof $scope.tmp.newDate.getTime === 'undefined'){
-                            alert("please select a valid time");
-                        }
-                    }
-                }
-            ]
-        });
-    }
+//    $scope.openDatePicker = function() {
+//        console.log('openDatePicker');
+//        $scope.tmp = {};
+//        $scope.tmp.newDate = {};
+//
+//        var birthDatePopup = $ionicPopup.show({
+//            template: '<datetimepicker ng-model="tmp.newDate"></datetimepicker>',
+//            title: "Choose Start Time",
+//            scope: $scope,
+//            buttons: [
+//                { text: 'Cancel' },
+//                {
+//                    text: '<b>Save</b>',
+//                    type: 'button-positive',
+//                    onTap: function(e) {
+//                        $scope.newevent.starttime = $scope.tmp.newDate;
+//                        if(typeof $scope.tmp.newDate.getTime === 'undefined'){
+//                            alert("please select a valid time");
+//                        }
+//                    }
+//                }
+//            ]
+//        });
+//    }
 
     // Called each time the slide changes
     $scope.slideChanged = function(index) {

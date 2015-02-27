@@ -45,7 +45,43 @@ map.factory('mapFactory', function($http, $compile){
 
 var coordinatesAreEquivalent = function(coord1, coord2, diff) {
     return (Math.abs(coord1 - coord2) < diff);
-}
+};
+
+map.directive('trainerInfoWindow', function(){
+    return{
+        restrict: 'E',
+        templateUrl: 'js/map/templates/trainer-info-window.html',
+        scope: { markers: '=' , val: '='},
+        link: function(scope, element, attrs) {
+            console.log(scope.markers);
+            console.log(scope.val);
+        }
+    }
+});
+
+map.directive('eventInfoWindow', function(){
+    return{
+        restrict: 'E',
+        templateUrl: 'js/map/templates/event-info-window.html',
+        scope: { markers: '=' , val: '='},
+        link: function(scope, element, attrs) {
+            console.log(scope.markers);
+            console.log(scope.val);
+        }
+    }
+});
+
+map.directive('classInfoWindow', function(){
+    return{
+        restrict: 'E',
+        templateUrl: 'js/map/templates/class-info-window.html',
+        scope: { markers: '=' , val: '='},
+        link: function(scope, element, attrs) {
+            console.log(scope.markers);
+            console.log(scope.val);
+        }
+    }
+});
 
 map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout, $firebase, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Trainers, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Classes) {
     $scope.header = appFactory.state;
@@ -357,11 +393,11 @@ map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout
                         var contentString;
                         var infowindow;
                         if(tab == "Trainers"){
-                            contentString = '<div class="list infowindow-list"><a ng-repeat="item in markers[' + val + '].items" class="item item-thumbnail-left" href="#/menu/Trainers/{{item.$id}}"><img src="{{item.imgLink}}"><h2>{{item.username}}</h2><p>gym: {{item.gym}}</p></a></div>';
+                            contentString = '<trainer-info-window markers="markers" val="' + val + '"></trainer-info-window>';
                             infowindow = new google.maps.InfoWindow();
                             $scope.markers.push({items: items, marker: newmarker, infowindow: infowindow});
                         } else if(tab == "Events") {
-                            contentString = '<div class="list infowindow-list"><a ng-repeat="item in markers[' + val + '].items" class="item item-avatar" href="#/menu/Events/{{item.$id}}"><img src="img/mcfly.jpg"><h2>{{item.name}}</h2><p>Info: {{item.information}}</p></a></div>';
+                            contentString = '<event-info-window markers="markers" val="' + val + '"></event-info-window>';
                             infowindow = new google.maps.InfoWindow();
                             $scope.markers.push({items: items, marker: newmarker, infowindow: infowindow});
                         } else {
@@ -370,7 +406,7 @@ map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout
                                 console.log(obj.classes[Object.keys(obj.classes)[n]]);
                                 items.push(obj.classes[Object.keys(obj.classes)[n]]);
                             }
-                            contentString = '<div class="list infowindow-list"><div class="list card"><div class="item item-avatar"><img src="' + obj.imgLink + '"><h2>' + obj.name + '</h2><p>' + obj.commentlocation + '</p> <div class="item item-body"><a ng-repeat="item in markers[' + val + '].items" class="item item-avatar" href="#/menu/Classes/{{item.$id}}"><img src="img/mcfly.jpg"><h2>{{item.name}}</h2><p>Info: {{item.information}}</p></a></div></div></div>';
+                            contentString = '<class-info-window markers="markers" val="' + val + '"></class-info-window>';
                             infowindow = new google.maps.InfoWindow({maxWidth: 250});
                             $scope.markers.push({items: items, marker: newmarker, infowindow: infowindow});
                         }
@@ -378,7 +414,7 @@ map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout
                         var compiled = $compile(contentString)($scope);
 
                         console.log(infowindow);
-                        console.log(newmarker);
+                        console.log(compiled[0]);
                         google.maps.event.addListener(newmarker, 'click', (function(marker,content,infowindow){
                             return function() {
                                 infowindow.setContent(content);

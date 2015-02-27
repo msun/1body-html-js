@@ -35,7 +35,9 @@
             </label>
             <label class="item item-input" ng-click="openDatePicker()">
                 <span class="input-label">Start time </span>
-                <span>{{newevent.starttime}}</span>
+                <!--<div  ez-timepicker="form.time" data-clock-icon-class="fa fa-clock-o" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-up"></div>-->
+                <time-picker data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                <!--<span>{{newevent.starttime}}</span>-->
             </label>
 
             <div class="item range range-positive">
