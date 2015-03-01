@@ -3,52 +3,7 @@
     margin-top: 40px;
 }
 
-.ob-form-input-container {
-    display: inline-block;
-    padding: 5px 13px;
-    width: 100%;
-}
-
-.ob-form-row input {
-    background: transparent;
-    border: none;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: white;
-}
-
-.ob-form-row input::-webkit-input-placeholder {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #777676;
-}
-
-.ob-form-row input:-moz-placeholder { /* Firefox 18- */
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #777676;
-}
-
-.ob-form-row input::-moz-placeholder {  /* Firefox 19+ */
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #777676;
-}
-
-.ob-form-row input:-ms-input-placeholder {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #777676;
-}
-
-.ob-form-row input[type="password"] {
-    float: left;
-    width: calc(100% - 17px - 10px);
-}
-
-.password-checkmark {
-    float: right;
-    width: calc(17px + 10px);
-    height: calc(13px + 10px + 10px);
-    padding: 10px 0px 10px 10px;
+.password-icon {
+    flex: 0 0 17px;
+    height: 13px;
 }

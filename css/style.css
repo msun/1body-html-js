@@ -312,7 +312,7 @@
 }
 
 /* ********** ********** ********** ********** ***********/
-/* colors
+/* colors */
 /* ********** ********** ********** ********** ***********/
 
 .ob-dark-bg {
@@ -328,7 +328,7 @@
 }
 
 /* ********** ********** ********** ********** ***********/
-/* nav-bar
+/* nav-bar */
 /* ********** ********** ********** ********** ***********/
 
 .nav-bar-logo {
@@ -344,7 +344,7 @@
 }
 
 /* ********** ********** ********** ********** ***********/
-/* generic menu view
+/* generic menu view */
 /* ********** ********** ********** ********** ***********/
 
 .menu1-content {
@@ -376,7 +376,7 @@
 }
 
 /* ********** ********** ********** ********** ***********/
-/* ob-form
+/* ob-form */
 /* ********** ********** ********** ********** ***********/
 
 .ob-form {
@@ -408,10 +408,75 @@
 
 
 /* ********** ********** ********** ********** ***********/
-/* ob-form-switch
+/* ob-form-text-input */
 /* ********** ********** ********** ********** ***********/
 
-.ob-form-switch {
+.ob-form-text-input-row {
+    -moz-display: flex;
+    -webkit-display: flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.ob-form-text-input-icon-left, .ob-form-text-input-icon-right {
+    flex: 0 0 16px;
+    height: 16px;
+    margin: 13px;
+}
+
+.ob-form-text-input-icon-left {
+    margin-right: 0px;
+}
+
+.ob-form-text-input-icon-right {
+    margin-left: 0px;
+}
+
+.ob-form-text-input {
+    flex: 1 1 auto;
+    overflow: hidden;
+    margin: 4px 12px;
+    background: transparent;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.7px;
+    color: white;
+}
+
+.ob-form-text-input:hover, .ob-form-text-input:focus {
+    color: white;
+}
+
+.ob-form-text-input::-webkit-input-placeholder {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.7px;
+    color: #bebdbd;
+}
+
+.ob-form-text-input:-moz-placeholder { /* Firefox 18- */
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.7px;
+    color: #bebdbd;
+}
+
+.ob-form-text-input::-moz-placeholder {  /* Firefox 19+ */
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.7px;
+    color: #bebdbd;
+}
+
+.ob-form-text-input:-ms-input-placeholder {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.7px;
+    color: #bebdbd;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-switch */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-switch-row {
     display: -moz-flex;
     display: -webkit-flex;
     display: flex;
@@ -441,18 +506,8 @@
     color: black;
 }
 
-.ob-form-switch-button:active:first-child {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-.ob-form-switch-button:active:last-child {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-}
-
 /* ********** ********** ********** ********** ***********/
-/* buttons
+/* buttons */
 /* ********** ********** ********** ********** ***********/
 
 .block-blue-button {
@@ -487,7 +542,7 @@
 }
 
 /* ********** ********** ********** ********** ***********/
-/* ob-note-block
+/* ob-note-block */
 /* ********** ********** ********** ********** ***********/
 
 .ob-note-block {
