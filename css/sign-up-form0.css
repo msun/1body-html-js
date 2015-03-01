@@ -1,0 +1,36 @@
+
+.main-instructions {
+    width: 264px;
+}
+
+.profile-picture-div {
+    position: relative;
+    margin: 20px auto 0px;
+    width: 90px;
+    height: 90px;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-picture-tag {
+    position: absolute;
+    width: 30%;
+    height: 30%;
+    left: 65%;
+    top: 0%;
+}
+
+.ob-form {
+    margin-top: 40px;
+}
+
+.ob-note-block {
+    border-top: 1px solid white;
+}
+
+.block-blue-button {
+    margin-top: 22px;
+}

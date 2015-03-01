@@ -1,4 +1,8 @@
 
+.ob-form {
+    margin-top: 40px;
+}
+
 .ob-form-input-container {
     display: inline-block;
     padding: 5px 13px;
@@ -35,4 +39,16 @@
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.5px;
     color: #777676;
+}
+
+.ob-form-row input[type="password"] {
+    float: left;
+    width: calc(100% - 17px - 10px);
+}
+
+.password-checkmark {
+    float: right;
+    width: calc(17px + 10px);
+    height: calc(13px + 10px + 10px);
+    padding: 10px 0px 10px 10px;
 }
