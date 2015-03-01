@@ -57,11 +57,31 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.old-home', {
+                url: "/old-home",
+                views: {
+                    'menu': {
+                        templateUrl: "js/account/templates/old-home.html",
+                        controller: 'LoginCtrl'
+                    }
+                }
+            })
+
             .state('menu.login', {
                 url: "/login",
                 views: {
                     'menu': {
                         templateUrl: "js/account/templates/login.html",
+                        controller: 'LoginCtrl'
+                    }
+                }
+            })
+
+            .state('menu.old-login', {
+                url: "/old-login",
+                views: {
+                    'menu': {
+                        templateUrl: "js/account/templates/old-login.html",
                         controller: 'LoginCtrl'
                     }
                 }

@@ -1,28 +1,29 @@
 
-<ion-view title="Login">
-    <ion-content has-header="true">
-        <h1>Login</h1>
-        <div class="list">
-            <label class="item item-input">
-                <input type="email" ng-model="user.email" placeholder="Email">
-            </label>
-            <label class="item item-input">
-                <input type="password" ng-model="user.password" placeholder="Password">
-            </label>
-            <button class="button button-calm" ng-click="signin()">Login</button>
-
-            <ul>
-                <li ng-repeat="item in list">
-                    {{item.$id}}
-                </li>
-            </ul>
-
-            <li ng-repeat="item in list">
-                <input type="text" ng-model="item.name" ng-change="saveitem(item)" />
-            </li>
-
-            <input type="text" ng-model="newitem.name" />
-            <button class="button button-calm" ng-click="add()">add</button>
-        </div>
+<link rel="stylesheet" type="text/css" href="css/login.css">
+<ion-view title="Test1" >
+    <ion-content class="has-header register-class-content1">
+        <div class="register-class-content1-div">
+            <div class="main-instructions">
+                Please login
+            </div>
+            <div class="sub-instructions">
+                to access your account
+            </div>
+            <div class="ob-form">
+                <div class="ob-form-row">
+                    <span class="ob-form-input-container">
+                        <input id="name" type="text" name="email" placeholder="Email Address" ng-model="user.email"/>
+                    </span>
+                </div>
+                <div class="ob-form-row">
+                    <span class="ob-form-input-container">
+                        <input id="name" type="password" name="password" placeholder="Password" ng-model="user.password"/>
+                    </span>
+                </div>
+            </div>
+            <div class="ob-event-create-map-container"></div>
+            <button class="block-blue-button" ng-click="signin()">Login</button>
+            <button class="block-transparent-button">Forgot password?</button>
+        <div>
     </ion-content>
 </ion-view>
