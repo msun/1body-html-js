@@ -1,31 +1,27 @@
 
 <link rel="stylesheet" type="text/css" href="css/event-creation-0.css">
 <ion-view title="Test1" >
-    <ion-content class="has-header register-class-content1">
-        <div class="register-class-content1-div">
-            <div class="main-instructions">
-                Create an Event
-            </div>
-            <div class="sub-instructions">
-                Let's get started
-            </div>
-            <form class="register-class-form">
-                <input id="name" type="text" name="name1" placeholder="Event Name"/>
+    <ion-content class="has-header menu1-content">
+        <div class="menu1-content-div">
+            <div class="main-instructions">Create an Event</div>
+            <div class="sub-instructions">Let's get started</div>
+            <div class="ob-form">
+                <div class="ob-form-row">
+                    <input class="ob-form-text-input" type="text" name="name1" placeholder="Event Name"/>
+                </div>
                 <div class="ob-form-row">
                     <span class="ob-date-prompt-text ob-blue-text">Date</span>
                     <span class="ob-date">5 July 2014 (Thurs)</span>
                     <img class="ob-date-picker-button" src="img/event-profile/date-picker-button.png"/>
                 </div>
-                <div class="ob-form-row">
-                    <div class="ob-form-switch">
-                        <button class="ob-form-switch-button">Private</button>
-                        <button class="ob-form-switch-button">Public</button>
-                    </div>
+                <div class="ob-form-row ob-form-switch-row">
+                    <button class="ob-form-switch-button">Private</button>
+                    <button class="ob-form-switch-button">Public</button>
                 </div>
-                <div class="select-row">
-                    <span class="select-text ob-blue-text">For</span>
-                    <div class="select-container">
-                        <select>
+                <div class="ob-select-row">
+                    <span class="ob-select-text ob-blue-text">For</span>
+                    <div class="ob-select-container">
+                        <select class="ob-select">
                             <option value="01">01</option>
                             <option value="02">02</option>
                             <option value="03">03</option>
@@ -40,15 +36,15 @@
                             <option value="12">12</option>
                         </select>
                     </div>
-                    <div class="select-container">
-                        <select>
+                    <div class="ob-select-container">
+                        <select class="ob-select">
                             <option value="days">days</option>
                             <option value="weeks">weeks</option>
                             <option value="month">months</option>
                         </select>
                     </div>
                 </div>
-            </form>
+            </div>
             <button class="block-blue-button">Almost Done!</button>
         <div>
     </ion-content>

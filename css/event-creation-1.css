@@ -1,60 +1,7 @@
 
-.register-class-content1 {
-    background: url("../img/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
-                url("../img/register-class/tmp/background-blur.png") center/100% 100% no-repeat,
-                url("../img/sign-up/Background-Image.png") center/100% 100% no-repeat;
-}
-
-.register-class-content1-div {
-    border: 1px solid transparent;
-}
-
-.main-instructions {
-    width: 220px;
-    margin: 23px auto 0px;
-    font-family: 'Lato', sans-serif;
-    font-size: 18px;
-    color: white;
-    text-align: center;
-}
-
-.sub-instructions {
-    width: 200px;
-    margin: 10px auto 43px;
-    font-family: 'Lato-Light', sans-serif;
-    font-size: 18px;
-    color: white;
-    text-align: center;
-}
-
-.block-blue-button {
-    display: block;
-    width: 301px;
-    border-radius: 5px;
-    border: none;
-    background-color: #3884ed;
-    margin: 22px auto 11px;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.69px;
-    color: white;
-    padding: 8px 0px;
-}
-
-.block-blue-button:active {
-    background-color: #3172cc;
-}
-
-.ob-form {
-    background-color: transparent;
-    border-radius: 8px;
-    border: 1px solid #7f7b73;
-    margin: 30px 9px 0px;
-}
-
-.ob-picture-upload-top-section {
+.ob-row-picture-upload-top-section {
     position: relative;
     height: 150px;
-    border-bottom: 1px solid #95979a;
 }
 
 .picture-upload-placeholder {
@@ -89,12 +36,6 @@
     -o-transform: translate(-50%, 0%);
 }
 
-.picture-upload-textarea {
-    resize: none;
-    background: transparent;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5;
-    color: #bebebe;
-    padding: 11px;
+.ob-form-textarea {
     height: 124px;
 }

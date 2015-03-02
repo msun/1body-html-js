@@ -48,37 +48,3 @@
     width: 18px;
     height: 18px;
 }
-
-.ob-form-textarea {
-    resize: none;
-    background: transparent;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5;
-    color: white;
-    padding: 11px;
-    height: 90px;
-}
-
-.ob-form-textarea::-webkit-input-placeholder {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #bebbbb;
-}
-
-.ob-form-textarea:-moz-placeholder { /* Firefox 18- */
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #bebbbb;
-}
-
-.ob-form-textarea::-moz-placeholder {  /* Firefox 19+ */
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #bebbbb;
-}
-
-.ob-form-textarea:-ms-input-placeholder {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #bebbbb;
-}
