@@ -1,33 +1,4 @@
 
-.register-class-content1 {
-    background: url("../img/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
-                url("../img/register-class/tmp/background-blur.png") center/100% 100% no-repeat,
-                url("../img/sign-up/Background-Image.png") center/100% 100% no-repeat;
-}
-
-.register-class-content1-div {
-    border: 1px solid transparent;
-}
-
-.main-instructions {
-    width: 220px;
-    margin: 23px auto 0px;
-    font-family: 'Lato', sans-serif;
-    font-size: 18px;
-    color: white;
-    text-align: center;
-}
-
-.sub-instructions {
-    width: 200px;
-    margin: 10px auto 43px;
-    font-family: 'Lato-Light', sans-serif;
-    font-size: 18px;
-    color: white;
-    text-align: center;
-}
-
-
 .purchase-credit-table {
 
 }

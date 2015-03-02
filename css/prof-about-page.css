@@ -1,17 +1,10 @@
-
-.register-class-content1 {
-    background: url("../img/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
-                url("../img/register-class/tmp/background-blur.png") center/100% 100% no-repeat,
-                url("../img/register-class/tmp/background-view.png") center/100% 100% no-repeat;
-}
-
-.register-class-content1-div {
-    border: 1px solid transparent;
-}
+/* ********** ********** ********** ********** ***********/
+/* about-header */
+/* ********** ********** ********** ********** ***********/
 
 .about-header {
     width: 100%;
-    height: 81px;
+    height: 118px;
 }
 
 .profile-picture-div {
@@ -73,45 +66,9 @@
     margin-top: 2px;
 }
 
-.locations-box {
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: flex;
-    color: white;
-    padding: 19px 0px 19px;
-    border-bottom: 1px solid white;
-}
-
-.locations-text {
-    flex: 0 0 auto;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 15px;
-    padding: 0px 6px 0px 12px;
-}
-
-.locations-tags {
-    flex: 99 99 auto;
-}
-
-.locations-tag {
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 13.795px;
-    border: 1px solid white;
-    border-radius: 14px;
-    padding: 8px;
-    margin: 0px 3px 0px 3px;
-}
-
-.locations-tag:active {
-    background-color: white;
-}
-
-.locations-distance {
-    flex: 0 0 auto;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 15px;
-    padding: 0px 12px 0px 6px;
-}
+/* ********** ********** ********** ********** ***********/
+/* about-block */
+/* ********** ********** ********** ********** ***********/
 
 .about-block {
     padding: 23px 0px;
@@ -174,25 +131,10 @@
     font-size: 15px;
 }
 
-.user-tags {
-    padding: 19px 9px 65px;
-}
+/* ********** ********** ********** ********** ***********/
+/* ob-tags */
+/* ********** ********** ********** ********** ***********/
 
-.user-tag {
-    display: inline-block;
-    color: white;
-    border: 1px solid white;
-    border-radius: 15px;
-    white-space: nowrap;
-    overflow: hidden;
-    padding: 4px 8px;
-    margin: 0px 0px 5px 2px;
-}
-
-.blue-user-tag {
-    color: #3988f6;
-    border: 1px solid #3988f6;
-}
-
-.user-tag-text {
+.ob-tags {
+    padding: 19px 9px 80px;
 }
