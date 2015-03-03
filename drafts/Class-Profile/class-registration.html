@@ -1,18 +1,22 @@
 
 <link rel="stylesheet" type="text/css" href="css/class-registration.css">
 <ion-view title="Test1" >
-    <ion-content class="has-header register-class-content1">
-        <div class="register-class-content1-div">
+    <ion-content class="has-header popup-content">
+        <div class="popup-content-div">
             <div class="main-instructions">
                 Please register to reserve your session
             </div>
-            <form class="register-class-form">
-                <input id="name" type="text" name="name1" placeholder="Cardholder name"/>
-                <input id="name" type="text" name="name2" placeholder="Card Number"/>
-                <div class="expires-input">
-                    <span class="expires-text">Expires</span>
-                    <div class="select-container">
-                        <select>
+            <div class="ob-form">
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name1" placeholder="Cardholder name"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name1" placeholder="Card Number"/>
+                </div>
+                <div class="ob-form-row ob-form-select-row">
+                    <span class="ob-form-select-text">Expires</span>
+                    <div class="ob-form-select-container">
+                        <select class="ob-form-select">
                             <option value="01">01</option>
                             <option value="02">02</option>
                             <option value="03">03</option>
@@ -27,8 +31,8 @@
                             <option value="12">12</option>
                         </select>
                     </div>
-                    <div class="select-container">
-                        <select>
+                    <div class="ob-form-select-container">
+                        <select class="ob-form-select">
                             <option value="2015">2015</option>
                             <option value="2016">2016</option>
                             <option value="2017">2017</option>
@@ -38,12 +42,22 @@
                         </select>
                     </div>
                 </div>
-                <input id="name" type="text" name="name3" placeholder="Security Code"/>
-                <input id="name" type="text" name="name3" placeholder="Postal Code"/>
-                <input id="name" type="text" name="name3" placeholder="City / Town"/>
-                <input id="name" type="text" name="name3" placeholder="Province / State"/>
-                <input id="name" type="text" name="name3" placeholder="Country"/>
-            </form>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Security Code"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Postal Code"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="City / Town"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Province / State"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Country"/>
+                </div>
+            </div>
             <button class="block-blue-button">Register Session</button>
         <div>
     </ion-content>
