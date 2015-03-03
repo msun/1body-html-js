@@ -1,9 +1,5 @@
-
-.signup1-content {
-    text-align: center;
-    background: url("../img/sign-up/Top-Gradient.png") center top/100% 34.243% no-repeat,
-                url("../img/sign-up/Black-Shade.png") center/100% 100% no-repeat,
-                url("../img/sign-up/Background-Image.png") center/100% 100% no-repeat;
+.main-instructions {
+    width: 248px;
 }
 
 .signup1-content-div {
@@ -26,9 +22,10 @@
     -moz-flex: 0 1 auto;
     -webkit-flex: 0 1 auto;
     flex: 0 1 auto;
+    text-align: center;
 }
 
-.flex-bottom-space1 {
+.flex-bottom-space {
     -moz-flex: 1 99 0px;
     -webkit-flex: 1 99 0px;
     flex: 1 99 0px;
@@ -45,6 +42,7 @@
     -moz-flex: 0 1 auto;
     -webkit-flex: 0 1 auto;
     flex: 0 1 auto;
+    text-align: center;
 }
 
 .text-strong {
@@ -53,25 +51,6 @@
 
 .text-underline {
     text-decoration: underline;
-}
-
-.welcome-text {
-    font-family: 'Lato', sans-serif;
-    font-size: 18px;
-    line-height: 18px;
-    width: 248px;
-    margin: 22px auto 0;
-    color: white;
-}
-
-.main-instructions-text {
-    font-family: 'Lato-Light', sans-serif;
-    font-size: 18px;
-    line-height: 18px;
-    width: 200px;
-    margin: 0px auto 0px;
-    padding: 8px 0px 45px;
-    color: rgb(255, 255, 255);
 }
 
 .signup1-button {
@@ -152,15 +131,18 @@
 }
 
 .already-have-account-button {
+    display: block;
     font-family: 'Avenir Next LT Pro', sans-serif;
-    color: white;
     font-size: 15px;
     line-height: 15px;
+    color: white;
+    text-decoration: none;
     background: transparent;
     border: none;
     color: rgb(235, 235, 235);
     padding: 17px 0px;
     width: 264px;
+    margin: 0px auto;
 }
 
 .already-have-account-button:active {

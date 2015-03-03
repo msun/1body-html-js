@@ -1,20 +1,16 @@
 
 <link rel="stylesheet" type="text/css" href="css/login.css">
 <ion-view>
-    <ion-content class="has-header menu1-content">
+    <ion-content class="menu1-content-no-header">
         <div class="menu1-content-div">
-            <div class="main-instructions">
-                Please login
-            </div>
-            <div class="sub-instructions">
-                to access your account
-            </div>
+            <div class="main-instructions">Please login</div>
+            <div class="sub-instructions">to access your account</div>
             <div class="ob-form">
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="email" placeholder="Email Address"/>
+                    <input class="ob-form-text-input" ng-model="user.email" type="text" name="email" placeholder="Email Address"/>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="password" name="password" placeholder="Password"/>
+                    <input class="ob-form-text-input" ng-model="user.password" type="password" name="password" placeholder="Password"/>
                 </div>
             </div>
             <div class="ob-event-create-map-container"></div>

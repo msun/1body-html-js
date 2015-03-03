@@ -348,9 +348,15 @@
 /* ********** ********** ********** ********** ***********/
 
 .menu1-content {
-    background: url("../img/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
-                url("../img/sign-up/Black-Shade.png") center/100% 100% no-repeat,
-                url("../img/sign-up/Background-Image.png") center/100% 100% no-repeat;
+    background: url("../img/tmp/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
+                url("../img/tmp/Black-Shade.png") center/100% 100% no-repeat,
+                url("../img/tmp/bridge_background.jpg") 48% -64px/auto calc(100% + 64px) no-repeat;
+}
+
+.menu1-content-no-header {
+    background: url("../img/tmp/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
+                url("../img/tmp/Black-Shade.png") center/100% 100% no-repeat,
+                url("../img/tmp/bridge_background.jpg") 48% center/auto 100% no-repeat;
 }
 
 .menu1-content-div {
@@ -380,9 +386,9 @@
 /* ********** ********** ********** ********** ***********/
 
 .popup-content {
-    background: url("../img/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
-                url("../img/register-class/tmp/background-blur.png") center/100% 100% no-repeat,
-                url("../img/register-class/tmp/background-view.png") center/100% 100% no-repeat;
+    background: url("../img/tmp/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
+                url("../img/tmp/background-blur.png") center/100% 100% no-repeat,
+                url("../img/tmp/background-view.png") center/100% 100% no-repeat;
 }
 
 .popup-content-div {
@@ -394,10 +400,11 @@
 /* ********** ********** ********** ********** ***********/
 
 .ob-form {
+    max-width: 300px;
     background-color: transparent;
     border-radius: 8px;
     border: 1px solid #7f7b73;
-    margin: 0px 9px 0px;
+    margin: 0px auto 0px;
     overflow: hidden;
 }
 
@@ -432,22 +439,6 @@
     -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
-}
-
-.ob-form-text-input-icon-left, .ob-form-text-input-icon-right {
-    -moz-flex: 0 0 16px;
-    -webkit-flex: 0 0 16px;
-    flex: 0 0 16px;
-    height: 16px;
-    margin: 13px;
-}
-
-.ob-form-text-input-icon-left {
-    margin-right: 0px;
-}
-
-.ob-form-text-input-icon-right {
-    margin-left: 0px;
 }
 
 .ob-form-text-input {
@@ -488,6 +479,22 @@
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.7px;
     color: #bebdbd;
+}
+
+.ob-form-text-input-icon-left, .ob-form-text-input-icon-right {
+    -moz-flex: 0 0 16px;
+    -webkit-flex: 0 0 16px;
+    flex: 0 0 16px;
+    height: 16px;
+    margin: 13px;
+}
+
+.ob-form-text-input-icon-left {
+    margin-right: 0px;
+}
+
+.ob-form-text-input-icon-right {
+    margin-left: 0px;
 }
 
 /* ********** ********** ********** ********** ***********/
