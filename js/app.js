@@ -130,6 +130,26 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.register.register-professional-main', {
+                url: "/register-professional-main",
+                views: {
+                    'register': {
+                        templateUrl: "js/account/templates/register-professional-main.html",
+                        controller: 'RegisterCtrl'
+                    }
+                }
+            })
+
+            .state('menu.register.register-professional-map', {
+                url: "/register-professional-map",
+                views: {
+                    'register': {
+                        templateUrl: "js/account/templates/register-professional-map.html",
+                        controller: 'RegisterCtrl'
+                    }
+                }
+            })
+
             .state('menu.register.tos', {
                 url: "/tos",
                 views: {

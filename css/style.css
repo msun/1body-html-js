@@ -675,6 +675,8 @@
     font-size: 16.69px;
     color: white;
     padding: 8px 0px;
+    text-align: center;
+    text-decoration: none;
 }
 
 .block-blue-button:active {

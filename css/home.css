@@ -151,13 +151,13 @@
     width: 248px;
 }
 
-.block-transparent-button {
+.home-transparent-button {
     line-height: 15px;
     font-family: 'Avenir Next LT Pro', sans-serif;
     color: rgb(235, 235, 235);
     padding: 17px 0px;
 }
 
-.block-transparent-button:active {
+.home-transparent-button:active {
     color: #aaaaaa;
 }
