@@ -1,0 +1,133 @@
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <a class = "button button-icon" href="#">
+                <i class = "icon ion-navicon">
+                </i>
+            </a>
+
+            <h2 class="title">Register</h2>
+        </div>
+    </ion-header-bar>
+
+    <ion-content has-header="true">
+        <div style="width: 90%; height: 400px; margin-right: 5%; margin-left: 5%">
+            <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                <ion-slide>
+                    <form class="form-spacing list" style="background-color: rgba(0, 0, 0, 0.5)">
+                        <label class="item item-input top-list-item">
+                            <input type="email" ng-model="newuser.email" placeholder="Email">
+                        </label>
+                        <label class="item item-input list-item-spacing">
+                            <input type="password" ng-model="newuser.password" placeholder="Password">
+                        </label>
+                        <label class="item item-input bottom-list-item">
+                            <input type="password" ng-model="newuser.confirmPassword" placeholder="Confirm Password">
+                        </label>
+
+                        <input type="submit" class="button button-block button-dark list-item-spacing" ng-click="register()" value="Register" />
+                    </form>
+                </ion-slide>
+                <ion-slide>
+                    <div class="form-spacing list" style="background-color: rgba(0, 0, 0, 0.5)">
+
+                        <div class="item button-bar top-list-item button-no-padding">
+                            <div class="button clear-button" ng-class="{'button-active':newuser.group === 'User'}" ng-click="newuser.group = 'User'" style="border-right: 1px solid; border-top-left-radius: 15px;">
+                                User
+                            </div>
+                            <a class="button clear-button" ng-class="{'button-active':newuser.group === 'Trainer'}" ng-click="newuser.group = 'Trainer'" style="border-top-right-radius: 15px;">
+                                Trainer
+                            </a>
+                        </div>
+                        <label class="item item-input list-item-spacing">
+                            <input type="text" ng-model="newuser.firstName" placeholder="First Name">
+                        </label>
+                        <label class="item item-input list-item-spacing">
+                            <input type="text" ng-model="newuser.lastName" placeholder="Last Name">
+                        </label>
+                        <div class="item button-bar button-no-padding bottom-list-item">
+                            <div class="button clear-button" ng-class="{'button-active':newuser.gender === 'Female'}" ng-click="newuser.gender = 'Female'" style="border-right: 1px solid; border-bottom-left-radius: 15px;">
+                                Female
+                            </div>
+                            <a class="button clear-button" ng-class="{'button-active':newuser.gender === 'Male'}" ng-click="newuser.gender = 'Male'" style="border-bottom-right-radius: 15px;">
+                                Male
+                            </a>
+                        </div>
+
+                        <div class="button-bar" style="margin-top: 15px">
+                            <button class="button-block top-list-item" ng-click="nextSlide()">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </ion-slide>
+
+                <ion-slide ng-show="newuser.group === 'Trainer'" style="background-color: rgba(0, 0, 0, 0.5)">
+                    <div class="form-spacing list">
+                        <label class="item item-input top-list-item" ng-show="newuser.group == 'Trainer'">
+                            <input type="text" ng-model="newuser.gym" placeholder="Gym">
+                        </label>
+
+                        <label class="item item-input list-item-spacing" ng-show="newuser.group == 'Trainer'">
+                            <input type="text" ng-model="newuser.token" placeholder="Token">
+                        </label>
+                        <label class="item item-input list-item-spacing" ng-show="newuser.group == 'Trainer'">
+                            <input type="text" ng-model="newuser.firstname" placeholder="First name">
+                        </label>
+                        <label class="item item-input list-item-spacing" ng-show="newuser.group == 'Trainer'">
+                            <input type="text" ng-model="newuser.lastname" placeholder="Last name">
+                        </label>
+                        <div class="item item-toggle list-item-spacing" ng-show="newuser.group == 'Trainer'">
+                            Mobile
+                            <label class="toggle toggle-assertive">
+                                <input type="checkbox" ng-model="newuser.mobile">
+                                <div class="track">
+                                    <div class="handle"></div>
+                                </div>
+                            </label>
+                        </div>
+                        <label class="item item-input bottom-list-item" style="float: right;" ng-show="newuser.mobile">
+                            <input type="text" ng-model="newuser.radius" placeholder="radius">
+                        </label>
+                    </div>
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+
+        <form class="list form-spacing">
+            <!--<label class="item item-input item-select list-item-spacing">-->
+            <!--<div class="input-label">-->
+            <!--Please select which user group you belong to-->
+            <!--</div>-->
+            <!--<select ng-model="newuser.group" ng-options="group.name for group in groups">-->
+            <!--</select>-->
+            <!--</label>-->
+            <!--<label class="item item-input list-item-spacing">-->
+            <!--<input type="text" ng-model="newuser.username" placeholder="Username">-->
+            <!--</label>-->
+            <!--<label class="item item-input list-item-spacing">-->
+            <!--<input type="email" ng-model="newuser.email" placeholder="Email">-->
+            <!--</label>-->
+            <!--<label class="item item-input list-item-spacing">-->
+            <!--<input type="password" ng-model="newuser.password" placeholder="Password">-->
+            <!--</label>-->
+            <!--<label class="item item-input list-item-spacing">-->
+            <!--<input type="password" ng-model="newuser.confirmPassword" placeholder="Confirm Password">-->
+            <!--</label>-->
+            <!--<label class="item item-input list-item-spacing" ng-show="newuser.group.name == 'trainer'">-->
+            <!--<input type="text" ng-model="newuser.gym" placeholder="Gym">-->
+            <!--</label>-->
+            <!--<label class="item item-input list-item-spacing" ng-show="newuser.group.name == 'trainer'">-->
+            <!--<input type="text" ng-model="newuser.token" placeholder="Token">-->
+            <!--</label>-->
+            <!--<label class="item item-input list-item-spacing" ng-show="newuser.group.name == 'trainer'">-->
+            <!--<input type="text" ng-model="newuser.firstname" placeholder="First name">-->
+            <!--</label>-->
+            <!--<label class="item item-input list-item-spacing" ng-show="newuser.group.name == 'trainer'">-->
+            <!--<input type="text" ng-model="newuser.lastname" placeholder="Last name">-->
+            <!--</label>-->
+
+            <!--<input type="submit" class="button button-block button-dark list-item-spacing" ng-click="register()" value="Register" />-->
+        </form>
+    </ion-content>
+</ion-view>

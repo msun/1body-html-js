@@ -450,7 +450,7 @@
     background: transparent;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.7px;
-    color: white;
+    color: white !important; /* why do we need this? */
 }
 
 .ob-form-text-input:hover, .ob-form-text-input:focus {

@@ -1,6 +1,19 @@
-.main-instructions {
-    width: 248px;
+
+/* ********** ********** ********** ********** ***********/
+/* misc */
+/* ********** ********** ********** ********** ***********/
+
+.text-strong {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
 }
+
+.text-underline {
+    text-decoration: underline;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* main flex layout */
+/* ********** ********** ********** ********** ***********/
 
 .signup1-content-div {
     display: -moz-flex;
@@ -9,6 +22,9 @@
     -moz-flex-direction: column;
     -webkit-flex-direction: column;
     flex-direction: column;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
     height: 100%;
 }
 
@@ -42,16 +58,12 @@
     -moz-flex: 0 1 auto;
     -webkit-flex: 0 1 auto;
     flex: 0 1 auto;
-    text-align: center;
+    width: 248px;
 }
 
-.text-strong {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-}
-
-.text-underline {
-    text-decoration: underline;
-}
+/* ********** ********** ********** ********** ***********/
+/* sign up buttons */
+/* ********** ********** ********** ********** ***********/
 
 .signup1-button {
     font-family: 'Avenir Next LT Pro', sans-serif;
@@ -69,6 +81,7 @@
     -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
+    text-decoration: none;
 }
 
 .signup1-button-left, .signup1-button-right {
@@ -130,36 +143,21 @@
     height: 21.5px;
 }
 
-.already-have-account-button {
-    display: block;
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 15px;
-    line-height: 15px;
-    color: white;
-    text-decoration: none;
-    background: transparent;
-    border: none;
-    color: rgb(235, 235, 235);
-    padding: 17px 0px;
-    width: 264px;
-    margin: 0px auto;
-}
+/* ********** ********** ********** ********** ***********/
+/* overrides */
+/* ********** ********** ********** ********** ***********/
 
-.already-have-account-button:active {
-    color: #aaaaaa;
-}
-
-.tos-button {
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 15px;
-    line-height: 15px;
-    background: transparent;
-    border: none;
+.main-instructions {
     width: 248px;
+}
+
+.block-transparent-button {
+    line-height: 15px;
+    font-family: 'Avenir Next LT Pro', sans-serif;
     color: rgb(235, 235, 235);
     padding: 17px 0px;
 }
 
-.tos-button:active {
+.block-transparent-button:active {
     color: #aaaaaa;
 }

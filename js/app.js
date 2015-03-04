@@ -67,32 +67,32 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.login-abstract', {
-                url: '/login-abstract',
+            .state('menu.login', {
+                url: '/login',
                 abstract: true,
                 views: {
                     'menu': {
-                        templateUrl: 'js/account/templates/login-abstract.html',
+                        templateUrl: 'js/account/templates/login.html',
                         controller: 'LoginCtrl'
                     }
                 }
             })
 
 
-            .state('menu.login-abstract.login', {
-                url: "/login",
+            .state('menu.login.login-main', {
+                url: "/login-main",
                 views: {
-                    'login-abstract': {
-                        templateUrl: "js/account/templates/login.html",
+                    'login': {
+                        templateUrl: "js/account/templates/login-main.html",
                         controller: 'LoginCtrl'
                     }
                 }
             })
 
-            .state('menu.login-abstract.forgot-password', {
+            .state('menu.login.forgot-password', {
                 url: "/forgot-password",
                 views: {
-                    'login-abstract': {
+                    'login': {
                         templateUrl: "js/account/templates/forgot-password.html",
                         controller: 'LoginCtrl'
                     }
@@ -109,9 +109,40 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('register', {
+            .state('menu.register', {
                 url: "/register",
-                templateUrl: "js/account/templates/register.html",
+                abstract: true,
+                views: {
+                    'menu': {
+                        templateUrl: "js/account/templates/register.html",
+                        controller: 'RegisterCtrl'
+                    }
+                }
+            })
+
+            .state('menu.register.register-main', {
+                url: "/register-main",
+                views: {
+                    'register': {
+                        templateUrl: "js/account/templates/register-main.html",
+                        controller: 'RegisterCtrl'
+                    }
+                }
+            })
+
+            .state('menu.register.tos', {
+                url: "/tos",
+                views: {
+                    'register': {
+                        templateUrl: "js/account/templates/tos.html",
+                        controller: 'RegisterCtrl'
+                    }
+                }
+            })
+
+            .state('old-register', {
+                url: "/old-register",
+                templateUrl: "js/account/templates/old-register.html",
                 controller: 'RegisterCtrl'
             })
             // Each  has its own nav history stack:
