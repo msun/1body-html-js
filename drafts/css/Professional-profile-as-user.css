@@ -4,7 +4,7 @@
     float: left;
     width: 100%;
     height: auto;
-    background: #999 url("../img/professional-profile/Image2-shade-cropped.jpg") center/400px 420px no-repeat;
+    background: #999 url("/img/professional-profile/Image2-shade-cropped.jpg") center/400px 420px no-repeat;
     padding-bottom: 2em;
 }
 
@@ -325,7 +325,7 @@
 }
 
 .profile-tab-bar-container {
-    background: rgb(225,225,225) url("../img/professional-profile/menu-separator.png") center 100%/100% 1px no-repeat;
+    background: rgb(225,225,225) url("/img/professional-profile/menu-separator.png") center 100%/100% 1px no-repeat;
 }
 
 .profile-tab-bar {
@@ -343,7 +343,7 @@
 }
 
 .profile-tab-with-divider {
-    background: transparent url("../img/professional-profile/menu-button-separator.png") 100% 1.9em/1px calc(100% - 1.9em - 0.5em) no-repeat;
+    background: transparent url("/img/professional-profile/menu-button-separator.png") 100% 1.9em/1px calc(100% - 1.9em - 0.5em) no-repeat;
 }
 
 .profile-tab-icon {
@@ -394,7 +394,7 @@
     width: 320px;
     height: 100%;
     margin: 0 auto;
-    background: #999 url("../img/professional-profile/tmp/map-background.png") center/320px 99px no-repeat;
+    background: #999 url("/img/professional-profile/tmp/map-background.png") center/320px 99px no-repeat;
 }
 
 .profile-photos {
