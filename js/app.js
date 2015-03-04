@@ -67,11 +67,33 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.login', {
-                url: "/login",
+            .state('menu.login-abstract', {
+                url: '/login-abstract',
+                abstract: true,
                 views: {
                     'menu': {
+                        templateUrl: 'js/account/templates/login-abstract.html',
+                        controller: 'LoginCtrl'
+                    }
+                }
+            })
+
+
+            .state('menu.login-abstract.login', {
+                url: "/login",
+                views: {
+                    'login-abstract': {
                         templateUrl: "js/account/templates/login.html",
+                        controller: 'LoginCtrl'
+                    }
+                }
+            })
+
+            .state('menu.login-abstract.forgot-password', {
+                url: "/forgot-password",
+                views: {
+                    'login-abstract': {
+                        templateUrl: "js/account/templates/forgot-password.html",
                         controller: 'LoginCtrl'
                     }
                 }

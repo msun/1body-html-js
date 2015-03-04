@@ -331,7 +331,7 @@
 /* nav-bar */
 /* ********** ********** ********** ********** ***********/
 
-.nav-bar-logo {
+.ob-nav-bar-logo {
     width: 114px;
     height: 41px;
     position: absolute;
@@ -689,6 +689,8 @@
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 15px;
     color: white;
+    text-align: center;
+    text-decoration: none;
 }
 
 .block-transparent-button:active {

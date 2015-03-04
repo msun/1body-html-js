@@ -41,7 +41,7 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope) {
+account.controller('LoginCtrl', function(GeoTrainers, $firebase, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope) {
     // if ref points to a data collection
     var successCallback = function(result){
         console.log(result);
@@ -126,6 +126,10 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, F
             });
         }
     }
+
+    $scope.back = function() {
+        $ionicNavBarDelegate.back();
+    };
 
 });
 
