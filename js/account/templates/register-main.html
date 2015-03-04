@@ -10,28 +10,34 @@
             -->
             <div class="ob-form">
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="first-name" placeholder="First Name"/>
+                    <input class="ob-form-text-input" ng-model="newuser.firstname" type="text" name="first-name" placeholder="First Name"/>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="last-name" placeholder="Last Name"/>
+                    <input class="ob-form-text-input" ng-model="newuser.lastname" type="text" name="last-name" placeholder="Last Name"/>
                 </div>
                 <div class="ob-form-row ob-form-switch-row">
-                        <button class="ob-form-switch-button">Female</button>
-                        <button class="ob-form-switch-button">Male</button>
+                    <button class="ob-form-switch-button" ng-class="{'ob-block-switch-button-selected':newuser.gender === 'Female'}" ng-click="newuser.gender = 'Female'">Female</button>
+                    <button class="ob-form-switch-button" ng-class="{'ob-block-switch-button-selected':newuser.gender === 'Male'}" ng-click="newuser.gender = 'Male'">Male</button>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
+                <div class="ob-form-row ob-form-text-input-row" ng-model="newuser.email">
                     <input class="ob-form-text-input" type="text" name="email" placeholder="Email"/>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="password" name="password" placeholder="Password"/>
+                    <input class="ob-form-text-input" type="password" ng-model="newuser.password" placeholder="Password"/>
                     <img class="ob-form-text-input-icon-right password-icon" src="img/sign-up/password-checkmark.png"/>
                 </div>
+                <!--
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="password" ng-model="newuser.confirmPassword" placeholder="Confirm Password"/>
+                    <img class="ob-form-text-input-icon-right password-icon" src="img/sign-up/password-checkmark.png"/>
+                </div>
+                -->
                 <div class="ob-form-row ob-form-switch-row">
-                        <button class="ob-form-switch-button">User</button>
-                        <button class="ob-form-switch-button">Professional</button>
+                    <button class="ob-form-switch-button" ng-class="{'ob-block-switch-button-selected':newuser.group === 'User'}" ng-click="newuser.group = 'User'" >User</button>
+                    <button class="ob-form-switch-button" ng-class="{'ob-block-switch-button-selected':newuser.group === 'Trainer'}"ng-click="newuser.group = 'Trainer'">Professional</button>
                 </div>
             </div>
-            <a class="block-blue-button" href="#/menu/register/register-professional-main">Sign up!</a>
+            <a class="block-blue-button" href="#/menu/register/register-professional-main">Sign up!</a> <!--ng-click="register()"-->
             <a class="block-transparent-button" href="#/menu/login/login-main">Already have an account?</a>
         <div>
     </ion-content>

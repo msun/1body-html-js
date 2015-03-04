@@ -751,8 +751,8 @@
     border-left: none;
 }
 
-.ob-block-switch-button:active {
-    color: #315892;
+.ob-block-switch-button:active, .ob-block-switch-button-selected {
+    color: black;
     background: white;
 }
 
