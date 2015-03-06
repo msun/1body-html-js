@@ -60,7 +60,7 @@
     height: 300px;
 }
 
-#mobile-trainer-location{
+#mobile-trainer-location {
     width: 100%;
     height: 250px;
 }
@@ -69,13 +69,13 @@
     height: 100%;
 }
 
-.detail-page-top{
+.detail-page-top {
     background: #444444;
     opacity: 0.8;
     height: 280px;
 }
 
-.information-and-icon{
+.information-and-icon {
     font-size: 16px;
     color: white;
 }
@@ -97,12 +97,12 @@
 }
 
 
-.fc-time-grid-container{
+.fc-time-grid-container {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
 
-.form-container{
+.form-container {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
@@ -110,7 +110,7 @@
     /*border-radius: 15px;*/
 }
 
-.has-header{
+.has-header {
     top: 60px;
 }
 
@@ -134,51 +134,51 @@
     /*line-height: normal;*/
 }
 
-.top-list-item{
+.top-list-item {
     width: 100%;
     /*border-bottom: 1px solid;*/
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
 
-.button-no-padding{
+.button-no-padding {
     padding: 0px;
 }
 
-.clear-button{
+.clear-button {
     border: 0px;
     background: transparent;
 }
 
-.bottom-list-item{
+.bottom-list-item {
     width: 100%;
     /*border-bottom: 1px solid;*/
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
 
-.form-spacing{
+.form-spacing {
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
 }
 
-.form-spacing .item{
+.form-spacing .item {
     background-color: transparent;
     border-color: white;
     color: white;
 }
 
-.form-spacing input{
+.form-spacing input {
     color: white;
 }
 
-.form-spacing .button{
+.form-spacing .button {
     color: white;
     font-weight: 700;
 }
 
-.form-spacing .button-active{
+.form-spacing .button-active {
     color: Black;
     background-color: white;
 }
@@ -187,13 +187,13 @@
     height: 60px;
 }
 
-.tabs{
+.tabs {
     background: transparent;
     /*opacity: 0.7;*/
     border-radius: 15px;
 }
 
-.tab-item{
+.tab-item {
     color: white;
     max-width: 200%;
     font-size: 20px;
@@ -204,12 +204,12 @@
     background: #444444;
 }
 
-.tab-active{
+.tab-active {
     background: orange;
     opacity: 1;
 }
 
-.menu-font{
+.menu-font {
     font-size: 15pt;
 }
 
@@ -235,8 +235,7 @@
     left: 0px;
 }
 
-
-.image-frame-first-row{
+.image-frame-first-row {
     height: 15vw; background: white; opacity: 0.5;
     width: 25vw;
     float: left;
@@ -244,12 +243,12 @@
     padding: 0px;
 }
 
-.popup-buttons{
+.popup-buttons {
     margin-left: auto;
     margin-right: auto;
 }
 
-#warningMsg{
+#warningMsg {
     width: 80%;
     /*height: 3em;*/
     /*padding: 1em;*/
@@ -261,7 +260,7 @@
     background: lightgray;
 }
 
-.infowindow-list{
+.infowindow-list {
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -305,7 +304,7 @@
     background-position-y: 50%;
 }
 
-.droppin{
+.droppin {
     position: absolute;
     top: 50vw;
     left: 50vw;

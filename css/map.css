@@ -1,16 +1,147 @@
 
+/* ********** ********** ********** ********** ***********/
+/* misc */
+/* ********** ********** ********** ********** ***********/
+
 .map-content {
     position: relative;
 }
 
 .map-gradient {
     position: absolute;
+    top: 0px;
+    left: 0px;
     width: 100%;
     height: 100%;
-    background: transparent url("../img/map/map-gradient.png") center top/100% 60.21% no-repeat;
-    z-index: 1;
+    background: transparent url("/img/map/map-gradient.png") center top/100% 60.21% no-repeat;
+    z-index: 50;
     pointer-events: none;
 }
+
+.ob-header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    width: 100%;
+    height: 64px;
+    background: #1f101c;
+}
+
+.ob-header-status-bar {
+    height: 20px;
+    background: transparent;
+}
+
+.ob-header-nav-bar {
+    position: relative;
+    height: 44px;
+    background: transparent;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.ob-header-status-bar {
+    height: 20px;
+}
+
+.ob-header-icon {
+    -moz-flex: 0 0 44px;
+    -webkit-flex: 0 0 44px;
+    flex: 0 0 44px;
+}
+
+.ob-header-flex-area {
+    -moz-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.ob-map-header {
+    background: transparent;
+}
+
+.ob-bar-search-input-container {
+    width: 90%;
+    height: 32px;
+    border-radius: 5px;
+    padding: 0px;
+    margin: auto;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.ob-bar-search-input {
+    font-family: 'Avenir Next LT Pro', sans-serif !important;
+    font-size: 15px !important;
+    color: white !important;
+}
+
+.ob-bar-search-input-search-icon {
+    margin: 10px;
+}
+
+.ob-map-header-bottom-white-line {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    -webkit-transform: translate(-50%, 0%);
+    -moz-transform: translate(-50%, 0%);
+    -o-transform: translate(-50%, 0%);
+    width: 95%;
+    height: 2px;
+    background: white;
+}
+
+.ob-header-list-view-icon-container {
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+
+.ob-header-list-view-icon {
+    display: block;
+    width: 19px;
+    height: 16px;
+    margin: auto;
+}
+
+/*
+.ob-transparent-bar {
+    background: transparent;
+}
+
+.ob-bar-search-input-container {
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid white;
+    margin-top: 10px;
+}
+
+.ob-bar-search-input-container input {
+    color: white;
+}
+
+.ob-white-bottom-line {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: white;
+    bottom: 0px;
+}
+
+.buttons {
+    border-bottom: 1px solid red;
+}
+*/
+
+/* ********** ********** ********** ********** ***********/
+/* ob-tabs */
+/* ********** ********** ********** ********** ***********/
 
 .ob-tabs {
     display: inline-block;
@@ -18,7 +149,7 @@
     white-space: nowrap;
     height: auto;
     width: auto;
-    top: 25px;
+    top: 92px;
     left: 50%;
     transform: translate(-50%, 0%);
     -webkit-transform: translate(-50%, 0%);
@@ -52,6 +183,10 @@
 .ob-tab-active {
     background: rgb(56, 132, 237);
 }
+
+/* ********** ********** ********** ********** ***********/
+/* ob-map-button */
+/* ********** ********** ********** ********** ***********/
 
 .ob-map-button {
     background-color: transparent;
