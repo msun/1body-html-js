@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="/css/menu.css">
 <ion-side-menus>
     <ion-pane ion-side-menu-content drag-content="false">
         <ion-view>
@@ -9,34 +10,40 @@
         </ion-view>
         <ion-nav-view name="menu"></ion-nav-view>
     </ion-pane>
-    <ion-side-menu side="left">
-        <header class="bar bar-header bar-dark">
-            <div class="title">Side Menu</div>
-        </header>
-        <ion-content class="has-header">
-            <ul class="list">
+    <ion-side-menu side="left" class="ob-sidemenu">
+        <div class="bar bar-header ob-dark-bg ob-sidemenu-header">
+            <div class="ob-sidemenu-header-content">
+                <div class="ob-sidemenu-header-inner-content">
+                    <img class="ob-sidemenu-usericon" src="/img/tmp/SoulCycle-Logo.png"/>
+                    <span class="ob-sidemenu-title">SoulCycle</span>
+                    <img class="ob-sidemenu-cog" src="/img/tmp/Cog.png"/>
+                </div>
+                <div class="ob-sidemenu-header-bottom-divider"></div>
+            </div>
+        </div>
+        <ion-content class="ob-sidemenu-tabs ob-dark-bg" scrollbar-x="false" scrollbar-y="false">
+            <ul>
                 <!--
                 <a ng-click ="toggleMenu()" class="item item-icon-left" href="#/menu/account/settings">
                     <i class="icon ion-gear-b"></i>
                     Account
                 </a>
                 -->
-                <a ng-click ="toggleMenu()" href="#/menu/account/test1" class="item menu-font" style="color: green;"><b>Test1</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/map" class="item menu-font"><b>MapView</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/Trainers" class="item menu-font"><b>ListView</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/account/payment-method"  class="item menu-font"><b>Payment Method</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/account/my-profile" class="item menu-font"><b>My Profile</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/account/my-events" class="item menu-font"><b>My Events</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/account/qrcode/a" class="item menu-font"><b>My QRcode</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/account/my-requests" class="item menu-font"><b>My Requests</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/account/buy-tokens" class="item menu-font"><b>Buy Tokens</b></a>
-                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/my-schedule"  class="item menu-font"><b>My Schedule</b></a>
-                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/my-money"  class="item menu-font"><b>My Money</b></a>
-                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/set-location" class="item menu-font"><b>Set Location</b></a>
-                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/scan" class="item menu-font"><b>Scan Client</b></a>
-                <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editclass/new" class="item menu-font"><b>Add Class</b></a>
-                <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editgym/new" class="item menu-font"><b>Add Gym</b></a>
-                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/requested-sessions" class="item menu-font"><b>Mobile Session Requests</b></a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/test1" class="item menu-font">Test1</a>
+                <a ng-click ="toggleMenu()" href="#/menu/map" class="item menu-font">Map</a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/payment-method"  class="item menu-font">Payment</a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/my-profile" class="item menu-font">Profile</a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/my-events" class="item menu-font">Events</a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/qrcode/a" class="item menu-font">My QRcode</a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/my-requests" class="item menu-font">My Requests</a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/buy-tokens" class="item menu-font">Store</a>
+                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/my-schedule"  class="item menu-font">My Schedule</a>
+                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/my-money"  class="item menu-font">My Money</a>
+                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/set-location" class="item menu-font">Set Location</a>
+                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/scan" class="item menu-font">Scan Client</a>
+                <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editclass/new" class="item menu-font">Add Class</a>
+                <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editgym/new" class="item menu-font">Add Gym</a>
+                <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/requested-sessions" class="item menu-font">Mobile Session Requests</a>
             </ul>
         </ion-content>
     </ion-side-menu>
