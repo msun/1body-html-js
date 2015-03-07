@@ -155,7 +155,7 @@
     border-right: 1px solid transparent;
 }
 
-.ob-tab-active {
+.ob-tab-selected {
     background: rgb(56, 132, 237);
 }
 

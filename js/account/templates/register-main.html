@@ -16,8 +16,8 @@
                     <input class="ob-form-text-input" ng-model="newuser.lastname" type="text" name="last-name" placeholder="Last Name"/>
                 </div>
                 <div class="ob-form-row ob-form-switch-row">
-                    <button class="ob-form-switch-button" ng-class="{'ob-block-switch-button-selected':newuser.gender === 'Female'}" ng-click="newuser.gender = 'Female'">Female</button>
-                    <button class="ob-form-switch-button" ng-class="{'ob-block-switch-button-selected':newuser.gender === 'Male'}" ng-click="newuser.gender = 'Male'">Male</button>
+                    <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Female'}" ng-click="newuser.gender = 'Female'">Female</button>
+                    <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Male'}" ng-click="newuser.gender = 'Male'">Male</button>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row" ng-model="newuser.email">
                     <input class="ob-form-text-input" type="text" name="email" placeholder="Email"/>
@@ -33,8 +33,8 @@
                 </div>
                 -->
                 <div class="ob-form-row ob-form-switch-row">
-                    <button class="ob-form-switch-button" ng-class="{'ob-block-switch-button-selected':newuser.group === 'User'}" ng-click="newuser.group = 'User'" >User</button>
-                    <button class="ob-form-switch-button" ng-class="{'ob-block-switch-button-selected':newuser.group === 'Trainer'}"ng-click="newuser.group = 'Trainer'">Professional</button>
+                    <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'User'}" ng-click="newuser.group = 'User'" >User</button>
+                    <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Trainer'}"ng-click="newuser.group = 'Trainer'">Professional</button>
                 </div>
             </div>
             <a class="block-blue-button" href="#/menu/register/register-professional-main">Sign up!</a> <!--ng-click="register()"-->

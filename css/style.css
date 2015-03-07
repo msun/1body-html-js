@@ -273,8 +273,6 @@
 }
 
 .gm-style-iw {
-    min-width: 0px;
-    max-width: none;
 }
 
 /* remove x on infowindow */
@@ -579,7 +577,7 @@
     border-right: none;
 }
 
-.ob-form-switch-button:active {
+.ob-form-switch-button:active, .ob-form-switch-button-selected {
     background: white;
     color: black;
 }
