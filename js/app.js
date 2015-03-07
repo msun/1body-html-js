@@ -328,6 +328,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.account.old-payment-method', {
+                url: '/old-payment-method',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/old-payment.html',
+                        controller: 'AccountCtrl'
+                    }
+                }
+            })
+
             .state('menu.account.payment-method', {
                 url: '/payment-method',
                 views: {

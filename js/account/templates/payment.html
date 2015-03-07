@@ -1,45 +1,67 @@
-<ion-view title="Add Credit Card">
-    <ion-content has-header="true">
-        <div class="row responsive-lg">
-            <div class="col col-33 col-offset-33">
-                <form stripe-form="handleStripe" name="myForm">
-                    <div class="row responsive-sm">
-                        <div class="col col-75">
-                            <label class="item item-input item-stacked-label">
-                                <span class="input-label">Card number</span>
-                                <input type="text" class="input-block-level" placeholder="0000 0000 0000 0000" ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
-                            </label>
-                        </div>
 
-                        <div class="col">
-                            <label class="item item-input item-stacked-label">
-                                <span class="input-label">Expiry</span>
-                                <input type="text" placeholder="00/00" class="input-block-level" ng-model="expiry" payments-validate="expiry" payments-format="expiry" />
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col col-75">
-                            <label class="item item-input item-stacked-label">
-                                <span class="input-label">Name on card</span>
-                                <input type="text" class="input-block-level" placeholder="your name">
-                            </label>
-                        </div>
-
-                        <div class="col">
-                            <label class="item item-input item-stacked-label">
-                                <span class="input-label">CVC</span>
-                                <input type="text" placeholder="000" class="input-block-level" ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <button type="submit" class="btn btn-primary btn-large">Submit</button>
-                    </div>
-                </form>
+<link rel="stylesheet" type="text/css" href="/css/payment.css">
+<ion-view title="Test1" >
+    <ion-content class="has-header popup-content">
+        <div class="popup-content-div">
+            <div class="main-instructions">
+                Change Payment Information
             </div>
-        </div>
-
+            <form class="ob-form" stripe-form="handleStripe" name="myForm">
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name1" placeholder="Cardholder name"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name1" placeholder="Card Number"
+                           ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
+                </div>
+                <div class="ob-form-row ob-form-select-row">
+                    <!-- ng-model="expiry" payments-validate="expiry" payments-format="expiry" -->
+                    <span class="ob-form-select-text">Expires</span>
+                    <div class="ob-form-select-container">
+                        <select class="ob-form-select">
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div class="ob-form-select-container">
+                        <select class="ob-form-select">
+                            <option value="2015">2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Security Code/CVC"
+                           ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Postal Code"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="City / Town"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Province / State"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Country"/>
+                </div>
+            </form>
+            <button type="submit" class="block-blue-button">Done</button>
+        <div>
     </ion-content>
 </ion-view>
