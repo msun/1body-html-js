@@ -69,6 +69,10 @@
     background: #1f101c;
 }
 
+.ob-sidemenu-tabs ul {
+    padding-bottom: 30px;
+}
+
 .ob-sidemenu-tabs ul a {
     background: #1f101c;
     font-family: 'Lato', sans-serif;
