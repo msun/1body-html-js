@@ -1,3 +1,10 @@
+
+.ob-search-list-view {
+    background: url("../img/tmp/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
+                url("../img/map/tmp/darken-layer.png") center/100% 100% no-repeat,
+                url("../img/map/tmp/map-background.png") center/100% 100% no-repeat;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* headers */
 /* ********** ********** ********** ********** ***********/
@@ -7,6 +14,7 @@
     padding: 0px;
     height: 44px;
     z-index: 50;
+    background: transparent;
 }
 
 .ob-trainer-bar {
@@ -15,13 +23,14 @@
     display: flex;
     width: 100%;
     height: 100%;
+    background: transparent;
 }
 
 .ob-trainer-bar-button {
     -moz-flex: 1 1 0px;
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
-    background: #999999;
+    background: rgb(53, 127, 230);
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 14px;
     border: 1px solid white;
@@ -46,8 +55,10 @@
 /* ********** ********** ********** ********** ***********/
 
 .ob-search-list-view-content {
+    /*
     background: url("../img/map/tmp/darken-layer.png") center/100% 100% no-repeat,
                 url("../img/map/tmp/map-background.png") center/100% 100% no-repeat;
+                */
 }
 
 /* ********** ********** ********** ********** ***********/
