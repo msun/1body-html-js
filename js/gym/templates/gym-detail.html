@@ -14,7 +14,9 @@
         <div class="list card">
 
             <div class="item item-avatar">
-                <img src="{{selectedGym.user.imgLink}}">
+                <a href="#/menu/{{item.group}}/{{item.$id}}">
+                    <img src="{{selectedGym.user.profilepic}}" >
+                </a>
                 <h2>{{selectedGym.user.username}}</h2>
                 <p>{{selectedGym.user.group}}</p>
             </div>

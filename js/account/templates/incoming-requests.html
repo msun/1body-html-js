@@ -16,7 +16,7 @@
                 <ion-scroll direction="y" style="width: 100%; height: 30vh">
                     <div class="list">
                         <div class="item" ng-repeat="item in requests" style="padding: 0px">
-                            <img src="{{item.imgLink}}" style="margin: 8px; width: 50px; height: 50px; float: left">
+                            <img src="{{item.profilepic}}" style="margin: 8px; width: 50px; height: 50px; float: left" ng-click="window.location.href = '#/menu/{{item.group}}/{{item.$id}}'">
                             <div ng-click="showOnMap(item)" style="width: 50%; height: 66px; float: left;">
                                 <p>
                                     User: {{item.username}}{{item.name}}

@@ -14,7 +14,9 @@
         <div class="list card">
 
             <div class="item item-avatar">
-                <img src="{{selectedEvent.user.imgLink}}">
+                <a href="#/menu/{{item.group}}/{{item.$id}}">
+                    <img src="{{selectedEvent.user.profilepic}}">
+                </a>
                 <h2>{{selectedEvent.user.username}}</h2>
                 <p>{{selectedEvent.user.group}}</p>
             </div>

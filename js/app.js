@@ -227,6 +227,26 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.trainer-following', {
+                url: '/Following-Trainers',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/trainer/templates/following.html',
+                        controller: 'FollowingTrainerCtrl'
+                    }
+                }
+            })
+
+            .state('menu.followers', {
+                url: '/Followers',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/trainer/templates/followers.html',
+                        controller: 'FollowersCtrl'
+                    }
+                }
+            })
+
             .state('menu.event', {
                 url: '/Events',
                 views: {
