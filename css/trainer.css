@@ -1,8 +1,8 @@
 
 .ob-search-list-view {
-    background: url("../img/tmp/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
-                url("../img/map/tmp/darken-layer.png") center/100% 100% no-repeat,
-                url("../img/map/tmp/map-background.png") center/100% 100% no-repeat;
+    background: url("/img/tmp/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
+                url("/img/map/tmp/darken-layer.png") center/100% 100% no-repeat,
+                url("/img/map/tmp/map-background.png") center/100% 100% no-repeat;
 }
 
 /* ********** ********** ********** ********** ***********/
