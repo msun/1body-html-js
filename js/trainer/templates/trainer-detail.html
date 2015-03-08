@@ -27,7 +27,7 @@
         <div class="detail-page-top">
             <div class="row" >
                 <div class="col-33">
-                    <img src="{{selectedTrainer.imgLink}}" style="border-radius: 50%; width: 80%; margin-left: 10%; margin-right: 10%">
+                    <img src="{{selectedTrainer.profilepic}}" style="border-radius: 50%; width: 80%; margin-left: 10%; margin-right: 10%" ng-click="openImageModal()">
                 </div>
                 <div class="col-67" >
                     <h2 style="color: white"></i>&nbsp;N{{selectedTrainer.name}} </h2>
@@ -35,6 +35,7 @@
                     <p class="information-and-icon"><i class = "icon ion-person"></i> &nbsp;Professional</p>
                     <p class="information-and-icon"><i class = "icon ion-location"></i> &nbsp;Toronto</p>
                     <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    <button class="button button-default" ng-click="follow()">follow</button>
                 </div>
             </div>
             <div class="item" id="trainer-detail-map" data-tap-disabled="true" style="width: 90%; margin-left: 5%; margin-right: 5%; height: 150px; border-radius: 15px; margin-top: 20px"></div>

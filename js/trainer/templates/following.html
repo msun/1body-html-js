@@ -1,0 +1,23 @@
+<ion-view>
+    <ion-header-bar class="bar-dark">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon" >
+                <i class = "icon ion-navicon">
+                </i>
+            </button>
+            <h2 class="title">Following</h2>
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+        <ion-content>
+            <ion-list>
+                <a ng-repeat="item in items" class="item item-avatar" type="item-text-wrap" href="#/menu/{{item.group}}/{{item.$id}}">
+                    <img src="{{item.profilepic}}">
+                    <h2>{{item.username}}{{item.name}}</h2>
+                    <p>{{item.info}}</p>
+                </a>
+            </ion-list>
+        </ion-content>
+    </ion-content>
+</ion-view>

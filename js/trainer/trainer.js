@@ -8,7 +8,7 @@ trainer.factory('Time', function(){
     return Time;
 });
 
-trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction, Trainers, $ionicModal, $firebase, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers) {
+trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction, Trainers, $ionicModal, $firebase, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, Images, Followers , Following) {
     console.log($stateParams.trainerName);
     $scope.trainerName = $stateParams.trainerName;
     $scope.max = 5;
@@ -23,7 +23,14 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
         scope: $scope,
         animation: 'slide-in-up'
     }).then(function(modal){
-        $scope.modal = modal;
+        $scope.reviewModal = modal;
+    });
+
+    $ionicModal.fromTemplateUrl('js/trainer/templates/image.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.imageModal = modal;
     });
 
     $scope.selectedTrainer = $firebase(Trainers.ref().child($scope.trainerName)).$asObject();
@@ -54,6 +61,15 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
             var trainerCircle = new google.maps.Circle(populationOptions);
         }
     });
+
+    $scope.follow = function(){
+        if(!appFactory.user.following){
+            appFactory.user.following = [];
+        }
+        appFactory.user.following[$scope.selectedTrainer.$id] = {
+
+        }
+    }
 
 
     console.log($scope.selectedTrainer);
@@ -95,7 +111,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
                 $rootScope.click = function(){
                     console.log($rootScope.link);
 //                    window.location.href = "#/tab/account/qrcode/" + transaction.$id;
-                    $scope.modal.show();
+                    $scope.reviewModal.show();
                     $rootScope.offline = false;
                 }
             })
@@ -121,22 +137,17 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
         return returnval;
     }
 
-
-
-//    Stripe.setPublishableKey('pk_test_DBhUBAORKHi5IqZLUlMUex0Y');
-
-
-
     $scope.showReviewModal = function(){
-        $scope.modal.show();
+        $scope.reviewModal.show();
     }
 
     $scope.closeReviewModal = function(){
-        $scope.modal.hide();
+        $scope.reviewModal.hide();
     }
 
     $scope.$on('$destroy', function() {
-        $scope.modal.remove();
+        $scope.reviewModal.remove();
+        $scope.imageModal.remove();
     });
 
     $scope.addReview = function(){
@@ -144,11 +155,53 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
         if($scope.newreview.text && $scope.newreview.text.length > 0){
             var newreview = new Review(appFactory.user, $scope.selectedTrainer, $scope.newreview.text, $scope.transaction.$id);
             newreview.add();
-            $scope.modal.remove();
+            $scope.reviewModal.remove();
         } else {
             alert("Review cannot be empty");
         }
-    }
+    };
+
+    $scope.openImageModal = function(){
+        $scope.imageModal.show();
+        $scope.bigimage = $firebase(Images.ref().child($scope.selectedTrainer.$id).child("profilepic")).$asObject();
+        $scope.bigimage.$loaded(function(){
+            console.log($scope.bigimage);
+        });
+    };
+
+    $scope.closeImageModal = function(){
+        $scope.imageModal.hide();
+    };
+
+    $scope.follow = function(){
+        var followers = $firebase(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id)).$asObject();
+        followers.$loaded(function() {
+            followers.username = appFactory.user.username;
+            if(appFactory.user.profilepic){
+                followers.profilepic = appFactory.user.profilepic;
+            }
+            if(appFactory.user.info){
+                followers.info = appFactory.user.info;
+            }
+            followers.$save();
+        });
+
+        var following = $firebase(Following.ref().child(appFactory.user.$id).child($scope.selectedTrainer.$id)).$asObject();
+        following.$loaded(function() {
+            following.username = $scope.selectedTrainer.username;
+            console.log($scope.selectedTrainer.profilepic);
+            if($scope.selectedTrainer.profilepic){
+                following.profilepic = $scope.selectedTrainer.profilepic;
+            }
+            if($scope.selectedTrainer.info){
+                following.info = $scope.selectedTrainer.info;
+            }
+            console.log(following);
+            following.$save().then(function(){
+                alert("Following user: " + $scope.selectedTrainer.username);
+            });
+        });
+    };
 });
 
 trainer.controller('ListCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Events) {
@@ -165,6 +218,54 @@ trainer.controller('ListCtrl', function($scope, User, appFactory, $timeout, $sta
 
 
 
+});
+
+trainer.controller('FollowersCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Followers, Trainers) {
+    $scope.items = $firebase(Followers.ref().child(appFactory.user.$id)).$asArray();
+
+    $scope.items.$loaded(function(){
+        console.log($scope.items);
+        for(var i=0; i<$scope.items.length; i++){
+            (function(index) {
+                var item = $firebase(Trainers.ref().child($scope.items[index].$id)).$asObject();
+                item.$loaded(function(){
+                    console.log(item);
+                    if(item.profilepic){
+                        $scope.items[index].profilepic = item.profilepic;
+                    }
+                    if(item.info){
+                        $scope.items[index].info = item.info;
+                    }
+                    $scope.items[index].group = item.group;
+                    $scope.items.$save(index);
+                })
+            }(i));
+        }
+    });
+});
+
+trainer.controller('FollowingTrainerCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Following, Trainers) {
+    $scope.items = $firebase(Following.ref().child(appFactory.user.$id)).$asArray();
+
+    $scope.items.$loaded(function(){
+        console.log($scope.items);
+        for(var i=0; i<$scope.items.length; i++){
+            (function(index) {
+                var item = $firebase(Trainers.ref().child($scope.items[index].$id)).$asObject();
+                item.$loaded(function(){
+                    console.log(item);
+                    if(item.profilepic){
+                        $scope.items[index].profilepic = item.profilepic;
+                    }
+                    if(item.info){
+                        $scope.items[index].group = item.info;
+                    }
+                    $scope.items[index].group = item.group;
+                    $scope.items.$save(index);
+                })
+            }(i));
+        }
+    });
 });
 
 trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebase, eventFactory, apikey, Requests, GeoRequests, Trainers) {
@@ -392,7 +493,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
                                 if (!m_trainer.incoming_requests) {
                                     m_trainer.incoming_requests = [];
                                 }
-                                m_trainer["incoming_requests"][requestID] = {userID: appFactory.user.$id, accepted: false, created: $scope.newrequest.created, starttime: $scope.newrequest.starttime, username: appFactory.user.username, imgLink: appFactory.user.imgLink, latitude: $scope.newrequest.latitude, longitude: $scope.newrequest.longitude, message:$scope.newrequest.message};
+                                m_trainer["incoming_requests"][requestID] = {userID: appFactory.user.$id, accepted: false, created: $scope.newrequest.created, starttime: $scope.newrequest.starttime, username: appFactory.user.username, profilepic: appFactory.user.profilepic, latitude: $scope.newrequest.latitude, longitude: $scope.newrequest.longitude, message:$scope.newrequest.message};
                                 console.log(m_trainer);
                                 m_trainer.$save().then(function () {
                                     numTrainerSaved++;
