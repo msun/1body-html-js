@@ -1,22 +1,54 @@
-<ion-view>
-    <ion-content has-header="true" style="background: black">
-        <div class="list form-spacing" style="margin-top: 40%;">
-            <label class="item item-input list-item-spacing">
-                <span class="input-label" ><i class="icon ion-person"></i> Email</span>
-                <input type="email" ng-model="user.email">
-            </label>
-
-            <label class="item item-input list-item-spacing">
-                <span class="input-label" ><i class="icon ion-locked"></i> Password</span>
-                <input type="password" ng-model="user.password">
-            </label>
-
-            <a class="button button-dark item list-item-spacing" ng-click="signin()">LOGIN</a>
-
-            <a class="button button-dark item list-item-spacing" href="#/register">REGISTER</a>
-
-            <a class="button button-dark item list-item-spacing" ng-click="googleLogin()">Google</a>
-            <a class="button button-dark item list-item-spacing" ng-click="facebookLogin()">Facebook</a>
+<link rel="stylesheet" type="text/css" href="/css/home.css">
+<ion-view title="Test3" >
+    <ion-content class="menu1-content-no-header" scrollbar-x="false" scrollbar-y="false">
+        <div class="signup1-content-div">
+            <div class="flex-top-space"></div>
+            <div class="flex-main">
+                <p class="main-instructions">
+                    Howdy!<br/>
+                    Let's get to know each other!
+                </p>
+                <p class="sub-instructions">Choose a social network or create an account</p>
+                <button class="signup1-button facebook-button" ng-click="facebookLogin()">
+                    <span class="signup1-button-left">
+                        <img class="signup1-button-icon facebook-icon" src="img/sign-up/icon-facebook.png">
+                    </span>
+                    <span class="signup1-button-text">
+                        Sign in with <span class="text-strong">Facebook</span>
+                    </span>
+                    <span class="signup1-button-right"></span>
+                </button>
+                <button class="signup1-button google-plus-button" ng-click="googleLogin()">
+                    <span class="signup1-button-left">
+                        <img class="signup1-button-icon google-plus-icon" src="img/sign-up/icon-google-plus.png">
+                    </span>
+                    <span class="signup1-button-text">
+                        Sign in with <span class="text-strong">Google+</span>
+                    </span>
+                    <span class="signup1-button-right"></span>
+                </button>
+                <a class="signup1-button onebody-button" href="#/menu/register/register-main">
+                    <span class="signup1-button-left">
+                        <img class="signup1-button-icon onebody-icon" src="img/sign-up/icon-1body.png">
+                    </span>
+                    <span class="signup1-button-text">
+                        Create <span class="text-strong">1Body</span> account
+                    </span>
+                    <span class="signup1-button-right"></span>
+                </a>
+                <a class="block-transparent-button home-transparent-button" href="#/menu/login/login-main">Already have an account?</a>
+            </div>
+            <div class="flex-bottom-space"></div>
+            <div class="flex-bottom-space2"></div>
+            <div class="flex-footer">
+                <a class="block-transparent-button home-transparent-button" href="#/menu/register/tos">
+                    By signing up, I agree to <span class="text-underline text-strong">1Body's</span>
+                    <span class="text-strong">Terms of Service</span>,
+                    <span class="text-strong">Privacy Policy</span>,
+                    <span class="text-strong">Guest Refund Policy</span>, and
+                    <span class="text-strong">Host Guarantee Terms</span>.
+                </a>
+            </div>
         </div>
     </ion-content>
 </ion-view>

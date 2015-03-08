@@ -1,0 +1,45 @@
+<ion-view title="Add Credit Card">
+    <ion-content has-header="true">
+        <div class="row responsive-lg">
+            <div class="col col-33 col-offset-33">
+                <form stripe-form="handleStripe" name="myForm">
+                    <div class="row responsive-sm">
+                        <div class="col col-75">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">Card number</span>
+                                <input type="text" class="input-block-level" placeholder="0000 0000 0000 0000" ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
+                            </label>
+                        </div>
+
+                        <div class="col">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">Expiry</span>
+                                <input type="text" placeholder="00/00" class="input-block-level" ng-model="expiry" payments-validate="expiry" payments-format="expiry" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-75">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">Name on card</span>
+                                <input type="text" class="input-block-level" placeholder="your name">
+                            </label>
+                        </div>
+
+                        <div class="col">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">CVC</span>
+                                <input type="text" placeholder="000" class="input-block-level" ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button type="submit" class="btn btn-primary btn-large">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

@@ -1,28 +1,12 @@
 
-<ion-view title="Login">
-    <ion-content has-header="true">
-        <h1>Login</h1>
-        <div class="list">
-            <label class="item item-input">
-                <input type="email" ng-model="user.email" placeholder="Email">
-            </label>
-            <label class="item item-input">
-                <input type="password" ng-model="user.password" placeholder="Password">
-            </label>
-            <button class="button button-calm" ng-click="signin()">Login</button>
+<ion-view>
+    <ion-nav-bar class="ob-dark-bg">
+        <button  ng-click="back()" class="button button-icon" >
+            <i class="icon ion-ios7-arrow-back ob-white-color"></i>
+        </button>
+        <img class="ob-nav-bar-logo" src="/img/Logo.png"/>
+    </ion-nav-bar>
 
-            <ul>
-                <li ng-repeat="item in list">
-                    {{item.$id}}
-                </li>
-            </ul>
-
-            <li ng-repeat="item in list">
-                <input type="text" ng-model="item.name" ng-change="saveitem(item)" />
-            </li>
-
-            <input type="text" ng-model="newitem.name" />
-            <button class="button button-calm" ng-click="add()">add</button>
-        </div>
-    </ion-content>
+    <ion-nav-view name="login">
+    </ion-nav-view>
 </ion-view>

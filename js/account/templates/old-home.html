@@ -1,0 +1,22 @@
+<ion-view>
+    <ion-content has-header="true" style="background: black">
+        <div class="list form-spacing" style="margin-top: 40%;">
+            <label class="item item-input list-item-spacing">
+                <span class="input-label" ><i class="icon ion-person"></i> Email</span>
+                <input type="email" ng-model="user.email">
+            </label>
+
+            <label class="item item-input list-item-spacing">
+                <span class="input-label" ><i class="icon ion-locked"></i> Password</span>
+                <input type="password" ng-model="user.password">
+            </label>
+
+            <a class="button button-dark item list-item-spacing" ng-click="signin()">LOGIN</a>
+
+            <a class="button button-dark item list-item-spacing" href="#/register">REGISTER</a>
+
+            <a class="button button-dark item list-item-spacing" ng-click="googleLogin()">Google</a>
+            <a class="button button-dark item list-item-spacing" ng-click="facebookLogin()">Facebook</a>
+        </div>
+    </ion-content>
+</ion-view>

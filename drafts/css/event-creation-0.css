@@ -1,0 +1,27 @@
+
+.ob-blue-text {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #3884ed;
+}
+
+.ob-date-prompt-text {
+    display: inline-block;
+    margin: 12px 0px 12px 11px;
+}
+
+.ob-date {
+    display: inline-block;
+    margin: 12px 0px 12px 12px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #bcbbbb;
+    border-bottom: 1px solid #3884ed;
+}
+
+.ob-date-picker-button {
+    float: right;
+    width: 18px;
+    height: 18px;
+    margin: 13px 9.5px;
+}

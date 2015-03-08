@@ -1,0 +1,104 @@
+
+.ob-form-textarea {
+    height: 140px;
+}
+
+/*
+.review-textarea {
+    width: 302px;
+    height: 143px;
+    margin: 0px auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #827c7b;
+    border-radius: 7px;
+    padding: 14px;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 18px;
+    color: white;
+    resize: none;
+}
+
+.review-textarea::-webkit-input-placeholder {
+    font-family: 'AvenirNextLTPro-It', sans-serif;
+    font-size: 18px;
+    color: #cccccc;
+}
+
+.review-textarea:-moz-placeholder {
+    font-family: 'AvenirNextLTPro-It', sans-serif;
+    font-size: 18px;
+    color: #cccccc;
+}
+
+.review-textarea::-moz-placeholder {
+    font-family: 'AvenirNextLTPro-It', sans-serif;
+    font-size: 18px;
+    color: #cccccc;
+}
+
+.review-textarea:-ms-input-placeholder {
+    font-family: 'AvenirNextLTPro-It', sans-serif;
+    font-size: 18px;
+    color: #cccccc;
+}
+*/
+
+.rate-text {
+    width: 100%;
+    height: 65px;
+    line-height: 64px;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    margin: 0px auto;
+    border-bottom: 1px solid white;
+}
+
+.review-stars {
+    width: 100%;
+    height: 92px;
+    text-align: center;
+    line-height: 92px;
+}
+
+.review-star {
+    vertical-align: middle;
+    width: 33px;
+    height: 31.5px;
+}
+
+.submit-buttons {
+    white-space: nowrap;
+    border-top: 1px solid #3884ed;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.submit-button {
+    display: inline-block;
+    background-color: transparent;
+    width: 155px;
+    height: 48px;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 18px;
+    color: #3884ed;
+    border: none;
+    border-right: 1px solid #3884ed;
+    -moz-flex: 1 1 0px;
+    -webkit-flex: 1 1 0px;
+    flex: 1 1 0px;
+}
+
+.submit-button:last-child {
+    border-right: none;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 18px;
+}
+
+.submit-button:active {
+    background-color: #2b63b3;
+}

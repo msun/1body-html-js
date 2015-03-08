@@ -41,7 +41,7 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope) {
+account.controller('LoginCtrl', function(GeoTrainers, $firebase, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope) {
     // if ref points to a data collection
     var successCallback = function(result){
         console.log(result);
@@ -127,9 +127,13 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebase,$ionicLoading, F
         }
     }
 
+    $scope.back = function() {
+        $ionicNavBarDelegate.back();
+    };
+
 });
 
-account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, appFactory, $firebase, UserAuth, $scope, Users, Trainers, $state, mapstate) {
+account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebase, UserAuth, $scope, Users, Trainers, $state, mapstate) {
     $scope.newuser = {};
     $scope.newuser.group = "User";
     console.log(UserAuth);
@@ -216,6 +220,10 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, appFactory, 
         }
         $state.transitionTo(mapstate);
     }
+
+    $scope.back = function() {
+        $ionicNavBarDelegate.back();
+    };
 });
 
 account.controller('MyEventCtrl', function($scope, User, appFactory, baseUrl, $timeout){
@@ -1005,4 +1013,7 @@ account.filter('parseTimestamp', function() {
     return function(timestamp) {
         return new Date(timestamp);
     };
+});
+
+account.controller('Test1Ctrl', function($scope, User, appFactory, baseUrl, $timeout, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
 });

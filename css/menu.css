@@ -1,0 +1,93 @@
+
+.ob-sidemenu {
+    background: #1f101c;
+}
+
+.ob-sidemenu-header {
+    position: relative;
+    padding: 0px;
+    height: 97px;
+}
+
+.ob-sidemenu-header-content {
+    position: relative;
+    padding-top: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.ob-sidemenu-header-inner-content {
+    width: 100%;
+    height: calc(100% - 1px);
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.ob-sidemenu-usericon {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 60px;
+    height: 60px;
+    margin: 0px 10px;
+}
+
+.ob-sidemenu-title {
+    -moz-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    color: white;
+    margin: 0px 3px;
+}
+
+.ob-sidemenu-cog {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin: 0px 10px;
+}
+
+.ob-sidemenu-header-bottom-divider {
+    position: absolute;
+    margin: 0px 2.5%;
+    bottom: 1px;
+    height: 1px;
+    width: 95%;
+    background: #3884ed;
+}
+
+.ob-sidemenu-tabs {
+    top: 98px;
+    background: #1f101c;
+}
+
+.ob-sidemenu-tabs ul {
+    padding-bottom: 30px;
+}
+
+.ob-sidemenu-tabs ul a {
+    background: #1f101c;
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    color: white;
+    border: none;
+    border-top: 1px solid #422a3d;
+    padding-left: 40px;
+}
+
+.ob-sidemenu-tabs ul a:first-child {
+    border-top: none;
+    margin-top: 10px;
+}
+
+.ob-sidemenu-tabs ul a.ob-sidemenu-tab-selected {
+    color: #3884ed;
+}

@@ -1,0 +1,163 @@
+
+/* ********** ********** ********** ********** ***********/
+/* misc */
+/* ********** ********** ********** ********** ***********/
+
+.text-strong {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* main flex layout */
+/* ********** ********** ********** ********** ***********/
+
+.signup1-content-div {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    height: 100%;
+}
+
+.flex-top-space {
+    -moz-flex: 1 99 0px;
+    -webkit-flex: 1 99 0px;
+    flex: 1 99 0px;
+}
+
+.flex-main {
+    -moz-flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    text-align: center;
+}
+
+.flex-bottom-space {
+    -moz-flex: 1 99 0px;
+    -webkit-flex: 1 99 0px;
+    flex: 1 99 0px;
+}
+
+.flex-bottom-space2 {
+    -moz-flex: 99 99 0px;
+    -webkit-flex: 99 99 0px;
+    flex: 99 99 0px;
+    max-height: 20px;
+}
+
+.flex-footer {
+    -moz-flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 248px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* sign up buttons */
+/* ********** ********** ********** ********** ***********/
+
+.signup1-button {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    border-radius: 6px;
+    background: black;
+    color: white;
+    border: none;
+    width: 264px;
+    height: 43px;
+    margin: 12px auto 0px;
+    padding: 0px 8px;
+    display: -mox-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.signup1-button-left, .signup1-button-right {
+    -moz-flex: 1 1 32px;
+    -webkit-flex: 1 1 32px;
+    flex: 1 1 32px;
+    padding-left: 2px;
+}
+
+.signup1-button-icon {
+    float: left;
+    margin-left: 5px;
+}
+
+.signup1-button-text {
+    -mox-flex: 99 99 0px;
+    -webkit-flex: 99 99 0px;
+    flex: 99 99 0px;
+    font-size: 16.35px;
+    padding-top: 4px;
+}
+
+.facebook-button {
+    background-color: #3b5998;
+}
+
+.facebook-button:active {
+    background-color: #30477a;
+}
+
+.facebook-icon {
+    width: 9.5px;
+    height: 17px;
+}
+
+.google-plus-button {
+    background-color: #d6443d;
+}
+
+.google-plus-button:active  {
+    background-color: #ab3832;
+}
+
+.google-plus-icon {
+    width: 21px;
+    height: 19px;
+}
+
+.onebody-button {
+    background-color: #3079e9;
+}
+
+.onebody-button:active {
+    background-color: #2c6ed1;
+}
+
+.onebody-icon {
+    width: 18px;
+    height: 21.5px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* overrides */
+/* ********** ********** ********** ********** ***********/
+
+.main-instructions {
+    width: 248px;
+}
+
+.home-transparent-button {
+    line-height: 15px;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    color: rgb(235, 235, 235);
+    padding: 17px 0px;
+}
+
+.home-transparent-button:active {
+    color: #aaaaaa;
+}
