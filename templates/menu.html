@@ -12,11 +12,15 @@
     </ion-pane>
     <ion-side-menu side="left" class="ob-sidemenu">
         <div class="bar bar-header ob-dark-bg ob-sidemenu-header">
-            <div class="ob-sidemenu-header-content">
+            <div class="ob-sidemenu-header-content" ng-click="toggleMenu()">
                 <div class="ob-sidemenu-header-inner-content">
-                    <img class="ob-sidemenu-usericon" src="/img/tmp/SoulCycle-Logo.png"/>
-                    <span class="ob-sidemenu-title">SoulCycle</span>
-                    <img class="ob-sidemenu-cog" src="/img/tmp/Cog.png"/>
+                    <a class="ob-sidemenu-usericon-container" href="#/menu/account/my-profile">
+                        <img class="ob-sidemenu-usericon" src="/img/tmp/SoulCycle-Logo.png"/>
+                    </a>
+                    <a class="ob-sidemenu-title" href="#/menu/account/my-profile">SoulCycle</a>
+                    <a class="ob-sidemenu-cog-container" href="#/menu/account/old-buy-tokens" ng-click="toggleMenu()">
+                        <img class="ob-sidemenu-cog" src="/img/tmp/Cog.png"/>
+                    </a>
                 </div>
                 <div class="ob-sidemenu-header-bottom-divider"></div>
             </div>
@@ -24,9 +28,7 @@
         <ion-content class="ob-sidemenu-tabs ob-dark-bg" scrollbar-x="false" scrollbar-y="false">
             <ul>
                 <a ng-click ="toggleMenu()" href="#/menu/map" class="item menu-font"><b>MapView</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/Trainers" class="item menu-font"><b>ListView</b></a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/payment-method"  class="item menu-font"><b>Payment Method</b></a>
-                <a ng-click ="toggleMenu()" href="#/menu/account/my-profile" class="item menu-font"><b>My Profile</b></a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-events" class="item menu-font"><b>My Events</b></a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/qrcode/a" class="item menu-font"><b>My QRcode</b></a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-requests" class="item menu-font"><b>My Requests</b></a>
