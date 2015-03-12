@@ -488,6 +488,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.account.old-buy-tokens', {
+                url: '/old-buy-tokens',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/old-buy-tokens.html',
+                        controller: 'BuyTokensCtrl'
+                    }
+                }
+            })
+
             .state('menu.account.buy-tokens', {
                 url: '/buy-tokens',
                 views: {

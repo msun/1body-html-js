@@ -1,27 +1,46 @@
 
+.menu1-content-div {
+    padding-bottom: 32px;
+}
+
 .main-instructions {
     margin-bottom: 43px;
 }
 
-.purchase-credit-table {
+.purchase-credits-table {
 
 }
 
-.purchase-credit-row {
+.purchase-credits-row {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    height: 72px;
+    padding: 0px 6px 0px 20px;
     border-top: 1px solid #9e9da3;
 }
 
-.purchase-credit-row:last-child {
+.purchase-credits-row:last-child {
     border-bottom: 1px solid #9e9da3;
 }
 
-.purchase-credit-number {
-    display: inline-block;
-    width: 38px;
+.purchase-credits-row:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.33);
+}
+
+.purchase-credits-value {
+    flex: 0 0 auto;
+    margin-left: 20px;
+    padding: 0px 4px;
+    margin: auto 0px auto 0px;
+    min-width: 38px;
     height: 38px;
     line-height: 38px;
     text-align: center;
-    margin: 17px 0px 17px 20px;
     border-radius: 4px;
     border: 1px solid white;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -29,9 +48,97 @@
     color: white;
 }
 
-.purchase-credit-arrow {
-    float: right;
-    margin: 30px 21px 0px 0px;
-    width: 8px;
-    height: 12.5px;
+.purchase-credits-count {
+    flex: 99 99 auto;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 18px;
+    color: white;
+    margin-left: 12px;
+}
+
+.purchase-credits-plus-minus-container {
+    flex: 0 0 auto;
+    width: 31px;
+    height: 31px;
+    margin: auto 4px;
+    position: relative;
+}
+
+.purchase-credits-plus-minus-white-background {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: white;
+}
+
+.purchase-credits-plus, .purchase-credits-minus {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    font-size: 31px;
+}
+
+.purchase-credits-plus {
+    color: #3a88f5;
+}
+
+.purchase-credits-minus {
+    color: #db4e45;
+}
+
+.ob-footer-button {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    height: 64px;
+    padding: 0px 0px 0px 20px;
+    background: #3884ed;
+    z-index: 9999;
+}
+
+.purchase-credits-total-text {
+    flex: 1 1 auto;
+    font-family: "Avenir Next LT Pro", sans-serif;
+    font-size: 16px;
+    color: white;
+    margin: auto 10px;
+}
+
+.purchase-credits-buy-credits-text-container {
+    flex: 0 0 auto;
+    -moz-align-self: stretch;
+    -webkit-align-self: stretch;
+    align-self: stretch;
+    line-height: 64px;
+}
+
+.purchase-credits-buy-credits-text {
+    flex: 1 1 auto;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    color: white;
+    margin: 0px 5px 0px 9px;
+}
+
+.purchase-credits-arrow {
+    width: 12px;
+    height: 19px;
+    margin: 0px 9px;
+    position: relative;
+    top: 3px;
 }
