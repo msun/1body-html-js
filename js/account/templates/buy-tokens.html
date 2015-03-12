@@ -3,78 +3,17 @@
 <ion-view>
     <ion-content class="has-header menu1-content">
         <div class="menu1-content-div">
-            <div class="main-instructions">
-                Select the number of credits to purchase
-            </div>
+            <div class="main-instructions">Select the number of credits to purchase</div>
+            <div class="sub-instructions">You have {{currentTokens}} tokens left.</div>
             <div class="purchase-credits-table">
-                <div class="purchase-credits-row">
-                    <span class="purchase-credits-value">5</span>
-                    <span class="purchase-credits-count">x1</span>
-                    <span class="purchase-credits-plus-minus-container">
+                <div class="purchase-credits-row" ng-repeat="item in bundles">
+                    <span class="purchase-credits-value">{{item.numberTokens}}</span>
+                    <span class="purchase-credits-count">${{item.price}}</span>
+                    <span class="purchase-credits-plus-minus-container" ng-click ="addBundle(item)">
                         <span class="purchase-credits-plus-minus-white-background"></span>
                         <i class="icon ion-plus-circled purchase-credits-plus"></i>
                     </span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-minus-circled purchase-credits-minus"></i>
-                    </span>
-                </div>
-                <div class="purchase-credits-row">
-                    <span class="purchase-credits-value">10</span>
-                    <span class="purchase-credits-count">x1</span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-plus-circled purchase-credits-plus"></i>
-                    </span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-minus-circled purchase-credits-minus"></i>
-                    </span>
-                </div>
-                <div class="purchase-credits-row">
-                    <span class="purchase-credits-value">25</span>
-                    <span class="purchase-credits-count"></span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-plus-circled purchase-credits-plus"></i>
-                    </span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-minus-circled purchase-credits-minus"></i>
-                    </span>
-                </div>
-                <div class="purchase-credits-row">
-                    <span class="purchase-credits-value">50</span>
-                    <span class="purchase-credits-count">x3</span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-plus-circled purchase-credits-plus"></i>
-                    </span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-minus-circled purchase-credits-minus"></i>
-                    </span>
-                </div>
-                <div class="purchase-credits-row">
-                    <span class="purchase-credits-value">100</span>
-                    <span class="purchase-credits-count"></span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-plus-circled purchase-credits-plus"></i>
-                    </span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-minus-circled purchase-credits-minus"></i>
-                    </span>
-                </div>
-                <div class="purchase-credits-row">
-                    <span class="purchase-credits-value">500</span>
-                    <span class="purchase-credits-count">x1</span>
-                    <span class="purchase-credits-plus-minus-container">
-                        <span class="purchase-credits-plus-minus-white-background"></span>
-                        <i class="icon ion-plus-circled purchase-credits-plus"></i>
-                    </span>
-                    <span class="purchase-credits-plus-minus-container">
+                    <span class="purchase-credits-plus-minus-container" ng-click ="removeBundle(item)">
                         <span class="purchase-credits-plus-minus-white-background"></span>
                         <i class="icon ion-minus-circled purchase-credits-minus"></i>
                     </span>
@@ -83,61 +22,13 @@
         </div>
     </ion-content>
     <ion-footer-bar class="ob-footer-button">
-        <span class="purchase-credits-value">50</span>
-        <span class="purchase-credits-total-text">Total</span>
-        <span class="purchase-credits-buy-credits-text-container">
+        <span class="purchase-credits-value">{{totalTokens}}</span>
+        <span class="purchase-credits-total-text">Total ${{amount}}</span>
+        <span class="purchase-credits-buy-credits-text-container" ng-click="confirm()">
             <span class="purchase-credits-buy-credits-text">Buy Credits</span>
             <img class="purchase-credits-arrow" src="/img/store/purchase-credits-arrow.png"/>
         </span>
     </ion-footer-bar>
 </ion-view>
 
-<!--
-<ion-content class="has-header">
-    <ion-list>
-        <ion-item>
-            You have {{currentTokens}} tokens left.
-        </ion-item>
-        <ion-item ng-repeat="item in bundles">
-            <div>
-                <span style="float: left">
-                    {{item.numberTokens}} Tokens
-                </span>
-                <span style="margin-left: 15px">
-                    ${{item.price}}
-                </span>
-                <button style="float: right" ng-click ="addBundle(item)" class = "button button-icon" >
-                    <i class = "icon ion-plus-round">
-                    </i>
-                </button>
-                <button style="float: right" ng-click ="removeBundle(item)" class = "button button-icon" >
-                    <i class = "icon ion-minus-round">
-                    </i>
-                </button>
-
-            </div>
-        </ion-item>
-        <ion-item>
-            <div>
-                <span>
-                    Total: ${{amount}}
-                </span>
-                <span style="float: right">
-                    {{totalTokens}} X Tokens
-                </span>
-            </div>
-        </ion-item>
-        <ion-item>
-            <div class="button-bar">
-                <button class="button button-balanced" ng-click="clear()">
-                    Cancel
-                </button>
-                <button class="button button-balanced" ng-click="confirm()">
-                    Confirm
-                </button>
-            </div>
-        </ion-item>
-    </ion-list>
-
-</ion-content>
--->
+<!-- ng-click="clear()" -->
