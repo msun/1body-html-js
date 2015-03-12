@@ -139,10 +139,6 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
     console.log(UserAuth);
     UserAuth.$logout(); //FOR TESTING
 
-    $scope.nextSlide = function() {
-        $ionicSlideBoxDelegate.next();
-    }
-
     $scope.groups = [{name: "user"}, {name: "trainer"}];
 
     $scope.register = function(){
@@ -222,8 +218,29 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
     }
 
     $scope.back = function() {
-        $ionicNavBarDelegate.back();
+        if ($ionicSlideBoxDelegate.currentIndex() >= 1) {
+            $ionicSlideBoxDelegate.previous();
+        } else {
+            $ionicNavBarDelegate.back();
+        }
     };
+
+    $scope.navSlide = function(index) {
+        $ionicSlideBoxDelegate.slide(index);
+    }
+
+    $scope.slideStop = function(index) {
+        $ionicSlideBoxDelegate.enableSlide(false);
+    }
+
+    $scope.nextPressed = function(index) {
+        if ($ionicSlideBoxDelegate.currentIndex() == 0 && $scope.newuser.group === 'User') {
+            $scope.register();
+        } else {
+            $ionicSlideBoxDelegate.next();
+        }
+    }
+
 });
 
 account.controller('MyEventCtrl', function($scope, User, appFactory, baseUrl, $timeout){
