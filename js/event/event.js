@@ -230,6 +230,10 @@ event.controller('CreateEventCtrl', function($firebase, baseUrl, $scope, $timeou
         $ionicSlideBoxDelegate.slide(index);
     }
 
+    $scope.slideStop = function(index) {
+        $ionicSlideBoxDelegate.enableSlide(false);
+    }
+
     $scope.nextPressed = function(index) {
         $ionicSlideBoxDelegate.next();
     }

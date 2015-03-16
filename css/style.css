@@ -628,6 +628,71 @@
     margin: 5px 0px 0px 0px;
 }
 
+.ob-form-select-container-large {
+    width: 140px;
+}
+
+.ob-form-select-large {
+    width: 160px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-range */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-range-row {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.ob-form-range-prompt {
+    -mox-flex: 0 0 150px;
+    -webkit-flex: 0 0 150px;
+    flex: 0 0 150px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #bcbbbb;
+}
+
+.ob-form-range {
+    flex: 1 1 200px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-timepicker */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-timepicker-row {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    padding: 0px 9px;
+}
+
+.ob-form-timepicker-prompt {
+    -mox-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #bcbbbb;
+    margin-right: 9px;
+}
+
+.ob-form-timepicker {
+    -mox-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    color: #3884ed;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* ob-note-block */
 /* ********** ********** ********** ********** ***********/
@@ -637,7 +702,7 @@
     display: -webkit-flex;
     display: flex;
     -moz-align-items: stretch;
-    -webkit-align-items-stretch;
+    -webkit-align-items: stretch;
     align-items: stretch;
     width: 100%;
     margin: 28px 0px 0px;

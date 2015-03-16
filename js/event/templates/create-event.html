@@ -10,19 +10,39 @@
     </ion-header-bar>
 
     <ion-content class="has-header menu1-content">
-        <ion-slide-box pager-click="navSlide(index)" class="ob-slide-box">
+        <ion-slide-box class="ob-slide-box" pager-click="navSlide(index)" active-slide="slideStop(index)">
             <ion-slide class="ob-slide">
                 <div class="menu1-content-div">
                     <div class="main-instructions">Create an Event</div>
                     <div class="sub-instructions">Let's get started</div>
                     <div class="ob-form">
                         <div class="ob-form-row">
-                            <input class="ob-form-text-input" type="text" name="name1" placeholder="Event Name"/>
+                            <input ng-model="newevent.name" class="ob-form-text-input" type="text" placeholder="Event Name"/>
                         </div>
+                        <div class="ob-form-row ob-form-select-row">
+                            <span class="ob-form-select-text ob-blue-text">Category</span>
+                            <div class="ob-form-select-container ob-form-select-container-large">
+                                <select class="ob-form-select ob-form-select-large" ng-model="newevent.category" ng-options="category.name for category in categories">
+                                    <option value="01">01</option>
+                                    <option value="01">01</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--
                         <div class="ob-form-row">
                             <span class="ob-date-prompt-text ob-blue-text">Date</span>
                             <span class="ob-date">5 July 2014 (Thurs)</span>
                             <img class="ob-date-picker-button" src="img/event-profile/date-picker-button.png"/>
+                        </div>
+                        -->
+                        <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
+                            <span class="ob-form-timepicker-prompt ob-blue-text">Start time</span>
+                            <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                        </div>
+                        <div class="ob-form-row ob-form-select-row ob-form-range-row">
+                            <span class="ob-form-range-prompt"><span class="ob-blue-text">Duration</span>&nbsp;&nbsp;{{newevent.duration}}min</span>
+                            <input class="ob-form-range" type="range" name="volume" min="0" max="120" ng-model="newevent.duration">
                         </div>
                         <div class="ob-form-row ob-form-select-row">
                             <span class="ob-form-select-text ob-blue-text">For</span>
@@ -50,7 +70,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="ob-form-row ob-form-switch-row">
+                        <div class="ob-form-row ob-form-switch-row"> <!--ng-model="newevent.private" for checkbox-->
                             <button class="ob-form-switch-button">Public</button>
                             <button class="ob-form-switch-button">Invite Only</button>
                         </div>
@@ -85,7 +105,7 @@
                     </div>
                     <div class="ob-form">
                         <div class="ob-form-row">
-                            <textarea class="ob-form-textarea" placeholder="Tell us what this event is about"></textarea>
+                            <textarea class="ob-form-textarea" ng-model="newevent.information" placeholder="Tell us what this event is about"></textarea>
                         </div>
                     </div>
                     <button class="block-blue-button"ng-click="nextPressed()">Next</button>

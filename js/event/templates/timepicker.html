@@ -1,77 +1,62 @@
-<style>
-    /*.hours-col,*/
-    /*.minutes-col,*/
-    /*.meridian-col {*/
-        /*text-align: center;*/
-        /*padding: 0 !important;*/
-    /*}*/
-    /*.hours-col label,*/
-    /*.minutes-col label,*/
-    /*.meridian-col label {*/
-        /*color: #000;*/
-        /*font-size: 18px;*/
-        /*width: 100%;*/
-        /*display: block;*/
-        /*-webkit-border-radius: 5px;*/
-        /*-moz-border-radius: 5px;*/
-        /*border-radius: 5px;*/
-    /*}*/
-    /*.hours-col label:hover,*/
-    /*.minutes-col label:hover,*/
-    /*.meridian-col label:hover {*/
-        /*border: solid 1px #ccc;*/
-        /*background-color: #eee;*/
-    /*}*/
-    /*.hours-col label i,*/
-    /*.minutes-col label i,*/
-    /*.meridian-col label i {*/
-        /*padding: 0;*/
-    /*}*/
-    /*.hours-col div:nth-child(2),*/
-    /*.minutes-col div:nth-child(2),*/
-    /*.meridian-col div:nth-child(2) {*/
-        /*margin: 2px 0;*/
-        /*font-size: 16px;*/
-    /*}*/
-</style>
-
-<div class="row" ng-show="showTimePicker">
-    <div class="col-33">
-        <label ng-click="incrementHours()"><button class="button"><i ng-class="incIconClass"></i></button></label>
-        <div class="hours-val">{{ widget.hours }}</div>
-        <label ng-click="decrementHours()"><button class="button"><i ng-class="decIconClass"></i></button></label>
+<link rel="stylesheet" type="text/css" href="/css/timepicker.css">
+<div class="row timepicker-row" ng-show="showTimePicker">
+    <div class="col-33 timepicker-column">
+        <span ng-click="incrementHours()" class="timepicker-arrow-container">
+            <i ng-class="incIconClass"></i>
+        </span>
+        <div class="hours-val timepicker-label">{{ widget.hours }}</div>
+        <span ng-click="decrementHours()" class="timepicker-arrow-container">
+            <i ng-class="decIconClass"></i>
+        </span>
     </div>
-    <div class="col-33">
-        <label ng-click="incrementMinutes()"><button class="button"><i ng-class="incIconClass"></i></button></label>
-        <div class="minutes-val">{{ widget.minutes }}</div>
-        <label ng-click="decrementMinutes()"><button class="button"><i ng-class="decIconClass"></i></button></label>
+    <div class="col-33 timepicker-column">
+        <span ng-click="incrementMinutes()" class="timepicker-arrow-container">
+            <i ng-class="incIconClass"></i>
+        </span>
+        <div class="minutes-val timepicker-label">{{ widget.minutes }}</div>
+        <span ng-click="decrementMinutes()" class="timepicker-arrow-container">
+            <i ng-class="decIconClass"></i>
+        </span>
     </div>
     <div class="col-33" ng-show="showMeridian">
-        <label ng-click="toggleMeridian()"><button class="button"><i ng-class="incIconClass"></i></button></label>
-        <div class="meridian-val" ng-click="toggleMeridian()">{{ widget.meridian }}</div>
-        <label ng-click="toggleMeridianDown()"><button class="button"><i ng-class="decIconClass"></i></button></label>
+        <label ng-click="toggleMeridian()" class="timepicker-arrow-container">
+            <i ng-class="incIconClass"></i>
+        </label>
+        <div class="meridian-val timepicker-label" ng-click="toggleMeridian()">{{ widget.meridian }}</div>
+        <label ng-click="toggleMeridianDown()" class="timepicker-arrow-container">
+            <i ng-class="decIconClass"></i>
+        </label>
     </div>
 </div>
-
-<div class="row" ng-show="showDatePicker">
-    <div class="col-33">
-        <label ng-click="incrementYear()" ng-mousedown="incrementYearStart()" ng-mouseup="incrementYearStop()"><button class="button"><i ng-class="incIconClass"></i></button></label>
-        <div class="hours-val">{{ widget.year }}</div>
-        <label ng-click="decrementYear()" ng-mousedown="decrementYearStart()" ng-mouseup="decrementYearStop()"><button class="button"><i ng-class="decIconClass"></i></button></label>
+<div class="row timepicker-row" ng-show="showDatePicker">
+    <div class="col-33 timepicker-column" class="timepicker-arrow-container">
+        <span ng-click="incrementYear()" ng-mousedown="incrementYearStart()" ng-mouseup="incrementYearStop()" class="timepicker-arrow-container">
+            <i ng-class="incIconClass"></i>
+        </span>
+        <div class="hours-val timepicker-label">{{ widget.year }}</div>
+        <span ng-click="decrementYear()" ng-mousedown="decrementYearStart()" ng-mouseup="decrementYearStop()" class="timepicker-arrow-container">
+            <i ng-class="decIconClass"></i>
+        </span>
     </div>
-    <div class="col-33">
-        <label ng-click="incrementMonth()" ng-mousedown="incrementMonthStart()" ng-mouseup="incrementMonthStop()"><button class="button"><i ng-class="incIconClass"></i></button></label>
-        <div class="minutes-val">{{ widget.month }}</div>
-        <label ng-click="decrementMonth()" ng-mousedown="decrementMonthStart()" ng-mouseup="decrementMonthStop()"><button class="button"><i ng-class="decIconClass"></i></button></label>
-
+    <div class="col-33 timepicker-column" class="timepicker-arrow-container">
+        <span ng-click="incrementMonth()" ng-mousedown="incrementMonthStart()" ng-mouseup="incrementMonthStop()" class="timepicker-arrow-container">
+            <i ng-class="incIconClass"></i>
+        </span>
+        <div class="minutes-val timepicker-label">{{ widget.month }}</div>
+        <span ng-click="decrementMonth()" ng-mousedown="decrementMonthStart()" ng-mouseup="decrementMonthStop()" class="timepicker-arrow-container">
+            <i ng-class="decIconClass"></i>
+        </span>
     </div>
-    <div class="col-33">
-        <label ng-click="incrementDay()" ng-mousedown="incrementDayStart()" ng-mouseup="incrementDayStop()"><button class="button"><i ng-class="incIconClass"></i></button></label>
-        <div class="meridian-val">{{ widget.day }}</div>
-        <label ng-click="decrementDay()" ng-mousedown="decrementDayStart()" ng-mouseup="decrementDayStop()"><button class="button"><i ng-class="decIconClass"></i></button></label>
+    <div class="col-33 timepicker-column" class="timepicker-arrow-container">
+        <span ng-click="incrementDay()" ng-mousedown="incrementDayStart()" ng-mouseup="incrementDayStop()" class="timepicker-arrow-container">
+            <i ng-class="incIconClass"></i>
+        </span>
+        <div class="meridian-val timepicker-label">{{ widget.day }}</div>
+        <span ng-click="decrementDay()" ng-mousedown="decrementDayStart()" ng-mouseup="decrementDayStop()" class="timepicker-arrow-container">
+            <i ng-class="decIconClass"></i>
+        </span>
     </div>
 </div>
-
-<div>
+<div class="timepicker-dayofweek">
     {{dayOfWeek}}
 </div>
