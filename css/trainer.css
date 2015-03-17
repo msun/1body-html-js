@@ -55,10 +55,7 @@
 /* ********** ********** ********** ********** ***********/
 
 .ob-search-list-view-content {
-    /*
-    background: url("../img/map/tmp/darken-layer.png") center/100% 100% no-repeat,
-                url("../img/map/tmp/map-background.png") center/100% 100% no-repeat;
-                */
+
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -137,27 +134,3 @@
     width: 13.5px;
     height: 13.5px;
 }
-
-/*
-<div class="ob-search-list">
-    <div class="ob-search-list-row">
-        <div class="ob-search-list-row-left">
-            <img class="ob-search-list-img" src="/img/map/tmp/search_list_greg_hetherington.png"/>
-        </div>
-        <div class="ob-search-list-row-right">
-            <div class="ob-search-list-text">
-               <span class="ob-search-list-text-title ob-blue-color">Greg Hetherington</span>,
-               <span class="ob-search-list-profession">Personal Trainer</span>
-               <span class="ob-search-list-distance">1.6km</span>
-            </div>
-            <div class="ob-search-list-stars">
-                <img class="ob-search-list-star" src="/img/map/tmp/search_list_star.png"/>
-                <img class="ob-search-list-star" src="/img/map/tmp/search_list_star.png"/>
-                <img class="ob-search-list-star" src="/img/map/tmp/search_list_star.png"/>
-                <img class="ob-search-list-star" src="/img/map/tmp/search_list_star.png"/>
-                <img class="ob-search-list-star" src="/img/map/tmp/search_list_star.png"/>
-            </div>
-        </div>
-    </div>
-</div>
-*/
