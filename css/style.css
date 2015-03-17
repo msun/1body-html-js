@@ -589,6 +589,8 @@
 .ob-form-select-row {
     padding: 0px 9px;
     height: 45px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .ob-form-select-text {
@@ -606,7 +608,7 @@
     width: 70px;
     display: inline-block;
     overflow: hidden;
-    background: url("../img/register-class/dropdown-white-arrow.png") calc(100% - 4px) calc(50%) / 12.5px 8px no-repeat;
+    background: url("../img/register-class/dropdown-white-arrow.png") calc(100% - 8px) calc(50%) / 12.5px 8px no-repeat;
     border: 1px solid #7f7b73;
     border-radius: 14px;
     margin: 7px 4px 0px 0px;
@@ -634,6 +636,14 @@
 
 .ob-form-select-large {
     width: 160px;
+}
+
+.ob-form-select-container-xlarge {
+    width: 200px;
+}
+
+.ob-form-select-xlarge {
+    width: 220px;
 }
 
 /* ********** ********** ********** ********** ***********/
