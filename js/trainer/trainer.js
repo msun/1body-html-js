@@ -8,7 +8,7 @@ trainer.factory('Time', function(){
     return Time;
 });
 
-trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction, Trainers, $ionicModal, $firebase, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers) {
+trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, Reviews, appConfig) {
     console.log($stateParams.trainerName);
     $scope.trainerName = $stateParams.trainerName;
     $scope.max = 5;
@@ -26,11 +26,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
         $scope.modal = modal;
     });
 
-    $scope.selectedTrainer = $firebase(Trainers.ref().child($scope.trainerName)).$asObject();
-
-    $scope.selectedTrainerLocation = $firebase(GeoTrainers.ref().child($scope.trainerName)).$asObject();
-
-    $scope.selectedTrainerLocation.$loaded(function(){
+    var loadMap = function(){
         $scope.map = mapFactory.initialize([], "trainer-detail-", {latitude: $scope.selectedTrainerLocation.l[0], longitude: $scope.selectedTrainerLocation.l[1]}, []);
         var marker;
 
@@ -53,79 +49,152 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
             // Add the circle for this city to the map.
             var trainerCircle = new google.maps.Circle(populationOptions);
         }
-    });
+    }
 
+    if(appFactory.trainers[$scope.trainerName].refreshed){
+        $scope.selectedTrainer = appFactory.trainers[$scope.trainerName];
+    } else {
+        $scope.selectedTrainer = $firebaseObject(Trainers.ref().child($scope.trainerName));
+    }
+
+    $scope.selectedTrainerLocation = $firebaseObject(GeoTrainers.ref().child($scope.trainerName));
+
+    $scope.selectedTrainerLocation.$loaded(function(){
+        loadMap();
+    });
 
     console.log($scope.selectedTrainer);
 
-    var userRef = appFactory.userRef.child(appFactory.user.$id).child("transactions");
-    var userTsct = $firebase(userRef);
-    var array = userTsct.$asArray();
-    array.$loaded(function(){
-        console.log(array);
+    var transactions = Transactions.ref().child($scope.selectedTrainer.$id);
+
+    var myTransactions = $firebaseObject(MyTransactions.ref().child(appFactory.user.$id).orderByChild("trainerID").equalTo($scope.selectedTrainer.$id));
+    console.log(myTransactions);
+    $scope.addTransaction = function(){
+        var newTransaction = {
+            userID: appFactory.user.$id,
+            trainerID: $scope.selectedTrainer.$id,
+            created: Date.now(),
+            $priority: Date.now()
+        };
+
+        var transactionRef = transactions.push(newTransaction);
+        console.log(transactionRef.key());
+        newTransaction.reviewed = false;
+        myTransactions[transactionRef.key()] = newTransaction;
+        myTransactions.$save().then(function(ref) {
+            console.log(ref.key());
+
+        }, function(error) {
+            console.log("Error:", error);
+        });
+    };
+
+    var reviewRef = Reviews.ref().child($scope.selectedTrainer.$id);
+
+    console.log(appConfig);
+    var reviewPriority = 0;
+    $scope.reviews = $firebaseArray(reviewRef.startAt(reviewPriority).limitToFirst(appConfig.defaultItemsPerPage));
+    $scope.reviews.$loaded(function(){
+        console.log($scope.reviews);
+        reviewPriority = $scope.reviews[$scope.reviews.length - 1].$priority + 1;
+        console.log(reviewPriority);
     });
 
-    var trainerRef = Trainers.ref().child($scope.selectedTrainer.$id).child("transactions");
-    var trainerTsct = $firebase(trainerRef);
-    var showing = false;
-
-    var showScanQR = function(transaction){
-        if(!showing){
-            $timeout(function(){
-                showing = true;
-                $rootScope.offline = true;
-                $rootScope.link = "#/menu/account/qrcode/" + transaction.$id;
-                $rootScope.warningMsg = "Get ready for your workout, click me to scan your QRcode";
-                $rootScope.click = function(){
-                    console.log($rootScope.link);
-                    window.location.href = "#/menu/account/qrcode/" + transaction.$id;
-                    $rootScope.offline = false;
-                }
-            })
-        }
-    }
-
-    var showLeaveReview = function(transaction){
-        if(!showing){
-            $timeout(function(){
-                showing = true;
-                $rootScope.offline = true;
-//                $rootScope.link = "#/tab/account/qrcode/" + transaction.$id;
-                $rootScope.warningMsg = "Please leave a review";
-                $rootScope.click = function(){
-                    console.log($rootScope.link);
-//                    window.location.href = "#/tab/account/qrcode/" + transaction.$id;
-                    $scope.modal.show();
-                    $rootScope.offline = false;
-                }
-            })
-        }
-    }
-
-    $scope.showAddReview = function() {
-        var returnval = false;
-        array.forEach(function (item) {
-            if (item.trainerID == $scope.selectedTrainer.$id) {
-//                console.log(item);
-                if (!item.leftreview && !item.scanned){
-                    setTimeout(showScanQR(item), 5000);
-                }
-                if (!item.leftreview && item.scanned) {
-                    $scope.transaction = new Transaction(item);
-                    console.log($scope.transaction);
-                    setTimeout(showLeaveReview(item), 1000);
-                    returnval = true;
-                }
-            }
+    $scope.moreReviews = function(){
+        $scope.reviews = $firebaseArray(reviewRef.startAt(reviewPriority).limitToFirst(appConfig.defaultItemsPerPage));
+        $scope.reviews.$loaded(function(){
+            console.log($scope.reviews);
+            reviewPriority = $scope.reviews[$scope.reviews.length - 1].$priority + 1;
+            console.log(reviewPriority);
         });
-        return returnval;
-    }
+    };
+
+    $scope.addReview = function(){
+        var newReview = {
+            userID: appFactory.user.$id,
+            trainerID: $scope.selectedTrainer.$id,
+            created: Date.now(),
+            $priority: Date.now()
+        };
+
+        var newReviewRef = $scope.reviews.$add(newReview);
+//        console.log(newReviewRef.key());
+//        newReview.reviewed = false;
+    };
+
+
+    var queryref = myTransactions.$ref().orderByChild("trainerID").equalTo($scope.selectedTrainer.$id);
+    console.log(queryref);
+    var queriedArray = $firebaseArray(queryref);
+    queriedArray.$loaded(function(){
+        console.log(queriedArray);
+    });
 
 
 
-//    Stripe.setPublishableKey('pk_test_DBhUBAORKHi5IqZLUlMUex0Y');
 
-
+//    var userRef = appFactory.userRef.child(appFactory.user.$id).child("transactions");
+//    var userTsct = $firebase(userRef);
+//    var array = userTsct.$asArray();
+//    array.$loaded(function(){
+//        console.log(array);
+//    });
+//
+//    var trainerRef = Trainers.ref().child($scope.selectedTrainer.$id).child("transactions");
+//    var trainerTsct = $firebase(trainerRef);
+//    var showing = false;
+//
+//    var showScanQR = function(transaction){
+//        if(!showing){
+//            $timeout(function(){
+//                showing = true;
+//                $rootScope.offline = true;
+//                $rootScope.link = "#/menu/account/qrcode/" + transaction.$id;
+//                $rootScope.warningMsg = "Get ready for your workout, click me to scan your QRcode";
+//                $rootScope.click = function(){
+//                    console.log($rootScope.link);
+//                    window.location.href = "#/menu/account/qrcode/" + transaction.$id;
+//                    $rootScope.offline = false;
+//                }
+//            })
+//        }
+//    }
+//
+//    var showLeaveReview = function(transaction){
+//        if(!showing){
+//            $timeout(function(){
+//                showing = true;
+//                $rootScope.offline = true;
+////                $rootScope.link = "#/tab/account/qrcode/" + transaction.$id;
+//                $rootScope.warningMsg = "Please leave a review";
+//                $rootScope.click = function(){
+//                    console.log($rootScope.link);
+////                    window.location.href = "#/tab/account/qrcode/" + transaction.$id;
+//                    $scope.modal.show();
+//                    $rootScope.offline = false;
+//                }
+//            })
+//        }
+//    }
+//
+//    $scope.showAddReview = function() {
+//        var returnval = false;
+//        array.forEach(function (item) {
+//            if (item.trainerID == $scope.selectedTrainer.$id) {
+////                console.log(item);
+//                if (!item.leftreview && !item.scanned){
+//                    setTimeout(showScanQR(item), 5000);
+//                }
+//                if (!item.leftreview && item.scanned) {
+//                    $scope.transaction = new Transaction(item);
+//                    console.log($scope.transaction);
+//                    setTimeout(showLeaveReview(item), 1000);
+//                    returnval = true;
+//                }
+//            }
+//        });
+//        return returnval;
+//    }
 
     $scope.showReviewModal = function(){
         $scope.modal.show();
@@ -139,16 +208,16 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
         $scope.modal.remove();
     });
 
-    $scope.addReview = function(){
-        $scope.transaction.disableReview();
-        if($scope.newreview.text && $scope.newreview.text.length > 0){
-            var newreview = new Review(appFactory.user, $scope.selectedTrainer, $scope.newreview.text, $scope.transaction.$id);
-            newreview.add();
-            $scope.modal.remove();
-        } else {
-            alert("Review cannot be empty");
-        }
-    }
+//    $scope.addReview = function(){
+//        $scope.transaction.disableReview();
+//        if($scope.newreview.text && $scope.newreview.text.length > 0){
+//            var newreview = new Review(appFactory.user, $scope.selectedTrainer, $scope.newreview.text, $scope.transaction.$id);
+//            newreview.add();
+//            $scope.modal.remove();
+//        } else {
+//            alert("Review cannot be empty");
+//        }
+//    }
 });
 
 trainer.controller('ListCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Events) {
@@ -309,7 +378,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
         // Add the circle for this city to the map.
         $scope.trainerCircle = new google.maps.Circle(populationOptions);
 
-    }
+    };
 
     $scope.closeSelectTrainerModal = function(){
         $scope.checked = [];
@@ -320,7 +389,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
             }
         }
         $scope.modal.hide();
-    }
+    };
 
     $scope.confirmSelectTrainerModal = function(){
         $scope.checked = [];
@@ -334,16 +403,13 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
             }
         }
         $scope.modal.hide();
-    }
+    };
 
     $scope.$on('$destroy', function() {
         $scope.modal.remove();
     });
 
     $scope.confirmRequest = function(){
-        console.log($scope.mobile_trainers);
-
-
         var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newrequest.location.replace(/ /g, "+") + "&key=" + apikey;
         eventFactory.getStreetAddress(url, function(data, status) {
             console.log(data);
@@ -411,7 +477,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
     }
 });
 
-trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopup, Transaction) {
+trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopup) {
     return {
         restrict: "E",
         templateUrl: "js/trainer/templates/schedulerUserView.html",
@@ -549,31 +615,31 @@ trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopu
                     var utcstarttime = new Date(starttime.getTime() + starttime.getTimezoneOffset() * 60000);
                     var epoch = utcstarttime.getTime();
                     console.log(utcstarttime);
-                    var newtransaction = new Transaction(appFactory.user, scope.selectedTrainer, bookedReduced[i].period*30, bookedReduced[i].period*30, epoch);
-                    console.log(newtransaction);
-
-                    var successCallback = function(result){
-                        console.log(result);
-                        newtransaction.add(function () {
-                            if(i==bookedReduced.length-1){
-
-                                var alertPopup = $ionicPopup.alert({
-                                    title: 'Success',
-                                    template: 'Transactions Added Successfully'
-                                });
-                                alertPopup.then(function (res) {
-                                    console.log('popup closed');
-                                });
-                            }
-                        });
-                    }
-                    var errorCallback = function(result){
-                        console.log(result);
-                    }
-
-                    exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', [
-                        {amount: scope.amount, currency: "cad", type: "training"}
-                    ]);
+//                    var newtransaction = new Transaction(appFactory.user, scope.selectedTrainer, bookedReduced[i].period*30, bookedReduced[i].period*30, epoch);
+//                    console.log(newtransaction);
+//
+//                    var successCallback = function(result){
+//                        console.log(result);
+//                        newtransaction.add(function () {
+//                            if(i==bookedReduced.length-1){
+//
+//                                var alertPopup = $ionicPopup.alert({
+//                                    title: 'Success',
+//                                    template: 'Transactions Added Successfully'
+//                                });
+//                                alertPopup.then(function (res) {
+//                                    console.log('popup closed');
+//                                });
+//                            }
+//                        });
+//                    }
+//                    var errorCallback = function(result){
+//                        console.log(result);
+//                    }
+//
+//                    exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', [
+//                        {amount: scope.amount, currency: "cad", type: "training"}
+//                    ]);
 
 
 

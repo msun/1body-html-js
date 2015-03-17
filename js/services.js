@@ -7,166 +7,173 @@ angular.module('starter.services', ["firebase"])
 //        return $resource(baseUrl + "event/:id");
 //    })
 
-    .factory("Firebase", function($firebase) {
+    .factory("Firebase", function() {
         var ref = new Firebase('https://amber-heat-8595.firebaseio.com/');
-//        var sync = $firebase(ref);
 
         return ref;
     })
 
-    .factory("GeoTrainers", function($firebase, Firebase) {
+    .factory('$localstorage', ['$window', function($window) {
+        return {
+            set: function(key, value) {
+                $window.localStorage[key] = value;
+            },
+            get: function(key, defaultValue) {
+                return $window.localStorage[key] || defaultValue;
+            },
+            setObject: function(key, value) {
+                var cache = [];
+                $window.localStorage[key] = JSON.stringify(value, function(a, b) {
+//                    console.log(a);
+                    if(a == "$$conf"){
+                        return;
+                    }
+                    if (typeof b === 'object' && b !== null) {
+                        if (cache.indexOf(b) !== -1) {
+                            return;
+                            // Circular reference found, discard key
+                        }
+                        // Store value in our collection
+                        cache.push(b);
+                    }
+                    return b;
+                });
+                cache = null;
+            },
+            getObject: function(key) {
+                return JSON.parse($window.localStorage[key] || '{}');
+            },
+            clear: function(){
+                $window.localStorage.clear();
+            }
+        }
+    }])
+
+    .factory("GeoTrainers", function(Firebase) {
         var ref = new GeoFire(Firebase.child("geoTrainers"));
         return ref;
     })
 
-    .factory("GeoEvents", function($firebase, Firebase) {
+    .factory("GeoEvents", function(Firebase) {
         var ref = new GeoFire(Firebase.child("geoEvents"));
         return ref;
     })
 
-    .factory("GeoEvents", function($firebase, Firebase) {
+    .factory("GeoEvents", function(Firebase) {
         var ref = new GeoFire(Firebase.child("geoEvents"));
         return ref;
     })
 
-    .factory("GeoRequests", function($firebase, Firebase) {
+    .factory("GeoRequests", function(Firebase) {
         var ref = new GeoFire(Firebase.child("geoRequests"));
         return ref;
     })
 
-    .factory("Requests", function($firebase, Firebase) {
+    .factory("Requests", function(Firebase) {
         var ref = Firebase.child("requests");
-        var sync = $firebase(ref);
 
         return {
             ref: function(){
                 return ref;
-            },
-            sync: function(){
-                return sync;
             }
         };
     })
 
-    .factory("Events", function($firebase, Firebase) {
+    .factory("Events", function(Firebase) {
         var ref = Firebase.child("events");
-        var sync = $firebase(ref);
 
         return {
             ref: function(){
                 return ref;
-            },
-            sync: function(){
-                return sync;
             }
         };
     })
 
-    .factory("GeoClasses", function($firebase, Firebase) {
+    .factory("Reviews", function(Firebase) {
+        var ref = Firebase.child("reviews");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("GeoClasses", function(Firebase) {
         var ref = new GeoFire(Firebase.child("geoClasses"));
         return ref;
     })
 
-    .factory("Classes", function($firebase, Firebase) {
+    .factory("Classes", function(Firebase) {
         var ref = Firebase.child("classes");
-        var sync = $firebase(ref);
 
         return {
             ref: function(){
                 return ref;
-            },
-            sync: function(){
-                return sync;
             }
         };
     })
 
-    .factory("GeoGyms", function($firebase, Firebase) {
+    .factory("GeoGyms", function(Firebase) {
         var ref = new GeoFire(Firebase.child("geoGyms"));
         return ref;
     })
 
-    .factory("Gyms", function($firebase, Firebase) {
+    .factory("Gyms", function(Firebase) {
         var ref = Firebase.child("gyms");
-        var sync = $firebase(ref);
 
         return {
             ref: function(){
                 return ref;
-            },
-            sync: function(){
-                return sync;
             }
         };
     })
 
-    .factory("Users", function($firebase, Firebase) {
+    .factory("Users", function(Firebase) {
         var ref = Firebase.child("users");
-        var sync = $firebase(ref);
-        var list = sync.$asArray();
-        var obj = sync.$asObject();
 
         return {
             ref: function(){
                 return ref;
-            },
-            sync: function(){
-                return sync;
-            },
-            list: function(){
-                return list;
-            },
-            obj: function(){
-                return obj;
             }
         };
     })
 
-    .factory("Trainers", function($firebase, Firebase) {
+    .factory("Trainers", function(Firebase) {
         var ref = Firebase.child("trainers");
-        var sync = $firebase(ref);
-        var list = sync.$asArray();
-        var obj = sync.$asObject();
 
         return {
             ref: function(){
                 return ref;
-            },
-            sync: function(){
-                return sync;
-            },
-            list: function(){
-                return list;
-            },
-            obj: function(){
-                return obj;
             }
         };
     })
 
-    .factory("Images", function($firebase, Firebase) {
+    .factory("Images", function(Firebase) {
         var ref = Firebase.child("images");
-        var sync = $firebase(ref);
         return {
             ref: function(){
                 return ref;
-            },
-            sync: function(){
-                return sync;
             }
         };
     })
 
-    .factory("Transactions", function($firebase, Firebase) {
+    .factory("Transactions", function(Firebase) {
         var ref = Firebase.child("transactions");
-        var sync = $firebase(ref);
 
         return {
             ref: function(){
                 return ref;
-            },
-            sync: function(){
-                return sync;
+            }
+        };
+    })
+
+    .factory("MyTransactions", function(Firebase) {
+        var ref = Firebase.child("userTransactions");
+
+        return {
+            ref: function(){
+                return ref;
             }
         };
     })
@@ -338,7 +345,7 @@ angular.module('starter.services', ["firebase"])
         return transaction;
     })
 
-    .factory("Review", function($firebase, Firebase, Users, Trainers, Transactions, appFactory) {
+    .factory("Review", function($firebase, Firebase, Users, Trainers, appFactory) {
         var review = function() {
             if(arguments.length == 0){
 
@@ -398,8 +405,8 @@ angular.module('starter.services', ["firebase"])
         return review;
     })
 
-    .factory("UserAuth", function($firebaseSimpleLogin, Firebase) {
-        var loginObj = $firebaseSimpleLogin(Firebase);
+    .factory("UserAuth", function($firebaseAuth, Firebase) {
+        var loginObj = $firebaseAuth(Firebase);
         return loginObj;
     })
 
@@ -414,13 +421,13 @@ angular.module('starter.services', ["firebase"])
         return Event;
     })
 
-    .factory('appFactory', function($http, baseUrl, User, Event, Gyms, GeoTrainers, Trainers, GeoEvents, Events, GeoGyms, Classes, $firebase) {
+    .factory('appFactory', function($http, baseUrl, User, Event, Gyms, GeoTrainers, Trainers, GeoEvents, Events, GeoGyms, Classes, $firebaseObject, $firebaseArray, $localstorage) {
         var factory = {};
         factory.user = {};
         factory.userRef = undefined;
         factory.users = [];
-        factory.trainers = [];
-        factory.events = [];
+        factory.trainers = {};
+        factory.events = {};
         factory.position = null;
         factory.state = "Trainers";
 
@@ -491,14 +498,16 @@ angular.module('starter.services', ["firebase"])
             });
 
             geoQuery.on("key_entered", function(key, location, distance) {
-                var ref = $firebase(sources[source].firebaseSource.ref().child(key));
-                var obj = ref.$asObject();
-                console.log(obj);
+                var obj = $firebaseObject(sources[source].firebaseSource.ref().child(key));
                 obj.$loaded().then(function () {
                     obj.distance = distance;
                     obj.location = location;
-                    factory[source].push(obj);
-//                    console.log(factory[source]);
+                    factory[source] = $localstorage.getObject(source);
+                    console.log(factory[source]);
+                    factory[source][key] = obj;
+                    $localstorage.setObject(source, factory[source]);
+                    factory.trainers[key] = obj;
+                    factory.trainers[key].refreshed = true;
                 });
             });
 

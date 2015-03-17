@@ -7,6 +7,12 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services', 'eventModule', 'classModule', 'gymModule'])
 //    .value("baseUrl", "http://108.168.247.49:10355/")
+    .constant('appConfig', {
+        baseUrl: "http://localhost:8888/",
+        apikey: "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc",
+        mapstate: "menu.map",
+        defaultItemsPerPage: 5
+    })
     .value("baseUrl", "http://localhost:8888/")
     .value("apikey", "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc")
     .value("mapstate", "menu.map")
@@ -510,24 +516,36 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $urlRouterProvider.otherwise('/menu/home');
 
     })
-    .controller("MenuCtrl", function($scope, $ionicSideMenuDelegate, appFactory, $rootScope, $firebase, $timeout, $ionicPopup, $state, $interval){
+    .controller("MenuCtrl", function($scope, $ionicSideMenuDelegate, appFactory, $rootScope, $firebase, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray){
 //        window.plugin.backgroundMode.enable();
         $rootScope.header = "Trainers";
         navigator.geolocation.getCurrentPosition(function(position){
             console.log("location ready");
             $rootScope.position = position;
             console.log(position);
-            appFactory.getObjsWithinRadius("trainers", [position.coords.latitude, position.coords.longitude], 30);
-            appFactory.getObjsWithinRadius("events", [position.coords.latitude, position.coords.longitude], 30);
-            appFactory.getObjsWithinRadius("classes", [position.coords.latitude, position.coords.longitude], 30);
+
+//            appFactory.getObjsWithinRadius("trainers", [position.coords.latitude, position.coords.longitude], 30);
+//            appFactory.getObjsWithinRadius("events", [position.coords.latitude, position.coords.longitude], 30);
+//            appFactory.getObjsWithinRadius("classes", [position.coords.latitude, position.coords.longitude], 30);
 
             $rootScope.$broadcast('locationReady', 'locationReady');
         });
 
+        $scope.logout = function(){
+            UserAuth.$unauth();
+            $localstorage.clear();
+            alert("logged out");
+        };
 
         $rootScope.user = appFactory.user;
         $ionicSideMenuDelegate.toggleLeft();
 
+        appFactory.trainers = $localstorage.getObject("Trainers");
+        console.log(appFactory.trainers);
+        appFactory.events = $localstorage.getObject("Events");
+        console.log(appFactory.events);
+        appFactory.gyms = $localstorage.getObject("Gyms");
+        console.log(appFactory.gyms);
 
 //        var bm = cordova.require("cordova/plugin/BackgroundMode");
 
@@ -555,7 +573,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //        console.log(appFactory.userRef.child('transactions'));
         $interval(function(){
             if(appFactory.userRef != undefined) {
-                var myTransactions = $firebase(appFactory.userRef.child(appFactory.user.$id).child('transactions')).$asArray();
+                var myTransactions = $firebaseArray(appFactory.userRef.child(appFactory.user.$id).child('transactions'));
                 myTransactions.$loaded(function () {
                     console.log(myTransactions);
                     if (myTransactions.length > 0) {
@@ -610,7 +628,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     }
                 });
             }
-        }, 300000);
+        }, 3000000);
 //            var exec = cordova.require("cordova/exec");
 //            exec(successCallback, errorCallback, 'Card_io', 'timer', [{id: appFactory.user.$id}]);
     })

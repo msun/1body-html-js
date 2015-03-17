@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="/css/menu.css">
+<link rel="stylesheet" type="text/css" href="css/menu.css">
 <ion-side-menus>
     <ion-pane ion-side-menu-content drag-content="false">
         <ion-view>
@@ -14,9 +14,9 @@
         <div class="bar bar-header ob-dark-bg ob-sidemenu-header">
             <div class="ob-sidemenu-header-content">
                 <div class="ob-sidemenu-header-inner-content">
-                    <img class="ob-sidemenu-usericon" src="/img/tmp/SoulCycle-Logo.png"/>
+                    <img class="ob-sidemenu-usericon" src="../img/tmp/SoulCycle-Logo.png"/>
                     <span class="ob-sidemenu-title">SoulCycle</span>
-                    <img class="ob-sidemenu-cog" src="/img/tmp/Cog.png"/>
+                    <img class="ob-sidemenu-cog" src="../img/tmp/Cog.png"/>
                 </div>
                 <div class="ob-sidemenu-header-bottom-divider"></div>
             </div>
@@ -44,6 +44,7 @@
                 <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editclass/new" class="item menu-font">Add Class</a>
                 <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editgym/new" class="item menu-font">Add Gym</a>
                 <a ng-show="$root.user.group == 'trainer'" ng-click ="toggleMenu()" href="#/menu/account/requested-sessions" class="item menu-font">Mobile Session Requests</a>
+                <a ng-click="logout()" class="item menu-font">Logout</a>
             </ul>
         </ion-content>
     </ion-side-menu>

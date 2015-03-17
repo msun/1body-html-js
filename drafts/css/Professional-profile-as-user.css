@@ -4,7 +4,7 @@
     float: left;
     width: 100%;
     height: auto;
-    background: #999 url("/img/professional-profile/Image2-shade-cropped.jpg") center/400px 420px no-repeat;
+    background: #999 url("../img/professional-profile/Image2-shade-cropped.jpg") center/400px 420px no-repeat;
     padding-bottom: 2em;
 }
 
@@ -325,7 +325,7 @@
 }
 
 .profile-tab-bar-container {
-    background: rgb(225,225,225) url("/img/professional-profile/menu-separator.png") center 100%/100% 1px no-repeat;
+    background: rgb(225,225,225) url("../img/professional-profile/menu-separator.png") center 100%/100% 1px no-repeat;
 }
 
 .profile-tab-bar {

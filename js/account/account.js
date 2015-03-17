@@ -41,40 +41,44 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, $firebase, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope) {
-    // if ref points to a data collection
-    var successCallback = function(result){
-        console.log(result);
-        if(result.uid){
-            appFactory.uid = result.uid;
-            if (Users.obj()[result.uid]) {
-                var sync = $firebase(Users.ref().child(result.uid));
-                appFactory.user = sync.$asObject();
-                appFactory.userRef = Users.ref();
-            } else if (Trainers.obj()[result.uid]) {
-                var sync = $firebase(Trainers.ref().child(result.uid));
-                appFactory.user = sync.$asObject();
-                appFactory.userRef = Trainers.ref();
-            } else {
-                appFactory.uid = result.uid;
-                window.location.href = "#/register";
-            }
-            $state.transitionTo(mapstate);
+account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebaseArray, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage) {
+    var loadLocalUser = function(user){
+        appFactory.user = user;
+        $rootScope.user = appFactory.user;
+        alert("loaded the user from localstorage");
+        $ionicLoading.hide();
+        $state.transitionTo(mapstate);
+        if(user.group == 'Trainers'){
+            appFactory.userRef = Trainers.ref();
+        } else {
+            appFactory.userRef = Users.ref();
         }
     }
-    var errorCallback = function(result){
-        console.log(result);
-    }
 
-    $scope.googleLogin = function(){
-        var exec = cordova.require("cordova/exec");
-        exec(successCallback, errorCallback, 'Card_io', 'googlelogin', []);
+    var loadUserFromFirebase = function(user){
+        var list = $firebaseArray(Users.ref());
+        if (list.$indexFor(user.uid) >= 0) {
+            appFactory.user = $firebaseObject(Users.ref().child(user.uid));
+            appFactory.user.$loaded(function(){
+                $rootScope.user = appFactory.user;
+                console.log(appFactory.user);
+                $localstorage.setObject("user", appFactory.user);
+                $ionicLoading.hide();
+                $state.transitionTo(mapstate);
+            });
+            appFactory.userRef = Users.ref();
+        } else {
+            appFactory.user = $firebaseObject(Trainers.ref().child(user.uid));
+            appFactory.user.$loaded(function(){
+                $rootScope.user = appFactory.user;
+                console.log(appFactory.user);
+                $localstorage.setObject("user", appFactory.user);
+                $ionicLoading.hide();
+                $state.transitionTo(mapstate);
+            });
+            appFactory.userRef = Trainers.ref();
+        }
     }
-//
-//    $scope.facebookLogin = function(){
-//        var exec = cordova.require("cordova/exec");
-//        exec(successCallback, errorCallback, 'Card_io', 'facebooklogin', []);
-//    }
 
     $scope.user = {};
     $scope.signin = function(){
@@ -86,39 +90,28 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebase, $ionicLoading, 
             showDelay: 0
         });
 
-        console.log(UserAuth);
-        if(UserAuth.user){
-            if (Users.obj()[UserAuth.user.uid]) {
-                var sync = $firebase(Users.ref().child(UserAuth.user.uid));
-                appFactory.user = sync.$asObject();
-                appFactory.userRef = Users.ref();
+        console.log(UserAuth.$getAuth());
+        if(UserAuth.$getAuth() && !$scope.user.email){
+            var user = $localstorage.getObject("user");
+            console.log(user);
+            if(user.$id && user.$id === UserAuth.$getAuth().uid){
+                loadLocalUser(user);
             } else {
-                var sync = $firebase(Trainers.ref().child(UserAuth.user.uid));
-                appFactory.user = sync.$asObject();
-                appFactory.userRef = Trainers.ref();
+                loadUserFromFirebase(UserAuth.$getAuth());
             }
-            $rootScope.user = appFactory.user;
-            $ionicLoading.hide();
-//            window.location.href = "#/tab/dash/map";
-            $state.transitionTo(mapstate);
         } else {
-            UserAuth.$login("password", {
+            UserAuth.$authWithPassword({
                 email: $scope.user.email,
                 password: $scope.user.password
             }).then(function (user) {
-                if (Users.obj()[user.uid]) {
-                    var sync = $firebase(Users.ref().child(user.uid));
-                    appFactory.user = sync.$asObject();
-                    appFactory.userRef = Users.ref();
+                var localuser = $localstorage.getObject("user");
+                console.log(localuser);
+                if(localuser.$id && localuser.$id == user.uid){
+                    loadLocalUser(localuser);
                 } else {
-                    var sync = $firebase(Trainers.ref().child(user.uid));
-                    appFactory.user = sync.$asObject();
-                    appFactory.userRef = Trainers.ref();
+                    loadUserFromFirebase(user);
                 }
-                $ionicLoading.hide();
-//            window.location.href = "#/tab/dash/map";
-                $rootScope.user = appFactory.user;
-                $state.transitionTo(mapstate);
+
             }, function (error) {
                 console.error("Login failed: ", error);
                 alert("login failed, please try again");
@@ -137,7 +130,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
     $scope.newuser = {};
     $scope.newuser.group = "User";
     console.log(UserAuth);
-    UserAuth.$logout(); //FOR TESTING
+    UserAuth.$unauth(); //FOR TESTING
 
     $scope.nextSlide = function() {
         $ionicSlideBoxDelegate.next();
@@ -157,7 +150,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                 user.username = $scope.newuser.username;
                 user.email = $scope.newuser.email;
                 user.gym = $scope.newuser.gym;
-                user.token = $scope.newuser.token;
+                user.tokens = 0;
                 user.$save().then(function(thing){
                     console.log(thing);
                 });
@@ -169,6 +162,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                 user.group = $scope.newuser.group.name;
                 user.username = $scope.newuser.username;
                 user.email = $scope.newuser.email;
+                user.tokens = 0;
                 user.$save().then(function(thing){
                     console.log(thing);
                 });
@@ -527,13 +521,6 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
             console.log(err);
         });
 
-
-        var params = new Object();
-        params.value1 = "test";
-        params.value2 = "param";
-
-        options.params = params;
-
 //        var ft = new FileTransfer();
 //        ft.upload(imageURI, "http://108.168.247.49:10355/fileupload", win, fail, options);
 //        alert(options.fileName);
@@ -572,10 +559,12 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
     }
 });
 
-account.controller('ProfileCtrl', function($ionicModal, $scope, User, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, mapstate) {
+account.controller('ProfileCtrl', function($ionicModal, $scope, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, mapstate) {
     console.log("ProfileCtrl");
 
-    $scope.user = appFactory.user;
+    $scope.user = $firebaseObject(appFactory.userRef.child(appFactory.user.$id));
+    console.log($scope.user);
+
     if(!$scope.user.firstname){
         $scope.user.firstname = "";
     }
@@ -595,6 +584,7 @@ account.controller('ProfileCtrl', function($ionicModal, $scope, User, appFactory
     });
 
     $scope.save = function(){
+        $scope.user.lastModifiedDate = Date.now();
         console.log($scope.user);
         $scope.user.$save().then(function(){
             $state.transitionTo(mapstate);

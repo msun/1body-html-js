@@ -51,10 +51,9 @@ map.directive('trainerInfoWindow', function(){
     return{
         restrict: 'E',
         templateUrl: 'js/map/templates/trainer-info-window.html',
-        scope: { markers: '=' , val: '='},
+        scope: { markers: '=' , val: '=', array: '='},
         link: function(scope, element, attrs) {
-            console.log(scope.markers);
-            console.log(scope.val);
+//            console.log(scope.markers[scope.val].items);
         }
     }
 });
@@ -63,10 +62,8 @@ map.directive('eventInfoWindow', function(){
     return{
         restrict: 'E',
         templateUrl: 'js/map/templates/event-info-window.html',
-        scope: { markers: '=' , val: '='},
+        scope: { markers: '=' , val: '=', array: '='},
         link: function(scope, element, attrs) {
-            console.log(scope.markers);
-            console.log(scope.val);
         }
     }
 });
@@ -75,15 +72,13 @@ map.directive('classInfoWindow', function(){
     return{
         restrict: 'E',
         templateUrl: 'js/map/templates/class-info-window.html',
-        scope: { markers: '=' , val: '='},
+        scope: { markers: '=' , val: '=', array: '='},
         link: function(scope, element, attrs) {
-            console.log(scope.markers);
-            console.log(scope.val);
         }
     }
 });
 
-map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout, $firebase, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Trainers, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Classes) {
+map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout, $firebase, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Trainers, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray) {
     $scope.header = appFactory.state;
     var searchKeys = ["firstname", "lastname", "info", "group", "gym", "username", "email", "name"];
     $scope.categories = Categories;
@@ -198,18 +193,169 @@ map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout
         }
     }, 5000);
 
+    var dropMarker = function(key, radius, center, searchTerms, mobile, tab){
+        (function(index){
+            var obj = $scope.array[index];
+            var found = true;
+            if(searchTerms!=undefined && searchTerms.length > 0){
+
+                var terms = searchTerms.split(" ");
+                for (var i = 0; i < terms.length; i++) {
+                    var foundOneTerm = false;
+                    if(terms[i].indexOf("$cate") == 0){
+                        console.log(obj.category.name);
+                        console.log(terms[i].substring(5));
+                        if(obj.category.name == terms[i].substring(5)){
+                            continue;
+                        } else {
+                            found = false;
+                            continue;
+                        }
+                    }
+                    for (var j = 0; j < searchKeys.length; j++) {
+                        var searchKey = searchKeys[j];
+                        console.log(obj[searchKey]);
+                        if(obj[searchKey] != undefined && obj[searchKey].indexOf(terms[i]) >= 0){
+                            foundOneTerm = true;
+                        }
+                    }
+                    if (!foundOneTerm) {
+                        found = false;
+                        continue;
+                    }
+                }
+            }
+            if (!found) {
+                console.log("not found");
+                return;
+            }
+
+            if(mobile){
+                if(!obj.mobile){
+                    return;
+                }
+            }
+            console.log(obj);
+//                console.log(key + " found at " + location + " (" + distance + " km away)");
+//                bounds.extend(new google.maps.LatLng (obj.latitude, obj.longitude));
+//                if(fitBounds){
+//                    map.fitBounds(bounds);
+//                    if(map.getZoom()> 15){
+//                        map.setZoom(15);
+//                    }
+//                }
+
+            var addNewMarker = true;
+//                for(var i=0; i<objs.length; i++){
+//                    console.log(coordinatesAreEquivalent(objs[i].latitude, obj.latitude, 0.0001) && coordinatesAreEquivalent(objs[i].longitude, obj.longitude, 0.0001));
+//                    if(coordinatesAreEquivalent(objs[i].latitude, obj.latitude, 0.0001) && coordinatesAreEquivalent(objs[i].longitude, obj.longitude, 0.0001)){
+//                        console.log(objs[i]);
+//                        //loop through all elements in the group, find a matching one and add the current item to that list
+//                        for(var j=0; j<$scope.markers.length; j++){
+//                            for(var k=0; k<$scope.markers[j].items.length; k++){
+//                                console.log($scope.markers[j].items[k]);
+//                                if($scope.markers[j].items[k].$id == objs[i].$id){
+//                                    $scope.markers[j].items.push(obj);
+//                                }
+//                            }
+//                        }
+//                        console.log(obj);
+//                        addNewMarker = false;
+//                        console.log($scope.markers);
+//                        return;
+//                    }
+//                }
+//                objs.push(obj);
+
+            if(addNewMarker){
+                var newmarker = new google.maps.Marker({
+                    position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                    optimized: true,
+                    map: $scope.map
+                });
+
+                var items = [];
+//                items.push(obj);
+                items.push(index);
+
+                var val = $scope.markers.length;
+                console.log(val);
+                //items at same location are grouped together in ng-repeat
+
+                if(mobile){
+                    if(obj.mobile){
+                        var populationOptions = {
+                            strokeColor: '#2861ff',
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: '#2861ff',
+                            fillOpacity: 0.35,
+                            map: $scope.map,
+                            center: new google.maps.LatLng(obj.latitude, obj.longitude),
+                            radius: obj.radius
+                        };
+                        // Add the circle for this city to the map.
+                        var trainerCircle = new google.maps.Circle(populationOptions);
+                        $scope.trainerCircles.push(trainerCircle);
+                    }
+                }
+
+                var contentString;
+                var infowindow;
+                if(tab == "Trainers"){
+                    contentString = '<trainer-info-window array="array" markers="markers" val="' + val + '"></trainer-info-window>';
+                    infowindow = new google.maps.InfoWindow();
+                    $scope.markers.push({items: items, marker: newmarker, infowindow: infowindow});
+                } else if(tab == "Events") {
+                    contentString = '<event-info-window array="array" markers="markers" val="' + val + '"></event-info-window>';
+                    infowindow = new google.maps.InfoWindow();
+                    $scope.markers.push({items: items, marker: newmarker, infowindow: infowindow});
+                } else {
+                    console.log(obj);
+                    for(var n=0; n<Object.keys(obj.classes).length; n++){
+                        console.log(obj.classes[Object.keys(obj.classes)[n]]);
+                        items.push(obj.classes[Object.keys(obj.classes)[n]]);
+                    }
+                    contentString = '<class-info-window array="array" markers="markers" val="' + val + '"></class-info-window>';
+                    infowindow = new google.maps.InfoWindow({maxWidth: 250});
+                    $scope.markers.push({items: items, marker: newmarker, infowindow: infowindow});
+                }
+                console.log(contentString);
+                var compiled = $compile(contentString)($scope);
+
+                console.log(infowindow);
+                console.log(compiled[0]);
+                google.maps.event.addListener(newmarker, 'click', (function(marker,content,infowindow){
+                    return function() {
+                        infowindow.setContent(content);
+                        infowindow.open($scope.map,marker);
+                    };
+                })(newmarker,compiled[0],infowindow));
+            }
+        }(key));
+    }
+
     var position;
     if($rootScope.position){
         console.log($rootScope.position);
         position = $rootScope.position;
         setmap();
         dropPins(appFactory.state);
+        appFactory.user.position = $rootScope.position;
+        $localstorage.setObject("user", appFactory.user);
     } else {
-        $scope.$on('locationReady', function (event, data) {
-            position = $rootScope.position;
-            console.log(position);
+        if(appFactory.user.position){
+            position = appFactory.user.position;
             setmap();
             dropPins(appFactory.state);
+        }
+        $scope.$on('locationReady', function (event, data) {
+            position = $rootScope.position;
+            console.log(appFactory.user.position);
+            setmap();
+            dropPins(appFactory.state);
+            appFactory.user.position = $rootScope.position;
+            $localstorage.setObject("user", appFactory.user);
         });
     }
 
@@ -249,181 +395,82 @@ map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout
     }
 
     function dropPins(tab, radius, searchTerms, center, fitBounds, mobile){
-        if(tab == "Trainers"){
-            $scope.array = appFactory.trainers;
-        } else if(tab == "Events") {
-            $scope.array = appFactory.events;
-        } else {
-            $scope.array = appFactory.classes;
-        }
-
-
         if (center == undefined){
             center = [position.coords.latitude, position.coords.longitude];
+        }
+
+        if(radius == undefined || radius == ""){
+            radius = 20;
         }
 
         if(fitBounds == undefined){
             fitBounds = true;
         }
-        if(radius == undefined || radius == ""){
-            radius = 20;
-        }
+
         if(typeof radius == "string"){
             radius = parseInt(radius);
         }
 
-        var map = $scope.map;
+//        appFactory.getObjsWithinRadius(tab, [center[0], center[1]], radius);
+
+        var pinSource = GeoTrainers;
+        var firebaseSource = Trainers;
+        var source;
+        if(tab == "Trainers"){
+            $scope.array = appFactory.trainers;
+            pinSource = GeoTrainers;
+            firebaseSource = Trainers;
+        } else if(tab == "Events") {
+            $scope.array = appFactory.events;
+            pinSource = GeoEvents;
+            firebaseSource = Events;
+        } else {
+            $scope.array = appFactory.classes;
+            pinSource = GeoGyms;
+            firebaseSource = Gyms;
+        }
+
+        var geoQuery = pinSource.query({
+            center: center,
+            radius: radius
+        });
+
+        geoQuery.on("key_entered", function(key, location, distance) {
+            var obj = $firebaseObject(firebaseSource.ref().child(key));
+            obj.$loaded().then(function () {
+                obj.distance = distance;
+                obj.location = location;
+                console.log(obj);
+                if(!$scope.array[key]){
+                    dropMarker(key, radius, center, searchTerms, mobile, tab);
+                }
+                $scope.array[key] = obj;
+                $scope.array[key].refreshed = false;
+                $localstorage.setObject(tab, $scope.array);
+                $scope.array[key].refreshed = true;
+            });
+        });
+
+//        var map = $scope.map;
         var bounds = new google.maps.LatLngBounds();
         $scope.markers = [];  //group elements at the same distance to one infowindow
         var objs = [];
 
         console.log($scope.array);
-        for(var a=0; a<$scope.array.length; a++){
-            (function(index){
-                var obj = $scope.array[index];
-                var distance = mapFactory.calculateDistance(center[0], center[1], obj.latitude, obj.longitude);
-                obj.distance = distance;
-                console.log(radius);
-                console.log(distance);
-                if(distance < radius){
-                    console.log(obj);
-                    var found = true;
-                    if(searchTerms!=undefined && searchTerms.length > 0){
 
-                        var terms = searchTerms.split(" ");
-                        for (var i = 0; i < terms.length; i++) {
-                            var foundOneTerm = false;
-                            if(terms[i].indexOf("$cate") == 0){
-                                console.log(obj.category.name);
-                                console.log(terms[i].substring(5));
-                                if(obj.category.name == terms[i].substring(5)){
-                                    continue;
-                                } else {
-                                    found = false;
-                                    continue;
-                                }
-                            }
-                            for (var j = 0; j < searchKeys.length; j++) {
-                                var searchKey = searchKeys[j];
-                                console.log(obj[searchKey]);
-                                if(obj[searchKey] != undefined && obj[searchKey].indexOf(terms[i]) >= 0){
-                                    foundOneTerm = true;
-                                }
-                            }
-                            if (!foundOneTerm) {
-                                found = false;
-                                continue;
-                            }
-                        }
-                    }
-                    if (!found) {
-                        console.log("not found");
-                        return;
-                    }
+        for(var key in $scope.array){
+            if(!$scope.array.hasOwnProperty(key)){
+                continue;
+            }
+            var obj = $scope.array[key];
+            var distance = mapFactory.calculateDistance(center[0], center[1], obj.latitude, obj.longitude);
+            obj.distance = distance;
+            console.log(radius);
+            console.log(distance);
+            if(distance < radius){
+                dropMarker(key,radius, center, searchTerms, mobile, tab);
+            }
 
-                    if(mobile){
-                        if(!obj.mobile){
-                            return;
-                        }
-                    }
-                    console.log(obj);
-//                console.log(key + " found at " + location + " (" + distance + " km away)");
-//                bounds.extend(new google.maps.LatLng (obj.latitude, obj.longitude));
-//                if(fitBounds){
-//                    map.fitBounds(bounds);
-//                    if(map.getZoom()> 15){
-//                        map.setZoom(15);
-//                    }
-//                }
-
-                    var addNewMarker = true;
-                    for(var i=0; i<objs.length; i++){
-                        console.log(coordinatesAreEquivalent(objs[i].latitude, obj.latitude, 0.0001) && coordinatesAreEquivalent(objs[i].longitude, obj.longitude, 0.0001));
-                        if(coordinatesAreEquivalent(objs[i].latitude, obj.latitude, 0.0001) && coordinatesAreEquivalent(objs[i].longitude, obj.longitude, 0.0001)){
-                            console.log(objs[i]);
-                            //loop through all elements in the group, find a matching one and add the current item to that list
-                            for(var j=0; j<$scope.markers.length; j++){
-                                for(var k=0; k<$scope.markers[j].items.length; k++){
-                                    console.log($scope.markers[j].items[k]);
-                                    if($scope.markers[j].items[k].$id == objs[i].$id){
-                                        $scope.markers[j].items.push(obj);
-                                    }
-                                }
-                            }
-                            console.log(obj);
-                            addNewMarker = false;
-                            console.log($scope.markers);
-                            return;
-                        }
-                    }
-                    objs.push(obj);
-
-                    if(addNewMarker){
-                        var newmarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(obj.latitude, obj.longitude),
-                            optimized: true,
-                            map: map
-                        });
-
-                        var items = [];
-                        items.push(obj);
-
-                        var val = $scope.markers.length;
-                        console.log(val);
-                        //items at same location are grouped together in ng-repeat
-
-                        if(mobile){
-                            if(obj.mobile){
-                                var populationOptions = {
-                                    strokeColor: '#2861ff',
-                                    strokeOpacity: 0.8,
-                                    strokeWeight: 2,
-                                    fillColor: '#2861ff',
-                                    fillOpacity: 0.35,
-                                    map: map,
-                                    center: new google.maps.LatLng(obj.latitude, obj.longitude),
-                                    radius: obj.radius
-                                };
-                                // Add the circle for this city to the map.
-                                var trainerCircle = new google.maps.Circle(populationOptions);
-                                $scope.trainerCircles.push(trainerCircle);
-                            }
-                        }
-
-                        var contentString;
-                        var infowindow;
-                        if(tab == "Trainers"){
-                            contentString = '<trainer-info-window markers="markers" val="' + val + '"></trainer-info-window>';
-                            infowindow = new google.maps.InfoWindow();
-                            $scope.markers.push({items: items, marker: newmarker, infowindow: infowindow});
-                        } else if(tab == "Events") {
-                            contentString = '<event-info-window markers="markers" val="' + val + '"></event-info-window>';
-                            infowindow = new google.maps.InfoWindow();
-                            $scope.markers.push({items: items, marker: newmarker, infowindow: infowindow});
-                        } else {
-                            console.log(obj);
-                            for(var n=0; n<Object.keys(obj.classes).length; n++){
-                                console.log(obj.classes[Object.keys(obj.classes)[n]]);
-                                items.push(obj.classes[Object.keys(obj.classes)[n]]);
-                            }
-                            contentString = '<class-info-window markers="markers" val="' + val + '"></class-info-window>';
-                            infowindow = new google.maps.InfoWindow({maxWidth: 250});
-                            $scope.markers.push({items: items, marker: newmarker, infowindow: infowindow});
-                        }
-                        console.log(contentString);
-                        var compiled = $compile(contentString)($scope);
-
-                        console.log(infowindow);
-                        console.log(compiled[0]);
-                        google.maps.event.addListener(newmarker, 'click', (function(marker,content,infowindow){
-                            return function() {
-                                infowindow.setContent(content);
-                                infowindow.open(map,marker);
-                            };
-                        })(newmarker,compiled[0],infowindow));
-                    }
-                }
-            }(a));
             console.log("loading ready");
             $ionicLoading.hide();
         }

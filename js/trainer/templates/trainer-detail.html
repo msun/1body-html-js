@@ -27,7 +27,7 @@
         <div class="detail-page-top">
             <div class="row" >
                 <div class="col-33">
-                    <img src="{{selectedTrainer.imgLink}}" style="border-radius: 50%; width: 80%; margin-left: 10%; margin-right: 10%">
+                    <img src="{{selectedTrainer.profilepic}}" style="border-radius: 50%; width: 80%; margin-left: 10%; margin-right: 10%">
                 </div>
                 <div class="col-67" >
                     <h2 style="color: white"></i>&nbsp;N{{selectedTrainer.name}} </h2>
@@ -35,19 +35,19 @@
                     <p class="information-and-icon"><i class = "icon ion-person"></i> &nbsp;Professional</p>
                     <p class="information-and-icon"><i class = "icon ion-location"></i> &nbsp;Toronto</p>
                     <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                    <button class="button button-calm" ng-click="addTransaction()">Add Transaction</button>
+                    <button class="button button-calm" ng-click="addReview()">Add Review</button>
+                    <button class="button button-calm" ng-click="moreReviews()">more Review</button>
                 </div>
             </div>
+
             <div class="item" id="trainer-detail-map" data-tap-disabled="true" style="width: 90%; margin-left: 5%; margin-right: 5%; height: 150px; border-radius: 15px; margin-top: 20px"></div>
             <!--<scheduler-user-view></scheduler-user-view>-->
-
-
-
-
-
         <div class="item item-input-inset">
             <label class="item-input-wrapper">
                 <input type="text" ng-model="amount" placeholder="Amount">
             </label>
+
             <button class="button button-small" ng-click="charge(amount)">
                 Charge Me
             </button>
@@ -56,13 +56,13 @@
 
         <div>
             <ion-list>
-                <ion-item ng-repeat="review in selectedTrainer.reviews" ng-click="replyto()">
-                    <p><strong>{{review.user}}</strong></p>
-                    <p>
-                        <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating> {{review.creation}}
-                    </p>
-                    <p>{{review.text}}</p>
-                    <p style="font-size: 10px">{{review.username}} left at: {{review.creation}}</p>
+                <ion-item ng-repeat="review in reviews" ng-click="replyto()">
+                    <p><strong>{{review.userID}}</strong></p>
+                    <!--<p>-->
+                        <!--<rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating> {{review.creation}}-->
+                    <!--</p>-->
+                    <p>{{review.created}}</p>
+                    <!--<p style="font-size: 10px">{{review.username}} left at: {{review.creation}}</p>-->
                 </ion-item>
             </ion-list>
         </div>
