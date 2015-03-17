@@ -34,12 +34,14 @@
 
         <div class="item item-avatar">
             <img src="{{user.profilepic}}" ng-click="setdp()">
+
             <h2>{{user.username}}</h2>
             <p>{{user.group}}</p>
         </div>
 
         <div class="button-bar">
             <a class="button button-calm" ng-click="setdp()">Change Pic</a>
+            <a class="button button-calm" ng-show="user.group == 'Trainers'" href="#/menu/Followers">My Followers</a>
             <a class="button button-calm" ng-click="save()">Save</a>
             <a class="button button-calm" ng-click="cancel()">Cancel</a>
         </div>

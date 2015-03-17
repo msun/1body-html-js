@@ -316,18 +316,14 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
 
     var image = document.getElementById('displayPic');
 
-    exec(function(result){
-        image.src = result.uri;
-    }, function(err){
-        console.log(err);
-    }, 'Card_io', 'loadimg', [
-        {id: $scope.user.$id}
-    ]);
-    $scope.modal.hide();
-
-
-
-//    image.src = $scope.user.imgLink;
+//    exec(function(result){
+//        image.src = result.uri;
+//    }, function(err){
+//        console.log(err);
+//    }, 'Card_io', 'loadimg', [
+//        {id: $scope.user.$id}
+//    ]);
+//    $scope.modal.hide();
 
     $ionicModal.fromTemplateUrl('js/account/templates/image-rotate.html', {
         scope: $scope,
@@ -340,7 +336,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
 
     $scope.rotatemodal = function(){
         var mappopup = $ionicPopup.show({
-            template: '<img  id="rotateImage" src="' + $scope.user.imgLink + '" width="100%"/>',
+            template: '<img  id="rotateImage" src="' + image.src + '" width="100%"/>',
             title: "Image Rotate",
             scope: $scope,
             buttons: [
@@ -402,6 +398,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
     }
 
     $scope.fromstorage = function() {
+        console.log("from storage");
         // Retrieve image file location from specified source
         navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
@@ -472,76 +469,19 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
         y = (y/imageHeight).toFixed(4);
         console.log('x: ' + x + ' y: ' + y + ' width: ' + cropwidth + ' height: ' + cropheight + 'uri: ' + image.src);
 
-        var successCallback = function(result){
-
-//            image.src = result.uri;
-            $timeout(function(){
-                $scope.payload = "data:image/jpeg;base64," +  result.load;
-            })
-            console.log(result.load);
-//            $scope.useimg();
-        }
-        var errorCallback = function(result){
-            console.log(result);
-        }
-
-        exec(successCallback, errorCallback, 'Card_io', 'crop', [
-            {"top": y, "left": x, "width": cropwidth, 'height': cropheight, 'uri': image.src, 'id': appFactory.user.$id}
-        ]);
-    }
-
-    function uploadPhoto(imageURI) {
-        console.log(imageURI);
-
-        var options = new FileUploadOptions();
-        options.fileKey="file";
-        options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
-        options.mimeType="image/jpeg";
-
-        console.log(options.fileName);
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-            window.resolveLocalFileSystemURL(imageURI, function(fileEntry){
-                    fileEntry.file(function(file) {
-                        var reader = new FileReader();
-
-                        reader.onloadend = function(e) {
-                            console.log("Text is: "+ e.target.result);
-                            $timeout(function(){
-                                $scope.payload = e.target.result;
-                            })
-
-//                            document.querySelector("#loadimage").src = this.result;
-                        }
-
-                        reader.readAsText(file);
-                    });
-            }, fail);
-
-        }, function(err){
-            console.log(err);
-        });
-
-//        var ft = new FileTransfer();
-//        ft.upload(imageURI, "http://108.168.247.49:10355/fileupload", win, fail, options);
-//        alert(options.fileName);
-    }
-
-    function win(r) {
-        console.log(r);
-        console.log("Code = " + r.responseCode);
-        $scope.imageLink = r.response;
-
-        $timeout(function(){
-            appFactory.user.imgLink =  "http://108.168.247.49:10355/" + r.response;
-            alert(appFactory.user.imgLink);
-            appFactory.user.$save();
-        })
-        $state.transitionTo("menu.account.my-profile");
-        console.log("Sent = " + r.bytesSent);
+        exec(
+            function(result){
+                scrollDelegate.zoomTo(1);
+                image.src = result.uri;
+                console.log(result.uri);
+            }, function(result){
+                console.log(result);
+            }, 'Card_io', 'crop', [
+                {"top": y, "left": x, "width": cropwidth, 'height': cropheight, 'uri': image.src, 'id': appFactory.user.$id}
+            ]);
     }
 
     function onSuccess(imageURI) {
-//        $scope.user.imgLink = imageURI;
         image.src = imageURI;
     }
 
@@ -549,13 +489,16 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
         alert('Failed because: ' + message);
     }
 
-
-    function fail(error) {
-        console.log("An error has occurred: Code = " + error.code);
-    }
-
     $scope.useimg = function(){
-        uploadPhoto(image.src);
+//        uploadPhoto(image.src);
+        exec(function(){
+            alert("image saved");
+
+        }, function(err){
+            console.log(err);
+        }, 'Card_io', 'useimg', [
+            {'id': $scope.user.$id, 'uri': image.src}
+        ]);
     }
 });
 

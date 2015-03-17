@@ -158,7 +158,33 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Transactions", function(Firebase) {
+    .factory("Following", function($firebase, Firebase) {
+        var ref = Firebase.child("following");
+        var sync = $firebase(ref);
+        return {
+            ref: function(){
+                return ref;
+            },
+            sync: function(){
+                return sync;
+            }
+        };
+    })
+
+    .factory("Followers", function($firebase, Firebase) {
+        var ref = Firebase.child("followers");
+        var sync = $firebase(ref);
+        return {
+            ref: function(){
+                return ref;
+            },
+            sync: function(){
+                return sync;
+            }
+        };
+    })
+
+    .factory("Transactions", function($firebase, Firebase) {
         var ref = Firebase.child("transactions");
 
         return {
