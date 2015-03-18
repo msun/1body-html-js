@@ -1,0 +1,24 @@
+
+/* ********** ********** ********** ********** ***********/
+/* overrides */
+/* ********** ********** ********** ********** ***********/
+
+.main-instructions {
+    margin-bottom: 20px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* misc */
+/* ********** ********** ********** ********** ***********/
+
+.qr-transaction-id-text {
+    font-family: "Avenir Next LT Pro";
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    margin: 16px 0px;
+}
+
+.qr-qrcode {
+    text-align: center;
+}

@@ -1,78 +1,189 @@
+<link rel="stylesheet" type="text/css" href="/css/create-event.css">
 <ion-view>
-    <ion-header-bar class="bar-dark">
+    <ion-header-bar class="ob-dark-bg">
         <div class="buttons">
-            <button ng-click ="toggleMenu()" class = "button button-icon" >
-                <i class = "icon ion-navicon">
-                </i>
+            <button ng-click="toggleMenu()" class="button button-icon">
+                <i class="icon ion-navicon ob-white-color"></i>
             </button>
-
-            <h2 class="title" ng-click="popover.show($event)">{{header}}</h2>
-
-            <a href="#/menu/{{header}}" class = "button button-icon" >
-                <i class = "icon ion-ios7-paper-outline">
-                </i>Listview
-            </a>
-
+            <img class="ob-nav-bar-logo" src="../img/Logo.png"/>
         </div>
     </ion-header-bar>
 
-    <ion-content>
-        <ul class="list">
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Event Name</span>
-                <input type="text" ng-model="newevent.name" placeholder="Event Name">
-            </label>
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    Category
-                </div>
-                <select ng-model="newevent.category" ng-options="category.name for category in categories">
-                </select>
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Description</span>
-                <input type="text" ng-model="newevent.information" placeholder="Description">
-            </label>
-            <label class="item item-input" ng-click="openDatePicker()">
-                <span class="input-label">Start time </span>
-                <!--<div  ez-timepicker="form.time" data-clock-icon-class="fa fa-clock-o" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-up"></div>-->
-                <time-picker data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
-                <!--<span>{{newevent.starttime}}</span>-->
-            </label>
-
-            <div class="item range range-positive">
-                <span class="input-label">Duration {{newevent.duration}}min</span>
-                <input type="range" name="volume" min="0" max="120" ng-model="newevent.duration">
-            </div>
-
-            <li class="item item-toggle">
-                Private
-                <label class="toggle toggle-assertive">
-                    <input type="checkbox" ng-model="newevent.private">
-                    <div class="track">
-                        <div class="handle"></div>
+    <ion-content class="has-header menu1-content">
+        <ion-slide-box class="ob-slide-box" pager-click="navSlide(index)" active-slide="slideStop(index)">
+            <ion-slide class="ob-slide">
+                <div class="menu1-content-div">
+                    <div class="main-instructions">Create an Event</div>
+                    <div class="sub-instructions">Let's get started</div>
+                    <div class="ob-form">
+                        <div class="ob-form-row">
+                            <input ng-model="newevent.name" class="ob-form-text-input" type="text" placeholder="Event Name"/>
+                        </div>
+                        <div class="ob-form-row ob-form-select-row">
+                            <span class="ob-form-select-text ob-blue-text">Category</span>
+                            <div class="ob-form-select-container ob-form-select-container-large">
+                                <select class="ob-form-select ob-form-select-large" ng-model="newevent.category" ng-options="category.name for category in categories">
+                                    <option value="01">01</option>
+                                    <option value="01">01</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="ob-form-row">
+                            <span class="ob-date-prompt-text ob-blue-text">Date</span>
+                            <span class="ob-date">5 July 2014 (Thurs)</span>
+                            <img class="ob-date-picker-button" src="img/event-profile/date-picker-button.png"/>
+                        </div>
+                        -->
+                        <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
+                            <span class="ob-form-timepicker-prompt ob-blue-text">Start time</span>
+                            <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                        </div>
+                        <div class="ob-form-row ob-form-select-row ob-form-range-row">
+                            <span class="ob-form-range-prompt"><span class="ob-blue-text">Duration</span>&nbsp;&nbsp;{{newevent.duration}}min</span>
+                            <input class="ob-form-range" type="range" name="volume" min="0" max="120" ng-model="newevent.duration">
+                        </div>
+                        <div class="ob-form-row ob-form-select-row">
+                            <span class="ob-form-select-text ob-blue-text">For</span>
+                            <div class="ob-form-select-container">
+                                <select class="ob-form-select">
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </div>
+                            <div class="ob-form-select-container">
+                                <select class="ob-form-select">
+                                    <option value="days">days</option>
+                                    <option value="weeks">weeks</option>
+                                    <option value="month">months</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="ob-form-row ob-form-switch-row"> <!--ng-model="newevent.private" for checkbox-->
+                            <button class="ob-form-switch-button">Public</button>
+                            <button class="ob-form-switch-button">Invite Only</button>
+                        </div>
                     </div>
-                </label>
-            </li>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Select from map</span>
-                <button ng-click="openMap()" class="button button-calm">open map</button>
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Enter Location </span>
-                <input type="text" ng-model="newevent.location" placeholder="Event Location">
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Comment on Location</span>
-                <input type="text" ng-model="newevent.commentlocation" placeholder="Where will I be?">
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <button ng-click="createEvent()" class="button button-calm">Confirm</button>
-            </label>
-        </ul>
+                    <button class="block-blue-button" ng-click="nextPressed()">Next</button>
+                </div>
+            </ion-slide>
+            <ion-slide class="ob-slide">
+                <div class="menu1-content-div">
+                    <div class="main-instructions">Where's your event happening?</div>
+                    <div class="sub-instructions">Type in the address or drop a pin</div>
+                    <div class="ob-form">
+                        <div class="ob-form-row ob-form-text-input-row">
+                            <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
+                            <input class="ob-form-text-input" type="text" placeholder="ex. Buena Vista Park"/>
+                        </div>
+                    </div>
+                    <div class="ob-event-create-map-container"></div>
+                    <button class="block-blue-button" ng-click="nextPressed()">Almost Done!</button>
+                </div>
+            </ion-slide>
+            <ion-slide class="ob-slide">
+                <div class="menu1-content-div">
+                    <div class="main-instructions">Next up,</div>
+                    <div class="sub-instructions">Upload a picture, and tell us about your event!</div>
+                    <div class="ob-form">
+                        <div class="ob-form-row ob-row-picture-upload-top-section">
+                            <img class="picture-upload-placeholder" src="img/event-profile/picture-upload-placeholder.png"/>
+                            <img class="picture-upload-plus-icon" src="img/event-profile/picture-upload-plus-icon.png"/>
+                            <img class="picture-upload-e-tag" src="img/badge-event.png"/>
+                        </div>
+                    </div>
+                    <div class="ob-form">
+                        <div class="ob-form-row">
+                            <textarea class="ob-form-textarea" ng-model="newevent.information" placeholder="Tell us what this event is about"></textarea>
+                        </div>
+                    </div>
+                    <button class="block-blue-button"ng-click="nextPressed()">Next</button>
+                </div>
+            </ion-slide>
+            <ion-slide class="ob-slide">
+                <div class="menu1-content-div">
+                    <div class="main-instructions">Who's coming?</div>
+                    <div class="sub-instructions">Search, or browse through your friends list below!</div>
+                    <div class="ob-form">
+                        <div class="ob-form-row ob-form-text-input-row">
+                            <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
+                            <input class="ob-form-text-input" type="text" placeholder="Search"/>
+                        </div>
+                    </div>
+                    <div class="ob-userlist">
+                        <div class="ob-userlist-row">
+                            <img class="ob-userlist-image" src="img/professional-profile/tmp/greg_hetherington_following_pic.png"/>
+                            <div class="ob-userlist-text-column">
+                                <div class="ob-userlist-text-block">
+                                    <div class="ob-userlist-user-name">Greg Hetherington</div>
+                                    <div><span class="ob-userlist-mutual-friend-count">4</span> mutual friends</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ob-userlist-row">
+                            <img class="ob-userlist-image" src="img/professional-profile/tmp/dane_dehaan_following_pic.png"/>
+                            <div class="ob-userlist-text-column">
+                                <div class="ob-userlist-text-block">
+                                    <div class="ob-userlist-user-name">Dane Dehaan</div>
+                                    <div><span class="ob-userlist-mutual-friend-count">1</span> mutual friends</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ob-userlist-row">
+                            <img class="ob-userlist-image" src="img/professional-profile/tmp/maureen_aaron_profile_pic.png"/>
+                            <div class="ob-userlist-text-column">
+                                <div class="ob-userlist-text-block">
+                                    <div class="ob-userlist-user-name">Maureen Aaron</div>
+                                    <div><span class="ob-userlist-mutual-friend-count">8</span> mutual friends</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ob-userlist-row">
+                            <img class="ob-userlist-image" src="img/professional-profile/tmp/rani_kim_profile_pic.png"/>
+                            <div class="ob-userlist-text-column">
+                                <div class="ob-userlist-text-block">
+                                    <div class="ob-userlist-user-name">Rani Kim</div>
+                                    <div><span class="ob-userlist-mutual-friend-count">0</span> mutual friends</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ob-userlist-row">
+                            <img class="ob-userlist-image" src="img/professional-profile/tmp/jillian_katz_profile_pic.png"/>
+                            <div class="ob-userlist-text-column">
+                                <div class="ob-userlist-text-block">
+                                    <div class="ob-userlist-user-name">Jillian Katz</div>
+                                    <div><span class="ob-userlist-mutual-friend-count">2</span> mutual friends</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ob-userlist-row">
+                            <img class="ob-userlist-image" src="img/professional-profile/tmp/murphy_macdonald-rea_profile_pic.png"/>
+                            <div class="ob-userlist-text-column">
+                                <div class="ob-userlist-text-block">
+                                    <div class="ob-userlist-user-name">Murphy Macdonald-Rea</div>
+                                    <div><span class="ob-userlist-mutual-friend-count">18</span> mutual friends</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ion-slide>
+        </ion-slide-box>
     </ion-content>
+    <ion-footer-bar class="ob-footer-button" ng-show='currentIndex() == 3' ng-click="nextPressed()">
+        <div class="ob-footer-button-contents">
+            Invite
+        </div>
+    </ion-footer-bar>
 </ion-view>

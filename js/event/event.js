@@ -225,6 +225,20 @@ event.controller('CreateEventCtrl', function($firebase, baseUrl, $scope, $timeou
             }
         });
     }
+
+    $scope.navSlide = function(index) {
+        $ionicSlideBoxDelegate.slide(index);
+    }
+
+    $scope.slideStop = function(index) {
+        $ionicSlideBoxDelegate.enableSlide(false);
+    }
+
+    $scope.nextPressed = function(index) {
+        $ionicSlideBoxDelegate.next();
+    }
+
+    $scope.currentIndex = function() {
+        return $ionicSlideBoxDelegate.currentIndex();
+    }
 });
-
-
