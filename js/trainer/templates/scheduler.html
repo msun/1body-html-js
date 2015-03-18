@@ -1,39 +1,35 @@
-<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
-<button class="button button-assertive" ng-click="collapse = !collapse">Select Date</button>
-
-<div collapse="collapse" >
-    <datepicker ng-model="dt" min-date="minDate" class="well well-sm" show-weeks="false"></datepicker>
-    <!--<button class="button button-balanced" >Confirm</button>-->
-</div>
-
-<button class="button button-calm" ng-click="confirm()">Confirm</button>
-<table style="width: 100%;">
-    <tr ng-repeat="time in timeslots track by $index" style="height: 30px">
-        <td style="width: 50%; border-bottom: 1px solid white; vertical-align: middle; text-align: center;">
-            {{time | displayTime}}
-        </td>
-        <td style="width: 35%; border-bottom: 1px solid white; height: 30px; vertical-align: middle;">
-            <div ng-show="!active[$index]" style="width: 100%; border-radius: 5px; vertical-align: middle; text-align: center;">Open</div>
-            <div ng-show="active[$index]" style="width: 100%; border-radius: 5px; vertical-align: middle; text-align: center;">Set</div>
-        </td>
-        <td style="width: 15%; border-bottom: 1px solid white; height: 30px">
-            <button ng-show="!active[$index]" class="button button-dark" ng-click="selectTime($index)">
-                <i class="icon ion-plus"></i>
-            </button>
-            <button ng-show="active[$index]" class="button button-dark" ng-click="selectTime($index)">
-                <i class="icon ion-checkmark"></i>
-            </button>
-        </td>
-    </tr>
-</table>
-
-
-<!--<tr >-->
-<!--<td ng-repeat="time in timeslots track by $index" colspan="{{colspan}}" ng-click="selectTime($index)" style="width: 120px; border-left: 1px solid">-->
-<!--<span style="margin-right: 10px">{{time | displayTime}}</span>-->
-<!--</td>-->
-<!--</tr>-->
-<!--<tr>-->
-<!--<td ng-repeat="quarter in quarters track by $index" style="background: {{quarter && 'red' || 'green'}}; height: 5px;">-->
-<!--</td>-->
-<!--</tr>-->
+<link rel="stylesheet" type="text/css" href="/css/scheduler.css">
+<ion-view>
+    <ion-content class="menu1-content-no-header">
+        <div class="menu1-content-div">
+            <div class="main-instructions">Set your availabile time slots as a professional</div>
+            <div class="ob-form">
+                <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
+                    <span class="ob-form-timepicker-prompt ob-blue-text">Start time</span>
+                    <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                </div>
+                <div class="ob-form-row">
+                    <table class="timeslot-table">
+                        <tr class="timeslot-row" ng-repeat="time in timeslots track by $index">
+                            <td class="timeslot-time-column">
+                                {{time | displayTime}}
+                            </td>
+                            <td class="timeslot-status-column">
+                                <div ng-show="!active[$index]" class="timeslot-status">Open</div>
+                                <div ng-show="active[$index]" class="timeslot-status">Set</div>
+                            </td>
+                            <td class="timeslot-button-column">
+                                <button ng-show="!active[$index]" class="timeslot-button" ng-click="selectTime($index)">
+                                    <i class="icon ion-plus"></i>
+                                </button>
+                                <button ng-show="active[$index]" class="timeslot-button" ng-click="selectTime($index)">
+                                    <i class="icon ion-checkmark"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                <div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

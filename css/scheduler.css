@@ -1,0 +1,62 @@
+
+/* ********** ********** ********** ********** ***********/
+/* overrides */
+/* ********** ********** ********** ********** ***********/
+
+.main-instructions {
+    margin-bottom: 40px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* timeslot-table  */
+/* ********** ********** ********** ********** ***********/
+
+.timeslot-table {
+    width: 100%;
+}
+
+.timeslot-row {
+    height: 30px;
+}
+
+.timeslot-time-column {
+    width: 50%;
+    border-bottom: 1px solid white;
+    vertical-align: middle;
+    text-align: center;
+    font-family: "Avenir Next LT Pro", sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+.timeslot-status-column {
+    width: 35%;
+    border-bottom: 1px solid white;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.timeslot-status {
+    width: 100%;
+    border-radius: 5px;
+    vertical-align: middle;
+    text-align: center;
+    font-family: "Avenir Next LT Pro", sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+.timeslot-button-column {
+    width: 15%;
+    border-bottom: 1px solid white;
+    height: 30px;
+    background: none;
+}
+
+.timeslot-button {
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    color: white;
+}
