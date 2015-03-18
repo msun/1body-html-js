@@ -64,6 +64,7 @@ map.directive('eventInfoWindow', function(){
         templateUrl: 'js/map/templates/event-info-window.html',
         scope: { markers: '=' , val: '=', array: '='},
         link: function(scope, element, attrs) {
+            console.log(scope.markers);
         }
     }
 });
@@ -442,6 +443,7 @@ map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout
                 obj.location = location;
                 console.log(obj);
                 if(!$scope.array[key]){
+                    $scope.array[key] = obj;
                     dropMarker(key, radius, center, searchTerms, mobile, tab);
                 }
                 $scope.array[key] = obj;

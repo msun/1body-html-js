@@ -126,9 +126,9 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebase
 
 });
 
-account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebase, UserAuth, $scope, Users, Trainers, $state, mapstate) {
+account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject, UserAuth, $scope, Users, Trainers, $state, mapstate) {
     $scope.newuser = {};
-    $scope.newuser.group = "User";
+    $scope.newuser.group = "user";
     console.log(UserAuth);
     UserAuth.$unauth(); //FOR TESTING
 
@@ -138,33 +138,29 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
         if(appFactory.uid){
             if($scope.newuser.group.name == "trainer"){
                 var myRef = Trainers.ref().child(appFactory.uid);
-                var sync = $firebase(myRef);
-                var user = sync.$asObject();
+                var user = $firebaseObject(myRef);
 
                 user.$priority = appFactory.uid;
-                user.group = $scope.newuser.group.name;
+                user.group = "Trainers";
                 user.username = $scope.newuser.username;
                 user.email = $scope.newuser.email;
                 user.gym = $scope.newuser.gym;
-                user.tokens = 0;
                 user.$save().then(function(thing){
                     console.log(thing);
                 });
             } else {
                 var myRef = Users.ref().child(appFactory.uid);
-                var sync = $firebase(myRef);
-                var user = sync.$asObject();
+                var user = $firebaseObject(myRef);
                 user.$priority = appFactory.uid;
-                user.group = $scope.newuser.group.name;
+                user.group = "Users";
                 user.username = $scope.newuser.username;
                 user.email = $scope.newuser.email;
-                user.tokens = 0;
                 user.$save().then(function(thing){
                     console.log(thing);
                 });
             }
         } else {
-            UserAuth.$createUser($scope.newuser.email, $scope.newuser.password).then(function (authUser) {
+            UserAuth.$createUser({email: $scope.newuser.email, password: $scope.newuser.password}).then(function (authUser) {
                 UserAuth.$login("password", {
                     email: $scope.newuser.email,
                     password: $scope.newuser.password
@@ -293,7 +289,7 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
 
 });
 
-account.controller('QRcodeCtrl', function($scope, Transaction, Users, Trainers, $firebase, appFactory, $timeout, $stateParams){
+account.controller('QRcodeCtrl', function($scope, Transaction, Users, Trainers, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams){
     if($stateParams.transactionID.length > 1){
         var element = document.getElementById("qrcode");
 
