@@ -1,44 +1,86 @@
 
-<link rel="stylesheet" type="text/css" href="/drafts/css/sign-up-form1.css">
+<link rel="stylesheet" type="text/css" href="/css/register-main.css">
 <ion-view>
     <ion-content class="has-header menu1-content">
-        <div class="menu1-content-div">
-            <div class="main-instructions">Sign up</div>
-            <!--
-            <div class="sub-instructions">
-            </div>
-            -->
-            <div class="ob-form">
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" ng-model="newuser.firstname" type="text" name="first-name" placeholder="First Name"/>
+        <ion-slide-box active-slide="slideStop(index)" pager-click="navSlide(index)">
+            <ion-slide>
+                <div class="menu1-content-div">
+                    <div class="main-instructions">Sign up</div>
+                    <div class="ob-form register-ob-form-1">
+                        <div class="ob-form-row ob-form-text-input-row">
+                            <input class="ob-form-text-input" ng-model="newuser.firstname" type="text" name="first-name" placeholder="First Name"/>
+                        </div>
+                        <div class="ob-form-row ob-form-text-input-row">
+                            <input class="ob-form-text-input" ng-model="newuser.lastname" type="text" name="last-name" placeholder="Last Name"/>
+                        </div>
+                        <div class="ob-form-row ob-form-switch-row">
+                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Female'}" ng-click="newuser.gender = 'Female'">Female</button>
+                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Male'}" ng-click="newuser.gender = 'Male'">Male</button>
+                        </div>
+                        <div class="ob-form-row ob-form-text-input-row" ng-model="newuser.email">
+                            <input class="ob-form-text-input" type="text" name="email" placeholder="Email"/>
+                        </div>
+                        <div class="ob-form-row ob-form-text-input-row">
+                            <input class="ob-form-text-input" type="password" ng-model="newuser.password" placeholder="Password"/>
+                            <img class="ob-form-text-input-icon-right password-icon" src="img/sign-up/password-checkmark.png"/>
+                        </div>
+                        <!--
+                        <div class="ob-form-row ob-form-text-input-row">
+                            <input class="ob-form-text-input" type="password" ng-model="newuser.confirmPassword" placeholder="Confirm Password"/>
+                            <img class="ob-form-text-input-icon-right password-icon" src="img/sign-up/password-checkmark.png"/>
+                        </div>
+                        -->
+                        <div class="ob-form-row ob-form-switch-row">
+                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'User'}" ng-click="newuser.group = 'User'" >User</button>
+                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Trainer'}"ng-click="newuser.group = 'Trainer'">Professional</button>
+                        </div>
+                    </div>
+                    <button class="block-blue-button" ng-click="nextPressed()">Sign up!</button>
+                    <!--
+                    <a class="block-blue-button" href="#/menu/register/register-professional-main">Sign up!</a>
+                    -->
+                    <a class="block-transparent-button" href="#/menu/login/login-main">Already have an account?</a>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" ng-model="newuser.lastname" type="text" name="last-name" placeholder="Last Name"/>
+            </ion-slide>
+            <ion-slide>
+                <div class="menu1-content-div">
+                    <div class="main-instructions">Professional Info</div>
+                    <div class="sub-instructions">What kind of fitness do you do?</div>
+                    <div class="ob-form">
+                        <div class="ob-form-row ob-sectioned-row">
+                            <span class="left-prompt-text ob-blue-color">
+                                Profession
+                            </span>
+                            <span class="main-content">
+                                <div class="ob-tag-2">Personal Trainer</div>
+                                <div class="ob-tag-2">Weight Therapy</div>
+                            </span>
+                            <span class="right-icon-container">
+                                <img class="small-plus-icon" src="img/event-profile/date-picker-button.png"/>
+                            </span>
+                        </div>
+                        <div class="ob-form-row">
+                            <textarea class="ob-form-textarea" placeholder="Tell us about yourself and your passion for fitness"></textarea>
+                        </div>
+                    </div>
+                    <button class="block-blue-button" ng-click="nextPressed()">Almost Done!</button>
+
                 </div>
-                <div class="ob-form-row ob-form-switch-row">
-                    <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Female'}" ng-click="newuser.gender = 'Female'">Female</button>
-                    <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Male'}" ng-click="newuser.gender = 'Male'">Male</button>
+            </ion-slide>
+            <ion-slide>
+                <div class="menu1-content-div">
+                    <div class="main-instructions">Hey Greg!</div>
+                    <div class="sub-instructions">Where is your gym?</div>
+                    <div class="ob-form">
+                        <div class="ob-form-row ob-form-text-input-row">
+                            <img class="ob-form-text-input-icon-left" src="/img/event-profile/magnifier.png"/>
+                            <input class="ob-form-text-input" type="text" name="location-search-field" placeholder="address, postal code, city, etc..."/>
+                        </div>
+                    </div>
+                    <div class="ob-event-create-map-container"></div>
+                    <button class="block-blue-button" ng-click="nextPressed()">Done!</button>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row" ng-model="newuser.email">
-                    <input class="ob-form-text-input" type="text" name="email" placeholder="Email"/>
-                </div>
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="password" ng-model="newuser.password" placeholder="Password"/>
-                    <img class="ob-form-text-input-icon-right password-icon" src="img/sign-up/password-checkmark.png"/>
-                </div>
-                <!--
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="password" ng-model="newuser.confirmPassword" placeholder="Confirm Password"/>
-                    <img class="ob-form-text-input-icon-right password-icon" src="img/sign-up/password-checkmark.png"/>
-                </div>
-                -->
-                <div class="ob-form-row ob-form-switch-row">
-                    <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'User'}" ng-click="newuser.group = 'User'" >User</button>
-                    <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Trainer'}"ng-click="newuser.group = 'Trainer'">Professional</button>
-                </div>
-            </div>
-            <a class="block-blue-button" href="#/menu/register/register-professional-main">Sign up!</a> <!--ng-click="register()"-->
-            <a class="block-transparent-button" href="#/menu/login/login-main">Already have an account?</a>
-        <div>
+            </ion-slide>
+        </ion-slide-box>
     </ion-content>
 </ion-view>

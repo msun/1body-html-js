@@ -1,42 +1,29 @@
 
+<link rel="stylesheet" type="text/css" href="/css/my-events.css">
 <ion-view>
-    <ion-header-bar class="bar-dark">
-        <div class="buttons">
-            <button ng-click ="toggleMenu()" class = "button button-icon" >
-                <i class = "icon ion-navicon">
-                </i>
-            </button>
-
-            <h2 class="title">My Events</h2>
-
-            <a href="#/menu/editevent/new" class = "button button-icon" >
-                <i class = "icon ion-ios7-paper-outline">
-                </i>New Event
-            </a>
-
-        </div>
-    </ion-header-bar>
-    <ion-content class="has-header">
-
+    <ion-content class="has-header menu1-content">
         <ion-list>
-            <a class="button button-block button-dark" href="#/menu/editevent/new">Create Event</a>
-
-            <ion-item ng-repeat="event in events"
-                      item="event"
-                      href="#/menu/editevent/{{event.id}}">
-                <p>Event {{ event.name }}</p>
-                <!--<ion-delete-button class="ion-minus-circled"-->
-                <!--ng-click="onItemDelete(item)">-->
-                <!--</ion-delete-button>-->
-                <ion-option-button class="button-calm" ng-click="edit(event)">
-                    Edit
-                </ion-option-button>
-                <ion-option-button class="button-assertive" ng-click="delete(event)">
-                    Delete
-                </ion-option-button>
-                <!--<ion-reorder-button class="ion-navicon" on-reorder="moveItem(event, $fromIndex, $toIndex)"></ion-reorder-button>-->
-            </ion-item>
-
+            <a class="block-blue-button block-button-shadow" href="#/menu/editevent/new">Create Event</a>
+            <div>
+                <a ng-repeat="event in events"
+                          item="event"
+                          href="#/menu/editevent/{{event.id}}"
+                          class="event-list-item-row">
+                    {{ event.name }}
+                </a>
+                    <!--<ion-delete-button class="ion-minus-circled"-->
+                    <!--ng-click="onItemDelete(item)">-->
+                    <!--</ion-delete-button>-->
+                    <!--
+                    <ion-option-button class="button-calm" ng-click="edit(event)">
+                        Edit
+                    </ion-option-button>
+                    <ion-option-button class="button-assertive" ng-click="delete(event)">
+                        Delete
+                    </ion-option-button>
+                    -->
+                    <!--<ion-reorder-button class="ion-navicon" on-reorder="moveItem(event, $fromIndex, $toIndex)"></ion-reorder-button>-->
+            </div>
         </ion-list>
     </ion-content>
 </ion-view>

@@ -1,4 +1,21 @@
 
+/* ********** ********** ********** ********** ***********/
+/* register-main */
+/* ********** ********** ********** ********** ***********/
+
+.register-ob-form-1 {
+    margin-top: 40px;
+}
+
+.password-icon {
+    flex: 0 0 17px;
+    height: 13px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* register-professional-main */
+/* ********** ********** ********** ********** ***********/
+
 .ob-sectioned-row {
     display: -mox-flex;
     display: -webkit-flex;
@@ -47,4 +64,16 @@
 .ob-sectioned-row > .right-icon-container > .small-plus-icon {
     width: 18px;
     height: 18px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* register-professional-map */
+/* ********** ********** ********** ********** ***********/
+
+.ob-event-create-map-container {
+    background: transparent url("/img/event-profile/tmp/event-creation-map.png") center/100% 100% no-repeat;
+    width: 300px;
+    height: 168px;
+    border-radius: 8px;
+    margin: 9px auto 0px;
 }

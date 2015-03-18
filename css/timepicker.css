@@ -1,0 +1,41 @@
+
+.timepicker-row {
+    margin-bottom: 8px;
+}
+
+.timepicker-row:last-child {
+    margin-bottom: 0px;
+}
+
+.timepicker-column {
+    height: auto;
+}
+
+.timepicker-arrow-container {
+    display: block;
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    margin: 0px auto;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timepicker-arrow-container i {
+    font-size: 20px;
+}
+
+.timepicker-label {
+    text-align: center;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    margin: 4px 0px;
+}
+
+.timepicker-dayofweek {
+    text-align: center;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    margin-bottom: 8px;
+}
