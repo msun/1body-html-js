@@ -1,14 +1,14 @@
 
-<link rel="stylesheet" type="text/css" href="/css/my-events.css">
+<link rel="stylesheet" type="text/css" href="css/my-events.css">
 <ion-view>
     <ion-content class="has-header menu1-content">
         <ion-list>
             <a class="block-blue-button block-button-shadow" href="#/menu/editevent/new">Create Event</a>
             <div>
                 <a ng-repeat="event in events"
-                          item="event"
-                          href="#/menu/editevent/{{event.id}}"
-                          class="event-list-item-row">
+                   item="event"
+                   href="#/menu/editevent/{{event.id}}"
+                   class="event-list-item-row">
                     {{ event.name }}
                 </a>
                     <!--<ion-delete-button class="ion-minus-circled"-->
