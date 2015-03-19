@@ -128,90 +128,67 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebase
 
 account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject, UserAuth, $scope, Users, Trainers, $state, mapstate) {
     $scope.newuser = {};
-    $scope.newuser.group = "user";
+    $scope.newuser.group = "User";
     console.log(UserAuth);
     UserAuth.$unauth(); //FOR TESTING
 
-    $scope.groups = [{name: "user"}, {name: "trainer"}];
-
     $scope.register = function(){
-        if(appFactory.uid){
-            if($scope.newuser.group.name == "trainer"){
-                var myRef = Trainers.ref().child(appFactory.uid);
-                var user = $firebaseObject(myRef);
+        console.log($scope.newuser);
 
-                user.$priority = appFactory.uid;
-                user.group = "Trainers";
-                user.username = $scope.newuser.username;
-                user.email = $scope.newuser.email;
-                user.gym = $scope.newuser.gym;
-                user.$save().then(function(thing){
-                    console.log(thing);
-                });
-            } else {
-                var myRef = Users.ref().child(appFactory.uid);
-                var user = $firebaseObject(myRef);
-                user.$priority = appFactory.uid;
-                user.group = "Users";
-                user.username = $scope.newuser.username;
-                user.email = $scope.newuser.email;
-                user.$save().then(function(thing){
-                    console.log(thing);
-                });
-            }
-        } else {
-            UserAuth.$createUser({email: $scope.newuser.email, password: $scope.newuser.password}).then(function (authUser) {
-                UserAuth.$login("password", {
-                    email: $scope.newuser.email,
-                    password: $scope.newuser.password
-                }).then(function (client) {
-                    if ($scope.newuser.group.name == "trainer") {
-                        var myRef = Trainers.ref().child(client.uid);
-                        var sync = $firebase(myRef);
-                        var user = sync.$asObject();
+        UserAuth.$createUser({email: $scope.newuser.email, password: $scope.newuser.password}).then(function (authUser) {
+            console.log(authUser);
+            UserAuth.$authWithPassword({
+                email: $scope.newuser.email,
+                password: $scope.newuser.password
+            }).then(function (client) {
+                if ($scope.newuser.group == "Trainers") {
+                    var myRef = Trainers.ref().child(client.uid);
+                    var user = $firebaseObject(myRef);
 
-                        user.md5_hash = authUser.user.md5_hash;
-                        user.$priority = authUser.user.uid;
-                        user.group = $scope.newuser.group.name;
-                        user.username = $scope.newuser.username;
-                        user.email = $scope.newuser.email;
-                        user.gym = $scope.newuser.gym;
-                        user.token = $scope.newuser.token;
-                        user.$save().then(function (thing) {
-                            console.log(thing);
-                        });
-                    } else {
-                        var myRef = Users.ref().child(client.uid);
-                        var sync = $firebase(myRef);
-                        var user = sync.$asObject();
-                        user.md5_hash = authUser.user.md5_hash;
-                        user.$priority = authUser.user.uid;
-                        user.group = $scope.newuser.group.name;
-                        user.username = $scope.newuser.username;
-                        user.email = $scope.newuser.email;
-                        user.$save().then(function (thing) {
-                            console.log(thing);
-                        });
-                    }
+                    user.$priority = Date.now();
+                    user.group = "Trainers";
+                    user.username = $scope.newuser.username;
+                    user.email = $scope.newuser.email;
+                    user.gym = $scope.newuser.gym;
+                    user.tokens = 0;
+                    user.$save().then(function (thing) {
+                        console.log(thing);
+                    });
+                } else {
+                    var myRef = Users.ref().child(client.uid);
+                    var user = $firebaseObject(myRef);
+                    user.$priority = Date.now();
+                    user.group = "Users";
+                    user.username = $scope.newuser.username;
+                    user.email = $scope.newuser.email;
+                    user.tokens = 0;
+                    user.$save().then(function (thing) {
+                        console.log(thing);
+                    });
+                }
 
 
-                    if ($scope.newuser.group.name == "trainer") {
-                    }
-                    console.log(user);
+                if ($scope.newuser.group.name == "trainer") {
+                }
+                console.log(user);
 
-                }, function (error) {
-                    console.error("Login failed: ", error);
-                });
+            }, function (error) {
+                console.error("Login failed: ", error);
             });
-        }
-        $state.transitionTo(mapstate);
+        }).catch(function(error) {
+            console.error("Error: ", error);
+            alert("Error: ", error);
+        });
+
+//        $state.transitionTo(mapstate);
     }
 
     $scope.back = function() {
         if ($ionicSlideBoxDelegate.currentIndex() >= 1) {
             $ionicSlideBoxDelegate.previous();
         } else {
-            $ionicNavBarDelegate.back();
+//            $ionicNavBarDelegate.back();
+            window.location.href = "#";
         }
     };
 
@@ -224,7 +201,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
     }
 
     $scope.nextPressed = function(index) {
-        if ($ionicSlideBoxDelegate.currentIndex() == 0 && $scope.newuser.group === 'User') {
+        if ($ionicSlideBoxDelegate.currentIndex() == 0 && $scope.newuser.group === 'Users') {
             $scope.register();
         } else {
             $ionicSlideBoxDelegate.next();

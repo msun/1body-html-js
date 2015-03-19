@@ -8,17 +8,17 @@
                     <div class="main-instructions">Sign up</div>
                     <div class="ob-form register-ob-form-1">
                         <div class="ob-form-row ob-form-text-input-row">
-                            <input class="ob-form-text-input" ng-model="newuser.firstname" type="text" name="first-name" placeholder="First Name"/>
+                            <input class="ob-form-text-input" ng-model="newuser.username" type="text" name="name" placeholder="Name"/>
                         </div>
-                        <div class="ob-form-row ob-form-text-input-row">
-                            <input class="ob-form-text-input" ng-model="newuser.lastname" type="text" name="last-name" placeholder="Last Name"/>
-                        </div>
+                        <!--<div class="ob-form-row ob-form-text-input-row">-->
+                            <!--<input class="ob-form-text-input" ng-model="newuser.lastname" type="text" name="last-name" placeholder="Last Name"/>-->
+                        <!--</div>-->
                         <div class="ob-form-row ob-form-switch-row">
                             <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Female'}" ng-click="newuser.gender = 'Female'">Female</button>
                             <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Male'}" ng-click="newuser.gender = 'Male'">Male</button>
                         </div>
-                        <div class="ob-form-row ob-form-text-input-row" ng-model="newuser.email">
-                            <input class="ob-form-text-input" type="email" name="email" placeholder="Email"/>
+                        <div class="ob-form-row ob-form-text-input-row">
+                            <input class="ob-form-text-input" type="email" ng-model="newuser.email" name="email" placeholder="Email"/>
                         </div>
                         <div class="ob-form-row ob-form-text-input-row">
                             <input class="ob-form-text-input" type="password" ng-model="newuser.password" placeholder="Password"/>
@@ -31,8 +31,8 @@
                         </div>
                         -->
                         <div class="ob-form-row ob-form-switch-row">
-                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'User'}" ng-click="newuser.group = 'User'" >User</button>
-                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Trainer'}"ng-click="newuser.group = 'Trainer'">Professional</button>
+                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Users'}" ng-click="newuser.group = 'Users'" >User</button>
+                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Trainers'}"ng-click="newuser.group = 'Trainers'">Professional</button>
                         </div>
                     </div>
                     <button class="block-blue-button" ng-click="nextPressed()">Sign up!</button>
@@ -51,13 +51,13 @@
                             <span class="left-prompt-text ob-blue-color">
                                 Profession
                             </span>
-                            <span class="main-content">
-                                <div class="ob-tag-2">Personal Trainer</div>
-                                <div class="ob-tag-2">Weight Therapy</div>
-                            </span>
-                            <span class="right-icon-container">
-                                <img class="small-plus-icon" src="img/event-profile/date-picker-button.png"/>
-                            </span>
+                            <!--<span class="main-content">-->
+                                <!--<div class="ob-tag-2">Personal Trainer</div>-->
+                                <!--<div class="ob-tag-2">Weight Therapy</div>-->
+                            <!--</span>-->
+                            <!--<span class="right-icon-container">-->
+                                <!--<img class="small-plus-icon" src="img/event-profile/date-picker-button.png"/>-->
+                            <!--</span>-->
                         </div>
                         <div class="ob-form-row">
                             <textarea class="ob-form-textarea" placeholder="Tell us about yourself and your passion for fitness"></textarea>

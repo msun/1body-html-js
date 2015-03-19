@@ -77,7 +77,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
     $scope.selectedTrainerLocation = $firebaseObject(GeoTrainers.ref().child($scope.trainerName));
 
     $scope.selectedTrainerLocation.$loaded(function(){
-        loadMap();
+//        loadMap();
     });
 
     console.log($scope.selectedTrainer);
@@ -85,8 +85,8 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
 
     var transactions = Transactions.ref().child($scope.selectedTrainer.$id);
 
-    var myTransactions = $firebaseObject(MyTransactions.ref().child(appFactory.user.$id).orderByChild("trainerID").equalTo($scope.selectedTrainer.$id));
-    console.log(myTransactions);
+//    var myTransactions = $firebaseObject(MyTransactions.ref().child(appFactory.user.$id).orderByChild("trainerID").equalTo($scope.selectedTrainer.$id));
+//    console.log(myTransactions);
     $scope.addTransaction = function(){
         var newTransaction = {
             userID: appFactory.user.$id,
@@ -140,13 +140,13 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
 //        newReview.reviewed = false;
     };
 
-
-    var queryref = myTransactions.$ref().orderByChild("trainerID").equalTo($scope.selectedTrainer.$id);
-    console.log(queryref);
-    var queriedArray = $firebaseArray(queryref);
-    queriedArray.$loaded(function(){
-        console.log(queriedArray);
-    });
+//
+//    var queryref = myTransactions.$ref().orderByChild("trainerID").equalTo($scope.selectedTrainer.$id);
+//    console.log(queryref);
+//    var queriedArray = $firebaseArray(queryref);
+//    queriedArray.$loaded(function(){
+//        console.log(queriedArray);
+//    });
 
 
 
