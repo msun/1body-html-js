@@ -9,7 +9,7 @@ trainer.factory('Time', function(){
 });
 
 
-trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, Reviews, appConfig) {
+trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, Reviews, appConfig, Followers, Following) {
     console.log($stateParams.trainerName);
     $scope.trainerName = $stateParams.trainerName;
     $scope.max = 5;
@@ -19,6 +19,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
     $scope.amount = 0;
     $scope.isReadonly = false;
     $scope.newreview = {};
+    $scope.notFollowing = true;
 
     $ionicModal.fromTemplateUrl('js/trainer/templates/review.html', {
         scope: $scope,
@@ -32,6 +33,13 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
         animation: 'slide-in-up'
     }).then(function(modal){
         $scope.imageModal = modal;
+    });
+
+    $ionicModal.fromTemplateUrl('js/trainer/templates/trainer-schedule-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.scheduleModal = modal;
     });
 
     var loadMap = function(){
@@ -82,6 +90,12 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
 
     console.log($scope.selectedTrainer);
 
+    var followers = $firebaseObject(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id));
+    followers.$loaded(function(){
+        if(followers.username){
+            $scope.notFollowing = false;
+        }
+    });
 
     var transactions = Transactions.ref().child($scope.selectedTrainer.$id);
 
@@ -225,8 +239,16 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
     $scope.$on('$destroy', function() {
         $scope.reviewModal.remove();
         $scope.imageModal.remove();
+        $scope.scheduleModal.remove();
     });
 
+    $scope.showScheduleModal = function(){
+        $scope.scheduleModal.show();
+    }
+
+    $scope.closeScheduleModal = function(){
+        $scope.scheduleModal.hide();
+    }
 
 //    $scope.addReview = function(){
 //        $scope.transaction.disableReview();
@@ -241,7 +263,19 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
 
     $scope.openImageModal = function(){
         $scope.imageModal.show();
-        $scope.bigimage = $firebase(Images.ref().child($scope.selectedTrainer.$id).child("profilepic")).$asObject();
+        $scope.bigimage = $firebaseObject(Images.ref().child($scope.selectedTrainer.$id).child("profilepic"));
+        $scope.bigimage.$loaded(function(){
+            console.log($scope.bigimage);
+        });
+    };
+
+    $scope.closeImageModal = function(){
+        $scope.imageModal.hide();
+    };
+
+    $scope.openImageModal = function(){
+        $scope.imageModal.show();
+        $scope.bigimage = $firebaseObject(Images.ref().child($scope.selectedTrainer.$id).child("profilepic"));
         $scope.bigimage.$loaded(function(){
             console.log($scope.bigimage);
         });
@@ -252,17 +286,14 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
     };
 
     $scope.follow = function(){
-        var followers = $firebase(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id)).$asObject();
-        followers.$loaded(function() {
-            followers.username = appFactory.user.username;
-            if(appFactory.user.profilepic){
-                followers.profilepic = appFactory.user.profilepic;
-            }
-            if(appFactory.user.info){
-                followers.info = appFactory.user.info;
-            }
-            followers.$save();
-        });
+        followers.username = appFactory.user.username;
+        if(appFactory.user.profilepic){
+            followers.profilepic = appFactory.user.profilepic;
+        }
+        if(appFactory.user.info){
+            followers.info = appFactory.user.info;
+        }
+        followers.$save();
 
         var following = $firebase(Following.ref().child(appFactory.user.$id).child($scope.selectedTrainer.$id)).$asObject();
         following.$loaded(function() {

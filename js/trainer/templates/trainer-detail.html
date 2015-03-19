@@ -25,7 +25,7 @@
     <ion-content>
     <div class="profile-top">
 
-        <div class="follow-button" ng-click=""><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
+        <div class="follow-button" ng-show="notFollowing" ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
 
         <div class="profile-top-padding-div"></div>
 
@@ -68,8 +68,8 @@
             <span class="profile-stats-container-empty-item"></span>
         </div>
 
-        <button class="profile-main-action-button">
-            <span class="first-word">Book</span> a class with Greg!
+        <button class="profile-main-action-button" ng-click="showScheduleModal()">
+            <span class="first-word">Book</span> a class with {{selectedTrainer.username}}!
         </button>
 
     </div>
@@ -95,36 +95,49 @@
                 </span>
         </div>
         <div class="profile-bottom-content">
-            <div class="activity-feed">
-                <div class="activity-row">
-                    <img class="activity-image" src="img/professional-profile/tmp/Review-Persona-RoundedCorner-Small.png">
-                    <div class="activity-text">
-                        <span class="linked-text">Sam</span>,&nbsp;
-                        <span class="linked-text">Dane</span>, and&nbsp;
-                        <span class="linked-text">Tara</span> are now following Greg!&nbsp;
-                        <span class="activity-time">1m</span>
-                    </div>
-                    <div class="activity-row-end"></div>
-                </div>
-                <div class="activity-row">
-                    <img class="activity-image" src="img/professional-profile/featured-activity-star.png">
-                    <div class="activity-text">
-                        Greg is now a 4 star trainer!
-                        <span class="activity-time">8h</span>
-                    </div>
-                    <div class="activity-row-end"></div>
-                </div>
-                <div class="activity-row">
-                    <img class="activity-image" src="img/professional-profile/tmp/Review-Persona-RoundedCorner-Small2.png">
-                    <div class="activity-text">
-                        Dane left Greg a review!
-                        <span class="activity-time">2d</span>
-                    </div>
-                    <div class="activity-row-end"></div>
-                </div>
-            </div>
+            <ion-list>
+                <ion-item ng-repeat="review in reviews" ng-click="replyto()">
+                    <p><strong>{{review.userID}}</strong></p>
+                    <!--<p>-->
+                    <!--<rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating> {{review.creation}}-->
+                    <!--</p>-->
+                    <p>{{review.created}}</p>
+                    <!--<p style="font-size: 10px">{{review.username}} left at: {{review.creation}}</p>-->
+                </ion-item>
+                <p ng-show="reviews.length < 5">No more reviews</p>
+                <button ng-show="reviews.length == 5" class="button" ng-click="moreReviews()">More reviews</button>
+            </ion-list>
+            <!--<div class="activity-feed">-->
+                <!--<div class="activity-row">-->
+                    <!--<img class="activity-image" src="img/professional-profile/tmp/Review-Persona-RoundedCorner-Small.png">-->
+                    <!--<div class="activity-text">-->
+                        <!--<span class="linked-text">Sam</span>,&nbsp;-->
+                        <!--<span class="linked-text">Dane</span>, and&nbsp;-->
+                        <!--<span class="linked-text">Tara</span> are now following Greg!&nbsp;-->
+                        <!--<span class="activity-time">1m</span>-->
+                    <!--</div>-->
+                    <!--<div class="activity-row-end"></div>-->
+                <!--</div>-->
+                <!--<div class="activity-row">-->
+                    <!--<img class="activity-image" src="img/professional-profile/featured-activity-star.png">-->
+                    <!--<div class="activity-text">-->
+                        <!--Greg is now a 4 star trainer!-->
+                        <!--<span class="activity-time">8h</span>-->
+                    <!--</div>-->
+                    <!--<div class="activity-row-end"></div>-->
+                <!--</div>-->
+                <!--<div class="activity-row">-->
+                    <!--<img class="activity-image" src="img/professional-profile/tmp/Review-Persona-RoundedCorner-Small2.png">-->
+                    <!--<div class="activity-text">-->
+                        <!--Dane left Greg a review!-->
+                        <!--<span class="activity-time">2d</span>-->
+                    <!--</div>-->
+                    <!--<div class="activity-row-end"></div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
+    </ion-content>
     </ion-content>
 </ion-view>
 
