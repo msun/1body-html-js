@@ -9,7 +9,7 @@ trainer.factory('Time', function(){
 });
 
 
-trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, Reviews, appConfig, Followers, Following) {
+trainer.controller('TrainerDetailCtrl', function(mapFactory,$localstorage, Sizes, Review, MyReviews, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, Reviews, appConfig, Followers, Following) {
     console.log($stateParams.trainerName);
     $scope.trainerName = $stateParams.trainerName;
     $scope.max = 5;
@@ -20,6 +20,9 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
     $scope.isReadonly = false;
     $scope.newreview = {};
     $scope.notFollowing = true;
+    $scope.numOfFollowers = 0;
+    $scope.numOfFollowings = 0;
+    $scope.numOfReviews = 0;
 
     $ionicModal.fromTemplateUrl('js/trainer/templates/review.html', {
         scope: $scope,
@@ -71,16 +74,15 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
         $scope.selectedTrainer = appFactory.trainers[$scope.trainerName];
     } else {
         $scope.selectedTrainer = $firebaseObject(Trainers.ref().child($scope.trainerName));
+        $scope.selectedTrainer.$loaded(function(){
+            appFactory.trainers[$scope.trainerName] = $scope.selectedTrainer;
+            appFactory.trainers[$scope.trainerName].refreshed = true;
+
+            $localstorage.setObject("Trainers", appFactory.trainers);
+        })
     }
 
-    $scope.follow = function(){
-        if(!appFactory.user.following){
-            appFactory.user.following = [];
-        }
-        appFactory.user.following[$scope.selectedTrainer.$id] = {
-
-        }
-    }
+    $scope.sizes = $firebaseObject(Sizes.ref().child($scope.selectedTrainer.$id));
 
     $scope.selectedTrainerLocation = $firebaseObject(GeoTrainers.ref().child($scope.trainerName));
 
@@ -90,9 +92,9 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
 
     console.log($scope.selectedTrainer);
 
-    var followers = $firebaseObject(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id));
-    followers.$loaded(function(){
-        if(followers.username){
+    var followerMe = $firebaseObject(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id));
+    followerMe.$loaded(function(){
+        if(followerMe.username){
             $scope.notFollowing = false;
         }
     });
@@ -125,108 +127,56 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
 
     console.log(appConfig);
     var reviewPriority = 0;
+    $scope.reviewCount = appConfig.maxReviewCount;
     $scope.reviews = $firebaseArray(reviewRef.startAt(reviewPriority).limitToFirst(appConfig.defaultItemsPerPage));
     $scope.reviews.$loaded(function(){
-        console.log($scope.reviews);
-        reviewPriority = $scope.reviews[$scope.reviews.length - 1].$priority + 1;
-        console.log(reviewPriority);
+        if($scope.reviews.length > 0){
+            $scope.reviewCount = $scope.reviews[0].$priority;
+            console.log($scope.reviews);
+            reviewPriority = $scope.reviews[$scope.reviews.length - 1].$priority + 1;
+            console.log(reviewPriority);
+        }
     });
 
     $scope.moreReviews = function(){
         $scope.reviews = $firebaseArray(reviewRef.startAt(reviewPriority).limitToFirst(appConfig.defaultItemsPerPage));
         $scope.reviews.$loaded(function(){
-            console.log($scope.reviews);
-            reviewPriority = $scope.reviews[$scope.reviews.length - 1].$priority + 1;
-            console.log(reviewPriority);
+            if($scope.reviews.length > 0) {
+                console.log($scope.reviews);
+                reviewPriority = $scope.reviews[$scope.reviews.length - 1].$priority + 1;
+                console.log(reviewPriority);
+            }
         });
     };
 
     $scope.addReview = function(){
+        $scope.reviewCount --;
         var newReview = {
             userID: appFactory.user.$id,
             trainerID: $scope.selectedTrainer.$id,
+            text: "test review",
             created: Date.now(),
-            $priority: Date.now()
+            $priority: $scope.reviewCount
         };
+        console.log(newReview);
 
-        var newReviewRef = $scope.reviews.$add(newReview);
-//        console.log(newReviewRef.key());
-//        newReview.reviewed = false;
+        var newReviewRef = $scope.reviews.$add(newReview).then(function(ref) {
+            if($scope.sizes.numOfReviews){
+                $scope.sizes.numOfReviews++;
+            } else {
+                $scope.sizes.numOfReviews = 1;
+            }
+            console.log($scope.sizes);
+            $scope.sizes.$save();
+            var myreview = $firebaseObject(MyReviews.ref().child(appFactory.user.$id).child(ref.key()));
+            myreview.userID = appFactory.user.$id;
+            myreview.trainerID = $scope.selectedTrainer.$id;
+            myreview.text = "test review";
+            myreview.created = Date.now();
+            myreview.$priority = $scope.reviewCount;
+            myreview.$save();
+        });
     };
-
-//
-//    var queryref = myTransactions.$ref().orderByChild("trainerID").equalTo($scope.selectedTrainer.$id);
-//    console.log(queryref);
-//    var queriedArray = $firebaseArray(queryref);
-//    queriedArray.$loaded(function(){
-//        console.log(queriedArray);
-//    });
-
-
-
-
-//    var userRef = appFactory.userRef.child(appFactory.user.$id).child("transactions");
-//    var userTsct = $firebase(userRef);
-//    var array = userTsct.$asArray();
-//    array.$loaded(function(){
-//        console.log(array);
-//    });
-//
-//    var trainerRef = Trainers.ref().child($scope.selectedTrainer.$id).child("transactions");
-//    var trainerTsct = $firebase(trainerRef);
-//    var showing = false;
-//
-//    var showScanQR = function(transaction){
-//        if(!showing){
-//            $timeout(function(){
-//                showing = true;
-//                $rootScope.offline = true;
-//                $rootScope.link = "#/menu/account/qrcode/" + transaction.$id;
-//                $rootScope.warningMsg = "Get ready for your workout, click me to scan your QRcode";
-//                $rootScope.click = function(){
-//                    console.log($rootScope.link);
-//                    window.location.href = "#/menu/account/qrcode/" + transaction.$id;
-//                    $rootScope.offline = false;
-//                }
-//            })
-//        }
-//    }
-//
-//    var showLeaveReview = function(transaction){
-//        if(!showing){
-//            $timeout(function(){
-//                showing = true;
-//                $rootScope.offline = true;
-////                $rootScope.link = "#/tab/account/qrcode/" + transaction.$id;
-//                $rootScope.warningMsg = "Please leave a review";
-//                $rootScope.click = function(){
-//                    console.log($rootScope.link);
-////                    window.location.href = "#/tab/account/qrcode/" + transaction.$id;
-//                    $scope.modal.show();
-//                    $rootScope.offline = false;
-//                }
-//            })
-//        }
-//    }
-//
-//    $scope.showAddReview = function() {
-//        var returnval = false;
-//        array.forEach(function (item) {
-//            if (item.trainerID == $scope.selectedTrainer.$id) {
-////                console.log(item);
-//                if (!item.leftreview && !item.scanned){
-//                    setTimeout(showScanQR(item), 5000);
-//                }
-//                if (!item.leftreview && item.scanned) {
-//                    $scope.transaction = new Transaction(item);
-//                    console.log($scope.transaction);
-//                    setTimeout(showLeaveReview(item), 1000);
-//                    returnval = true;
-//                }
-//            }
-//        });
-//        return returnval;
-//    }
 
     $scope.showReviewModal = function(){
         $scope.reviewModal.show();
@@ -249,17 +199,6 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
     $scope.closeScheduleModal = function(){
         $scope.scheduleModal.hide();
     }
-
-//    $scope.addReview = function(){
-//        $scope.transaction.disableReview();
-//        if($scope.newreview.text && $scope.newreview.text.length > 0){
-//            var newreview = new Review(appFactory.user, $scope.selectedTrainer, $scope.newreview.text, $scope.transaction.$id);
-//            newreview.add();
-//            $scope.reviewModal.remove();
-//        } else {
-//            alert("Review cannot be empty");
-//        }
-//    };
 
     $scope.openImageModal = function(){
         $scope.imageModal.show();
@@ -286,16 +225,23 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
     };
 
     $scope.follow = function(){
-        followers.username = appFactory.user.username;
+        followerMe.username = appFactory.user.username;
         if(appFactory.user.profilepic){
-            followers.profilepic = appFactory.user.profilepic;
+            followerMe.profilepic = appFactory.user.profilepic;
         }
         if(appFactory.user.info){
-            followers.info = appFactory.user.info;
+            followerMe.info = appFactory.user.info;
         }
-        followers.$save();
+        followerMe.$save().then(function(){
+            if($scope.sizes.numOfFollowers){
+                $scope.sizes.numOfFollowers++;
+            } else {
+                $scope.sizes.numOfFollowers = 1;
+            }
+            $scope.sizes.$save();
+        });
 
-        var following = $firebase(Following.ref().child(appFactory.user.$id).child($scope.selectedTrainer.$id)).$asObject();
+        var following = $firebaseObject(Following.ref().child(appFactory.user.$id).child($scope.selectedTrainer.$id));
         following.$loaded(function() {
             following.username = $scope.selectedTrainer.username;
             console.log($scope.selectedTrainer.profilepic);
@@ -307,6 +253,13 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, Review, Transaction
             }
             console.log(following);
             following.$save().then(function(){
+                if(appFactory.mysizes.numOfFollowing){
+                    appFactory.mysizes.numOfFollowing++;
+                } else {
+                    appFactory.mysizes.numOfFollowing = 1;
+                }
+                appFactory.mysizes.$save();
+
                 alert("Following user: " + $scope.selectedTrainer.username);
             });
         });
@@ -618,7 +571,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
     }
 });
 
-trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopup) {
+trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFactory, $ionicPopup, Schedule, $firebaseArray, Transactions, MyTransactions) {
     return {
         restrict: "E",
         templateUrl: "js/trainer/templates/schedulerUserView.html",
@@ -664,14 +617,17 @@ trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopu
             }
 
             scope.collapse = true;
-            scope.$watch('dt', function (newValue, oldValue) {
-                scope.theday = scope.dt.getUTCFullYear() + "-" + scope.dt.getUTCMonth() + "-" + scope.dt.getUTCDate();
 
-                scope.selectedTrainer.$loaded(function(){
-                    console.log(scope.theday);
-                    if(scope.selectedTrainer.schedule[scope.theday]){
-                        scope.active = scope.selectedTrainer["schedule"][scope.theday];
-                        console.log(scope.active);
+            scope.printTime = function(){
+                console.log(scope.dt);
+            }
+            scope.$watch('dt', function (newValue, oldValue) {
+                console.log(scope.dt);
+                scope.theday = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
+                var daySchedule = $firebaseObject(Schedule.ref().child(scope.selectedTrainer.$id).child(scope.theday));
+                daySchedule.$loaded(function(){
+                    if(daySchedule.active){
+                        scope.active = daySchedule.active;
                     } else {
                         for(var i=0; i<scope.active.length; i++){
                             scope.active[i] = false;
@@ -687,7 +643,7 @@ trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopu
                     }
                     console.log(scope.chosen);
                 })
-            });
+            }, true);
 
             scope.charge = function(){
                 var booked = [];
@@ -736,6 +692,9 @@ trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopu
                 }
                 console.log(bookedReduced);
 
+                var transactions = Transactions.ref().child($scope.selectedTrainer.$id);
+                var myTransactions = $firebaseObject(MyTransactions.ref().child(appFactory.user.$id));
+
                 for(var i=0; i<bookedReduced.length; i++) {
                     var time = bookedReduced[i].starttime;
                     if(time.toString().length == 1){
@@ -751,40 +710,35 @@ trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopu
                     if(curdate.toString().length == 1){
                         curdate = "0" + curdate.toString();
                     }
-                    var starttime = new Date(scope.dt.getUTCFullYear() + "-" + (scope.dt.getMonth()+1) + "-" + curdate + "T" + time + ":00");
+                    var starttime = new Date(scope.dt.getFullYear() + "-" + (scope.dt.getMonth()+1) + "-" + curdate + "T" + time + ":00");
                     console.log(starttime);
-                    var utcstarttime = new Date(starttime.getTime() + starttime.getTimezoneOffset() * 60000);
-                    var epoch = utcstarttime.getTime();
-                    console.log(utcstarttime);
-//                    var newtransaction = new Transaction(appFactory.user, scope.selectedTrainer, bookedReduced[i].period*30, bookedReduced[i].period*30, epoch);
-//                    console.log(newtransaction);
-//
-//                    var successCallback = function(result){
-//                        console.log(result);
-//                        newtransaction.add(function () {
-//                            if(i==bookedReduced.length-1){
-//
-//                                var alertPopup = $ionicPopup.alert({
-//                                    title: 'Success',
-//                                    template: 'Transactions Added Successfully'
-//                                });
-//                                alertPopup.then(function (res) {
-//                                    console.log('popup closed');
-//                                });
-//                            }
-//                        });
-//                    }
-//                    var errorCallback = function(result){
-//                        console.log(result);
-//                    }
-//
-//                    exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', [
-//                        {amount: scope.amount, currency: "cad", type: "training"}
-//                    ]);
+//                    var utcstarttime = new Date(starttime.getTime() + starttime.getTimezoneOffset() * 60000);
+//                    var epoch = utcstarttime.getTime();
+//                    console.log(utcstarttime);
+                    var startTimestamp = scope.dt.getTime();
 
+                    var transaction = {
+                        userID: appFactory.user.$id,
+                        trainerID: $scope.selectedTrainer.$id,
+                        tokens: 2,
+                        created: Date.now(),
+                        $priority: startTimestamp
+                    };
 
-
+                    (function(newTransaction){
+                        var transactionRef = transactions.push(newTransaction);
+                        console.log(transactionRef.key());
+                        newTransaction.reviewed = false;
+                        newTransaction.scanned = false;
+                        myTransactions[transactionRef.key()] = newTransaction;
+                        myTransactions.$save().then(function(ref) {
+                            console.log(ref.key());
+                        }, function(error) {
+                            console.log("Error:", error);
+                        });
+                    }(transaction));
                 }
+
                 for(var i=0; i<slots.half.length; i++){
                     for(var j=0; j<booked.length; j++){
                         if(slots.half[i] == booked[j].starttime){
@@ -806,7 +760,7 @@ trainer.directive('schedulerUserView', function($timeout, appFactory, $ionicPopu
     }
 });
 
-trainer.directive('scheduler', function($timeout, appFactory){
+trainer.directive('scheduler', function($timeout, appFactory, $firebaseArray, $firebaseObject, Schedule){
     return {
         restrict: "E",
         templateUrl: "js/trainer/templates/scheduler.html",
@@ -841,29 +795,29 @@ trainer.directive('scheduler', function($timeout, appFactory){
             }
 
             scope.confirm = function () {
-                var name = scope.dt.getUTCFullYear() + "-" + scope.dt.getUTCMonth() + "-" + scope.dt.getUTCDate();
+                var name = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
+                var daySchedule = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child(name));
+                daySchedule.active = scope.active;
 
-                console.log(name);
-                if(!appFactory.user["schedule"]){
-                    appFactory.user["schedule"] = [];
-                }
-                appFactory.user["schedule"][name] = scope.active;
-                console.log(appFactory.user);
-                appFactory.user.$save();
-
+                daySchedule.$save();
             }
 
             scope.collapse = true;
             scope.$watch('dt', function (newValue, oldValue) {
-                var name = scope.dt.getUTCFullYear() + "-" + scope.dt.getUTCMonth() + "-" + scope.dt.getUTCDate();
-                if(appFactory.user["schedule"][name]){
-                    scope.active = appFactory.user["schedule"][name];
-                } else {
-                    for(var i=0; i<scope.active.length; i++){
-                        scope.active[i] = false;
+                var name = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
+
+                var daySchedule = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child(name));
+                daySchedule.$loaded(function(){
+                    if(daySchedule.active){
+                        scope.active = daySchedule.active;
+                    } else {
+                        for(var i=0; i<scope.active.length; i++){
+                            scope.active[i] = false;
+                        }
                     }
-                }
-            });
+                })
+
+            }, true);
 
         }
     }

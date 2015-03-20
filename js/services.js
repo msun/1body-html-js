@@ -99,6 +99,36 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
+    .factory("MyReviews", function(Firebase) {
+        var ref = Firebase.child("myReviews");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("Schedule", function(Firebase) {
+        var ref = Firebase.child("schedule");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("Sizes", function(Firebase, $firebaseObject) {
+        var ref = Firebase.child("sizes");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
     .factory("GeoClasses", function(Firebase) {
         var ref = new GeoFire(Firebase.child("geoClasses"));
         return ref;
@@ -439,7 +469,7 @@ angular.module('starter.services', ["firebase"])
         return Event;
     })
 
-    .factory('appFactory', function($http, baseUrl, User, Event, Gyms, GeoTrainers, Trainers, GeoEvents, Events, GeoGyms, Classes, $firebaseObject, $firebaseArray, $localstorage) {
+    .factory('appFactory', function($http, baseUrl, User, Event, Gyms, GeoTrainers, Trainers, GeoEvents, Events, GeoGyms, Classes, $firebaseObject, $firebaseArray, $localstorage, Sizes) {
         var factory = {};
         factory.user = {};
         factory.userRef = undefined;
@@ -448,6 +478,7 @@ angular.module('starter.services', ["firebase"])
         factory.events = {};
         factory.position = null;
         factory.state = "Trainers";
+        factory.mysizes = {};
 
         factory.getDistance = function(lat1,lon1,lat2,lon2) {
             var R = 6371; // Radius of the earth in km

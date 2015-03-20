@@ -48,7 +48,7 @@
         <div class="profile-stats-container">
             <span class="profile-stats-container-empty-item"></span>
                 <span class="followers-item">
-                    <div class="followers-count">106</div>
+                    <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
                     <div>Followers</div>
                 </span>
                 <span class="reviews-item">
@@ -59,10 +59,10 @@
                         <img class="review-star" id="review-star-4" src="img/professional-profile/blue-star-single.png"/>
                         <img class="review-star" id="review-star-5" src="img/professional-profile/white-star-single.png"/>
                     </div>
-                    <div>(<span class="reviews-count">22</span> Reviews)</div>
+                    <div>(<span class="reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
                 </span>
                 <span class="following-item">
-                    <div class="following-count">66</div>
+                    <div class="following-count">{{sizes.numOfFollowings || 0}}</div>
                     <div>Following</div>
                 </span>
             <span class="profile-stats-container-empty-item"></span>
@@ -88,7 +88,7 @@
                         <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
                         <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
                     </a>
-                    <a class="button profile-tab" id="profile-tab-4">
+                    <a class="button profile-tab" id="profile-tab-4" ng-click="addReview()">
                         <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
                         <!--<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>-->
                     </a>

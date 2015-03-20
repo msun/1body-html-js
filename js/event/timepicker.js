@@ -13,6 +13,10 @@ angular.module('timeAndDate', [])
     .directive('timePicker', ['timeAndDateConfig', '$timeout', function(timeAndDateConfig, $timeout) {
         return {
             restrict: 'E',
+            scope:{
+                dt: '=dt',
+                tm: "="
+            },
             templateUrl: 'js/event/templates/timepicker.html',
             link: function(scope, element, attrs) {
                 console.log(scope.time);
@@ -27,6 +31,7 @@ angular.module('timeAndDate', [])
                 scope.showDatePicker = attrs.showDatePicker || true;
 
                 scope.time = attrs.time;
+                console.log(scope.dt);
                 var dTime;
 
                 scope.decrementHours = function() {
@@ -103,7 +108,6 @@ angular.module('timeAndDate', [])
                     if(dTime < Date.now()){
                         dTime = new Date();
                     }
-                    console.log(dTime.getHours());
                     var theRightHour = scope.widget.hours;
                     var theRightMeridian = scope.widget.meridian;
                     if (scope.showMeridian) {
@@ -117,7 +121,6 @@ angular.module('timeAndDate', [])
                             theRightMeridian = scope.meridians[0];
                         }
                     }
-                    console.log(theRightHour);
                     $timeout(function(){
                         scope.widget.meridian = theRightMeridian;
                         scope.widget.hours = theRightHour;
@@ -126,6 +129,8 @@ angular.module('timeAndDate', [])
                         scope.widget.day = dTime.getDate();
                         scope.widget.year = dTime.getFullYear();
                         scope.dayOfWeek = timeAndDateConfig.daysInAWeek[dTime.getDay()];
+                        scope.dt = dTime;
+                        console.log(scope.dt);
                     })
                 }
 
@@ -171,7 +176,6 @@ angular.module('timeAndDate', [])
                 var updateModel = function() {
                     if (angular.isDefined(scope.widget.hours) && angular.isDefined(scope.widget.minutes)) {
                         scope.time = scope.widget.hours + ':' + scope.widget.minutes + ' ' + scope.widget.meridian;
-                        console.log(scope.time);
                     } else {
                         setTime(scope.time);
                     }

@@ -41,7 +41,7 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebaseArray, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage) {
+account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage) {
     var loadLocalUser = function(user){
         appFactory.user = user;
         $rootScope.user = appFactory.user;
@@ -92,6 +92,8 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebase
 
         console.log(UserAuth.$getAuth());
         if(UserAuth.$getAuth() && !$scope.user.email){
+            appFactory.mysizes = $firebaseObject(Sizes.ref().child(UserAuth.$getAuth().uid));
+
             var user = $localstorage.getObject("user");
             console.log(user);
             if(user.$id && user.$id === UserAuth.$getAuth().uid){
@@ -104,6 +106,8 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebase
                 email: $scope.user.email,
                 password: $scope.user.password
             }).then(function (user) {
+                appFactory.mysizes = $firebaseObject(Sizes.ref().child(user.uid));
+
                 var localuser = $localstorage.getObject("user");
                 console.log(localuser);
                 if(localuser.$id && localuser.$id == user.uid){

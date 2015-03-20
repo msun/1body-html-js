@@ -1,12 +1,13 @@
-<link rel="stylesheet" type="text/css" href="/css/scheduler.css">
+<link rel="stylesheet" type="text/css" href="css/scheduler.css">
 <ion-view>
     <ion-content class="menu1-content-no-header">
         <div class="menu1-content-div">
+            <button ng-click="confirm()">Confirm</button>
             <div class="main-instructions">Set your availabile time slots as a professional</div>
             <div class="ob-form">
                 <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
                     <span class="ob-form-timepicker-prompt ob-blue-text">Date</span>
-                    <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                    <time-picker class="ob-form-timepicker" dt="dt" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                 </div>
                 <div class="ob-form-row">
                     <table class="timeslot-table">

@@ -1,12 +1,4 @@
-<pre>Selected date is: <em ng-click="collapse = !collapse">{{dt | date:'fullDate' }}</em></pre>
-<button class="button button-dark" ng-click="collapse = !collapse">
-    <i class="icon ion-calendar"></i>
-</button>
-
-<div collapse="collapse" >
-    <datepicker ng-model="dt" min-date="minDate" class="well well-sm" show-weeks="false"></datepicker>
-</div>
-
+<time-picker dt="dt" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
 <table style="width: 100%">
     <tr ng-repeat="time in timeslots track by $index" style="height: 30px">
         <td style="width: 50%; border-bottom: 1px solid white; vertical-align: middle; text-align: center;">
@@ -26,3 +18,4 @@
         </td>
     </tr>
 </table>
+<button ng-click="printTime()">okay</button>

@@ -11,7 +11,9 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         baseUrl: "http://localhost:8888/",
         apikey: "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc",
         mapstate: "menu.map",
-        defaultItemsPerPage: 5
+        defaultItemsPerPage: 5,
+        maxReviewCount: 100000,
+        maxFollowerCount: 100000
     })
     .value("baseUrl", "http://localhost:8888/")
     .value("apikey", "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc")
