@@ -7,11 +7,11 @@
     position: relative;
     padding: 0px;
     height: 97px;
+    padding-top: 20px;
 }
 
 .ob-sidemenu-header-content {
     position: relative;
-    padding-top: 20px;
     width: 100%;
     height: 100%;
 }

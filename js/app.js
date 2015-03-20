@@ -416,6 +416,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.account.old-my-events', {
+                url: '/old-my-events',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/old-my-events.html',
+                        controller: 'MyEventCtrl'
+                    }
+                }
+            })
+
             .state('menu.account.my-events', {
                 url: '/my-events',
                 views: {

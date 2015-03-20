@@ -205,7 +205,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
     }
 
     $scope.nextPressed = function(index) {
-        if ($ionicSlideBoxDelegate.currentIndex() == 0 && $scope.newuser.group === 'Users') {
+        if ($ionicSlideBoxDelegate.currentIndex() == 0 && $scope.newuser.group != 'Trainers') {
             $scope.register();
         } else {
             $ionicSlideBoxDelegate.next();
