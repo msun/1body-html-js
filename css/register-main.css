@@ -8,6 +8,8 @@
 }
 
 .password-icon {
+    -moz-flex: 0 0 17px;
+    -webkit-flex: 0 0 17px;
     flex: 0 0 17px;
     height: 13px;
 }
