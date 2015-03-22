@@ -33,6 +33,7 @@
 }
 
 .purchase-credits-value {
+    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     margin-left: 20px;
     padding: 0px 4px;
@@ -49,6 +50,7 @@
 }
 
 .purchase-credits-count {
+    -webkit-flex: 99 99 auto;
     flex: 99 99 auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 18px;
@@ -57,6 +59,7 @@
 }
 
 .purchase-credits-plus-minus-container {
+    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 31px;
     height: 31px;
@@ -112,6 +115,7 @@
 }
 
 .purchase-credits-total-text {
+    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     font-family: "Avenir Next LT Pro", sans-serif;
     font-size: 16px;
@@ -120,6 +124,7 @@
 }
 
 .purchase-credits-buy-credits-text-container {
+    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     -moz-align-self: stretch;
     -webkit-align-self: stretch;
@@ -128,6 +133,7 @@
 }
 
 .purchase-credits-buy-credits-text {
+    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 16px;

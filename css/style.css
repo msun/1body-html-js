@@ -747,6 +747,7 @@
     -webkit-align-items: center;
     align-items: center;
     padding: 0px 9px;
+    height: auto;
 }
 
 .ob-form-timepicker-prompt {
@@ -764,6 +765,7 @@
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     color: #3884ed;
+    margin: 16px 0px;
 }
 
 /* ********** ********** ********** ********** ***********/

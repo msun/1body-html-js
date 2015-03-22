@@ -2,15 +2,15 @@
 <ion-view>
     <ion-content class="menu1-content-no-header">
         <div class="menu1-content-div">
-            <button ng-click="confirm()">Confirm</button>
-            <button ng-click="printTime()">checktime</button>
+            <button class="block-blue-button block-button-shadow" ng-click="confirm()">Confirm</button>
+            <button class="block-blue-button block-button-shadow" ng-click="printTime()">Check Time</button>
             <div class="main-instructions">Set your availabile time slots as a professional</div>
             <div class="ob-form">
                 <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
                     <span class="ob-form-timepicker-prompt ob-blue-text">Date</span>
                     <time-picker class="ob-form-timepicker" dt="dt" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                 </div>
-                <div class="ob-form-row">
+                <div class="ob-form-row ob-form-row-autoheight">
                     <table class="timeslot-table">
                         <tr class="timeslot-row" ng-repeat="time in timeslots track by $index">
                             <td class="timeslot-time-column">
