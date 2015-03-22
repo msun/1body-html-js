@@ -3,6 +3,7 @@
     <ion-content class="menu1-content-no-header">
         <div class="menu1-content-div">
             <button ng-click="confirm()">Confirm</button>
+            <button ng-click="printTime()">checktime</button>
             <div class="main-instructions">Set your availabile time slots as a professional</div>
             <div class="ob-form">
                 <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
@@ -16,14 +17,15 @@
                                 {{time | displayTime}}
                             </td>
                             <td class="timeslot-status-column">
-                                <div ng-show="!active[$index]" class="timeslot-status">Open</div>
-                                <div ng-show="active[$index]" class="timeslot-status">Set</div>
+                                <div ng-show="active[$index] == -1" class="timeslot-status">Open</div>
+                                <div ng-show="active[$index] == 0" class="timeslot-status">Set</div>
+                                <div ng-show="active[$index] == 1" class="timeslot-status">Booked</div>
                             </td>
                             <td class="timeslot-button-column">
-                                <button ng-show="!active[$index]" class="timeslot-button" ng-click="selectTime($index)">
+                                <button ng-show="active[$index] == -1" class="timeslot-button" ng-click="selectTime($index)">
                                     <i class="icon ion-plus"></i>
                                 </button>
-                                <button ng-show="active[$index]" class="timeslot-button" ng-click="selectTime($index)">
+                                <button ng-show="active[$index] == 0" class="timeslot-button" ng-click="selectTime($index)">
                                     <i class="icon ion-checkmark"></i>
                                 </button>
                             </td>

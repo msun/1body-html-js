@@ -13,13 +13,12 @@ angular.module('timeAndDate', [])
     .directive('timePicker', ['timeAndDateConfig', '$timeout', function(timeAndDateConfig, $timeout) {
         return {
             restrict: 'E',
+            transclude: 'true',
             scope:{
-                dt: '=dt',
-                tm: "="
+                dt: '=dt'
             },
             templateUrl: 'js/event/templates/timepicker.html',
             link: function(scope, element, attrs) {
-                console.log(scope.time);
                 scope.minuteStep = parseInt(attrs.minuteStep, 10) || timeAndDateConfig.minuteStep;
                 scope.showMeridian = scope.$eval(attrs.showMeridian) || timeAndDateConfig.showMeridian;
                 scope.meridians = attrs.meridians || timeAndDateConfig.meridians;

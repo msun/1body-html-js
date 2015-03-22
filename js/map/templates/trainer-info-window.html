@@ -1,5 +1,5 @@
 <div class="list infowindow-list">
-    <a ng-repeat="(key, item) in array" ng-if="markers[val].items.indexOf(key) > -1" class="map-bubble-content-container" href="#/menu/Trainers/{{item.$id}}">
+    <a class="map-bubble-content-container" href="#/menu/Trainers/{{item.$id}}">
         <div class="map-bubble-content">
             <div class="map-bubble-img-column">
                 <span class="map-bubble-img-container">
@@ -8,7 +8,7 @@
                 </span>
             </div>
             <div class="map-bubble-text-column map-bubble-text-column-trainer">
-                <div class="map-bubble-title">{{item.username}}{{item.name}}</div> <!--{{item.imgLink}}-->
+                <div class="map-bubble-title">{{item.username}}</div> <!--{{item.imgLink}}-->
                 <div class="map-bubble-subtitle">Trainer</div>
                 <!--<div class="map-bubble-time">Starts Thursday May 15</div>-->
                 <div class="map-bubble-review-stars">

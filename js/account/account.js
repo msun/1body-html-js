@@ -228,7 +228,7 @@ account.controller('MyEventCtrl', function($scope, User, appFactory, baseUrl, $t
 
 });
 
-account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $firebase, Transactions, Transaction){
+account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $firebaseObject, Transactions, MyTransactions){
     $scope.clientCode = "";
     $scope.scanClient = function() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -246,12 +246,14 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
                     "format: " + result.format + "\n" +
                     "cancelled: " + result.cancelled + "\n");
 
-                var obj = $firebase(Transactions.ref().child(result.text)).$asObject();
-                obj.$loaded(function () {
-                    var transaction = new Transaction(obj);
-                    console.log(transaction);
-                    transaction.scan();
-
+                var transcation = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child(result.text));
+                transcation.$loaded(function () {
+                    console.log(transcation);
+                    var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child(result.text));
+                    myTransaction.scanned = true;
+                    myTransaction.$save().then(function(){
+                        alert("Transaction processed");
+                    });
                 })
             }, function (error) {
                 console.log("Scanning failed: ", error);
@@ -260,17 +262,19 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
     }
 
     $scope.enterCode = function(){
-        var obj = $firebase(Transactions.ref().child($scope.clientCode)).$asObject();
-        obj.$loaded(function () {
-            var transaction = new Transaction(obj);
-            console.log(transaction);
-            transaction.scan();
+        var transcation = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child($scope.clientCode));
+        transcation.$loaded(function () {
+            console.log(transcation);
+            var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child($scope.clientCode));
+            myTransaction.scanned = true;
+            myTransaction.$save().then(function(){
+                alert("Transaction processed");
+            });
         })
     }
-
 });
 
-account.controller('QRcodeCtrl', function($scope, Transaction, Users, Trainers, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams){
+account.controller('QRcodeCtrl', function($scope, Transaction, Users, Trainers, $firebaseObject, $firebaseArray, MyTransactions, appFactory, $timeout, $stateParams){
     if($stateParams.transactionID.length > 1){
         var element = document.getElementById("qrcode");
 
@@ -281,14 +285,10 @@ account.controller('QRcodeCtrl', function($scope, Transaction, Users, Trainers, 
             element.appendChild(showQRCode($stateParams.transactionID));
     } else {
         $scope.transaction = "";
-        var ref = $firebase(appFactory.userRef.child(appFactory.user.$id).child("transactions"));
-        console.log(ref);
-        $scope.transactions = ref.$asArray();
-
+        $scope.transactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("scanned").equalTo(false));
         $scope.transactions.$loaded(function(){
             console.log($scope.transactions);
         });
-
 
         $scope.update = function(transaction){
             console.log(transaction);
@@ -669,10 +669,10 @@ account.controller('SetLocationCtrl', function($scope, User, appFactory, baseUrl
                 type: 'button-positive',
                 onTap: function(e) {
                     console.log($scope.marker.getPosition());
-                    GeoTrainers.set(appFactory.user.$id, [$scope.marker.getPosition().k, $scope.marker.getPosition().B]).then(function() {
+                    GeoTrainers.set(appFactory.user.$id, [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()]).then(function() {
                         console.log("Provided key has been added to GeoFire");
-                        appFactory.user.latitude = $scope.marker.getPosition().k;
-                        appFactory.user.longitude = $scope.marker.getPosition().B;
+                        appFactory.user.latitude = $scope.marker.getPosition().lat();
+                        appFactory.user.longitude = $scope.marker.getPosition().lng();
                         console.log(appFactory.user);
                         appFactory.user.$save().then(function(){
                             console.log(appFactory.user);
@@ -716,45 +716,26 @@ account.controller('SetLocationCtrl', function($scope, User, appFactory, baseUrl
 
 });
 
-account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebase, Requests, Trainers){
-    var ref = $firebase(appFactory.userRef.child(appFactory.user.$id).child("requests"));
-    var requests = ref.$asArray();
-    $scope.requests = [];
+account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseArray, Requests, Trainers){
+    $scope.requests = $firebaseArray(Requests.ref().child(appFactory.user.$id));
     var now = Date.now();
-    requests.$loaded(function(){
-        console.log(requests);
-        var mReqs = [];
-        for(var j=0; j<requests.length; j++) {
-            for (var prop in requests[j]) {
-                if (requests[j].hasOwnProperty(prop)) {
-                    console.log(prop);
-                    if (prop.indexOf("$") != 0) {
-                        console.log(requests[j][prop]);
-                        mReqs.push(requests[j][prop]);
-                    }
-                }
-            }
+    $scope.requests.$loaded(function(){
+        console.log(now);
+        for(var j=0; j<$scope.requests.length; j++) {
+            var req = $scope.requests[j];
+            $scope.requests[j].profilepic = appFactory.trainers[req.trainerID].profilepic;
 
-            if (now - mReqs[mReqs.length-1].created > 86400000) {
+            if (now - req.created > 86400000) {
                 console.log("remove");
-                (function (req) {
-                    requests.$remove(req).then(function (ref) {
+                (function (index) {
+                    $scope.requests.$remove(index).then(function (ref) {
                         console.log(ref);
                     });
-                }(requests[j]));
+                }(j));
+            } else if (now - req.created > 3600000) {
+                $scope.requests[j].expired = true;
             }
         }
-
-        for(var k=0; k<mReqs.length; k++){
-            if (now - mReqs[k].created > 3600000) {
-                mReqs[k].expired = true;
-            }
-            console.log(now - mReqs[k].created);
-        }
-        $timeout(function(){
-            $scope.requests = mReqs;
-            console.log($scope.requests);
-        })
     });
 });
 
@@ -828,10 +809,9 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
     }
 });
 
-account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebase, Requests, Trainers){
+account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseArray, $firebaseObject, Requests, IncomingRequests, Trainers){
     console.log(appFactory.user);
-    var ref = $firebase(appFactory.userRef.child(appFactory.user.$id).child("incoming_requests"));
-    $scope.requests = ref.$asArray();
+    $scope.requests = $firebaseArray(IncomingRequests.ref().child(appFactory.user.$id));
     $scope.requests.$loaded(function(){
         console.log($scope.requests);
         for(var j=0; j<$scope.requests.length; j++){
@@ -874,9 +854,36 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, b
         });
 
         map.setCenter(center);
-    }
+    };
+
+    $scope.acceptRequest = function(item){
+        var reqRef = Requests.ref().child(item.userID);
+        var reqs = $firebaseArray(reqRef.orderByPriority().equalTo(item.created));
+
+        reqs.$loaded(function(){
+            console.log(reqs);
+            for(var i=0; i < reqs.length; i++){
+                if(reqs[i].$id == item.$id){
+                    if(!reqs[i].expired){
+                        reqs[i].trainerAccecpted = true;
+                        (function(index){
+                            reqs.$save(index);
+                        }(i))
+                    }
+                } else {
+                    if(!reqs[i].trainerAccecpted){
+                        reqs[i].expired = true;
+                        (function(index){
+                            reqs.$save(index);
+                        }(i))
+                    }
+                }
+            }
+        })
+    };
 
     $scope.acceptRequests = function(){
+
         console.log($scope.requests);
         for(var k=0; k<$scope.requests.length; k++){
             var mRequest = $scope.requests[k];

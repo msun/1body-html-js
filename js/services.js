@@ -79,6 +79,16 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
+    .factory("IncomingRequests", function(Firebase) {
+        var ref = Firebase.child("incomingRequests");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
     .factory("Events", function(Firebase) {
         var ref = Firebase.child("events");
 

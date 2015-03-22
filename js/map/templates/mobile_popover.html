@@ -4,7 +4,8 @@
     <!--</ion-header-bar>-->
     <ion-content>
         <div class="list">
-            <ion-toggle ng-model="searchContainer.mobile_trainers" toggle-class="toggle-calm">Mobile Trainers</ion-toggle>
+            <ion-toggle ng-model="searchContainer.mobile_trainers" ng-change="searchMobileTrainers()" toggle-class="toggle-calm">Mobile Trainers</ion-toggle>
+            <ion-toggle ng-model="searchContainer.redo_search" toggle-class="toggle-calm">Redo search</ion-toggle>
 
             <div class="button-bar">
                 <button class="button button-dark" ng-click="closePopover()">

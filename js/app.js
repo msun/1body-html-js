@@ -573,7 +573,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $ionicSideMenuDelegate.toggleLeft();
 
         appFactory.trainers = $localstorage.getObject("Trainers");
-        console.log(appFactory.trainers);
+        console.log(JSON.stringify(appFactory.trainers));
         appFactory.events = $localstorage.getObject("Events");
         console.log(appFactory.events);
         appFactory.gyms = $localstorage.getObject("Gyms");
