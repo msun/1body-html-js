@@ -376,6 +376,10 @@
     border: 1px solid transparent;
 }
 
+.menu2-content {
+    background: #383838;
+}
+
 .main-instructions {
     width: 220px;
     margin: 23px auto 10px;
@@ -417,7 +421,7 @@
     background-color: transparent;
     border-radius: 8px;
     border: 1px solid #7f7b73;
-    margin: 0px auto 0px;
+    margin: 16px auto;
     overflow: hidden;
 }
 
@@ -425,6 +429,11 @@
     background-color: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid #7f7b73;
     overflow: hidden;
+    height: 42px;
+}
+
+.ob-form-row-autoheight {
+    height: auto;
 }
 
 .ob-form-row-:first-child {
@@ -459,7 +468,7 @@
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     overflow: hidden;
-    margin: 4px 12px;
+    margin: 0px 12px;
     background: transparent;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.7px;
@@ -510,6 +519,16 @@
     margin-left: 0px;
 }
 
+.ob-form-text-input-prompt {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    margin: 4px 0px 4px 12px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.7px;
+    color: #3884ed;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* ob-form-textarea */
 /* ********** ********** ********** ********** ***********/
@@ -546,6 +565,10 @@
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.5px;
     color: #a4a2a3;
+}
+
+.ob-form-textarea-small {
+    height: 75px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -678,6 +701,40 @@
 /* ob-form-timepicker */
 /* ********** ********** ********** ********** ***********/
 
+.ob-form-icon-row {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    padding-right: 12px;
+}
+
+.ob-form-icon-prompt {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    margin: auto 0px auto 12px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.7px;
+    color: #3884ed;
+}
+
+.ob-form-icon {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+    margin: 0px auto 0px 12px;
+    border-radius: 4px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-timepicker */
+/* ********** ********** ********** ********** ***********/
+
 .ob-form-timepicker-row {
     display: -moz-flex;
     display: -webkit-flex;
@@ -751,6 +808,25 @@
 /* ********** ********** ********** ********** ***********/
 /* buttons */
 /* ********** ********** ********** ********** ***********/
+
+.block-dark-button {
+    display: block;
+    width: 301px;
+    border-radius: 5px;
+    border: none;
+    background-color: #282828;
+    margin: 15px auto 11px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.69px;
+    color: white;
+    padding: 8px 0px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.block-dark-button:active {
+    background-color: #444444;
+}
 
 .block-blue-button {
     display: block;
