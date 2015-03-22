@@ -340,6 +340,10 @@
     color: #3884ed;
 }
 
+.ob-strong-blue-color {
+    color: #2b6acf;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* nav-bar */
 /* ********** ********** ********** ********** ***********/
@@ -889,6 +893,51 @@
 
 .block-button1:active {
     background-color: white;
+}
+
+.buttongroup2 {
+    display: -webkit-flex;
+    display: flex;
+    height: 42px;
+    width: 300px;
+    margin: 12px auto;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #2b6acf;
+}
+
+.buttongroup2-button {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: white;
+    padding: auto 8px;
+    background-color: #2b6acf;
+    border: none;
+    border-right: 1px solid #70727f;
+}
+
+.buttongroup2-button:last-child {
+    border-right: none;
+}
+
+.buttongroup2-button:active; {
+    background-color: #265db5;
+}
+
+.buttongroup2-icon {
+    font-size: 20px;
+}
+
+.buttongroup2-transparent-dark-style {
+    background-color: transparent;
+    color: white;
+}
+
+.buttongroup2-transparent-dark-style:active {
+    background-color: transparent;
+    color: white;
 }
 
 .ob-footer-button {

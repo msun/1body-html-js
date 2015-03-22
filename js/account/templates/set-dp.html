@@ -1,5 +1,5 @@
 <ion-view title="My Info">
-    <ion-content>
+    <ion-content class="has-header">
         <ion-scroll min-zoom="1" delegate-handle="mainScroll" zooming="true" direction="xy" style="width: 100vw; height: 100vw" on-scroll="scrolling()">
             <div id="displayPicContainer" style="padding: 15%; width: 100%">
                 <img id="displayPic" width="100%"/>
@@ -8,16 +8,14 @@
         </ion-scroll>
         <div style="margin-top: -100vw; width: 100vw; height: 100vw">
             <div style="height: 15vw; width: 100vw">
-                <div class="image-frame-first-row">
-                </div>
+                <div class="image-frame-first-row"></div>
                 <div class="image-frame-first-row" style="border-bottom: 1px dotted"></div>
                 <div class="image-frame-first-row" style="border-bottom: 1px dotted"></div>
                 <div class="image-frame-first-row"></div>
             </div>
             <div style="height: 35vw; width: 100vw">
                 <div style="border-right: 1px dotted; height: 35vw; width: 15vw; background: white; opacity: 0.5; float: left"></div>
-                <div style="width: 70vw; height: 35vw; float: left">
-                </div>
+                <div style="width: 70vw; height: 35vw; float: left"></div>
                 <div style="height: 35vw; width: 15vw; border-left: 1px dotted; background: white; opacity: 0.5; float: left"></div>
             </div>
             <div style="height: 35vw; width: 100vw">
@@ -33,17 +31,16 @@
             </div>
         </div>
 
-        <div class="button-bar" style="z-index: 200">
-            <a class="button button-assertive" ng-click="rotatemodal()">Rotate</a>
-            <a class="button button-assertive icon-right ion-minus" ng-click="zoomout()"></a>
-            <a class="button button-assertive icon-right ion-plus" ng-click="zoomin()"></a>
-            <a class="button button-assertive icon-right ion-plus-right" ng-click="cropImage()">Crop</a>
+        <div class="buttongroup2">
+            <button class="buttongroup2-button" ng-click="rotatemodal()"><i class="icon ion-refresh buttongroup2-icon"></i></button>
+            <button class="buttongroup2-button" ng-click="zoomout()"><i class="icon ion-plus buttongroup2-icon"></i></button>
+            <button class="buttongroup2-button" ng-click="zoomin()"><i class="icon ion-minus buttongroup2-icon"></i></button>
+            <button class="buttongroup2-button" ng-click="cropImage()"><i class="icon ion-crop buttongroup2-icon"></i></button>
         </div>
-
-        <div class="button-bar">
-            <a class="button button-block button-calm" ng-click="takeimg()">Camera</a>
-            <a class="button button-block button-calm" ng-click="fromstorage()">Storage</a>
-            <a class="button button-block button-calm" ng-click="useimg()">Set</a>
+        <div class="buttongroup2">
+            <button class="buttongroup2-button" ng-click="takeimg()"><i class="icon ion-camera buttongroup2-icon"></i></button>
+            <button class="buttongroup2-button" ng-click="fromstorage()"><i class="icon ion-images buttongroup2-icon"></i></button>
         </div>
+        <div class="block-blue-button" ng-click="useimg()">Save</div>
     </ion-content>
 </ion-view>
