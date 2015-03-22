@@ -78,7 +78,7 @@ map.directive('classInfoWindow', function(){
     }
 });
 
-map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout, $firebase, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Trainers, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray) {
+map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $firebase, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Trainers, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray, $ionicModal) {
     $scope.header = appFactory.state;
     var searchKeys = ["firstname", "lastname", "info", "group", "gym", "username", "email", "name"];
     $scope.categories = Categories;
@@ -392,7 +392,8 @@ map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout
             pinSource = GeoGyms;
             firebaseSource = Gyms;
         }
-
+        console.log(tab);
+        console.log($scope.array);
 
         $scope.geoQuery = pinSource.query({
             center: center,
@@ -401,17 +402,22 @@ map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout
 
         $scope.geoQuery.on("key_entered", function(key, location, distance) {
             if(!$scope.array[key]){
-
                 var obj = $firebaseObject(firebaseSource.ref().child(key));
                 obj.$loaded().then(function () {
                     obj.distance = distance;
                     obj.location = location;
                     obj.refreshed = false;
                     $scope.array[key] = obj;
-                    $scope.array[key].refreshed = true;
                     $localstorage.setObject(tab, $scope.array);
+                    $scope.array[key].refreshed = true;
                     dropMarker(key, radius, center, searchTerms, mobile, tab);
                 });
+            } else {
+                $scope.array[key].distance = distance;
+                $scope.array[key].location = location;
+                $scope.array[key].refreshed = false;
+                $localstorage.setObject(tab, $scope.array);
+                $scope.array[key].refreshed = true;
             }
         });
 
@@ -467,4 +473,43 @@ map.controller('TrainerMapCtrl', function($rootScope, $scope, $compile, $timeout
         alert("switch to list view");
     }
 
+    $ionicModal.fromTemplateUrl('js/map/templates/list-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.listModal = modal;
+    });
+
+    $scope.$on('$destroy', function() {
+        $scope.listModal.remove();
+    });
+
+    $scope.showListModal = function(){
+        $scope.listModal.show();
+    }
+
+    $scope.closeListModal = function(){
+        $scope.listModal.hide();
+    }
 });
+
+//map.controller('ListCtrl', function($scope, appFactory, $timeout, $stateParams, $firebase, Events) {
+//    $scope.clickontab = function(tab, $event){
+//        console.log($event);
+//        console.log(tab);
+//        $scope.header = tab;
+//        $rootScope.header = tab;
+//        appFactory.state = tab;
+//        $scope.searchContainer.searchTerms = "";
+//        $scope.searchContainer.searchRadius = "";
+//        clearpins();
+//        dropPins(tab);
+//    }
+//
+//    for(var key in $scope.array) {
+//        if (!$scope.array.hasOwnProperty(key)) {
+//            continue;
+//        }
+//
+//    }
+//});

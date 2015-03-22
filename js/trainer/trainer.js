@@ -9,7 +9,7 @@ trainer.factory('Time', function(){
 });
 
 
-trainer.controller('TrainerDetailCtrl', function(mapFactory,$localstorage, Sizes, Review, MyReviews, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, Reviews, appConfig, Followers, Following) {
+trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Sizes, Review, MyReviews, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, Reviews, appConfig, Followers, Following) {
     console.log($stateParams.trainerName);
     $scope.trainerName = $stateParams.trainerName;
     $scope.max = 5;
@@ -248,21 +248,18 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory,$localstorage, Sizes
     };
 });
 
-trainer.controller('ListCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Events) {
-    console.log(appFactory.trainers);
-    appFactory.state = "Trainers";
-
-    if(appFactory.state == "Trainers"){
-        $scope.items = appFactory.trainers;
-    } else if (appFactory.state == "Events"){
-
-    } else {
-        $scope.items = appFactory.trainers;
-    }
-
-
-
-});
+//trainer.controller('ListCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Events) {
+//    console.log(appFactory.trainers);
+//    appFactory.state = "Trainers";
+//
+//    if(appFactory.state == "Trainers"){
+//        $scope.items = appFactory.trainers;
+//    } else if (appFactory.state == "Events"){
+//
+//    } else {
+//        $scope.items = appFactory.trainers;
+//    }
+//});
 
 trainer.controller('FollowersCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Followers, Trainers) {
     $scope.items = $firebase(Followers.ref().child(appFactory.user.$id)).$asArray();

@@ -170,13 +170,23 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 views: {
                     'menu': {
                         templateUrl: 'js/map/templates/tab-map.html',
-                        controller: 'TrainerMapCtrl'
+                        controller: 'MapCtrl'
                     }
                 }
             })
-//
-//            .state('menu.list', {
-//                url: '/list',
+
+            .state('menu.list', {
+                url: '/list',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/map/templates/list.html',
+                        controller: 'ListCtrl'
+                    }
+                }
+            })
+
+//            .state('menu.trainer', {
+//                url: '/Trainers',
 //                views: {
 //                    'menu': {
 //                        templateUrl: 'js/trainer/templates/trainer.html',
@@ -184,16 +194,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                    }
 //                }
 //            })
-
-            .state('menu.trainer', {
-                url: '/Trainers',
-                views: {
-                    'menu': {
-                        templateUrl: 'js/trainer/templates/trainer.html',
-                        controller: 'ListCtrl'
-                    }
-                }
-            })
 
             .state('menu.trainer-detail', {
                 url: '/Trainers/:trainerName',

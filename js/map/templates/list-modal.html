@@ -1,0 +1,36 @@
+<link rel="stylesheet" type="text/css" href="css/trainer.css">
+
+<ion-modal-view style="background: rgba(0, 0, 0, 0.6)">
+    <ion-header-bar class="bar-subheader ob-trainer-bar-container">
+        <div class="ob-trainer-bar">
+            <a class="ob-trainer-bar-button" ng-click="clickontab('Trainers', $event)">Professionals</a>
+            <a class="ob-trainer-bar-button" ng-click="clickontab('Classes', $event)">Classes</a>
+            <a class="ob-trainer-bar-button" ng-click="clickontab('Events', $event)">Events</a>
+        </div>
+    </ion-header-bar>
+    <ion-content class="ob-search-list-view-content">
+        <div class="ob-search-list">
+            <a class="ob-search-list-row" ng-repeat="(key, item) in array | orderBy:'item.distance'" href="#/menu/{{item.group}}/{{item.$id}}">
+            <!--<div class="ob-search-list-row" ng-repeat="">-->
+                <div class="ob-search-list-row-left">
+                    <img class="ob-search-list-img" src="{{item.profilepic}}"/>
+                </div>
+                <div class="ob-search-list-row-right">
+                    <div class="ob-search-list-text">
+                        <span class="ob-search-list-text-title ob-blue-color">{{item.username}}</span>,
+                        <span class="ob-search-list-profession">{{item.profession}}</span>
+                        <span class="ob-search-list-distance">{{item.distance | number:1}}km</span>
+                    </div>
+                    <div class="ob-search-list-stars">
+                        <img class="ob-search-list-star" src="img/map/tmp/search_list_star.png"/>
+                        <img class="ob-search-list-star" src="img/map/tmp/search_list_star.png"/>
+                        <img class="ob-search-list-star" src="img/map/tmp/search_list_star.png"/>
+                        <img class="ob-search-list-star" src="img/map/tmp/search_list_star.png"/>
+                        <img class="ob-search-list-star" src="img/map/tmp/search_list_star.png"/>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <button class="button button-calm" ng-click="closeListModal()">Close</button>
+    </ion-content>
+</ion-modal-view>
