@@ -1,75 +1,36 @@
-<ion-view title="My Info">
-    <ion-content class="has-header">
-        <!--<img id='sample_picture' src="{{user.imgLink}}" width="80%" style="margin-left: 10%; margin-right: 10%; margin-top: 20px; margin-bottom: 20px" />-->
-        <!--<h1>Guillotine demo</h1>-->
-
-        <!--&lt;!&ndash;<div class='frame'>&ndash;&gt;-->
-        <!--&lt;!&ndash;<img id='sample_picture' src='{{user.imgLink}}'>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-        <!--<div id='controls'>-->
-            <!--<button id='rotate_left'  type='button' title='Rotate left'> &lt; </button>-->
-            <!--<button id='zoom_out'     type='button' title='Zoom out'> - </button>-->
-            <!--<button id='fit'          type='button' title='Fit image'> [ ]  </button>-->
-            <!--<button id='zoom_in'      type='button' title='Zoom in'> + </button>-->
-            <!--<button id='rotate_right' type='button' title='Rotate right'> &gt; </button>-->
-        <!--</div>-->
-
-        <!--<ul id='data'>-->
-            <!--<div class='column'>-->
-                <!--<li>x: <span id='x'></span></li>-->
-                <!--<li>y: <span id='y'></span></li>-->
-            <!--</div>-->
-            <!--<div class='column'>-->
-                <!--<li>width:  <span id='w'></span></li>-->
-                <!--<li>height: <span id='h'></span></li>-->
-            <!--</div>-->
-            <!--<div class='column'>-->
-                <!--<li>scale: <span id='scale'></span></li>-->
-                <!--<li>angle: <span id='angle'></span></li>-->
-            <!--</div>-->
-        <!--</ul>-->
-
-
-
-        <div class="item item-avatar">
-            <img src="{{user.profilepic}}" ng-click="setdp()">
-
-            <h2>{{user.username}}</h2>
-            <p>{{user.group}}</p>
-        </div>
-
-        <div class="button-bar">
-            <a class="button button-calm" ng-click="setdp()">Change Pic</a>
-            <a class="button button-calm" ng-show="user.group == 'Trainers'" href="#/menu/Followers">My Followers</a>
-            <a class="button button-calm" ng-click="save()">Save</a>
-            <a class="button button-calm" ng-click="cancel()">Cancel</a>
-        </div>
-        <div class="list">
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">First Name</span>
-                <input type="text" ng-model="user.firstname" placeholder="{{user.firstname}}">
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Last Name</span>
-                <input type="text" ng-model="user.lastname" placeholder="{{user.lastname}}">
-            </label>
-            <label class="item item-input item-stacked-label" ng-show="user.group == 'trainer'">
-                <span class="input-label">Gym</span>
-                <input type="text" ng-model="user.gym" placeholder="Gym">
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Display Name</span>
-                <input type="text" ng-model="user.username" placeholder="{{user.username}}">
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">About me</span>
-                <input type="text" ng-model="user.info" placeholder="{{user.info}}">
-            </label>
-            <a class="item item-icon-left" ng-click="addCertificate()">
+<ion-view>
+    <ion-content class="has-header menu2-content">
+        <div class="menu1-content-div">
+            <div class="ob-form">
+                <div class="ob-form-row ob-form-text-input-row">
+                    <span class="ob-form-text-input-prompt">Username</span>
+                    <input class="ob-form-text-input" type="text" ng-model="user.username" placeholder="{{user.username}}"/>
+                </div>
+                <div class="ob-form-row ob-form-icon-row">
+                    <span class="ob-form-icon-prompt">Profile Picture </span>
+                    <img class="ob-form-icon" src="{{user.profilepic}}" ng-click="setdp()">
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <span class="ob-form-text-input-prompt">First Name</span>
+                    <input class="ob-form-text-input" type="text" ng-model="user.firstname" placeholder="{{user.firstname}}"/>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <span class="ob-form-text-input-prompt">Last Name</span>
+                    <input class="ob-form-text-input" type="text" ng-model="user.lastname" placeholder="{{user.lastname}}"/>
+                </div>
+                <div class="ob-form-row ob-form-row-autoheight">
+                    <textarea class="ob-form-textarea ob-form-textarea-small" ng-model="user.info" placeholder="Tell us about yourself and your passion for fitness">{{user.info}}</textarea>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <span class="ob-form-text-input-prompt">Gym</span>
+                    <input class="ob-form-text-input" type="text" ng-model="user.gym" placeholder=""/>
+                </div>
+            </div>
+            <div class="block-dark-button" ng-click="addCertificate()">
                 <i class="icon ion-email"></i>
                 Add Certificate
-            </a>
+            </div>
+            <div class="block-blue-button" ng-click="save()">Save</div>
             <ion-list>
                 <ion-item ng-repeat="cert in user.certs">
                     <img src="{{cert}}" style="width: 80%; margin-right: 10%; margin-left: 10%" />
