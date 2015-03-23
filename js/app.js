@@ -567,11 +567,13 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             UserAuth.$unauth();
             $localstorage.clear();
             alert("logged out");
+            window.location.href = "#";
         };
 
         $rootScope.user = appFactory.user;
         $ionicSideMenuDelegate.toggleLeft();
 
+        console.log($localstorage.getObject("user"));
         appFactory.trainers = $localstorage.getObject("Trainers");
         console.log(appFactory.trainers);
         appFactory.events = $localstorage.getObject("Events");

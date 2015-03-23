@@ -18,8 +18,9 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     $scope.timeslots = [];
     $scope.amount = 0;
     $scope.isReadonly = false;
-    $scope.newreview = {};
+    $scope.newreview = {rating:0};
     $scope.notFollowing = true;
+    $scope.reviewRating = 0;
     $scope.numOfFollowers = 0;
     $scope.numOfFollowings = 0;
     $scope.numOfReviews = 0;
@@ -77,15 +78,18 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 
         $scope.selectedTrainerLocation = $firebaseObject(GeoTrainers.ref().child($scope.trainerName));
 
+        $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("trainerID").equalTo($scope.selectedTrainer.$id));
+
         $scope.selectedTrainerLocation.$loaded(function () {
 //        loadMap();
-            var myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("trainerID").equalTo($scope.selectedTrainer.$id));
-            myTransactions.$loaded(function () {
-                console.log(myTransactions);
-                for (var i = 0; i < myTransactions.length; i++) {
-                    if (myTransactions[i].reviewed == false) {
+
+            $scope.myTransactions.$loaded(function () {
+                console.log($scope.myTransactions);
+                for (var i = 0; i < $scope.myTransactions.length; i++) {
+                    if ($scope.myTransactions[i].scanned && $scope.myTransactions[i].reviewed == false) {
                         alert("Please leave a review");
                         $scope.showReviewModal();
+                        $scope.transaction = $scope.myTransactions[i];
                         break;
                     }
                 }
@@ -136,27 +140,38 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         var newReview = {
             userID: appFactory.user.$id,
             trainerID: $scope.selectedTrainer.$id,
-            text: "test review",
+            text: $scope.newreview.text,
+            rating: $scope.newreview.rating,
             created: Date.now(),
             $priority: $scope.reviewCount
         };
         console.log(newReview);
 
         var newReviewRef = $scope.reviews.$add(newReview).then(function(ref) {
-            if($scope.sizes.numOfReviews){
+            if($scope.sizes.rating){
                 $scope.sizes.numOfReviews++;
+                $scope.sizes.rating += $scope.newreview.rating;
             } else {
+                $scope.sizes.rating = $scope.newreview.rating;
                 $scope.sizes.numOfReviews = 1;
             }
-            console.log($scope.sizes);
-            $scope.sizes.$save();
+
+            $scope.sizes.$save().then(function(){
+                console.log($scope.sizes);
+                $scope.myTransactions.$remove($scope.transaction).then(function(){
+                    alert("Review added");
+                    $scope.closeReviewModal();
+                });
+            });
             var myreview = $firebaseObject(MyReviews.ref().child(appFactory.user.$id).child(ref.key()));
             myreview.userID = appFactory.user.$id;
             myreview.trainerID = $scope.selectedTrainer.$id;
-            myreview.text = "test review";
+            myreview.text = $scope.newreview.text;
+            myreview.rating = $scope.newreview.rating;
             myreview.created = Date.now();
             myreview.$priority = $scope.reviewCount;
             myreview.$save();
+
         });
     };
 
@@ -206,7 +221,12 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         $scope.imageModal.hide();
     };
 
+    $scope.rateTrainer = function(rating){
+        $scope.reviewRating = rating
+    }
+
     $scope.follow = function(){
+        console.log(appFactory.user);
         $scope.followerMe.username = appFactory.user.username;
         if(appFactory.user.profilepic){
             $scope.followerMe.profilepic = appFactory.user.profilepic;
@@ -247,19 +267,6 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         });
     };
 });
-
-//trainer.controller('ListCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Events) {
-//    console.log(appFactory.trainers);
-//    appFactory.state = "Trainers";
-//
-//    if(appFactory.state == "Trainers"){
-//        $scope.items = appFactory.trainers;
-//    } else if (appFactory.state == "Events"){
-//
-//    } else {
-//        $scope.items = appFactory.trainers;
-//    }
-//});
 
 trainer.controller('FollowersCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Followers, Trainers) {
     $scope.items = $firebase(Followers.ref().child(appFactory.user.$id)).$asArray();
@@ -494,14 +501,12 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
             $scope.newrequest.userName = appFactory.user.username;
 
             $scope.newrequest.created = Date.now();
-//            $scope.newrequest.trainers = [];
 
             var requestRef = Requests.ref().child(appFactory.user.$id);
 
             var noTrainer = true;
             for (var j = 0; j < $scope.checked.length; j++) {
                 noTrainer = false;
-//                $scope.newrequest.trainers[$scope.checked[j].id] = {trainerAccecpted: false, created: $scope.newrequest.created, trainer: $scope.checked[j].username, starttime: $scope.newrequest.starttime};
                 $scope.newrequest.trainerID = $scope.checked[j].id;
                 $scope.newrequest.trainerName = $scope.checked[j].username;
                 (function(mNewrequest) {
@@ -528,47 +533,6 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
                 alert("please select trainer");
                 return;
             }
-
-//            console.log($scope.newrequest);
-//
-//            requestRef.push($scope.newrequest).then(function (ref) {
-//                var requestID = ref.key();
-//                console.log(requestID);
-//                GeoRequests.set(requestID, [$scope.newrequest.latitude, $scope.newrequest.longitude]).then(function () {
-//                    console.log("Provided key has been added to GeoFire");
-//                });
-//
-//
-//
-//                appFactory.user.requests[requestID] = $scope.newrequest.trainers;
-//                appFactory.user.$save().then(function () {
-//                    var numTrainerSaved = 0;
-//                    for (var j = 0; j < $scope.checked.length; j++) {
-//                        var temp = $scope.checked[j].id;
-//                        console.log($scope.checked[j]);
-//                        (function(t_id) {
-//                            console.log(t_id);
-//                            var m_trainer = $firebase(Trainers.ref().child(t_id)).$asObject();
-//                            m_trainer.$loaded(function () {
-//                                console.log(m_trainer);
-//                                if (!m_trainer.incoming_requests) {
-//                                    m_trainer.incoming_requests = [];
-//                                }
-//                                m_trainer["incoming_requests"][requestID] = {userID: appFactory.user.$id, accepted: false, created: $scope.newrequest.created, starttime: $scope.newrequest.starttime, username: appFactory.user.username, profilepic: appFactory.user.profilepic, latitude: $scope.newrequest.latitude, longitude: $scope.newrequest.longitude, message:$scope.newrequest.message};
-//                                console.log(m_trainer);
-//                                m_trainer.$save().then(function () {
-//                                    numTrainerSaved++;
-//                                    if (numTrainerSaved == $scope.checked.length) {
-//                                        alert(numTrainerSaved);
-//                                        window.location.href = "#/menu/map";
-//                                    }
-//                                    console.log("trainer " + m_trainer.$id + " saved.");
-//                                })
-//                            })
-//                        }(temp));
-//                    }
-//                });
-//            });
         });
     }
 });

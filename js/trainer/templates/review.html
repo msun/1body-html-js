@@ -8,13 +8,21 @@
                 <p>
                     Transaction at: {{transaction.creation}}
                 </p>
-                <p>
-                    Between {{transaction.trainer}} and {{transaction.user}}
-                </p>
             </div>
-            <div class="item" style="font-size: 40px;">
-                <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="setRating()"></rating>
-            </div>
+            <span class="reviews-item item">
+                <div class="review-stars">
+                    <img class="review-star-for-click" ng-hide="newreview.rating > 0" ng-click="newreview.rating=1" src="img/professional-profile/white-star-single.png"/>
+                    <img class="review-star-for-click" ng-show="newreview.rating > 0" ng-click="newreview.rating=1" src="img/professional-profile/blue-star-single.png"/>
+                    <img class="review-star-for-click" ng-hide="newreview.rating > 1" ng-click="newreview.rating=2" src="img/professional-profile/white-star-single.png"/>
+                    <img class="review-star-for-click" ng-show="newreview.rating > 1" ng-click="newreview.rating=2" src="img/professional-profile/blue-star-single.png"/>
+                    <img class="review-star-for-click" ng-hide="newreview.rating > 2" ng-click="newreview.rating=3" src="img/professional-profile/white-star-single.png"/>
+                    <img class="review-star-for-click" ng-show="newreview.rating > 2" ng-click="newreview.rating=3" src="img/professional-profile/blue-star-single.png"/>
+                    <img class="review-star-for-click" ng-hide="newreview.rating > 3" ng-click="newreview.rating=4" src="img/professional-profile/white-star-single.png"/>
+                    <img class="review-star-for-click" ng-show="newreview.rating > 3" ng-click="newreview.rating=4" src="img/professional-profile/blue-star-single.png"/>
+                    <img class="review-star-for-click" ng-hide="newreview.rating > 4" ng-click="newreview.rating=5" src="img/professional-profile/white-star-single.png"/>
+                    <img class="review-star-for-click" ng-show="newreview.rating > 4" ng-click="newreview.rating=5" src="img/professional-profile/blue-star-single.png"/>
+                </div>
+            </span>
             <label class="item item-input item-stacked-label">
                 <textarea type="text" ng-model="newreview.text" placeholder="Leave your review" />
             </label>

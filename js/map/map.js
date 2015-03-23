@@ -339,6 +339,10 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 }
             }
         });
+
+        google.maps.event.addListener(map, 'click', function() {
+            clearinfowindows();
+        });
     }
 
     function clearpins(){
@@ -355,6 +359,15 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             $scope.trainerCircles[i].setMap(null);
         }
         $scope.trainerCircles = [];
+    }
+
+    function clearinfowindows(){
+        for(var key in $scope.markers) {
+            if (!$scope.markers.hasOwnProperty(key)) {
+                continue;
+            }
+            $scope.markers[key].infowindow.close();
+        }
     }
 
     function dropPins(tab, radius, searchTerms, center, fitBounds, mobile, recalculateDistance){
@@ -419,6 +432,11 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             } else {
                 console.log(key);
                 $scope.array[key].distance = distance;
+                if(!$scope.array[key].location){
+                    $scope.array[key].location = location;
+                    dropMarker(key, radius, center, searchTerms, mobile, tab);
+                }
+
                 if($scope.array[key].location[0] != location[0] &&
                     $scope.array[key].location[1] != location[1]){
                     console.log(location);

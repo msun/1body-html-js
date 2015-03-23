@@ -15,9 +15,9 @@
             <div class="ob-sidemenu-header-content" ng-click="toggleMenu()">
                 <div class="ob-sidemenu-header-inner-content">
                     <a class="ob-sidemenu-usericon-container" href="#/menu/account/my-profile">
-                        <img class="ob-sidemenu-usericon" src="img/tmp/SoulCycle-Logo.png"/>
+                        <img class="ob-sidemenu-usericon" src="{{$root.user.profilepic}}"/>
                     </a>
-                    <a class="ob-sidemenu-title" href="#/menu/account/my-profile">SoulCycle</a>
+                    <a class="ob-sidemenu-title" href="#/menu/account/my-profile">{{$root.user.username}}</a>
                     <a class="ob-sidemenu-cog-container" href="" ng-click="toggleMenu()">
                         <img class="ob-sidemenu-cog" src="img/tmp/Cog.png"/>
                     </a>
@@ -27,7 +27,6 @@
         </div>
         <ion-content class="ob-sidemenu-tabs ob-dark-bg" scrollbar-x="false" scrollbar-y="false">
             <ul>
-                <a ng-click ="toggleMenu()" href="#/menu/account/test1" class="item menu-font">Test1</a>
                 <a ng-click ="toggleMenu()" href="#/menu/map" class="item menu-font">Map</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-events" class="item menu-font">My Events</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-requests" class="item menu-font">My Requests</a>
@@ -39,8 +38,7 @@
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/set-location" class="item menu-font">My Location</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/payment-method"  class="item menu-font">My Payment Method</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/buy-tokens" class="item menu-font">Buy Tokens</a>
-                <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editclass/new" class="item menu-font">Add Class</a>
-                <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editgym/new" class="item menu-font">Add Gym</a>
+                <a ng-click ="logout()" class="item menu-font">Logout</a>
             </ul>
         </ion-content>
     </ion-side-menu>

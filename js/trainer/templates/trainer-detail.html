@@ -53,11 +53,15 @@
                 </span>
                 <span class="reviews-item">
                     <div class="review-stars">
-                        <img class="review-star" id="review-star-1" src="img/professional-profile/blue-star-single.png"/>
-                        <img class="review-star" id="review-star-2" src="img/professional-profile/blue-star-single.png"/>
-                        <img class="review-star" id="review-star-3" src="img/professional-profile/blue-star-single.png"/>
-                        <img class="review-star" id="review-star-4" src="img/professional-profile/blue-star-single.png"/>
-                        <img class="review-star" id="review-star-5" src="img/professional-profile/white-star-single.png"/>
+                        <img class="review-star" src="img/professional-profile/blue-star-single.png"/>
+                        <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/white-star-single.png"/>
+                        <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/blue-star-single.png"/>
+                        <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/white-star-single.png"/>
+                        <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/blue-star-single.png"/>
+                        <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/white-star-single.png"/>
+                        <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/blue-star-single.png"/>
+                        <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/white-star-single.png"/>
+                        <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/blue-star-single.png"/>
                     </div>
                     <div>(<span class="reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
                 </span>
@@ -101,7 +105,7 @@
                     <!--<p>-->
                     <!--<rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating> {{review.creation}}-->
                     <!--</p>-->
-                    <p>{{review.created}}</p>
+                    <p>{{review.text}}</p>
                     <!--<p style="font-size: 10px">{{review.username}} left at: {{review.creation}}</p>-->
                 </ion-item>
                 <p ng-show="reviews.length < 5">No more reviews</p>

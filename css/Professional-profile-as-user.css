@@ -238,6 +238,11 @@
     height: 20px;
 }
 
+.review-star-for-click {
+    width: 40px;
+    height: 40px;
+}
+
 .profile-main-action-button {
     position: absolute;
     left: 50%;

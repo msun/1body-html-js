@@ -56,28 +56,27 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebase
     }
 
     var loadUserFromFirebase = function(user){
-        var list = $firebaseArray(Users.ref());
-        if (list.$indexFor(user.uid) >= 0) {
-            appFactory.user = $firebaseObject(Users.ref().child(user.uid));
-            appFactory.user.$loaded(function(){
+        appFactory.user = $firebaseObject(Users.ref().child(user.uid));
+        appFactory.user.$loaded(function(){
+            if(appFactory.user.username){
                 $rootScope.user = appFactory.user;
                 console.log(appFactory.user);
                 $localstorage.setObject("user", appFactory.user);
                 $ionicLoading.hide();
                 $state.transitionTo(mapstate);
-            });
-            appFactory.userRef = Users.ref();
-        } else {
-            appFactory.user = $firebaseObject(Trainers.ref().child(user.uid));
-            appFactory.user.$loaded(function(){
-                $rootScope.user = appFactory.user;
-                console.log(appFactory.user);
-                $localstorage.setObject("user", appFactory.user);
-                $ionicLoading.hide();
-                $state.transitionTo(mapstate);
-            });
-            appFactory.userRef = Trainers.ref();
-        }
+                appFactory.userRef = Users.ref();
+            } else {
+                appFactory.user = $firebaseObject(Trainers.ref().child(user.uid));
+                appFactory.user.$loaded(function(){
+                    $rootScope.user = appFactory.user;
+                    console.log(appFactory.user);
+                    $localstorage.setObject("user", appFactory.user);
+                    $ionicLoading.hide();
+                    $state.transitionTo(mapstate);
+                    appFactory.userRef = Trainers.ref();
+                });
+            }
+        });
     }
 
     $scope.user = {};
@@ -153,10 +152,14 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                     user.group = "Trainers";
                     user.username = $scope.newuser.username;
                     user.email = $scope.newuser.email;
-                    user.gym = $scope.newuser.gym;
+                    if($scope.newuser.gym){
+                        user.gym = $scope.newuser.gym;
+                    }
                     user.tokens = 0;
                     user.$save().then(function (thing) {
                         console.log(thing);
+                        alert("Registered Successfully!");
+                        window.location.href = "#";
                     });
                 } else {
                     var myRef = Users.ref().child(client.uid);
@@ -168,6 +171,8 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                     user.tokens = 0;
                     user.$save().then(function (thing) {
                         console.log(thing);
+                        alert("Registered Successfully!");
+                        window.location.href = "#";
                     });
                 }
 
@@ -181,7 +186,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
             });
         }).catch(function(error) {
             console.error("Error: ", error);
-            alert("Error: ", error);
+            alert(error);
         });
 
 //        $state.transitionTo(mapstate);
