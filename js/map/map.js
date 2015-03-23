@@ -239,7 +239,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             }
 
             var newmarker = new google.maps.Marker({
-                position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                position: new google.maps.LatLng(obj.location[0], obj.location[1]),
                 optimized: true,
                 map: $scope.map
             });
@@ -253,7 +253,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                         fillColor: '#2861ff',
                         fillOpacity: 0.35,
                         map: $scope.map,
-                        center: new google.maps.LatLng(obj.latitude, obj.longitude),
+                        center: new google.maps.LatLng(obj.location[0], obj.location[1]),
                         radius: obj.radius
                     };
                     // Add the circle for this city to the map.
@@ -268,15 +268,15 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 contentString = '<trainer-info-window item=\'array["' + index + '"]\'></trainer-info-window>';
                 console.log(contentString);
                 infowindow = new google.maps.InfoWindow();
-                $scope.markers.push({marker: newmarker, index: index, infowindow: infowindow});
+                $scope.markers[index] = {marker: newmarker, index: index, infowindow: infowindow};
             } else if(tab == "Events") {
                 contentString = '<event-info-window item=\'array["' + index + '"]\'></event-info-window>';
                 infowindow = new google.maps.InfoWindow();
-                $scope.markers.push({marker: newmarker, index: index, infowindow: infowindow});
+                $scope.markers[index] = {marker: newmarker, index: index, infowindow: infowindow};
             } else {
                 contentString = '<class-info-window item=\'array["' + index + '"]\'></class-info-window>';
                 infowindow = new google.maps.InfoWindow({maxWidth: 250});
-                $scope.markers.push({marker: newmarker, index: index, infowindow: infowindow});
+                $scope.markers[index] = {marker: newmarker, index: index, infowindow: infowindow};
             }
             console.log(contentString);
             var compiled = $compile(contentString)($scope);
@@ -342,10 +342,14 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     }
 
     function clearpins(){
-        for (var i = 0; i < $scope.markers.length; i++) { //clear markers
-            $scope.markers[i].marker.setMap(null);
+        for(var key in $scope.markers) {
+            if (!$scope.markers.hasOwnProperty(key)) {
+                continue;
+            }
+            $scope.markers[key].marker.setMap(null);
         }
-        $scope.markers = [];
+
+        $scope.markers = {};
 
         for (var i = 0; i < $scope.trainerCircles.length; i++) { //clear markers
             $scope.trainerCircles[i].setMap(null);
@@ -413,17 +417,33 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                     dropMarker(key, radius, center, searchTerms, mobile, tab);
                 });
             } else {
+                console.log(key);
                 $scope.array[key].distance = distance;
-                $scope.array[key].location = location;
+                if($scope.array[key].location[0] != location[0] &&
+                    $scope.array[key].location[1] != location[1]){
+                    console.log(location);
+                    $scope.array[key].location = location;
+                    $scope.markers[key].marker.setMap(null);
+                    dropMarker(key, radius, center, searchTerms, mobile, tab);
+                }
                 $scope.array[key].refreshed = false;
                 $localstorage.setObject(tab, $scope.array);
                 $scope.array[key].refreshed = true;
             }
         });
 
+        $scope.geoQuery.on("key_moved", function(key, location, distance) {
+            $scope.array[key].distance = distance;
+            console.log(location);
+            $scope.array[key].location = location;
+            $scope.markers[key].marker.setMap(null);
+            dropMarker(key, radius, center, searchTerms, mobile, tab);
+            $localstorage.setObject(tab, $scope.array);
+        });
+
 //        var map = $scope.map;
         var bounds = new google.maps.LatLngBounds();
-        $scope.markers = [];  //group elements at the same distance to one infowindow
+        $scope.markers = {};  //group elements at the same distance to one infowindow
         var objs = [];
 
         console.log($scope.array);
@@ -491,6 +511,22 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     $scope.closeListModal = function(){
         $scope.listModal.hide();
     }
+});
+
+map.filter('toArray', function () {
+    return function (obj, addKey) {
+        if (!(obj instanceof Object)) {
+            return obj;
+        }
+
+        if ( addKey === false ) {
+            return Object.values(obj);
+        } else {
+            return Object.keys(obj).map(function (key) {
+                return Object.defineProperty(obj[key], '$key', { enumerable: false, value: key});
+            });
+        }
+    };
 });
 
 //map.controller('ListCtrl', function($scope, appFactory, $timeout, $stateParams, $firebase, Events) {
