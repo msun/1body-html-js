@@ -866,6 +866,8 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, b
                 if(reqs[i].$id == item.$id){
                     if(!reqs[i].expired){
                         reqs[i].trainerAccecpted = true;
+                        item.trainerAccecpted = true;
+                        $scope.requests.$save(item);
                         (function(index){
                             reqs.$save(index);
                         }(i))
@@ -880,6 +882,8 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, b
                 }
             }
         })
+
+
     };
 
     $scope.acceptRequests = function(){

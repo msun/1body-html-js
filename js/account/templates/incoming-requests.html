@@ -24,7 +24,7 @@
                                     Start: {{item.starttime | parseTimestamp}}
                                 </p>
                             </div>
-                            <button ng-hide="item.expired" class="button button-primary" ng-click="acceptRequest(item)">Accept</button>
+                            <button ng-hide="item.trainerAccecpted || item.expired" class="button button-primary" ng-click="acceptRequest(item)">Accept</button>
                             <span ng-show="item.expired && !item.trainerAccecpted">Expired</span>
                             <span ng-show="item.trainerAccecpted">Accepted</span>
                         </div>
