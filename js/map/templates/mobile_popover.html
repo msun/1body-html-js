@@ -1,30 +1,14 @@
-<ion-popover-view>
-    <!--<ion-header-bar>-->
-        <!--<h1 class="title">Search</h1>-->
-    <!--</ion-header-bar>-->
-    <ion-content>
-        <div class="list">
-            <ion-toggle ng-model="searchContainer.mobile_trainers" ng-change="searchMobileTrainers()" toggle-class="toggle-calm">Mobile Trainers</ion-toggle>
-            <ion-toggle ng-model="searchContainer.redo_search" toggle-class="toggle-calm">Redo search</ion-toggle>
-
-            <div class="button-bar">
-                <button class="button button-dark" ng-click="closePopover()">
-                    close
-                </button>
-                <button class="button button-dark" ng-click="searchMobileTrainers()">
-                    search
-                </button>
-            </div>
-
-            <div class="button-bar">
-                <a class="button button-calm" href="#/menu/Mobile-Trainer-Request">
-                    Mobile training request
-                </a>
-                <a class="button button-calm">
-                    what is this?
-                </a>
-            </div>
-
-        </div>
+<ion-popover-view class="fit">
+<!--
+    <ion-header-bar>
+        <h1 class="title">Search</h1>
+    </ion-header-bar>
+-->
+    <ion-content scroll="false">
+        <ion-toggle class="ob-toggle" ng-model="searchContainer.mobile_trainers" ng-change="searchMobileTrainers()" toggle-class="toggle-dark">Mobile Trainers</ion-toggle>
+        <ion-toggle class="ob-toggle"ng-model="searchContainer.redo_search" toggle-class="toggle-dark">Redo Search</ion-toggle>
+        <!--<button class="button button-dark" ng-click="closePopover()">close</button>-->
+        <button class="block-blue-button ob-block-button-small-margins" ng-click="searchMobileTrainers()">Search Now</button>
+        <a class="block-blue-button ob-block-button-small-margins" href="#/menu/Mobile-Trainer-Request">Mobile Trainers</a>
     </ion-content>
 </ion-popover-view>

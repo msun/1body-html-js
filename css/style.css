@@ -287,7 +287,7 @@
 
 /* remove x on infowindow */
 .gm-style-iw + div {
-    display: none;
+    /*display: none;*/
 }
 
 .ng-invalid {
@@ -355,6 +355,25 @@
 .ob-strong-blue-color {
     color: #2b6acf;
 }
+
+/* ********** ********** ********** ********** ***********/
+/* popover size hack */
+/* http://forum.ionicframework.com/t/popover-sizing/8251/7 */
+/* ********** ********** ********** ********** ***********/
+
+ion-popover-view.fit {
+    height: auto !important;
+    padding: 8px 2px;
+}
+
+ion-popover-view.fit ion-content {
+    position: relative !important;
+}
+
+.platform-android ion-popover-view.fit {
+    margin-top: 10px !important;
+}
+
 
 /* ********** ********** ********** ********** ***********/
 /* nav-bar */
@@ -841,6 +860,11 @@
 /* buttons */
 /* ********** ********** ********** ********** ***********/
 
+.ob-center-button {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .ob-dark-button, .ob-blue-button {
     border-radius: 5px;
     border: none;
@@ -869,12 +893,12 @@
     background-color: #3172cc;
 }
 
-.block-dark-button {
+.block-dark-button, .block-blue-button {
     display: block;
-    width: 300px;
+    width: 93.75%; /* 300px / 320px */
+    max-width: 500px;
     border-radius: 5px;
     border: none;
-    background-color: #282828;
     margin: 15px auto 11px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.69px;
@@ -882,6 +906,10 @@
     padding: 8px 0px;
     text-align: center;
     text-decoration: none;
+}
+
+.block-dark-button {
+    background-color: #282828;
 }
 
 .block-dark-button:active {
@@ -889,22 +917,15 @@
 }
 
 .block-blue-button {
-    display: block;
-    width: 300px;
-    border-radius: 5px;
-    border: none;
     background-color: #3884ed;
-    margin: 15px auto 11px;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.69px;
-    color: white;
-    padding: 8px 0px;
-    text-align: center;
-    text-decoration: none;
 }
 
 .block-blue-button:active {
     background-color: #3172cc;
+}
+
+.ob-block-button-small-margins {
+    margin: 4px auto 4px;
 }
 
 .block-transparent-button {
@@ -1052,6 +1073,18 @@
 }
 
 /* ********** ********** ********** ********** ***********/
+/* ob-toggle */
+/* ********** ********** ********** ********** ***********/
+
+.ob-toggle {
+    max-width: 93.75%;
+    margin: 0px auto;
+    border-radius: 8px;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 14px;
+}
+
+/* ********** ********** ********** ********** ***********/
 /* locations-line */
 /* ********** ********** ********** ********** ***********/
 
@@ -1139,4 +1172,12 @@
     width: 100%;
     height: 100%;
     border-radius: 4px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* list-modal.html */
+/* ********** ********** ********** ********** ***********/
+
+.list-modal-header {
+    background: rgba(0, 0, 0, 0.0);
 }

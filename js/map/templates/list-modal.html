@@ -1,6 +1,14 @@
 <link rel="stylesheet" type="text/css" href="css/trainer.css">
 
 <ion-modal-view style="background: rgba(0, 0, 0, 0.6)">
+    <ion-header-bar class="list-modal-header">
+        <h1 class="title"></h1>
+        <div class="buttons">
+            <button ng-click="closeListModal()" class="button button-icon">
+                <i class="icon ion-close ob-white-color"></i>
+            </button>
+        </div>
+    </ion-header-bar>
     <ion-header-bar class="bar-subheader ob-trainer-bar-container">
         <div class="ob-trainer-bar">
             <a class="ob-trainer-bar-button" ng-click="clickontab('Trainers', $event)">Professionals</a>
@@ -32,6 +40,5 @@
                 </div>
             </a>
         </div>
-        <button class="button button-calm" ng-click="closeListModal()">Close</button>
     </ion-content>
 </ion-modal-view>
