@@ -8,15 +8,15 @@
                         <div class="ob-search-list-row-left">
                             <img class="ob-search-list-img" src="{{item.profilepic}}" ng-click="window.location.href = '#/menu/{{item.group}}/{{item.$id}}'"/>
                         </div>
-                        <div class="ob-search-list-row-right ob-search-list-text-demi">
+                        <div class="ob-search-list-row-right ob-search-list-text">
                             <div ng-click="showOnMap(item)">
-                                <p>From: {{item.userName}}{{item.name}}</p>
-                                <p>{{item.message}}</p>
-                                <p>Start Time: {{item.starttime | parseTimestamp}}</p>
+                                <div>From: <span class="ob-search-list-text-demi">{{item.userName}}{{item.name}}</span></div>
+                                <div>{{item.message}}</div>
+                                <div>Start Time: {{item.starttime | parseTimestamp}}</div>
                             </div>
-                            <button ng-hide="item.trainerAccecpted || item.expired" class="button button-primary" ng-click="acceptRequest(item)">Accept</button>
-                            <span ng-show="item.expired && !item.trainerAccecpted">Expired</span>
-                            <span ng-show="item.trainerAccecpted">Accepted</span>
+                            <button ng-hide="item.trainerAccecpted || item.expired" class="ob-blue-button" ng-click="acceptRequest(item)">Accept</button>
+                            <span class="ob-search-list-text-demi" ng-show="item.expired && !item.trainerAccecpted">Expired</span>
+                            <span class="ob-search-list-text-demi" ng-show="item.trainerAccecpted">Accepted</span>
                         </div>
                     </div>
                 </div>
