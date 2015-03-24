@@ -566,6 +566,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $scope.logout = function(){
             UserAuth.$unauth();
             $localstorage.clear();
+            $scope.toggleMenu();
             alert("logged out");
             window.location.href = "#";
         };

@@ -10,8 +10,8 @@
     </ion-header-bar>
     <ion-content class="ob-search-list-view-content">
         <div class="ob-search-list">
-            <!--<a class="ob-search-list-row" ng-repeat="(key, item) in array | orderBy:'item.distance'" href="#/menu/{{item.group}}/{{item.$id}}">-->
-            <a class="ob-search-list-row" ng-repeat="item in array | toArray | orderBy:'distance'" href="#/menu/{{item.group}}/{{item.$id}}">
+            <a class="ob-search-list-row" ng-repeat="(key, item) in array | orderBy:'item.distance'" href="#/menu/{{item.group}}/{{item.$id}}">
+            <!--<a class="ob-search-list-row" ng-repeat="item in array | toArray | orderBy:'item.distance'" href="#/menu/{{item.group}}/{{item.$id}}">-->
             <!--<div class="ob-search-list-row" ng-repeat="">-->
                 <div class="ob-search-list-row-left">
                     <img class="ob-search-list-img" src="{{item.profilepic}}"/>

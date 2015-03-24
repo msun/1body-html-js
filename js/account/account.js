@@ -311,7 +311,7 @@ account.controller('QRcodeCtrl', function($scope, Transaction, Users, Trainers, 
     }
 });
 
-account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, mapstate, $ionicScrollDelegate, $ionicModal) {
+account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate) {
     $scope.user = appFactory.user;
     var exec = cordova.require("cordova/exec");
 
@@ -355,18 +355,18 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
                     text: '<b>Save</b>',
                     type: 'button-positive',
                     onTap: function(e) {
-                        var successCallback = function(result){
+                        e.preventDefault();
+                        exec(function(result){
                             console.log(result);
+                            alert("image rotate successful");
                             image.src = result.uri;
-                        }
-                        var errorCallback = function(result){
+                            mappopup.close();
+                        }, function(result){
                             console.log(result);
-                        }
-
-                        exec(successCallback, errorCallback, 'Card_io', 'rotate', [
+                            alert("image rotate failed");
+                        }, 'Card_io', 'rotate', [
                             {angle: angle, uri: image.src}
                         ]);
-                        $scope.modal.hide();
                     }
                 }
             ]
@@ -399,7 +399,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
     }
 
     $scope.fromstorage = function() {
-        console.log("from storage");
+        alert("from storage");
         // Retrieve image file location from specified source
         navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
@@ -442,7 +442,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
         scrollDelegate.zoomTo(zoomfactor);
     }
 
-    $scope.cropImage = function(){
+    $scope.cropImage = function(useimg){
         var screenWidth = $('ion-content').width();
 
         var left = $('#displayPic').position().left;
@@ -475,6 +475,21 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
                 scrollDelegate.zoomTo(1);
                 image.src = result.uri;
                 console.log(result.uri);
+                if(useimg) {
+                    exec(function () {
+                        appFactory.user.profilepic = image.src;
+                        appFactory.user.$save().then(function(){
+                            $localstorage.setObject("user", appFactory.user);
+                            alert("image saved");
+                            $rootScope.user = appFactory.user;
+                            window.location.href = "#/menu/account/my-profile";
+                        })
+                    }, function (err) {
+                        console.log(err);
+                    }, 'Card_io', 'useimg', [
+                        {'id': $scope.user.$id, 'uri': image.src}
+                    ]);
+                }
             }, function(result){
                 console.log(result);
             }, 'Card_io', 'crop', [
@@ -484,29 +499,23 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, User, appFactory,
 
     function onSuccess(imageURI) {
         image.src = imageURI;
+
     }
 
     function onFail(message) {
         alert('Failed because: ' + message);
     }
-
-    $scope.useimg = function(){
-//        uploadPhoto(image.src);
-        exec(function(){
-            alert("image saved");
-
-        }, function(err){
-            console.log(err);
-        }, 'Card_io', 'useimg', [
-            {'id': $scope.user.$id, 'uri': image.src}
-        ]);
-    }
 });
 
-account.controller('ProfileCtrl', function($ionicModal, $scope, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, mapstate) {
+account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $localstorage, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, appConfig) {
     console.log("ProfileCtrl");
 
     $scope.user = $firebaseObject(appFactory.userRef.child(appFactory.user.$id));
+    $scope.user.$loaded(function(){
+        appFactory.user = $scope.user;
+        $rootScope.user = appFactory.user;
+        $localstorage.setObject("user", $scope.user);
+    })
     console.log($scope.user);
 
     if(!$scope.user.firstname){
@@ -530,13 +539,15 @@ account.controller('ProfileCtrl', function($ionicModal, $scope, Users, appFactor
     $scope.save = function(){
         $scope.user.lastModifiedDate = Date.now();
         console.log($scope.user);
+        $localstorage.setObject("user", $scope.user);
         $scope.user.$save().then(function(){
-            $state.transitionTo(mapstate);
+            $rootScope.user = appFactory.user;
+            $state.transitionTo(appConfig.mapstate);
         });
     }
 
     $scope.cancel = function(){
-        $state.transitionTo(mapstate);
+        $state.transitionTo(appConfig.mapstate);
     }
 
 
@@ -545,49 +556,50 @@ account.controller('ProfileCtrl', function($ionicModal, $scope, Users, appFactor
     }
 
     $scope.addCertificate = function(){
-        navigator.camera.getPicture(function(imageURI){
-            var options = new FileUploadOptions();
-            options.fileKey="file";
-            options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
-            options.mimeType="image/jpeg";
-
-            var params = new Object();
-            params.value1 = "test";
-            params.value2 = "param";
-
-            options.params = params;
-
-            var ft = new FileTransfer();
-            ft.upload(imageURI, "http://108.168.247.49:10355/fileupload", function(r){
-                if(appFactory.user.certs){
-                    appFactory.user.certs.push("http://108.168.247.49:10355/" + r.response);
-                } else {
-                    appFactory.user.certs = [];
-                    appFactory.user.certs.push("http://108.168.247.49:10355/" + r.response);
-                }
-                alert("http://108.168.247.49:10355/" + r.response);
-                $timeout(function(){
-                    $scope.user.certs = appFactory.user.certs;
-                })
-                appFactory.user.$save();
-            }, fail, options);
-            alert(options.fileName);
-
-
-        }, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+        alert("Feature coming soon");
+//        navigator.camera.getPicture(function(imageURI){
+//            var options = new FileUploadOptions();
+//            options.fileKey="file";
+//            options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+//            options.mimeType="image/jpeg";
+//
+//            var params = new Object();
+//            params.value1 = "test";
+//            params.value2 = "param";
+//
+//            options.params = params;
+//
+//            var ft = new FileTransfer();
+//            ft.upload(imageURI, "http://108.168.247.49:10355/fileupload", function(r){
+//                if(appFactory.user.certs){
+//                    appFactory.user.certs.push("http://108.168.247.49:10355/" + r.response);
+//                } else {
+//                    appFactory.user.certs = [];
+//                    appFactory.user.certs.push("http://108.168.247.49:10355/" + r.response);
+//                }
+//                alert("http://108.168.247.49:10355/" + r.response);
+//                $timeout(function(){
+//                    $scope.user.certs = appFactory.user.certs;
+//                })
+//                appFactory.user.$save();
+//            }, fail, options);
+//            alert(options.fileName);
+//
+//
+//        }, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
     }
 
-    function onSuccess(imageURI) {
-        $scope.url = imageURI;
-        $timeout(function() {
-            appFactory.user.imgLink = $scope.url;
-        });
-        alert(imageURI);
-    }
-
-    function onFail(message) {
-        alert('Failed because: ' + message);
-    }
+//    function onSuccess(imageURI) {
+//        $scope.url = imageURI;
+//        $timeout(function() {
+//            appFactory.user.imgLink = $scope.url;
+//        });
+//        alert(imageURI);
+//    }
+//
+//    function onFail(message) {
+//        alert('Failed because: ' + message);
+//    }
 
 
 
@@ -662,38 +674,23 @@ account.controller('AccountCtrl', function($scope, User, appFactory, baseUrl, $t
 //    }
 });
 
-account.controller('SetLocationCtrl', function($scope, User, appFactory, baseUrl, $timeout, accountFactory, GeoTrainers, $ionicPopup) {
+account.controller('SetLocationCtrl', function($scope, User, appFactory, baseUrl, $timeout, accountFactory, GeoTrainers, $localstorage, $window) {
     console.log("SetLocationCtrl ctrl");
 
-    var mappopup = $ionicPopup.show({
-        template: '<div id="set-location-map" data-tap-disabled="true" ></div>',
-        title: "Choose location",
-        scope: $scope,
-        buttons: [
-            { text: 'Cancel' },
-            {
-                text: '<b>Save</b>',
-                type: 'button-positive',
-                onTap: function(e) {
-                    console.log($scope.marker.getPosition());
-                    GeoTrainers.set(appFactory.user.$id, [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()]).then(function() {
-                        console.log("Provided key has been added to GeoFire");
-                        appFactory.user.latitude = $scope.marker.getPosition().lat();
-                        appFactory.user.longitude = $scope.marker.getPosition().lng();
-                        console.log(appFactory.user);
-                        appFactory.user.$save().then(function(){
-                            console.log(appFactory.user);
-                        })
+    $scope.confirm = function(){
+        GeoTrainers.set(appFactory.user.$id, [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()]).then(function() {
+            console.log("Provided key has been added to GeoFire");
+            appFactory.user.location = [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()];
+            $localstorage.set("user", appFactory.user);
+            appFactory.user.$save().then(function(){
+                alert("Position saved");
+                $window.history.back();
+            });
+        }, function(error) {
+            console.log("Error: " + error);
 
-                    }, function(error) {
-                        $ionicLoading.hide();
-                        console.log("Error: " + error);
-
-                    });
-                }
-            }
-        ]
-    });
+        });
+    }
 
     setTimeout(function() {
         appFactory.getLocation(function (position) {
@@ -746,7 +743,7 @@ account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl
     });
 });
 
-account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebase, Requests, Trainers, $window){
+account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebase, Requests, Trainers, $window, $localstorage){
     $scope.bundles = [
         {numberTokens: 20, price: 400},
         {numberTokens: 10, price: 220},
@@ -791,21 +788,23 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
     }
 
     $scope.confirm = function(){
-//        var ref = $firebase(appFactory.userRef.child(appFactory.user.$id).child("payments"));
-//        var payments = ref.$asArray();
-//        payments.$loaded(function(){
-//
-//        });
-
         var exec = cordova.require("cordova/exec");
 
         var successCallback = function(result){
             console.log(result);
-            alert($scope.totalTokens + " tokens purchased.");
-            appFactory.user.tokens += $scope.totalTokens;
-            $scope.totalTokens = 0;
-            $scope.amount = 0;
-            $window.history.back();
+            if(result["Result"] == "Cancelled"){
+                alert("Token purchase failed");
+            } else {
+                alert($scope.totalTokens + " tokens purchased.");
+                appFactory.user.tokens += $scope.totalTokens;
+                $scope.totalTokens = 0;
+                $scope.amount = 0;
+                $localstorage.setObject("user", appFactory.user);
+                appFactory.user.$save().then(function(){
+                    $window.history.back();
+                });
+
+            }
         }
         var errorCallback = function(result){
             console.log(result);

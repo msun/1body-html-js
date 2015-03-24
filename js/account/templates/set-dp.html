@@ -35,12 +35,12 @@
             <button class="buttongroup2-button" ng-click="rotatemodal()"><i class="icon ion-refresh buttongroup2-icon"></i></button>
             <button class="buttongroup2-button" ng-click="zoomout()"><i class="icon ion-plus buttongroup2-icon"></i></button>
             <button class="buttongroup2-button" ng-click="zoomin()"><i class="icon ion-minus buttongroup2-icon"></i></button>
-            <button class="buttongroup2-button" ng-click="cropImage()"><i class="icon ion-scissors buttongroup2-icon"></i></button>
+            <button class="buttongroup2-button" ng-click="cropImage(false)"><i class="icon ion-scissors buttongroup2-icon"></i></button>
         </div>
         <div class="buttongroup2">
             <button class="buttongroup2-button" ng-click="takeimg()"><i class="icon ion-camera buttongroup2-icon"></i></button>
             <button class="buttongroup2-button" ng-click="fromstorage()"><i class="icon ion-images buttongroup2-icon"></i></button>
         </div>
-        <div class="block-blue-button" ng-click="useimg()">Save</div>
+        <div class="block-blue-button" ng-click="cropImage(true)">Save</div>
     </ion-content>
 </ion-view>

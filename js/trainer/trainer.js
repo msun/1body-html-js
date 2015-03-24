@@ -47,7 +47,12 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     });
 
     var loadMap = function(){
-        $scope.map = mapFactory.initialize([], "trainer-detail-", {latitude: $scope.selectedTrainerLocation.l[0], longitude: $scope.selectedTrainerLocation.l[1]}, []);
+        $scope.map = new google.maps.Map(document.getElementById('trainer-detail-map'), {
+            zoom: 12,
+            center: new google.maps.LatLng($scope.selectedTrainerLocation.l[0], $scope.selectedTrainerLocation.l[1]),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
         var marker;
 
         marker = new google.maps.Marker({
@@ -81,7 +86,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("trainerID").equalTo($scope.selectedTrainer.$id));
 
         $scope.selectedTrainerLocation.$loaded(function () {
-//        loadMap();
+            loadMap();
 
             $scope.myTransactions.$loaded(function () {
                 console.log($scope.myTransactions);

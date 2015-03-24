@@ -93,7 +93,7 @@
                             <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
                             <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
                         </a>
-                        <a class="button profile-tab" id="profile-tab-4" ng-click="addReview()">
+                        <a class="button profile-tab" id="profile-tab-4">
                             <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
                             <!--<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>-->
                         </a>
@@ -101,7 +101,7 @@
             </div>
             <div class="profile-bottom-content">
                 <div class="profile-map-container">
-                    <div class="profile-map"></div>
+                    <div class="item" id="trainer-detail-map" data-tap-disabled="true" style="width: 90%; margin-left: 5%; margin-right: 5%; height: 90px; border-radius: 15px; margin-top: 0px"></div>
                 </div>
                 <ion-list class="profile-feed-review-list">
                     <ion-item class="profile-feed-review-list-row" ng-repeat="review in reviews" ng-click="replyto()">
@@ -109,13 +109,13 @@
                             <img class="profile-feed-review-list-img" src="img/professional-profile/tmp/Review-Persona-RoundedCorner-Small.png"/>
                         </span>
                         <span class="profile-feed-review-list-row-right">
-                            <p class="profile-feed-review-text">{{review.text}}<span class="profile-feed-review-creation">1h</span</p>
+                            <p class="profile-feed-review-text">{{review.text}}<span class="profile-feed-review-creation">{{review.created | parseTimestamp}}</span></p>
                             <p class="profile-feed-review-stars">
-                                <img class="profile-feed-review-star" id="profile-feed-review-star-1" src="img/professional-profile/blue-small-star-single.png"/>
-                                <img class="profile-feed-review-star" id="profile-feed-review-star-2" src="img/professional-profile/blue-small-star-single.png"/>
-                                <img class="profile-feed-review-star" id="profile-feed-review-star-3" src="img/professional-profile/blue-small-star-single.png"/>
-                                <img class="profile-feed-review-star" id="profile-feed-review-star-4" src="img/professional-profile/blue-small-star-single.png"/>
-                                <img class="profile-feed-review-star" id="profile-feed-review-star-5" src="img/professional-profile/blue-small-star-single.png"/>
+                                <img class="profile-feed-review-star" ng-show="review.rating > 0" id="profile-feed-review-star-1" src="img/professional-profile/blue-small-star-single.png"/>
+                                <img class="profile-feed-review-star" ng-show="review.rating > 1" id="profile-feed-review-star-2" src="img/professional-profile/blue-small-star-single.png"/>
+                                <img class="profile-feed-review-star" ng-show="review.rating > 2" id="profile-feed-review-star-3" src="img/professional-profile/blue-small-star-single.png"/>
+                                <img class="profile-feed-review-star" ng-show="review.rating > 3" id="profile-feed-review-star-4" src="img/professional-profile/blue-small-star-single.png"/>
+                                <img class="profile-feed-review-star" ng-show="review.rating ==5" id="profile-feed-review-star-5" src="img/professional-profile/blue-small-star-single.png"/>
                             </p>
                         </span>
                     </ion-item>
