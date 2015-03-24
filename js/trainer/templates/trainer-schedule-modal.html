@@ -1,9 +1,16 @@
 <ion-modal-view>
-    <ion-header-bar>
-        <h1 class="title">{{user.username}}</h1>
+    <ion-header-bar align-title="center" class="ob-dark-bg">
+        <!--<h1 class="title ob-navbar-title">{{user.username}}</h1> This needs to be the trainer's name, not the logged-in user's name-->
+        <h1 class="title"></h1>
+        <div class="buttons">
+            <button ng-click="closeScheduleModal()" class="button button-icon">
+                <i class="icon ion-close ob-white-color"></i>
+            </button>
+        </div>
     </ion-header-bar>
-    <ion-content>
-        <scheduler-user-view></scheduler-user-view>
-        <button class="button button-calm" ng-click="closeScheduleModal()">Close</button>
+    <ion-content class="has-header ob-grey-bg">
+        <div class="menu1-content-div">
+            <scheduler-user-view></scheduler-user-view>
+        </div>
     </ion-content>
 </ion-modal-view>

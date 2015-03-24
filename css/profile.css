@@ -125,6 +125,7 @@
 }
 
 .full-name {
+    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     font-size: 1.5em;
     font-family: 'Lato', sans-serif;
@@ -400,7 +401,7 @@
     width: 320px;
     height: 100%;
     margin: 0 auto;
-    background: #999 url("/img/professional-profile/tmp/map-background.png") center/320px 99px no-repeat;
+    background: #999 url("../img/professional-profile/tmp/map-background.png") center/320px 99px no-repeat;
 }
 
 .profile-photos {
@@ -516,7 +517,7 @@
 .profile-feed-review-list-row {
     width: 100%;
     height: 54px;
-    -webkit-display: flex;
+    display: -webkit-flex;
     display: flex;
     background: white;
     border-bottom: 1px solid #c2c2c2;

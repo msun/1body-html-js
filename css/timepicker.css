@@ -1,5 +1,6 @@
 
 .timepicker-row {
+    padding-top: 20px !important; /* why do we need important? */
     margin-bottom: 8px;
 }
 

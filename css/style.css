@@ -189,6 +189,14 @@
     background-image: none !important;
 }
 
+.title {
+    /*
+    margin-top: 20px !important;
+    height: 44px !important;
+    line-height: 44px !important;
+    */
+}
+
 .tabs {
     background: transparent;
     /*opacity: 0.7;*/
@@ -362,6 +370,20 @@
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
+}
+
+.ob-navbar-title {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    color: white;
+    /*
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    */
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -819,9 +841,37 @@
 /* buttons */
 /* ********** ********** ********** ********** ***********/
 
+.ob-dark-button, .ob-blue-button {
+    border-radius: 5px;
+    border: none;
+    margin: 15px 8px 11px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.69px;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.ob-dark-button {
+    background-color: #282828;
+}
+
+.ob-dark-button:active {
+    background-color: #444444;
+}
+
+.ob-blue-button {
+    background-color: #3884ed;
+}
+
+.ob-blue-button:active {
+    background-color: #3172cc;
+}
+
 .block-dark-button {
     display: block;
-    width: 301px;
+    width: 300px;
     border-radius: 5px;
     border: none;
     background-color: #282828;
@@ -840,7 +890,7 @@
 
 .block-blue-button {
     display: block;
-    width: 301px;
+    width: 300px;
     border-radius: 5px;
     border: none;
     background-color: #3884ed;
@@ -1070,12 +1120,12 @@
 /* ********** ********** ********** ********** ***********/
 
 .increq-scroll {
-    margin-top: 16px;
+    margin-top: 12px;
     width: 100%;
     height: 55vh;
     background: transparent;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
+    border-top: 2px solid #888888;
+    border-bottom: 2px solid #888888;
 }
 
 .increq-map-container {
