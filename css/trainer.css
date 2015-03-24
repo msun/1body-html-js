@@ -75,6 +75,7 @@
     align-items: center;
     background: transparent;
     border-bottom: 1px solid #a2a1a0;
+    text-decoration: none;
 }
 
 .ob-search-list-row:first-child {
@@ -92,6 +93,7 @@
     margin: auto;
     width: 38px;
     height: 38px;
+    border-radius: 4px;
 }
 
 .ob-search-list-row-right {
@@ -103,6 +105,12 @@
 
 .ob-search-list-text {
     font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 15px;
+    color: white;
+}
+
+.ob-search-list-text-demi {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 15px;
     color: white;
 }

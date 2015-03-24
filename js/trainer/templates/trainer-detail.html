@@ -1,12 +1,12 @@
-<link rel="stylesheet" type="text/css" href="css/Professional-profile-as-user.css">
+<link rel="stylesheet" type="text/css" href="css/profile.css">
 <ion-view>
-    <ion-header-bar class="bar-dark">
+    <ion-header-bar class="ob-dark-bg">
         <div class="buttons">
             <button ng-click ="toggleMenu()" class = "button button-icon button-dark">
-                <i class = "icon ion-navicon-round">
-                </i>
+                <i class = "icon ion-navicon-round"></i>
             </button>
-
+            <img class="ob-nav-bar-logo" src="img/Logo.png"/>
+<!--
             <h2 class="title" style="padding: 7px">
                 {{selectedTrainer.username}}
                 <a href="#/menu/{{$root.header}}" class = "button button-icon button-dark">
@@ -19,129 +19,125 @@
                 <i class = "icon ion-arrow-return-left">
                 </i>
             </a>
-
+-->
         </div>
     </ion-header-bar>
-    <ion-content>
-    <div class="profile-top">
+    <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
+        <div class="profile-top">
 
-        <div class="follow-button" ng-show="!followerMe.username" ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
+            <div class="follow-button" ng-show="!followerMe.username" ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
+            <div class="following-button" ng-show="followerMe.username" ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
 
-        <div class="profile-top-padding-div"></div>
+            <div class="profile-top-padding-div"></div>
 
-        <div class="profile-picture-div">
-            <img class="profile-picture" src="{{selectedTrainer.profilepic}}"/>
-            <img class="profile-picture-tag" src="img/badge-professional.png"/>
+            <div class="profile-picture-div">
+                <img class="profile-picture" src="{{selectedTrainer.profilepic}}"/>
+                <img class="profile-picture-tag" src="img/badge-professional.png"/>
+            </div>
+
+            <div class="full-name-container">
+                <span class="full-name-left"></span>
+                <span class="full-name">{{selectedTrainer.username}}</span>
+                    <span class="full-name-right">
+                        <img ng-show="true" class="full-name-icon profile-verified-icon" src="img/professional-profile/green-checkmark.png">
+                        <img ng-show="selectedTrainer.mobile" class="full-name-icon profile-car-icon" src="img/professional-profile/green-car.png">
+                    </span>
+            </div>
+            <p class="profession">{{selectedTrainer.profession}}</p>
+            <p class="personal-quote">{{selectedTrainer.information}}</p>
+
+            <div class="profile-stats-container">
+                <span class="profile-stats-container-empty-item"></span>
+                    <span class="followers-item">
+                        <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
+                        <div>Followers</div>
+                    </span>
+                    <span class="reviews-item">
+                        <div class="review-stars">
+                            <img class="review-star" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/blue-star-single.png"/>
+                        </div>
+                        <div>(<span class="reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
+                    </span>
+                    <span class="following-item">
+                        <div class="following-count">{{sizes.numOfFollowings || 0}}</div>
+                        <div>Following</div>
+                    </span>
+                <span class="profile-stats-container-empty-item"></span>
+            </div>
+
+            <button class="profile-main-action-button" ng-click="showScheduleModal()">
+                <span class="first-word">Book</span> a class with {{selectedTrainer.username}}!
+            </button>
+
         </div>
-
-        <div class="full-name-container">
-            <span class="full-name-left"></span>
-            <span class="full-name">{{selectedTrainer.username}}</span>
-                <span class="full-name-right">
-                    <img ng-show="true" class="full-name-icon profile-verified-icon" src="img/professional-profile/green-checkmark.png">
-                    <img ng-show="selectedTrainer.mobile" class="full-name-icon profile-car-icon" src="img/professional-profile/green-car.png">
-                </span>
+        <div class="profile-bottom">
+            <div class="profile-tab-bar-container">
+                    <span class="button-bar profile-tab-bar">
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-1">
+                            <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>-->
+                        </a>
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-2">
+                            <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>-->
+                        </a>
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-3">
+                            <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
+                        </a>
+                        <a class="button profile-tab" id="profile-tab-4" ng-click="addReview()">
+                            <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>-->
+                        </a>
+                    </span>
+            </div>
+            <div class="profile-bottom-content">
+                <div class="profile-map-container">
+                    <div class="profile-map"></div>
+                </div>
+                <ion-list class="profile-feed-review-list">
+                    <ion-item class="profile-feed-review-list-row" ng-repeat="review in reviews" ng-click="replyto()">
+                        <span class="profile-feed-review-list-row-left">
+                            <img class="profile-feed-review-list-img" src="img/professional-profile/tmp/Review-Persona-RoundedCorner-Small.png"/>
+                        </span>
+                        <span class="profile-feed-review-list-row-right">
+                            <p class="profile-feed-review-text">{{review.text}}<span class="profile-feed-review-creation">1h</span</p>
+                            <p class="profile-feed-review-stars">
+                                <img class="profile-feed-review-star" id="profile-feed-review-star-1" src="img/professional-profile/blue-small-star-single.png"/>
+                                <img class="profile-feed-review-star" id="profile-feed-review-star-2" src="img/professional-profile/blue-small-star-single.png"/>
+                                <img class="profile-feed-review-star" id="profile-feed-review-star-3" src="img/professional-profile/blue-small-star-single.png"/>
+                                <img class="profile-feed-review-star" id="profile-feed-review-star-4" src="img/professional-profile/blue-small-star-single.png"/>
+                                <img class="profile-feed-review-star" id="profile-feed-review-star-5" src="img/professional-profile/blue-small-star-single.png"/>
+                            </p>
+                        </span>
+                    </ion-item>
+                    <p class="profile-feed-end" ng-show="reviews.length < 5">No more reviews</p>
+                    <button class="block-dark-button" ng-show="reviews.length == 5" class="button" ng-click="moreReviews()">More reviews</button>
+                </ion-list>
+                <!--
+                <ion-list>
+                    <ion-item ng-repeat="review in reviews" ng-click="replyto()">
+                        <p><strong>{{review.userID}}</strong></p>
+                        <p>
+                        <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating> {{review.creation}}
+                        </p>
+                        <p>{{review.text}}</p>
+                        <p style="font-size: 10px">{{review.username}} left at: {{review.creation}}</p>
+                    </ion-item>
+                    <p ng-show="reviews.length < 5">No more reviews</p>
+                    <button ng-show="reviews.length == 5" class="button" ng-click="moreReviews()">More reviews</button>
+                </ion-list>
+                -->
+            </div>
         </div>
-        <p class="profession">{{selectedTrainer.profession}}</p>
-        <p class="personal-quote">{{selectedTrainer.information}}</p>
-
-        <div class="profile-stats-container">
-            <span class="profile-stats-container-empty-item"></span>
-                <span class="followers-item">
-                    <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
-                    <div>Followers</div>
-                </span>
-                <span class="reviews-item">
-                    <div class="review-stars">
-                        <img class="review-star" src="img/professional-profile/blue-star-single.png"/>
-                        <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/white-star-single.png"/>
-                        <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/blue-star-single.png"/>
-                        <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/white-star-single.png"/>
-                        <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/blue-star-single.png"/>
-                        <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/white-star-single.png"/>
-                        <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/blue-star-single.png"/>
-                        <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/white-star-single.png"/>
-                        <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/blue-star-single.png"/>
-                    </div>
-                    <div>(<span class="reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
-                </span>
-                <span class="following-item">
-                    <div class="following-count">{{sizes.numOfFollowings || 0}}</div>
-                    <div>Following</div>
-                </span>
-            <span class="profile-stats-container-empty-item"></span>
-        </div>
-
-        <button class="profile-main-action-button" ng-click="showScheduleModal()">
-            <span class="first-word">Book</span> a class with {{selectedTrainer.username}}!
-        </button>
-
-    </div>
-    <div class="profile-bottom">
-        <div class="profile-tab-bar-container">
-                <span class="button-bar profile-tab-bar">
-                    <a class="button profile-tab profile-tab-with-divider" id="profile-tab-1">
-                        <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
-                        <!--<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>-->
-                    </a>
-                    <a class="button profile-tab profile-tab-with-divider" id="profile-tab-2">
-                        <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
-                        <!--<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>-->
-                    </a>
-                    <a class="button profile-tab profile-tab-with-divider" id="profile-tab-3">
-                        <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
-                        <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
-                    </a>
-                    <a class="button profile-tab" id="profile-tab-4" ng-click="addReview()">
-                        <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
-                        <!--<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>-->
-                    </a>
-                </span>
-        </div>
-        <div class="profile-bottom-content">
-            <ion-list>
-                <ion-item ng-repeat="review in reviews" ng-click="replyto()">
-                    <p><strong>{{review.userID}}</strong></p>
-                    <!--<p>-->
-                    <!--<rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating> {{review.creation}}-->
-                    <!--</p>-->
-                    <p>{{review.text}}</p>
-                    <!--<p style="font-size: 10px">{{review.username}} left at: {{review.creation}}</p>-->
-                </ion-item>
-                <p ng-show="reviews.length < 5">No more reviews</p>
-                <button ng-show="reviews.length == 5" class="button" ng-click="moreReviews()">More reviews</button>
-            </ion-list>
-            <!--<div class="activity-feed">-->
-                <!--<div class="activity-row">-->
-                    <!--<img class="activity-image" src="img/professional-profile/tmp/Review-Persona-RoundedCorner-Small.png">-->
-                    <!--<div class="activity-text">-->
-                        <!--<span class="linked-text">Sam</span>,&nbsp;-->
-                        <!--<span class="linked-text">Dane</span>, and&nbsp;-->
-                        <!--<span class="linked-text">Tara</span> are now following Greg!&nbsp;-->
-                        <!--<span class="activity-time">1m</span>-->
-                    <!--</div>-->
-                    <!--<div class="activity-row-end"></div>-->
-                <!--</div>-->
-                <!--<div class="activity-row">-->
-                    <!--<img class="activity-image" src="img/professional-profile/featured-activity-star.png">-->
-                    <!--<div class="activity-text">-->
-                        <!--Greg is now a 4 star trainer!-->
-                        <!--<span class="activity-time">8h</span>-->
-                    <!--</div>-->
-                    <!--<div class="activity-row-end"></div>-->
-                <!--</div>-->
-                <!--<div class="activity-row">-->
-                    <!--<img class="activity-image" src="img/professional-profile/tmp/Review-Persona-RoundedCorner-Small2.png">-->
-                    <!--<div class="activity-text">-->
-                        <!--Dane left Greg a review!-->
-                        <!--<span class="activity-time">2d</span>-->
-                    <!--</div>-->
-                    <!--<div class="activity-row-end"></div>-->
-                <!--</div>-->
-            <!--</div>-->
-        </div>
-    </div>
-    </ion-content>
     </ion-content>
 </ion-view>
 
