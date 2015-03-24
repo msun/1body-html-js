@@ -1181,3 +1181,15 @@ ion-popover-view.fit ion-content {
 .list-modal-header {
     background: rgba(0, 0, 0, 0.0);
 }
+
+/* ********** ********** ********** ********** ***********/
+/* choose-trainer-modal.html */
+/* ********** ********** ********** ********** ***********/
+
+.choose-trainer-scroll {
+    height: calc(40% - 25px);
+}
+
+.choose-trainer-map-container {
+    height: calc(50% - 25px);
+}
