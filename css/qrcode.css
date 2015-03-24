@@ -18,7 +18,16 @@
     text-align: center;
     margin: 16px 0px;
 }
+.qr-qrcode-container {
+    display: table;
+    background: white;
+    width: 320px;
+    height: 320px;
+    margin: 0px auto;
+}
 
 .qr-qrcode {
+    display: table-cell;
+    vertical-align: middle;
     text-align: center;
 }
