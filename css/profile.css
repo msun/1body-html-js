@@ -467,34 +467,6 @@
     font-size: 1.1em;
 }
 
-.profile-feed-review-stars {
-}
-
-.profile-feed-review-star {
-    width: 12px;
-    height: 12px;
-}
-
-#profile-feed-review-star-1 {
-
-}
-
-#profile-feed-review-star-2 {
-
-}
-
-#profile-feed-review-star-3 {
-
-}
-
-#profile-feed-review-star-4 {
-
-}
-
-#profile-feed-review-star-5 {
-    visibility: hidden;
-}
-
 .activity-feed {
 
 }
@@ -535,4 +507,97 @@
 .activity-time {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     color: #898989;
+}
+
+.profile-feed-review-list {
+
+}
+
+.profile-feed-review-list-row {
+    width: 100%;
+    height: 54px;
+    -webkit-display: flex;
+    display: flex;
+    background: white;
+    border-bottom: 1px solid #c2c2c2;
+    padding: 0px;
+}
+
+.profile-feed-review-list-row-left {
+    -webkit-flex: 0 0 46px;
+    flex: 0 0 46px;
+    position: relative;
+    width: 46px;
+    height: 100%;
+}
+
+.profile-feed-review-list-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+}
+
+.profile-feed-review-list-row-right {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 10px;
+    padding-left: 4px;
+}
+
+.profile-feed-review-text {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 15px;
+    color: #4e4e4e;
+    margin: 0px;
+}
+
+.profile-feed-review-creation {
+    color: #898989;
+    margin-left: 4px;
+}
+
+.profile-feed-review-stars {
+    height: 12px;
+    line-height: 12px;
+}
+
+.profile-feed-review-star {
+    width: 12px;
+    height: 12px;
+
+}
+
+#profile-feed-review-star-1 {
+
+}
+
+#profile-feed-review-star-2 {
+
+}
+
+#profile-feed-review-star-3 {
+
+}
+
+#profile-feed-review-star-4 {
+
+}
+
+#profile-feed-review-star-5 {
+    visibility: hidden;
+}
+
+.profile-feed-end {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 15px;
+    color: #4e4e4e;
+    text-align: center;
+    padding: 8px;
 }
