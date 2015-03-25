@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="css/create-event.css">
 <ion-view>
     <ion-header-bar class="ob-dark-bg">
         <div class="buttons">
@@ -8,14 +7,13 @@
             <img class="ob-nav-bar-logo" src="img/Logo.png"/>
         </div>
     </ion-header-bar>
-
     <ion-content class="has-header menu1-content">
         <ion-slide-box class="ob-slide-box" pager-click="navSlide(index)" active-slide="slideStop(index)">
             <ion-slide class="ob-slide">
                 <div class="menu1-content-div">
                     <div class="main-instructions">Create an Event</div>
-                    <div class="sub-instructions">Let's get started</div>
-                    <div class="ob-form">
+                    <div class="sub-instructions create-event-sub-instructions">Let's get started</div>
+                    <div class="ob-form create-event-ob-form">
                         <div class="ob-form-row">
                             <input ng-model="newevent.name" class="ob-form-text-input" type="text" placeholder="Event Name"/>
                         </div>
