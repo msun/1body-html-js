@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="css/profile.css">
 <ion-view>
     <ion-header-bar class="ob-dark-bg">
         <div class="buttons">
@@ -52,19 +51,19 @@
                         <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
                         <div>Followers</div>
                     </span>
-                    <span class="reviews-item">
-                        <div class="review-stars">
-                            <img class="review-star" src="img/professional-profile/blue-star-single.png"/>
-                            <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/white-star-single.png"/>
-                            <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/blue-star-single.png"/>
-                            <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/white-star-single.png"/>
-                            <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/blue-star-single.png"/>
-                            <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/white-star-single.png"/>
-                            <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/blue-star-single.png"/>
-                            <img class="review-star" ng-hide="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/white-star-single.png"/>
-                            <img class="review-star" ng-show="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/blue-star-single.png"/>
+                    <span class="profile-reviews-item">
+                        <div class="profile-review-stars">
+                            <img class="profile-review-star" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/blue-star-single.png"/>
                         </div>
-                        <div>(<span class="reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
+                        <div>(<span class="profile-reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
                     </span>
                     <span class="following-item">
                         <div class="following-count">{{sizes.numOfFollowings || 0}}</div>

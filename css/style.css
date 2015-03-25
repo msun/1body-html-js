@@ -438,6 +438,10 @@ ion-popover-view.fit ion-content {
     text-align: center;
 }
 
+.main-instructions-only {
+    margin-bottom: 20px;
+}
+
 .sub-instructions {
     width: 220px;
     margin: 10px auto 43px;
@@ -1192,4 +1196,1938 @@ ion-popover-view.fit ion-content {
 
 .choose-trainer-map-container {
     height: calc(50% - 25px);
+}
+
+/* ********** ********** ********** ********** ***********/
+/* qrcode.html */
+/* ********** ********** ********** ********** ***********/
+
+.qr-transaction-id-text {
+    font-family: "Avenir Next LT Pro";
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    margin: 16px 0px;
+}
+.qr-qrcode-container {
+    display: table;
+    background: white;
+    width: 320px;
+    height: 320px;
+    margin: 0px auto;
+}
+
+.qr-qrcode {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* buy-tokens.html */
+/* ********** ********** ********** ********** ***********/
+
+.buy-tokens-content-div {
+    padding-bottom: 32px;
+}
+
+.buy-tokens-sub-instructions {
+    margin-bottom: 20px;
+}
+
+.purchase-credits-table {
+
+}
+
+.purchase-credits-row {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    height: 72px;
+    padding: 0px 6px 0px 20px;
+    border-top: 1px solid #9e9da3;
+}
+
+.purchase-credits-row:last-child {
+    border-bottom: 1px solid #9e9da3;
+}
+
+.purchase-credits-row:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.33);
+}
+
+.purchase-credits-value {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    margin-left: 20px;
+    padding: 0px 4px;
+    margin: auto 0px auto 0px;
+    min-width: 38px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid white;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 24px;
+    color: white;
+}
+
+.purchase-credits-count {
+    -webkit-flex: 99 99 auto;
+    flex: 99 99 auto;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 18px;
+    color: white;
+    margin-left: 12px;
+}
+
+.purchase-credits-plus-minus-container {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 31px;
+    height: 31px;
+    margin: auto 4px;
+    position: relative;
+}
+
+.purchase-credits-plus-minus-white-background {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: white;
+}
+
+.purchase-credits-plus, .purchase-credits-minus {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    font-size: 31px;
+}
+
+.purchase-credits-plus {
+    color: #3a88f5;
+}
+
+.purchase-credits-minus {
+    color: #db4e45;
+}
+
+.purchase-credits-footer-button {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    height: 64px;
+    padding: 0px 0px 0px 20px;
+    background: #3884ed;
+    z-index: 9999;
+}
+
+.purchase-credits-total-text {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    font-family: "Avenir Next LT Pro", sans-serif;
+    font-size: 16px;
+    color: white;
+    margin: auto 10px;
+}
+
+.purchase-credits-buy-credits-text-container {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -moz-align-self: stretch;
+    -webkit-align-self: stretch;
+    align-self: stretch;
+    line-height: 64px;
+}
+
+.purchase-credits-buy-credits-text {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    color: white;
+    margin: 0px 5px 0px 9px;
+}
+
+.purchase-credits-arrow {
+    width: 12px;
+    height: 19px;
+    margin: 0px 9px;
+    position: relative;
+    top: 3px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* create-events.html */
+/* ********** ********** ********** ********** ***********/
+
+.ob-slide-box {
+    height: auto;
+}
+
+.ob-slide {
+}
+
+.create-event-sub-instructions {
+    margin-bottom: 24px;
+}
+
+.create-event-ob-form {
+    margin-bottom: 10px;
+}
+
+.ob-blue-text {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #3884ed;
+}
+
+.ob-date-prompt-text {
+    display: inline-block;
+    margin: 12px 0px 12px 11px;
+}
+
+.ob-date {
+    display: inline-block;
+    margin: 12px 0px 12px 12px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #bcbbbb;
+    border-bottom: 1px solid #3884ed;
+}
+
+.ob-date-picker-button {
+    float: right;
+    width: 18px;
+    height: 18px;
+    margin: 13px 9.5px;
+}
+
+/* create-event-picture-description */
+
+.ob-row-picture-upload-top-section {
+    position: relative;
+    height: 150px;
+}
+
+.picture-upload-placeholder {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 117px;
+}
+
+.picture-upload-plus-icon {
+    width: 15.5px;
+    height: 15.5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
+
+.picture-upload-e-tag {
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    transform: translate(-50%, 0%);
+    -webkit-transform: translate(-50%, 0%);
+    -moz-transform: translate(-50%, 0%);
+    -o-transform: translate(-50%, 0%);
+}
+
+.ob-form-textarea {
+    height: 124px;
+}
+
+/* create-event-location */
+
+.ob-event-create-map-container {
+    background: transparent url("../img/event-profile/tmp/event-creation-map.png") center/100% 100% no-repeat;
+    width: 300px;
+    height: 168px;
+    border-radius: 8px;
+    margin: 9px auto 0px;
+}
+
+/* ob-userlist */
+
+.ob-userlist {
+    margin-bottom: 4px;
+}
+
+.ob-userlist-row {
+    width: 100%;
+    height: 72px;
+    color: white;
+    border-bottom: 1px solid #898787;
+}
+
+.ob-userlist-row:active {
+    background-color: white;
+}
+
+.ob-userlist-image {
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin: 4px 10px;
+}
+
+.ob-userlist-text-column {
+    height: 100%;
+    display: table;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 14px;
+}
+
+.ob-userlist-text-block {
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.ob-userlist-user-name {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 15.5px;
+}
+
+.ob-userlist-mutual-friend-count {
+
+}
+
+/* ********** ********** ********** ********** ***********/
+/* home.html */
+/* ********** ********** ********** ********** ***********/
+
+.home-main-instructions {
+    width: 248px;
+}
+
+.home-transparent-button {
+    line-height: 15px;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    color: rgb(235, 235, 235);
+    padding: 17px 0px;
+}
+
+.home-transparent-button:active {
+    color: #aaaaaa;
+}
+
+.text-strong {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
+
+/* main flex layout */
+
+.signup1-content-div {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    height: 100%;
+}
+
+.flex-top-space {
+    -moz-flex: 1 99 0px;
+    -webkit-flex: 1 99 0px;
+    flex: 1 99 0px;
+}
+
+.flex-main {
+    -moz-flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    text-align: center;
+}
+
+.flex-bottom-space {
+    -moz-flex: 1 99 0px;
+    -webkit-flex: 1 99 0px;
+    flex: 1 99 0px;
+}
+
+.flex-bottom-space2 {
+    -moz-flex: 99 99 0px;
+    -webkit-flex: 99 99 0px;
+    flex: 99 99 0px;
+    max-height: 20px;
+}
+
+.flex-footer {
+    -moz-flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 248px;
+}
+
+/* sign up buttons */
+
+.signup1-button {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    border-radius: 6px;
+    background: black;
+    color: white;
+    border: none;
+    width: 264px;
+    height: 43px;
+    margin: 12px auto 0px;
+    padding: 0px 8px;
+    display: -mox-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.signup1-button-left, .signup1-button-right {
+    -moz-flex: 1 1 32px;
+    -webkit-flex: 1 1 32px;
+    flex: 1 1 32px;
+    padding-left: 2px;
+}
+
+.signup1-button-icon {
+    float: left;
+    margin-left: 5px;
+}
+
+.signup1-button-text {
+    -mox-flex: 99 99 0px;
+    -webkit-flex: 99 99 0px;
+    flex: 99 99 0px;
+    font-size: 16.35px;
+    padding-top: 4px;
+}
+
+.facebook-button {
+    background-color: #3b5998;
+}
+
+.facebook-button:active {
+    background-color: #30477a;
+}
+
+.facebook-icon {
+    width: 9.5px;
+    height: 17px;
+}
+
+.google-plus-button {
+    background-color: #d6443d;
+}
+
+.google-plus-button:active  {
+    background-color: #ab3832;
+}
+
+.google-plus-icon {
+    width: 21px;
+    height: 19px;
+}
+
+.onebody-button {
+    background-color: #3079e9;
+}
+
+.onebody-button:active {
+    background-color: #2c6ed1;
+}
+
+.onebody-icon {
+    width: 18px;
+    height: 21.5px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* tab-map.html */
+/* ********** ********** ********** ********** ***********/
+
+.map-content {
+    position: relative;
+}
+
+.map-gradient {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: transparent url("../img/map/map-gradient.png") center top/100% 60.21% no-repeat;
+    z-index: 50;
+    pointer-events: none;
+}
+
+/* ob-header */
+
+.ob-header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    width: 100%;
+    height: 64px;
+    background: #1f101c;
+}
+
+.ob-header-status-bar {
+    height: 20px;
+    background: transparent;
+}
+
+.ob-header-nav-bar {
+    position: relative;
+    height: 44px;
+    background: transparent;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.ob-header-status-bar {
+    height: 20px;
+}
+
+.ob-header-icon {
+    -moz-flex: 0 0 44px;
+    -webkit-flex: 0 0 44px;
+    flex: 0 0 44px;
+}
+
+.ob-header-flex-area {
+    -moz-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.ob-map-header {
+    background: transparent;
+}
+
+.ob-bar-search-input-container {
+    width: 90%;
+    height: 32px;
+    border-radius: 5px;
+    padding: 0px;
+    margin: auto;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.ob-bar-search-input {
+    font-family: 'Avenir Next LT Pro', sans-serif !important;
+    font-size: 15px !important;
+    color: white !important;
+}
+
+.ob-bar-search-input-search-icon {
+    margin: 10px;
+}
+
+.ob-map-header-bottom-white-line {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    -webkit-transform: translate(-50%, 0%);
+    -moz-transform: translate(-50%, 0%);
+    -o-transform: translate(-50%, 0%);
+    width: 95%;
+    height: 2px;
+    background: white;
+}
+
+.ob-header-list-view-icon-container {
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+
+.ob-header-list-view-icon {
+    display: block;
+    width: 19px;
+    height: 16px;
+    margin: auto;
+}
+
+/* ob-tabs */
+
+.ob-tabs {
+    display: inline-block;
+    position: absolute;
+    white-space: nowrap;
+    height: auto;
+    width: auto;
+    top: 92px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    -webkit-transform: translate(-50%, 0%);
+    -moz-transform: translate(-50%, 0%);
+    -o-transform: translate(-50%, 0%);
+    background-color: transparent;
+    border-radius: 5px;
+    z-index: 100;
+}
+
+.ob-tab-item {
+    padding: 12px;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.7px;
+    color: white;
+    border-right: 1px solid #404040;
+}
+
+.ob-tab-item:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.ob-tab-item:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-right: 1px solid transparent;
+}
+
+.ob-tab-selected {
+    background: rgb(56, 132, 237);
+}
+
+/* ob-map-button */
+
+.ob-map-button {
+    background-color: transparent;
+    color: rgb(68, 68, 68);
+    position: absolute;
+    z-index: 100;
+}
+
+.map-search-button {
+    bottom: 30px;
+    left: 5%;
+}
+
+.map-center-button {
+    bottom: 30px;
+    right: 5%;
+}
+
+/* ob-map-bubble */
+
+.map-bubble-content-container {
+    display: block;
+    text-decoration: none;
+}
+
+.map-bubble-content {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.map-bubble-img-column {
+    /*
+    -moz-flex: 0 0 calc(10px + 61px + 10px);
+    -webkit-flex: 0 0 calc(10px + 61px + 10px);
+    flex: 0 0 calc(10px + 61px + 10px);
+    min-height: calc(10px + 61px + 10px);
+    */
+    -moz-flex: 0 0 calc(61px + 10px);
+    -webkit-flex: 0 0 calc(61px + 10px);
+    flex: 0 0 calc(61px + 10px);
+    min-height: calc(61px + 10px);
+    position: relative;
+}
+
+.map-bubble-img-container {
+    width: 61px;
+    height: 61px;
+    position: absolute;
+    top: 50%;
+    /*
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    */
+    left: 0px;
+    transform: translate(0%, -50%);
+    -webkit-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
+    border-radius: 5px;
+    border: 1px solid #e1e1e1;
+}
+
+.map-bubble-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    overflow: none;
+}
+
+.map-bubble-img-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 20px;
+    height: 20px;
+}
+
+.map-bubble-text-column {
+    -moz-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    /*padding: 16px 16px 16px 5px;*/
+}
+
+/* content should expand to its full width, but it won't... */
+.map-bubble-text-column-trainer {
+    width: 150px;
+}
+.map-bubble-text-column-class {
+    width: 150px;
+}
+.map-bubble-text-column-event {
+    width: 180px;
+}
+
+.map-bubble-title {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 14.935px;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-bubble-subtitle {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 14.935px;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-bubble-time {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 14.935px;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-bubble-review-stars {
+    height: 14px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-bubble-review-star {
+    width: 14.5px;
+    height: 14px;
+}
+
+#map-bubble-review-star-1 {
+
+}
+
+#map-bubble-review-star-2 {
+
+}
+
+#map-bubble-review-star-3 {
+
+}
+
+#map-bubble-review-star-4 {
+
+}
+
+#map-bubble-review-star-5 {
+    visibility: hidden;
+}
+
+.map-bubble-organizer {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    color: rgb(149, 149 , 149);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-bubble-organizer-name {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    color: rgb(56, 132, 237);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-bubble-distance {
+    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* menu.html */
+/* ********** ********** ********** ********** ***********/
+
+.ob-sidemenu {
+    background: #1f101c;
+}
+
+.ob-sidemenu-header {
+    position: relative;
+    padding: 0px;
+    height: 97px;
+    padding-top: 20px;
+}
+
+.ob-sidemenu-header-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.ob-sidemenu-header-inner-content {
+    width: 100%;
+    height: calc(100% - 1px);
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.ob-sidemenu-usericon-container {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 60px;
+    height: 60px;
+    margin: 0px 10px;
+}
+
+.ob-sidemenu-usericon {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.ob-sidemenu-title {
+    -moz-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    color: white;
+    height: 44px;
+    line-height: 44px;
+    margin: 0px 3px;
+    text-decoration: none;
+}
+
+.ob-sidemenu-cog-container {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    margin: 0px 10px;
+}
+
+.ob-sidemenu-cog {
+    width: 24px;
+    height: 24px;
+}
+
+.ob-sidemenu-header-bottom-divider {
+    position: absolute;
+    margin: 0px 2.5%;
+    bottom: 1px;
+    height: 1px;
+    width: 95%;
+    background: #3884ed;
+}
+
+.ob-sidemenu-tabs {
+    top: 98px;
+    background: #1f101c;
+}
+
+.ob-sidemenu-tabs ul {
+    padding-bottom: 30px;
+}
+
+.ob-sidemenu-tabs ul a {
+    background: #1f101c;
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    color: white;
+    border: none;
+    border-top: 1px solid #422a3d;
+    padding-left: 40px;
+}
+
+.ob-sidemenu-tabs ul a:first-child {
+    border-top: none;
+    margin-top: 10px;
+}
+
+.ob-sidemenu-tabs ul a.ob-sidemenu-tab-selected {
+    color: #3884ed;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* my-events.html */
+/* ********** ********** ********** ********** ***********/
+
+.event-list-item-row {
+    display: block;
+    width: 100%;
+    height: 44px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 18px;
+    line-height: 44px;
+    color: white;
+    border-bottom: 1px solid #a2a1a0;
+    text-decoration: none;
+    padding: 0px 8px;
+}
+
+.event-list-item-row:first-child {
+    border-top: 1px solid #a2a1a0;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* profile.css */
+/* ********** ********** ********** ********** ***********/
+
+.profile-top {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    background: #999 url("../img/professional-profile/Image2-shade-cropped.jpg") center/400px 420px no-repeat;
+    padding-bottom: 2em;
+}
+
+.follow-button, .following-button {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    height: 30px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    border: 1px solid white;
+    text-align: center;
+    font-size: 1em;
+}
+
+.follow-button {
+    color: white;
+    background-color: transparent;
+}
+
+.following-button {
+    color: black;
+    background-color: white;
+}
+
+.follow-button:active {
+    background-color: white;
+}
+
+.following-button:active {
+    background-color: black;
+}
+
+.plus-icon {
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+}
+
+.checkmark-icon {
+    width: 12.5px;
+    height: 9.5px;
+    margin-right: 6px;
+}
+
+.profile-top-padding-div {
+    width: 100%;
+    height: 3vh;
+    min-height: 8px;
+}
+
+.profile-picture-div {
+    position: relative;
+    margin: 0 auto 1vh;
+    width: 17vh;
+    height: 17vh;
+    min-width: 100px;
+    min-height: 100px;
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.profile-picture-tag {
+    position: absolute;
+    width: 30%;
+    height: 30%;
+    left: 65%;
+    top: 0%;
+}
+
+.profile-picture-tag-centered-div {
+    position: relative;
+    margin: 0 auto 1vh;
+    width: 10vh;
+    height: 10vh;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.profile-picture-tag-centered {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
+
+.full-name-container {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -web-kit-align-items: center;
+    align-items: center;
+}
+
+.full-name-left, .full-name-right {
+    -moz-flex: 99 99 0px;
+    -webkit-flex: 99 99 0px;
+    flex: 99 99 0px;
+}
+
+.full-name-right {
+    margin-left: 5px;
+}
+
+.full-name {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    font-size: 1.5em;
+    font-family: 'Lato', sans-serif;
+    color: white;
+}
+
+.full-name-icon {
+    width: 19px;
+    height: 19px;
+}
+
+.profile-verified-icon {
+}
+
+.profile-car-icon {
+}
+
+.profession {
+    margin: 0.2em auto 0em;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 1.2em;
+    text-align: center;
+    color: white;
+}
+
+.personal-quote {
+    margin: 0.5em auto 0.1em auto;
+    width: 78%;
+    font-size: 1.2em;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-style: italic;
+    text-align: center;
+    color: white;
+}
+
+.time-block {
+
+}
+
+.clock-icon {
+    width: 14.5px;
+    height: 14.5px;
+    display: block;
+    margin: 26px auto 0px;
+}
+
+.time-text {
+    text-align: center;
+    margin: 5px auto 17px;
+    width: 184px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: white;
+}
+
+.profile-stats-container {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.profile-stats-container-empty-item {
+    -moz-flex: 99 99 0px;
+    -webkit-flex: 99 99 0px;
+    flex: 99 99 0px;
+}
+
+.followers-item, .following-item, .achieved-item, .profile-reviews-item  {
+    -moz-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    color: white;
+    text-align: center;
+}
+
+.followers-item, .following-item, .achieved-item {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 1em;
+    line-height: 1.2em;
+    padding-top: 8px;
+}
+
+.followers-item {
+    padding-right: 10px;
+}
+
+.following-item {
+    padding-left: 10px;
+}
+
+.achieved-item {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.following-count, .followers-count, .achieved-count {
+    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    font-size: 1.2em;
+}
+
+.profile-reviews-item {
+}
+
+.profile-review-stars {
+    white-space: nowrap;
+}
+
+.profile-review-star {
+    width: 20px;
+    height: 20px;
+}
+
+.profile-review-star-for-click {
+    width: 40px;
+    height: 40px;
+}
+
+.profile-main-action-button {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    z-index: 100;
+    min-width: 264px;
+    max-width: 80%;
+    border: none;
+    border-radius: 10px;
+    background-color: #3177e8;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.1em;
+    padding: 0.85em 0.5em;
+}
+
+.profile-main-action-button:active {
+    background-color: #2b6acf;
+    color: #e6e6e6;
+}
+
+.profile-main-action-button .first-word {
+    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    font-weight: bold;
+}
+
+.profile-main-action-bar {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: #3177e8;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.profile-main-action-bar-button {
+    background-color: #2b6acf;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 15.5px;
+    color: white;
+    border: none;
+    border-right: 1px solid #70727f;
+    width: 120px;
+    height: 45px;
+}
+
+.profile-main-action-bar-button:active {
+    background-color: white;
+}
+
+.profile-main-action-bar-button:first-child {
+    width: 110px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.profile-main-action-bar-button:last-child {
+    width: 59px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-right: none;
+}
+
+.profile-ellipsis-icon {
+    width: 23.5px;
+    height: 4.5px;
+}
+
+.profile-bottom {
+    height: 100%;
+    min-height: 300px;
+    background-color: rgb(225,225,225);
+}
+
+.profile-tab-bar-container {
+    background: rgb(225,225,225) url("../img/professional-profile/menu-separator.png") center 100%/100% 1px no-repeat;
+}
+
+.profile-tab-bar {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+}
+
+.profile-tab {
+    display: none;
+    position: relative;
+    height: 64px;
+    background-color: transparent;
+    border: none;
+}
+
+.profile-tab-with-divider {
+    background: transparent url("/img/professional-profile/menu-button-separator.png") 100% 1.9em/1px calc(100% - 1.9em - 0.5em) no-repeat;
+}
+
+.profile-tab-icon {
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    transform: translate(-50%, 0%);
+    -webkit-transform: translate(-50%, 0%);
+    -moz-transform: translate(-50%, 0%);
+    -o-transform: translate(-50%, 0%);
+    width: 25px;
+    height: 25px;
+}
+
+#profile-tab-1 {
+}
+
+#profile-tab-2 {
+
+}
+
+#profile-tab-3 {
+}
+
+#profile-tab-4 {
+
+}
+
+#profile-tab-icon-1 {
+}
+
+#profile-tab-icon-2 {
+}
+
+#profile-tab-icon-3 {
+}
+
+#profile-tab-icon-4 {
+}
+
+.profile-map-container {
+    width: 100%;
+    height: 88px;
+    background-color: #999;
+}
+
+.profile-map {
+    width: 320px;
+    height: 100%;
+    margin: 0 auto;
+    background: #999 url("../img/professional-profile/tmp/map-background.png") center/320px 99px no-repeat;
+}
+
+.profile-photos {
+    position: relative;
+    width: 320px;
+    height: 105px;
+    margin: 0px auto;
+}
+
+.profile-photo {
+    width: 33.33333%;
+    border-right: 1px solid #b7b7b7;
+}
+
+.profile-photo:last-child {
+    border-right: none;
+}
+
+.profile-photos-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    -webkit-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
+    right: 4px;
+    width: 21px;
+    height: 21px;
+}
+
+.profile-feed {
+    width: 100%;
+    border-bottom: 1px solid rgb(159, 159, 159);
+}
+
+.profile-feed-item {
+    border-top: 1px solid #b7b7b7;
+    background-color: #e5e5e5;
+    width: 100%;
+    height: 54px;
+}
+
+.profile-feed-thumbnail {
+    float: left;
+    width: 36px;
+    height: 36px;
+    margin: 9px;
+}
+
+.profile-feed-text {
+    margin-top: 9px;
+    line-height: 1em;
+}
+
+.profile-feed-message {
+    color: #4e4e4e;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 1.1em;
+}
+
+.profile-feed-timestamp {
+    color: #898989;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 1.1em;
+}
+
+.activity-feed {
+
+}
+
+.activity-row {
+    display: table;
+    text-align: left;
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+.activity-image {
+    float: left;
+    width: 36px;
+    height: 36px;
+    margin: 7px 10px;
+}
+
+.activity-text {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 8px 10px 8px 3px;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.activity-row-end {
+    clear: both;
+}
+
+.linked-text {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    color: #3884ed;
+}
+
+.activity-time {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    color: #898989;
+}
+
+.profile-feed-review-list {
+
+}
+
+.profile-feed-review-list-row {
+    width: 100%;
+    height: 54px;
+    display: -webkit-flex;
+    display: flex;
+    background: white;
+    border-bottom: 1px solid #c2c2c2;
+    padding: 0px;
+}
+
+.profile-feed-review-list-row-left {
+    -webkit-flex: 0 0 46px;
+    flex: 0 0 46px;
+    position: relative;
+    width: 46px;
+    height: 100%;
+}
+
+.profile-feed-review-list-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+}
+
+.profile-feed-review-list-row-right {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 10px;
+    padding-left: 4px;
+}
+
+.profile-feed-review-text {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 15px;
+    color: #4e4e4e;
+    margin: 0px;
+}
+
+.profile-feed-review-creation {
+    color: #898989;
+    margin-left: 4px;
+}
+
+.profile-feed-review-stars {
+    height: 12px;
+    line-height: 12px;
+}
+
+.profile-feed-review-star {
+    width: 12px;
+    height: 12px;
+
+}
+
+#profile-feed-review-star-1 {
+
+}
+
+#profile-feed-review-star-2 {
+
+}
+
+#profile-feed-review-star-3 {
+
+}
+
+#profile-feed-review-star-4 {
+
+}
+
+#profile-feed-review-star-5 {
+    visibility: hidden;
+}
+
+.profile-feed-end {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 15px;
+    color: #4e4e4e;
+    text-align: center;
+    padding: 8px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* register-main.html */
+/* ********** ********** ********** ********** ***********/
+
+.register-ob-form-1 {
+    margin-top: 40px;
+}
+
+.password-icon {
+    -moz-flex: 0 0 17px;
+    -webkit-flex: 0 0 17px;
+    flex: 0 0 17px;
+    height: 13px;
+}
+
+.ob-sectioned-row {
+    display: -mox-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.ob-sectioned-row > .left-prompt-text {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    padding: 12px 0px 12px 11px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+}
+
+.ob-sectioned-row > .main-content {
+    -moz-flex: 99 99 auto;
+    -webkit-flex: 99 99 auto;
+    flex: 99 99 auto;
+    padding: 11px 10px;
+}
+
+.ob-tag-2 {
+    display: inline-block;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: white;
+    border-bottom: 1px solid white;
+    margin-bottom: 11px;
+}
+
+.ob-tag-2:last-child {
+    margin-bottom: 0px;
+}
+
+.ob-sectioned-row > .right-icon-container {
+    -moz-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -moz-align-self: flex-end;
+    -webkit-align-self: flex-end;
+    align-self: flex-end;
+    padding: 6px 9px;
+}
+
+.ob-sectioned-row > .right-icon-container > .small-plus-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.ob-event-create-map-container {
+    background: transparent url("../img/event-profile/tmp/event-creation-map.png") center/100% 100% no-repeat;
+    width: 300px;
+    height: 168px;
+    border-radius: 8px;
+    margin: 9px auto 0px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* scan.html */
+/* ********** ********** ********** ********** ***********/
+
+.scan-main-instructions {
+    margin-bottom: 100px;
+}
+
+.scan-ob-form {
+    margin-bottom: 0px;
+}
+
+.scan-block-blue-button:last-child {
+    margin-top: 8px;
+}
+
+.scan-divider {
+    margin: 50px auto;
+    width: 90%;
+    border: 1px solid #999999;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* scheduler.css */
+/* ********** ********** ********** ********** ***********/
+
+.scheduler-main-instructions {
+    margin-bottom: 40px;
+}
+
+.timeslot-table {
+    width: 100%;
+}
+
+.timeslot-row {
+    height: 30px;
+}
+
+.timeslot-time-column {
+    width: 50%;
+    border-bottom: 1px solid white;
+    vertical-align: middle;
+    text-align: center;
+    font-family: "Avenir Next LT Pro", sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+.timeslot-status-column {
+    width: 35%;
+    border-bottom: 1px solid white;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.timeslot-status {
+    width: 100%;
+    border-radius: 5px;
+    vertical-align: middle;
+    text-align: center;
+    font-family: "Avenir Next LT Pro", sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+.timeslot-button-column {
+    width: 15%;
+    border-bottom: 1px solid white;
+    height: 30px;
+    background: none;
+}
+
+.timeslot-button {
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    color: white;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* timepicker.html */
+/* ********** ********** ********** ********** ***********/
+
+.timepicker-row {
+    padding-top: 20px !important; /* why do we need important? */
+    margin-bottom: 8px;
+}
+
+.timepicker-row:last-child {
+    margin-bottom: 0px;
+}
+
+.timepicker-column {
+    height: auto;
+}
+
+.timepicker-arrow-container {
+    display: block;
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    margin: 0px auto;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timepicker-arrow-container i {
+    font-size: 20px;
+}
+
+.timepicker-label {
+    text-align: center;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    margin: 4px 0px;
+}
+
+.timepicker-dayofweek {
+    text-align: center;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* tos.html */
+/* ********** ********** ********** ********** ***********/
+
+.tos {
+    padding: 0.5em;
+    background-color: rgb(244, 244, 244);
+    color: rgb(80, 80, 80);
+}
+
+.tos h1 {
+    font-size: 2.0em;
+    padding-bottom: 0.3em;
+}
+
+.tos h2 {
+    font-size: 1.2em;
+    text-decoration: underline;
+}
+
+.tos h3 {
+    font-size: 1.2em;
+}
+
+.tos p {
+    font-size: 1.0em;
+}
+
+.tos .strong {
+    font-weight: bold;
+}
+
+.tos a {
+    color: rgb(255, 78, 84);
+}
+
+/* ********** ********** ********** ********** ***********/
+/* trainer.css */
+/* incoming-requests.html , my-requests.html , list-modal.html , choose-trainer-modal.html , trainer.html */
+/* ********** ********** ********** ********** ***********/
+
+.ob-trainer-bar-container {
+    margin-top: 17px;
+    padding: 0px;
+    height: 44px;
+    z-index: 50;
+    background: transparent;
+}
+
+.ob-trainer-bar {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.ob-trainer-bar-button {
+    -moz-flex: 1 1 0px;
+    -webkit-flex: 1 1 0px;
+    flex: 1 1 0px;
+    background: rgb(53, 127, 230);
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 14px;
+    border: 1px solid white;
+    border-right: none;
+    border-top: none;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    line-height: 44px;
+}
+
+.ob-trainer-bar-button:first-child {
+    border-left: none;
+}
+
+.ob-trainer-bar-button-selected {
+    background: rgb(56, 132, 237);
+}
+
+.ob-search-list-view-content {
+    padding-top: 17px;
+}
+
+/* ob-search-list */
+
+.ob-search-list {
+
+}
+
+.ob-search-list-row {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    background: transparent;
+    border-bottom: 1px solid #a2a1a0;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.ob-search-list-row:first-child {
+    border-top: 1px solid #a2a1a0;
+}
+
+.ob-search-list-row-left {
+    -moz-flex: 0 0 calc(7px + 38px + 7px);
+    -webkit-flex: 0 0 calc(7px + 38px + 7px);
+    flex: 0 0 calc(7px + 38px + 7px);
+}
+
+.ob-search-list-img {
+    display: block;
+    margin: auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 4px;
+}
+
+.ob-search-list-row-right {
+    -moz-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 10px 7px 10px 4px;
+}
+
+.ob-search-list-text {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 15px;
+    color: white;
+}
+
+.ob-search-list-text-demi {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 15px;
+    color: white;
+}
+
+.ob-search-list-text-title {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 15px;
+    color: #3884ed;
+}
+
+.ob-search-list-profession {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 15px;
+    color: white;
+}
+
+.ob-search-list-distance {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 15px;
+    color: #959595;
+
+}
+
+.ob-search-list-stars {
+
+}
+
+.ob-search-list-star {
+    width: 13.5px;
+    height: 13.5px;
 }
