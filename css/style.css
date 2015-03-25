@@ -2389,6 +2389,7 @@ ion-popover-view.fit ion-content {
 }
 
 .profile-reviews-item {
+    text-align: center;
 }
 
 .profile-review-stars {

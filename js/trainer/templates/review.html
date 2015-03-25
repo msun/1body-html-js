@@ -1,36 +1,33 @@
 <ion-modal-view>
-    <ion-header-bar>
-        <h1 class="title">Add Review</h1>
-    </ion-header-bar>
-    <ion-content>
-        <div class="list">
-            <div class="item item-divider">
-                <p>
-                    Transaction at: {{transaction.creation}}
-                </p>
-            </div>
-            <span class="profile-reviews-item item">
-                <div class="profile-review-stars">
-                    <img class="profile-review-star-for-click" ng-hide="newreview.rating > 0" ng-click="newreview.rating=1" src="img/professional-profile/white-star-single.png"/>
-                    <img class="profile-review-star-for-click" ng-show="newreview.rating > 0" ng-click="newreview.rating=1" src="img/professional-profile/blue-star-single.png"/>
-                    <img class="profile-review-star-for-click" ng-hide="newreview.rating > 1" ng-click="newreview.rating=2" src="img/professional-profile/white-star-single.png"/>
-                    <img class="profile-review-star-for-click" ng-show="newreview.rating > 1" ng-click="newreview.rating=2" src="img/professional-profile/blue-star-single.png"/>
-                    <img class="profile-review-star-for-click" ng-hide="newreview.rating > 2" ng-click="newreview.rating=3" src="img/professional-profile/white-star-single.png"/>
-                    <img class="profile-review-star-for-click" ng-show="newreview.rating > 2" ng-click="newreview.rating=3" src="img/professional-profile/blue-star-single.png"/>
-                    <img class="profile-review-star-for-click" ng-hide="newreview.rating > 3" ng-click="newreview.rating=4" src="img/professional-profile/white-star-single.png"/>
-                    <img class="profile-review-star-for-click" ng-show="newreview.rating > 3" ng-click="newreview.rating=4" src="img/professional-profile/blue-star-single.png"/>
-                    <img class="profile-review-star-for-click" ng-hide="newreview.rating > 4" ng-click="newreview.rating=5" src="img/professional-profile/white-star-single.png"/>
-                    <img class="profile-review-star-for-click" ng-show="newreview.rating > 4" ng-click="newreview.rating=5" src="img/professional-profile/blue-star-single.png"/>
-                </div>
-            </span>
-            <label class="item item-input item-stacked-label">
-                <textarea type="text" ng-model="newreview.text" placeholder="Leave your review" />
-            </label>
-            <div class="button-bar">
-                <button class="button button-calm" ng-click="closeReviewModal()">Close </button>
-                <button class="button button-calm" ng-click="addReview()">Confirm </button>
-            </div>
-
+    <ion-header-bar align-title="center" class="ob-dark-bg">
+        <h1 class="title ob-navbar-title">Add Review</h1>
+        <div class="buttons">
+            <button ng-click="closeReviewModal()()" class="button button-icon">
+                <i class="icon ion-close ob-white-color"></i>
+            </button>
         </div>
+    </ion-header-bar>
+    <ion-content class="has-header ob-grey-bg">
+        <div class="main-instructions">Transaction at: {{transaction.creation}}</div>
+        <span class="profile-reviews-item">
+            <div class="profile-review-stars">
+                <img class="profile-review-star-for-click" ng-hide="newreview.rating > 0" ng-click="newreview.rating=1" src="img/professional-profile/white-star-single.png"/>
+                <img class="profile-review-star-for-click" ng-show="newreview.rating > 0" ng-click="newreview.rating=1" src="img/professional-profile/blue-star-single.png"/>
+                <img class="profile-review-star-for-click" ng-hide="newreview.rating > 1" ng-click="newreview.rating=2" src="img/professional-profile/white-star-single.png"/>
+                <img class="profile-review-star-for-click" ng-show="newreview.rating > 1" ng-click="newreview.rating=2" src="img/professional-profile/blue-star-single.png"/>
+                <img class="profile-review-star-for-click" ng-hide="newreview.rating > 2" ng-click="newreview.rating=3" src="img/professional-profile/white-star-single.png"/>
+                <img class="profile-review-star-for-click" ng-show="newreview.rating > 2" ng-click="newreview.rating=3" src="img/professional-profile/blue-star-single.png"/>
+                <img class="profile-review-star-for-click" ng-hide="newreview.rating > 3" ng-click="newreview.rating=4" src="img/professional-profile/white-star-single.png"/>
+                <img class="profile-review-star-for-click" ng-show="newreview.rating > 3" ng-click="newreview.rating=4" src="img/professional-profile/blue-star-single.png"/>
+                <img class="profile-review-star-for-click" ng-hide="newreview.rating > 4" ng-click="newreview.rating=5" src="img/professional-profile/white-star-single.png"/>
+                <img class="profile-review-star-for-click" ng-show="newreview.rating > 4" ng-click="newreview.rating=5" src="img/professional-profile/blue-star-single.png"/>
+            </div>
+        </span>
+        <div class="ob-form">
+            <div class="ob-form-row ob-form-row-autoheight">
+                <textarea class="ob-form-textarea ob-form-textarea-small" ng-model="newreview.text" placeholder="Leave a review">{{user.info}}</textarea>
+            </div>
+        </div>
+        <button class="block-blue-button" ng-click="addReview()">Confirm </button>
     </ion-content>
 </ion-modal-view>
