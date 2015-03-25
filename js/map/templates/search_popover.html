@@ -1,36 +1,29 @@
-<ion-popover-view>
+<ion-popover-view class="fit">
     <!--<ion-header-bar>-->
         <!--<h1 class="title">Search</h1>-->
     <!--</ion-header-bar>-->
-    <ion-content>
-        <div class="list">
-            <label class="item item-input">
-                <input type="text" ng-model="searchContainer.searchTerms" placeholder="Search term">
-            </label>
-            <label class="item item-input">
-                <input type="text" class="" ng-model="searchContainer.searchRadius" placeholder="Search radius (default 30km)">
-            </label>
-            <label class="item item-input item-select" ng-show="header=='Events'">
-                <div class="input-label">
-                    Category
-                </div>
-                <select ng-model="searchContainer.selectedCategory" ng-options="category.name for category in categories">
-                </select>
-            </label>
-
-            <div class="button-bar">
-                <button class="button button-dark" ng-click="closePopover()">
-                    close
-                </button>
-                <button class="button button-dark" ng-click="searchMap()">
-                    search
-                </button>
+    <ion-content scroll="false">
+        <label class="item item-input">
+            <input type="text" ng-model="searchContainer.searchTerms" placeholder="Search term">
+        </label>
+        <label class="item item-input">
+            <input type="text" class="" ng-model="searchContainer.searchRadius" placeholder="Search radius (default 30km)">
+        </label>
+        <label class="item item-input item-select" ng-show="header=='Events'">
+            <div class="input-label">
+                Category
             </div>
-            <!--<div class="button-bar">-->
-                <!--<button class="button button-dark" ng-click="cancelSearch()">-->
-                    <!--Cancel Search-->
-                <!--</button>-->
-            <!--</div>-->
-        </div>
+            <select ng-model="searchContainer.selectedCategory" ng-options="category.name for category in categories">
+            </select>
+        </label>
+
+        <!--<button class="button button-dark" ng-click="closePopover()">close</button>-->
+        <button class="block-blue-button ob-block-button-small-margins" ng-click="searchMap()">Search</button>
+
+        <!--<div class="button-bar">-->
+            <!--<button class="button button-dark" ng-click="cancelSearch()">-->
+                <!--Cancel Search-->
+            <!--</button>-->
+        <!--</div>-->
     </ion-content>
 </ion-popover-view>

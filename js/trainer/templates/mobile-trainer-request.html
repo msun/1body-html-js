@@ -1,60 +1,41 @@
 <ion-view>
-    <ion-header-bar class="bar-dark">
+    <ion-header-bar class="ob-dark-bg">
         <div class="buttons">
-            <button ng-click ="toggleMenu()" class = "button button-icon" >
-                <i class = "icon ion-navicon">
-                </i>
+            <button ng-click="toggleMenu()" class="button button-icon">
+                <i class="icon ion-navicon ob-white-color"></i>
             </button>
-
-            <h2 class="title">{{header}}</h2>
-
-            <a href="#/menu/{{header}}" class = "button button-icon" >
-                <i class = "icon ion-ios7-paper-outline">
-                </i>Listview
-            </a>
-
+            <img class="ob-nav-bar-logo" src="img/Logo.png"/>
         </div>
     </ion-header-bar>
-
-    <ion-content>
-        <ul class="list">
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Message to trainers</span>
-                <input type="text" ng-model="newrequest.message" placeholder="Description">
-            </label>
-            <label class="item item-input" ng-click="openDatePicker()">
-                <span class="input-label">Start time </span>
-                <span>{{newrequest.starttime}}</span>
-            </label>
-
-            <div class="item range range-positive">
-                <span class="input-label">Duration {{newrequest.duration}}min</span>
-                <input type="range" name="volume" min="0" max="120" ng-model="newrequest.duration">
+    <ion-content class="has-header menu2-content">
+        <div class="menu1-content-div">
+            <div class="ob-form">
+                <div class="ob-form-row ob-form-row-autoheight">
+                    <textarea class="ob-form-textarea ob-form-textarea-small" ng-model="newrequest.message" placeholder="Message for mobile request"></textarea>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row" ng-click="openDatePicker()">
+                    <span class="ob-form-text-input-prompt">Start time</span>
+                    <span class="ob-form-text-input">{{newrequest.starttime}}</span>
+                </div>
+                <div class="ob-form-row ob-form-select-row ob-form-range-row">
+                    <span class="ob-form-range-prompt"><span class="ob-blue-color">Duration</span>&nbsp;&nbsp;{{newrequest.duration}}min</span>
+                    <input class="ob-form-range" type="range" name="volume" min="0" max="120" ng-model="newrequest.duration">
+                </div>
+                <div class="ob-form-row ob-form-text-input-row" ng-click="openMap()">
+                    <span class="ob-form-text-input">Tap here to open map</span>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row">
+                    <span class="ob-form-text-input-prompt">Location</span>
+                    <input class="ob-form-text-input" type="text" ng-model="newrequest.location" placeholder=""/>
+                </div>
+                <div class="ob-form-row ob-form-row-autoheight">
+                    <textarea class="ob-form-textarea ob-form-textarea-small" ng-model="newrequest.commentlocation" placeholder="Comments on location"></textarea>
+                </div>
+                <div class="ob-form-row ob-form-text-input-row" ng-click="openSelectTrainerModal()">
+                    <span class="ob-form-text-input">Tap here to select trainers</span>
+                </div>
             </div>
-
-            <label class="item item-input item-stacked-label">
-                <!--<span class="input-label">Location of workout</span>-->
-                <button ng-click="openMap()" class="button button-calm">open map</button>
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Location </span>
-                <input type="text" ng-model="newrequest.location" placeholder="Location">
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Comment on Location</span>
-                <input type="text" ng-model="newrequest.commentlocation" placeholder="Where will I be?">
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Location of workout</span>
-                <button ng-click="openSelectTrainerModal()" class="button button-calm">Select Mobile Trainer</button>
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <button ng-click="confirmRequest()" class="button button-calm">Confirm</button>
-            </label>
-        </ul>
+            <button class="block-blue-button" ng-click="confirmRequest()">Confirm</button>
+        </div>
     </ion-content>
 </ion-view>

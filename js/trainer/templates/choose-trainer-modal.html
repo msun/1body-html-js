@@ -1,8 +1,37 @@
+<link rel="stylesheet" type="text/css" href="css/trainer.css">
 <ion-modal-view>
-    <ion-header-bar>
-        <h1 class="title">Select Mobile Trainer</h1>
+    <ion-header-bar class="ob-dark-bg">
+        <div class="buttons">
+        </div>
+        <h1 class="title ob-navbar-title">Select Mobile Trainers</h1>
+        <div class="buttons">
+            <button ng-click="closeSelectTrainerModal()" class="button button-icon">
+                <i class="icon ion-close ob-white-color"></i>
+            </button>
+        </div>
     </ion-header-bar>
-    <ion-content>
+    <ion-content class="ob-grey-bg">
+        <ion-scroll class="increq-scroll choose-trainer-scroll" direction="y">
+            <div class="ob-search-list">
+                <div class="ob-search-list-row" type="item-text-wrap" ng-repeat="item in mobile_trainers | orderBy:'distance'" style="padding: 0px">
+                    <a class="ob-search-list-row-left" href="#/menu/{{item.group}}/{{item.$id}}">
+                        <img class="ob-search-list-img" src="{{item.profilepic}}"/>
+                    </a>
+                    <div class="ob-search-list-row-right ob-search-list-text" ng-click="showOnMap(item)">
+                        <div ng-click="showOnMap(item)">
+                            <div><span class="ob-search-list-text-demi">{{item.username}}</span>: {{item.name}}</div>
+                            <div>{{item.distance}}</div>
+                        </div>
+                    </div>
+                    <div class="ob-search-list-row-right">
+                        <label class="checkbox" style="float: right;">
+                            <input type="checkbox" ng-model="item.checked">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </ion-scroll>
+        <!--
         <ion-scroll direction="y" style="width: 100%; height: 200px">
             <div class="list">
                 <div class="item" type="item-text-wrap" ng-repeat="item in mobile_trainers | orderBy:'distance'" style="padding: 0px">
@@ -12,24 +41,16 @@
                     <div ng-click="showOnMap(item)" style="width: 70%; height: 64px; padding: 5px; float: left;">
                         <h2>{{item.username}}{{item.name}} <span>{{item.distance}}</span></h2>
                     </div>
-                    <!--<div class="item item-checkbox" >-->
-                        <label class="checkbox" style="float: right;">
-                            <input type="checkbox" ng-model="item.checked">
-                        </label>
-                    <!--</div>-->
+                    <label class="checkbox" style="float: right;">
+                        <input type="checkbox" ng-model="item.checked">
+                    </label>
                 </div>
-
             </div>
         </ion-scroll>
-        <div class="item" style="width: 100%; height: 250px">
-            <div id="mobile-trainer-location" data-tap-disabled="true"></div>
+        -->
+        <div class="item increq-map-container choose-trainer-map-container">
+            <div id="mobile-trainer-location" class="increq-map" data-tap-disabled="true"></div>
         </div>
-
-        <div class="button-bar">
-            <button class="button button-calm" ng-click="closeSelectTrainerModal()">Close </button>
-            <button class="button button-calm" ng-click="confirmSelectTrainerModal()">Confirm </button>
-        </div>
-
-        </div>
+        <button class="block-blue-button" ng-click="confirmSelectTrainerModal()">Confirm</button>
     </ion-content>
 </ion-modal-view>
