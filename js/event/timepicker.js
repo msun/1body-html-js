@@ -14,9 +14,9 @@ angular.module('timeAndDate', [])
         return {
             restrict: 'E',
             transclude: 'true',
-            scope:{
-                dt: '=dt'
-            },
+//            scope:{
+//                dt: '=dt'
+//            },
             templateUrl: 'js/event/templates/timepicker.html',
             link: function(scope, element, attrs) {
                 scope.minuteStep = parseInt(attrs.minuteStep, 10) || timeAndDateConfig.minuteStep;
@@ -30,7 +30,7 @@ angular.module('timeAndDate', [])
                 scope.showDatePicker = attrs.showDatePicker || true;
 
                 scope.time = attrs.time;
-                console.log(scope.dt);
+                console.log(scope);
                 var dTime;
 
                 scope.decrementHours = function() {
@@ -129,6 +129,7 @@ angular.module('timeAndDate', [])
                         scope.widget.year = dTime.getFullYear();
                         scope.dayOfWeek = timeAndDateConfig.daysInAWeek[dTime.getDay()];
                         scope.dt = dTime;
+                        scope.$parent.dt = dTime;
                         console.log(scope.dt);
                     })
                 }

@@ -1,13 +1,12 @@
-<ion-view>
-    <ion-content class="menu1-content-no-header">
+
         <div class="menu1-content-div">
             <button class="block-blue-button block-button-shadow" ng-click="confirm()">Confirm</button>
-            <button class="block-blue-button block-button-shadow" ng-click="printTime()">Check Time</button>
+            <!--<button class="block-blue-button block-button-shadow" ng-click="printTime()">Check Time</button>-->
             <div class="main-instructions scheduler-main-instructions">Set your availabile time slots as a professional</div>
             <div class="ob-form">
                 <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
                     <span class="ob-form-timepicker-prompt ob-blue-text">Date</span>
-                    <time-picker class="ob-form-timepicker" dt="dt" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                    <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                 </div>
                 <div class="ob-form-row ob-form-row-autoheight">
                     <table class="timeslot-table">
@@ -30,8 +29,6 @@
                             </td>
                         </tr>
                     </table>
-                <div>
+                </div>
             </div>
         </div>
-    </ion-content>
-</ion-view>
