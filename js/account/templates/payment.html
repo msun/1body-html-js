@@ -4,10 +4,10 @@
             <div class="main-instructions main-instructions-only">Change Payment Information</div>
             <form class="ob-form" stripe-form="handleStripe" name="myForm">
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name1" placeholder="Cardholder name"/>
+                    <input class="ob-form-text-input" type="text" placeholder="Cardholder name"/>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name1" placeholder="Card Number"
+                    <input class="ob-form-text-input" type="number" placeholder="Card Number"
                            ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
                 </div>
                 <div class="ob-form-row ob-form-select-row">
@@ -41,20 +41,20 @@
                     </div>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Security Code/CVC"
+                    <input class="ob-form-text-input" type="number" placeholder="Security Code/CVC"
                            ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Postal Code"/>
+                    <input class="ob-form-text-input" type="text" placeholder="Postal Code"/>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="City / Town"/>
+                    <input class="ob-form-text-input" type="text" placeholder="City / Town"/>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Province / State"/>
+                    <input class="ob-form-text-input" type="text" placeholder="Province / State"/>
                 </div>
                 <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Country"/>
+                    <input class="ob-form-text-input" type="text" placeholder="Country"/>
                 </div>
             </form>
             <button type="submit" class="block-blue-button">Done</button>
