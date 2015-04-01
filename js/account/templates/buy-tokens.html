@@ -2,7 +2,7 @@
     <ion-content class="has-header menu1-content">
         <div class="menu1-content-div buy-tokens-content-div">
             <div class="main-instructions">Select the number of credits to purchase</div>
-            <div class="sub-instructions buy-tokens-sub-instructions">You have {{currentTokens}} tokens left.</div>
+            <div class="sub-instructions">You have <span class="ob-bold">{{currentTokens}}</span> tokens left.</div>
             <div class="purchase-credits-table">
                 <div class="purchase-credits-row" ng-repeat="item in bundles">
                     <span class="purchase-credits-value">{{item.numberTokens}}</span>

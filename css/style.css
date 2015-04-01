@@ -333,6 +333,14 @@
 }
 
 /* ********** ********** ********** ********** ***********/
+/* text */
+/* ********** ********** ********** ********** ***********/
+
+.ob-bold {
+    font-weight: bold;
+}
+
+/* ********** ********** ********** ********** ***********/
 /* colors */
 /* ********** ********** ********** ********** ***********/
 
@@ -414,21 +422,17 @@ ion-popover-view.fit ion-content {
 }
 
 .main-instructions {
-    width: 220px;
-    margin: 23px auto 10px;
+    width: 248px;
+    margin: 22px auto 10px;
     font-family: 'Lato', sans-serif;
     font-size: 18px;
     color: white;
     text-align: center;
 }
 
-.main-instructions-only {
-    margin-bottom: 20px;
-}
-
 .sub-instructions {
-    width: 220px;
-    margin: 10px auto 43px;
+    width: 248px;
+    margin: 10px auto 22px;
     font-family: 'Lato-Light', sans-serif;
     font-size: 18px;
     color: white;
@@ -458,7 +462,7 @@ ion-popover-view.fit ion-content {
     background-color: transparent;
     border-radius: 8px;
     border: 1px solid #7f7b73;
-    margin: 16px auto;
+    margin: 12px auto 4px;
     overflow: hidden;
 }
 
@@ -813,7 +817,9 @@ ion-popover-view.fit ion-content {
     -webkit-align-items: stretch;
     align-items: stretch;
     width: 100%;
-    margin: 28px 0px 0px;
+    margin: 12px auto;
+    border-top: 1px solid #aaaaaa;
+    max-width: 85%;
 }
 
 .ob-note-block-left {
@@ -887,7 +893,7 @@ ion-popover-view.fit ion-content {
     max-width: 500px;
     border-radius: 5px;
     border: none;
-    margin: 15px auto 11px;
+    margin: 15px auto 4px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.69px;
     color: white;
@@ -921,15 +927,16 @@ ion-popover-view.fit ion-content {
     margin: 0px auto;
     background: transparent;
     border: none;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    color: rgb(235, 235, 235);
     font-size: 15px;
-    color: white;
     text-align: center;
     text-decoration: none;
+    padding: 12px 0px;
 }
 
 .block-transparent-button:active {
-    color: #888888;
+    color: #aaaaaa;
 }
 
 .block-button-shadow {
@@ -1215,10 +1222,6 @@ ion-popover-view.fit ion-content {
     padding-bottom: 32px;
 }
 
-.buy-tokens-sub-instructions {
-    margin-bottom: 20px;
-}
-
 .purchase-credits-table {
 
 }
@@ -1372,10 +1375,6 @@ ion-popover-view.fit ion-content {
 .ob-slide {
 }
 
-.create-event-sub-instructions {
-    margin-bottom: 24px;
-}
-
 .create-event-ob-form {
     margin-bottom: 10px;
 }
@@ -1510,19 +1509,10 @@ ion-popover-view.fit ion-content {
 /* home.html */
 /* ********** ********** ********** ********** ***********/
 
-.home-main-instructions {
-    width: 248px;
-}
-
 .home-transparent-button {
-    line-height: 15px;
+    line-height: 15px
     font-family: 'Avenir Next LT Pro', sans-serif;
     color: rgb(235, 235, 235);
-    padding: 17px 0px;
-}
-
-.home-transparent-button:active {
-    color: #aaaaaa;
 }
 
 .text-strong {
@@ -2753,10 +2743,6 @@ ion-popover-view.fit ion-content {
 /* register-main.html */
 /* ********** ********** ********** ********** ***********/
 
-.register-ob-form-1 {
-    margin-top: 40px;
-}
-
 .password-icon {
     -moz-flex: 0 0 17px;
     -webkit-flex: 0 0 17px;
@@ -2826,10 +2812,6 @@ ion-popover-view.fit ion-content {
 /* scan.html */
 /* ********** ********** ********** ********** ***********/
 
-.scan-main-instructions {
-    margin-bottom: 100px;
-}
-
 .scan-ob-form {
     margin-bottom: 0px;
 }
@@ -2847,10 +2829,6 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 /* scheduler.css */
 /* ********** ********** ********** ********** ***********/
-
-.scheduler-main-instructions {
-    margin-bottom: 40px;
-}
 
 .timeslot-table {
     width: 100%;

@@ -4,8 +4,9 @@
         <ion-slide-box active-slide="slideStop(index)" pager-click="navSlide(index)">
             <ion-slide>
                 <div class="menu1-content-div">
-                    <div class="main-instructions">Sign up</div>
-                    <div class="ob-form register-ob-form-1">
+                    <div class="main-instructions">Let's get started!</div>
+                    <div class="sub-instructions"></div>
+                    <div class="ob-form">
                         <div class="ob-form-row ob-form-text-input-row">
                             <input class="ob-form-text-input" ng-model="newuser.username" type="text" name="name" placeholder="Name"/>
                         </div>
@@ -33,6 +34,11 @@
                             <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Users'}" ng-click="newuser.group = 'Users'" >User</button>
                             <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Trainers'}"ng-click="newuser.group = 'Trainers'">Professional</button>
                         </div>
+                    </div>
+                    <div class="ob-note-block">
+                        <span class="ob-note-block-left">*</span>
+                        <span class="ob-note-block-middle">Professionals can still register for sessions and classes</span>
+                        <span class="ob-note-block-right"></span>
                     </div>
                     <button class="block-blue-button" ng-click="nextPressed()">Sign up!</button>
                     <!--
