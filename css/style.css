@@ -482,7 +482,7 @@ ion-popover-view.fit ion-content {
     background-color: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid #7f7b73;
     overflow: hidden;
-    min-height: 42px;
+    min-height: 44px;
 }
 
 .ob-form-row-:first-child {
@@ -512,40 +512,54 @@ ion-popover-view.fit ion-content {
 .ob-form-text-input {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
-    overflow: hidden;
+    height: 44px !important;
+    line-height: 44px !important;
     margin: 0px 12px;
+    overflow: hidden;
     background: transparent;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: white !important; /* why do we need this? */
+    font-size: 16px;
+    color: white !important;
 }
 
-.ob-form-text-input:hover, .ob-form-text-input:focus {
-    color: white;
+.ob-form-text-input:hover {
+
+}
+
+.ob-form-text-input:focus {
+
 }
 
 .ob-form-text-input::-webkit-input-placeholder {
+    height: 44px !important;
+    line-height: 44px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: #bebdbd;
+    font-size: 16px;
+    color: #a4a2a3;
 }
 
-.ob-form-text-input:-moz-placeholder { /* Firefox 18- */
+.ob-form-text-input:-moz-placeholder {
+    height: 44px !important;
+    line-height: 44px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: #bebdbd;
+    font-size: 16px;
+    color: #a4a2a3;
 }
 
-.ob-form-text-input::-moz-placeholder {  /* Firefox 19+ */
+.ob-form-text-input::-moz-placeholder {
+    height: 44px !important;
+    line-height: 44px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: #bebdbd;
+    font-size: 16px;
+    color: #a4a2a3;
 }
 
 .ob-form-text-input:-ms-input-placeholder {
+    height: 44px !important;
+    line-height: 44px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: #bebdbd;
+    font-size: 16px;
+    color: #a4a2a3;
 }
 
 .ob-form-text-input-icon-left, .ob-form-text-input-icon-right {
@@ -568,7 +582,7 @@ ion-popover-view.fit ion-content {
     flex: 0 0 auto;
     margin: 4px 0px 4px 12px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
+    font-size: 16px;
     color: #3884ed;
 }
 
@@ -752,7 +766,7 @@ ion-popover-view.fit ion-content {
     flex: 0 0 auto;
     margin: auto 0px auto 12px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
+    font-size: 16px;
     color: #3884ed;
 }
 
@@ -920,7 +934,7 @@ ion-popover-view.fit ion-content {
 .buttongroup2 {
     display: -webkit-flex;
     display: flex;
-    height: 42px;
+    height: 44px;
     width: 300px;
     margin: 12px auto;
     border-radius: 8px;
@@ -970,7 +984,7 @@ ion-popover-view.fit ion-content {
     background: #3884ed;
     z-index: 9999;
     font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 16.7px;
+    font-size: 16px;
     color: white;
     padding: 0px;
 }
@@ -1753,7 +1767,7 @@ ion-popover-view.fit ion-content {
     padding: 12px;
     background-color: rgba(0, 0, 0, 0.3);
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
+    font-size: 16px;
     color: white;
     border-right: 1px solid #404040;
 }

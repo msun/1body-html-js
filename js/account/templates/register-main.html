@@ -7,21 +7,29 @@
                     <div class="ob-instructions">Let's get started!</div>
                     <div class="ob-form">
                         <div class="ob-form-row ob-form-text-input-row">
-                            <input class="ob-form-text-input" ng-model="newuser.username" type="text" name="name" placeholder="Name"/>
+                            <input class="ob-form-text-input" ng-model="newuser.username"
+                                   type="text" name="name" placeholder="Name"/>
                         </div>
                         <!--<div class="ob-form-row ob-form-text-input-row">-->
                             <!--<input class="ob-form-text-input" ng-model="newuser.lastname" type="text" name="last-name" placeholder="Last Name"/>-->
                         <!--</div>-->
                         <div class="ob-form-row ob-form-switch-row">
-                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Female'}" ng-click="newuser.gender = 'Female'">Female</button>
-                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Male'}" ng-click="newuser.gender = 'Male'">Male</button>
+                            <button class="ob-form-switch-button"
+                                    ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Female'}"
+                                    ng-click="newuser.gender = 'Female'">Female</button>
+                            <button class="ob-form-switch-button"
+                                    ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Male'}"
+                                    ng-click="newuser.gender = 'Male'">Male</button>
                         </div>
                         <div class="ob-form-row ob-form-text-input-row">
-                            <input class="ob-form-text-input" type="email" ng-model="newuser.email" name="email" placeholder="Email"/>
+                            <input class="ob-form-text-input" type="email"
+                                   ng-model="newuser.email" name="email" placeholder="Email"/>
                         </div>
                         <div class="ob-form-row ob-form-text-input-row">
-                            <input class="ob-form-text-input" type="password" ng-model="newuser.password" placeholder="Password"/>
-                            <img class="ob-form-text-input-icon-right password-icon" src="img/sign-up/password-checkmark.png"/>
+                            <input class="ob-form-text-input" type="password"
+                                   ng-model="newuser.password" placeholder="Password"/>
+                            <img class="ob-form-text-input-icon-right password-icon"
+                                 src="img/sign-up/password-checkmark.png"/>
                         </div>
                         <!--
                         <div class="ob-form-row ob-form-text-input-row">
@@ -30,8 +38,12 @@
                         </div>
                         -->
                         <div class="ob-form-row ob-form-switch-row">
-                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Users'}" ng-click="newuser.group = 'Users'" >User</button>
-                            <button class="ob-form-switch-button" ng-class="{'ob-form-switch-button-selected':newuser.group === 'Trainers'}"ng-click="newuser.group = 'Trainers'">Professional</button>
+                            <button class="ob-form-switch-button"
+                                    ng-class="{'ob-form-switch-button-selected':newuser.group === 'Users'}"
+                                    ng-click="newuser.group = 'Users'" >User</button>
+                            <button class="ob-form-switch-button"
+                                    ng-class="{'ob-form-switch-button-selected':newuser.group === 'Trainers'}"
+                                    ng-click="newuser.group = 'Trainers'">Professional</button>
                         </div>
                     </div>
                     <div class="ob-note-block">
@@ -77,7 +89,8 @@
                     <div class="ob-form">
                         <div class="ob-form-row ob-form-text-input-row">
                             <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
-                            <input class="ob-form-text-input" type="text" name="location-search-field" placeholder="address, postal code, city, etc..."/>
+                            <input class="ob-form-text-input" type="text"
+                                   name="location-search-field" placeholder="address, postal code, city, etc..."/>
                         </div>
                     </div>
                     <div class="ob-event-create-map-container"></div>
