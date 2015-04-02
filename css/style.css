@@ -508,16 +508,13 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-text-input-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
 }
 
 .ob-form-text-input {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     overflow: hidden;
@@ -557,7 +554,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-text-input-icon-left, .ob-form-text-input-icon-right {
-    -moz-flex: 0 0 16px;
     -webkit-flex: 0 0 16px;
     flex: 0 0 16px;
     height: 16px;
@@ -573,7 +569,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-text-input-prompt {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     margin: 4px 0px 4px 12px;
@@ -629,17 +624,14 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-switch-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: stretch;
     -webkit-align-items: stretch;
     align-items: stretch;
     height: 42.5px;
 }
 
 .ob-form-switch-button {
-    -moz-flex: 1 1 50px;
     -webkit-flex: 1 1 50px;
     flex: 1 1 50px;
     width: 50%;
@@ -729,10 +721,8 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-range-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
 }
@@ -755,17 +745,14 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-icon-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     padding-right: 12px;
 }
 
 .ob-form-icon-prompt {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     margin: auto 0px auto 12px;
@@ -775,7 +762,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-icon {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 32px;
@@ -789,10 +775,8 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-timepicker-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     padding: 0px 9px;
@@ -800,7 +784,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-timepicker-prompt {
-    -mox-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -810,7 +793,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-timepicker {
-    -mox-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     color: #3884ed;
@@ -822,10 +804,8 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-note-block {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: stretch;
     -webkit-align-items: stretch;
     align-items: stretch;
     width: 100%;
@@ -835,7 +815,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-note-block-left {
-    -moz-flex: 1 1 0px;
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
     padding: 14px 0px 0px;
@@ -846,7 +825,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-note-block-middle {
-    -moz-flex: 0 0 215px;
     -webkit-flex: 0 0 215px;
     flex: 0 0 215px;
     padding: 9px 2px 0px;
@@ -857,7 +835,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-note-block-right {
-    -moz-flex: 1 1 0px;
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
 }
@@ -1051,7 +1028,6 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-block-switch {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
     width: 100%;
@@ -1059,7 +1035,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-block-switch-button {
-    -moz-flex: 1 1 0px;
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
     background: transparent;
@@ -1097,7 +1072,6 @@ ion-popover-view.fit ion-content {
 
 .locations-line {
     width: 100%;
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
     color: white;
@@ -1106,7 +1080,6 @@ ion-popover-view.fit ion-content {
 }
 
 .locations-line-prompt {
-    -moz-flex: 0 0 16px;
     -webkit-flex: 0 0 16px;
     flex: 0 0 auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -1115,7 +1088,6 @@ ion-popover-view.fit ion-content {
 }
 
 .locations-line-tags {
-    -moz-flex: 99 99 auto;
     -webkit-flex: 99 99 auto;
     flex: 99 99 auto;
 }
@@ -1125,7 +1097,6 @@ ion-popover-view.fit ion-content {
 }
 
 .locations-line-distance {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -1284,10 +1255,8 @@ ion-popover-view.fit ion-content {
 }
 
 .purchase-credits-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     width: 100%;
@@ -1373,10 +1342,8 @@ ion-popover-view.fit ion-content {
 }
 
 .purchase-credits-footer-button {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     width: 100%;
@@ -1398,7 +1365,6 @@ ion-popover-view.fit ion-content {
 .purchase-credits-buy-credits-text-container {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    -moz-align-self: stretch;
     -webkit-align-self: stretch;
     align-self: stretch;
     line-height: 64px;
@@ -1569,46 +1535,38 @@ ion-popover-view.fit ion-content {
 /* home flex layout */
 
 .home-content-div {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-flex-direction: column;
     -webkit-flex-direction: column;
     flex-direction: column;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     height: 100%;
 }
 
 .home-flex-top-space {
-    -moz-flex: 1 99 0px;
     -webkit-flex: 1 99 0px;
     flex: 1 99 0px;
 }
 
 .home-flex-main {
-    -moz-flex: 0 1 auto;
     -webkit-flex: 0 1 auto;
     flex: 0 1 auto;
     text-align: center;
 }
 
 .home-flex-bottom-space {
-    -moz-flex: 1 99 0px;
     -webkit-flex: 1 99 0px;
     flex: 1 99 0px;
 }
 
 .home-flex-bottom-space2 {
-    -moz-flex: 99 99 0px;
     -webkit-flex: 99 99 0px;
     flex: 99 99 0px;
     max-height: 20px;
 }
 
 .home-flex-footer {
-    -moz-flex: 0 1 auto;
     -webkit-flex: 0 1 auto;
     flex: 0 1 auto;
     width: 248px;
@@ -1629,14 +1587,12 @@ ion-popover-view.fit ion-content {
     display: -mox-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     text-decoration: none;
 }
 
 .signup-button-left, .signup-button-right {
-    -moz-flex: 1 1 32px;
     -webkit-flex: 1 1 32px;
     flex: 1 1 32px;
     padding-left: 2px;
@@ -1648,7 +1604,6 @@ ion-popover-view.fit ion-content {
 }
 
 .signup-button-text {
-    -mox-flex: 99 99 0px;
     -webkit-flex: 99 99 0px;
     flex: 99 99 0px;
     font-size: 16.35px;
@@ -1734,10 +1689,8 @@ ion-popover-view.fit ion-content {
     position: relative;
     height: 44px;
     background: transparent;
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
 }
@@ -1747,13 +1700,11 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-header-icon {
-    -moz-flex: 0 0 44px;
     -webkit-flex: 0 0 44px;
     flex: 0 0 44px;
 }
 
 .ob-header-flex-area {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
 }
@@ -1877,19 +1828,16 @@ ion-popover-view.fit ion-content {
 }
 
 .map-bubble-content {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
 }
 
 .map-bubble-img-column {
     /*
-    -moz-flex: 0 0 calc(10px + 61px + 10px);
     -webkit-flex: 0 0 calc(10px + 61px + 10px);
     flex: 0 0 calc(10px + 61px + 10px);
     min-height: calc(10px + 61px + 10px);
     */
-    -moz-flex: 0 0 calc(61px + 10px);
     -webkit-flex: 0 0 calc(61px + 10px);
     flex: 0 0 calc(61px + 10px);
     min-height: calc(61px + 10px);
@@ -1933,7 +1881,6 @@ ion-popover-view.fit ion-content {
 }
 
 .map-bubble-text-column {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     /*padding: 16px 16px 16px 5px;*/
@@ -2064,16 +2011,13 @@ ion-popover-view.fit ion-content {
 .ob-sidemenu-header-inner-content {
     width: 100%;
     height: calc(100% - 1px);
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
 }
 
 .ob-sidemenu-usericon-container {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 60px;
@@ -2088,7 +2032,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-sidemenu-title {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     font-family: 'Lato', sans-serif;
@@ -2101,7 +2044,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-sidemenu-cog-container {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 44px;
@@ -2284,16 +2226,13 @@ ion-popover-view.fit ion-content {
 }
 
 .full-name-container {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -web-kit-align-items: center;
     align-items: center;
 }
 
 .full-name-left, .full-name-right {
-    -moz-flex: 99 99 0px;
     -webkit-flex: 99 99 0px;
     flex: 99 99 0px;
 }
@@ -2360,19 +2299,16 @@ ion-popover-view.fit ion-content {
 }
 
 .profile-stats-container {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
 }
 
 .profile-stats-container-empty-item {
-    -moz-flex: 99 99 0px;
     -webkit-flex: 99 99 0px;
     flex: 99 99 0px;
 }
 
 .followers-item, .following-item, .achieved-item, .profile-reviews-item  {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     font-family: 'Avenir Next LT Pro', sans-serif;
@@ -2787,20 +2723,17 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .password-icon {
-    -moz-flex: 0 0 17px;
     -webkit-flex: 0 0 17px;
     flex: 0 0 17px;
     height: 13px;
 }
 
 .ob-sectioned-row {
-    display: -mox-flex;
     display: -webkit-flex;
     display: flex;
 }
 
 .ob-sectioned-row > .left-prompt-text {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     padding: 12px 0px 12px 11px;
@@ -2809,7 +2742,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-sectioned-row > .main-content {
-    -moz-flex: 99 99 auto;
     -webkit-flex: 99 99 auto;
     flex: 99 99 auto;
     padding: 11px 10px;
@@ -2829,10 +2761,8 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-sectioned-row > .right-icon-container {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    -moz-align-self: flex-end;
     -webkit-align-self: flex-end;
     align-self: flex-end;
     padding: 6px 9px;
@@ -3000,7 +2930,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-trainer-bar {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
     width: 100%;
@@ -3009,7 +2938,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-trainer-bar-button {
-    -moz-flex: 1 1 0px;
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
     background: rgb(53, 127, 230);
@@ -3043,10 +2971,8 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-search-list-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     background: transparent;
@@ -3060,7 +2986,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-search-list-row-left {
-    -moz-flex: 0 0 calc(7px + 38px + 7px);
     -webkit-flex: 0 0 calc(7px + 38px + 7px);
     flex: 0 0 calc(7px + 38px + 7px);
 }
@@ -3074,7 +2999,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-search-list-row-right {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 10px 7px 10px 4px;
