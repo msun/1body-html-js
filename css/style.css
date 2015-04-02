@@ -1144,11 +1144,21 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-section {
+    -webkit-flex: 2 2 auto;
+    flex: 2 2 auto;
+}
+
+.ob-section-zerobase {
+    -webkit-flex: 2 2 0px;
+    flex: 2 2 0px;
+}
+
+.ob-half-section {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
 }
 
-.ob-section-zerobase {
+.ob-half-section-zerobase {
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
 }
