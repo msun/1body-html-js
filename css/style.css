@@ -444,11 +444,7 @@ ion-popover-view.fit ion-content {
 
 .menu1-content-div {
     border: 1px solid transparent;
-    height: 100%;
-}
-
-.menu2-content {
-    background: #383838;
+    min-height: 100%;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -483,11 +479,7 @@ ion-popover-view.fit ion-content {
     background-color: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid #7f7b73;
     overflow: hidden;
-    height: 42px;
-}
-
-.ob-form-row-autoheight {
-    height: auto;
+    min-height: 42px;
 }
 
 .ob-form-row-:first-child {
@@ -1542,43 +1534,21 @@ ion-popover-view.fit ion-content {
 /* home.html */
 /* ********** ********** ********** ********** ***********/
 
-/* home flex layout */
+/* home main layout */
 
 .home-content-div {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    flex-direction: column;
     -webkit-align-items: center;
     align-items: center;
-    height: 100%;
+    min-height: 100%;
 }
 
-.home-flex-top-space {
-    -webkit-flex: 1 99 0px;
-    flex: 1 99 0px;
-}
-
-.home-flex-main {
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
-    text-align: center;
-}
-
-.home-flex-bottom-space {
-    -webkit-flex: 1 99 0px;
-    flex: 1 99 0px;
-}
-
-.home-flex-bottom-space2 {
-    -webkit-flex: 99 99 0px;
-    flex: 99 99 0px;
+.home-bottom-space2 {
+    -webkit-flex: 99 1 0px;
+    flex: 99 1 0px;
     max-height: 20px;
 }
 
-.home-flex-footer {
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
+.home-footer {
     width: 248px;
 }
 
@@ -1594,7 +1564,6 @@ ion-popover-view.fit ion-content {
     height: 43px;
     margin: 12px auto 0px;
     padding: 0px 8px;
-    display: -mox-flex;
     display: -webkit-flex;
     display: flex;
     -webkit-align-items: center;
