@@ -1,16 +1,24 @@
 <ion-view>
     <ion-content class="has-header menu1-content">
-        <div class="menu1-content-div">
-            <div class="main-instructions">Scan QR Code<br/>or manually enter code</div>
-            <div class="sub-instructions"></div>
-            <button class="block-blue-button" ng-click="scanClient()">Scan QR Code</button>
-            <div class="scan-divider"></div>
-            <div class="ob-form scan-ob-form">
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" ng-model="clientCode" placeholder="Manual Entry"/>
-                </div>
+        <div class="menu1-content-div ob-sections-vertical">
+            <div class="ob-instructions">Scan QR Code<br/>or manually enter code</div>
+            <div class="ob-section ob-sections-vertical">
+                <div class="ob-section"></div>
+                <button class="block-blue-button" ng-click="scanClient()">Scan QR Code</button>
+                <div class="ob-section"></div>
             </div>
-            <button class="block-blue-button scan-block-blue-button" ng-click="enterCode()">Enter</button>
+            <div class="ob-divider"></div>
+            <div class="ob-section ob-sections-vertical">
+                <div class="ob-section"></div>
+                <div class="ob-form">
+                    <div class="ob-form-row ob-form-text-input-row">
+                        <input class="ob-form-text-input" type="text" ng-model="clientCode" placeholder="Manual Entry"/>
+                    </div>
+                </div>
+                <button class="block-blue-button" ng-click="enterCode()">Enter</button>
+                <div class="ob-section"></div>
+            </div>
+            <div class="ob-section"></div>
         </div>
     </ion-content>
 </ion-view>

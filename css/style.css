@@ -333,18 +333,66 @@
 }
 
 /* ********** ********** ********** ********** ***********/
+/* popover size hack */
+/* http://forum.ionicframework.com/t/popover-sizing/8251/7 */
+/* ********** ********** ********** ********** ***********/
+
+ion-popover-view.fit {
+    height: auto !important;
+    padding: 8px 2px;
+}
+
+ion-popover-view.fit ion-content {
+    position: relative !important;
+}
+
+.platform-android ion-popover-view.fit {
+    margin-top: 10px !important;
+}
+
+/* ********** ********** ********** ********** ***********/
 /* text */
 /* ********** ********** ********** ********** ***********/
 
-.ob-bold {
+.text-bold {
     font-weight: bold;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
+
+.text-avnltp-demi {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+}
+
+.ob-main-instructions, .ob-instructions {
+    width: 248px;
+    margin: 22px auto 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+}
+
+.ob-instructions {
+    margin-bottom: 22px;
+}
+
+.ob-sub-instructions {
+    width: 248px;
+    margin: 10px auto 22px;
+    font-family: 'Lato-Light', sans-serif;
+    font-size: 18px;
+    color: white;
+    text-align: center;
 }
 
 /* ********** ********** ********** ********** ***********/
 /* colors */
 /* ********** ********** ********** ********** ***********/
 
-.ob-dark-bg {
+.ob-darkpurple-bg {
     background-color: #1f101c;
 }
 
@@ -365,25 +413,6 @@
 }
 
 /* ********** ********** ********** ********** ***********/
-/* popover size hack */
-/* http://forum.ionicframework.com/t/popover-sizing/8251/7 */
-/* ********** ********** ********** ********** ***********/
-
-ion-popover-view.fit {
-    height: auto !important;
-    padding: 8px 2px;
-}
-
-ion-popover-view.fit ion-content {
-    position: relative !important;
-}
-
-.platform-android ion-popover-view.fit {
-    margin-top: 10px !important;
-}
-
-
-/* ********** ********** ********** ********** ***********/
 /* nav-bar */
 /* ********** ********** ********** ********** ***********/
 
@@ -398,7 +427,7 @@ ion-popover-view.fit ion-content {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* generic menu view */
+/* generic views */
 /* ********** ********** ********** ********** ***********/
 
 .menu1-content {
@@ -415,28 +444,11 @@ ion-popover-view.fit ion-content {
 
 .menu1-content-div {
     border: 1px solid transparent;
+    height: 100%;
 }
 
 .menu2-content {
     background: #383838;
-}
-
-.main-instructions {
-    width: 248px;
-    margin: 22px auto 10px;
-    font-family: 'Lato', sans-serif;
-    font-size: 18px;
-    color: white;
-    text-align: center;
-}
-
-.sub-instructions {
-    width: 248px;
-    margin: 10px auto 22px;
-    font-family: 'Lato-Light', sans-serif;
-    font-size: 18px;
-    color: white;
-    text-align: center;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -458,7 +470,8 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form {
-    max-width: 300px;
+    width: 93.75%; /* 300px / 320px */
+    max-width: 500px;
     background-color: transparent;
     border-radius: 8px;
     border: 1px solid #7f7b73;
@@ -489,7 +502,6 @@ ion-popover-view.fit ion-content {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
-
 
 /* ********** ********** ********** ********** ***********/
 /* ob-form-text-input */
@@ -893,7 +905,7 @@ ion-popover-view.fit ion-content {
     max-width: 500px;
     border-radius: 5px;
     border: none;
-    margin: 15px auto 4px;
+    margin: 8px auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.69px;
     color: white;
@@ -1141,6 +1153,51 @@ ion-popover-view.fit ion-content {
 .ob-tag-blue {
     color: #3988f6;
     border: 1px solid #3988f6;
+}
+
+
+/* ********** ********** ********** ********** ***********/
+/* ob-section */
+/* ********** ********** ********** ********** ***********/
+
+.ob-sections {
+    display: -webkit-flex;
+    display: flex;
+}
+
+.ob-sections-vertical {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.ob-section {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.ob-section-zerobase {
+    -webkit-flex: 1 1 0px;
+    flex: 1 1 0px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-vertical-center */
+/* ********** ********** ********** ********** ***********/
+
+.ob-vertical-center-parent {
+    position: relative;
+}
+
+.ob-vertical-center-child {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    -webkit-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1509,23 +1566,9 @@ ion-popover-view.fit ion-content {
 /* home.html */
 /* ********** ********** ********** ********** ***********/
 
-.home-transparent-button {
-    line-height: 15px
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    color: rgb(235, 235, 235);
-}
+/* home flex layout */
 
-.text-strong {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-}
-
-.text-underline {
-    text-decoration: underline;
-}
-
-/* main flex layout */
-
-.signup1-content-div {
+.home-content-div {
     display: -moz-flex;
     display: -webkit-flex;
     display: flex;
@@ -1538,42 +1581,42 @@ ion-popover-view.fit ion-content {
     height: 100%;
 }
 
-.flex-top-space {
+.home-flex-top-space {
     -moz-flex: 1 99 0px;
     -webkit-flex: 1 99 0px;
     flex: 1 99 0px;
 }
 
-.flex-main {
+.home-flex-main {
     -moz-flex: 0 1 auto;
     -webkit-flex: 0 1 auto;
     flex: 0 1 auto;
     text-align: center;
 }
 
-.flex-bottom-space {
+.home-flex-bottom-space {
     -moz-flex: 1 99 0px;
     -webkit-flex: 1 99 0px;
     flex: 1 99 0px;
 }
 
-.flex-bottom-space2 {
+.home-flex-bottom-space2 {
     -moz-flex: 99 99 0px;
     -webkit-flex: 99 99 0px;
     flex: 99 99 0px;
     max-height: 20px;
 }
 
-.flex-footer {
+.home-flex-footer {
     -moz-flex: 0 1 auto;
     -webkit-flex: 0 1 auto;
     flex: 0 1 auto;
     width: 248px;
 }
 
-/* sign up buttons */
+/* signup buttons */
 
-.signup1-button {
+.signup-button {
     font-family: 'Avenir Next LT Pro', sans-serif;
     border-radius: 6px;
     background: black;
@@ -1592,19 +1635,19 @@ ion-popover-view.fit ion-content {
     text-decoration: none;
 }
 
-.signup1-button-left, .signup1-button-right {
+.signup-button-left, .signup-button-right {
     -moz-flex: 1 1 32px;
     -webkit-flex: 1 1 32px;
     flex: 1 1 32px;
     padding-left: 2px;
 }
 
-.signup1-button-icon {
+.signup-button-icon {
     float: left;
     margin-left: 5px;
 }
 
-.signup1-button-text {
+.signup-button-text {
     -mox-flex: 99 99 0px;
     -webkit-flex: 99 99 0px;
     flex: 99 99 0px;
@@ -2809,24 +2852,6 @@ ion-popover-view.fit ion-content {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* scan.html */
-/* ********** ********** ********** ********** ***********/
-
-.scan-ob-form {
-    margin-bottom: 0px;
-}
-
-.scan-block-blue-button:last-child {
-    margin-top: 8px;
-}
-
-.scan-divider {
-    margin: 50px auto;
-    width: 90%;
-    border: 1px solid #999999;
-}
-
-/* ********** ********** ********** ********** ***********/
 /* scheduler.css */
 /* ********** ********** ********** ********** ***********/
 
@@ -3093,4 +3118,14 @@ ion-popover-view.fit ion-content {
 .ob-search-list-star {
     width: 13.5px;
     height: 13.5px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* misc */
+/* ********** ********** ********** ********** ***********/
+
+.ob-divider {
+    margin: 0px auto;
+    width: 90%;
+    border: 1px solid #999999;
 }

@@ -1,5 +1,5 @@
 <ion-modal-view>
-    <ion-header-bar align-title="center" class="ob-dark-bg">
+    <ion-header-bar align-title="center" class="ob-darkpurple-bg">
         <h1 class="title ob-navbar-title">Add Review</h1>
         <div class="buttons">
             <button ng-click="closeReviewModal()()" class="button button-icon">
@@ -8,8 +8,7 @@
         </div>
     </ion-header-bar>
     <ion-content class="has-header ob-grey-bg">
-        <div class="main-instructions">Transaction at: {{transaction.creation}}</div>
-        <div class="sub-instructions"></div>
+        <div class="ob-instructions">Transaction at: {{transaction.creation}}</div>
         <span class="profile-reviews-item">
             <div class="profile-review-stars">
                 <img class="profile-review-star-for-click" ng-hide="newreview.rating > 0" ng-click="newreview.rating=1" src="img/professional-profile/white-star-single.png"/>
