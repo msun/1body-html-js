@@ -580,6 +580,12 @@ ion-popover-view.fit ion-content {
     color: white !important;
 }
 
+/* a hack to fix search bar height */
+input.ob-form-text-input[type="search"] {
+    height: 42px !important;
+    line-height: 42px !important;
+}
+
 .ob-form-text-input:hover {
 
 }
@@ -1533,6 +1539,7 @@ ion-popover-view.fit ion-content {
 /* ob-userlist */
 
 .ob-userlist {
+    margin-top: 12px;
     margin-bottom: 4px;
 }
 
