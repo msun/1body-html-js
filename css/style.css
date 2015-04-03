@@ -417,6 +417,8 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-nav-bar-logo {
+    background: url("../img/Logo.png") center/100% 100% no-repeat;
+    display: inline-block;
     width: 114px;
     height: 41px;
 }
@@ -1425,6 +1427,8 @@ ion-popover-view.fit ion-content {
 }
 
 .purchase-credits-arrow {
+    display: inline-block;
+    background: url("../img/store/purchase-credits-arrow.png") center/100% 100% no-repeat;
     width: 12px;
     height: 19px;
     margin: 0px 9px;
@@ -1482,6 +1486,7 @@ ion-popover-view.fit ion-content {
 }
 
 .picture-upload-placeholder {
+    background: url("../img/event-profile/picture-upload-placeholder.png") center/100% 100% no-repeat;
     position: absolute;
     left: 0px;
     bottom: 0px;
@@ -1490,6 +1495,7 @@ ion-popover-view.fit ion-content {
 }
 
 .picture-upload-plus-icon {
+    background: url("../img/event-profile/picture-upload-plus-icon.png") center/100% 100% no-repeat;
     width: 15.5px;
     height: 15.5px;
     position: absolute;
@@ -1502,6 +1508,7 @@ ion-popover-view.fit ion-content {
 }
 
 .picture-upload-e-tag {
+    background: url("../img/badge-event.png") center/100% 100% no-repeat;
     width: 28px;
     height: 28px;
     position: absolute;
@@ -1611,8 +1618,8 @@ ion-popover-view.fit ion-content {
 }
 
 .signup-button-left, .signup-button-right {
-    -webkit-flex: 1 1 32px;
-    flex: 1 1 32px;
+    -webkit-flex: 0 1 32px;
+    flex: 0 1 32px;
     padding-left: 2px;
 }
 
@@ -1622,8 +1629,8 @@ ion-popover-view.fit ion-content {
 }
 
 .signup-button-text {
-    -webkit-flex: 99 99 0px;
-    flex: 99 99 0px;
+    -webkit-flex: 1 1 0px;
+    flex: 1 1 0px;
     font-size: 16.35px;
     padding-top: 4px;
 }
@@ -1637,6 +1644,7 @@ ion-popover-view.fit ion-content {
 }
 
 .facebook-icon {
+    background: url("../img/sign-up/icon-facebook.png") center/100% 100% no-repeat;
     width: 9.5px;
     height: 17px;
 }
@@ -1650,6 +1658,7 @@ ion-popover-view.fit ion-content {
 }
 
 .google-plus-icon {
+    background: url("../img/sign-up/icon-google-plus.png") center/100% 100% no-repeat;
     width: 21px;
     height: 19px;
 }
@@ -1663,6 +1672,7 @@ ion-popover-view.fit ion-content {
 }
 
 .onebody-icon {
+    background: url("../img/sign-up/icon-1body.png") center/100% 100% no-repeat;
     width: 18px;
     height: 21.5px;
 }
@@ -1770,6 +1780,7 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-header-list-view-icon {
+    background: url("../img/List-View-Icon.png") center/100% 100% no-repeat;
     display: block;
     width: 19px;
     height: 16px;
@@ -1951,6 +1962,8 @@ ion-popover-view.fit ion-content {
 }
 
 .map-bubble-review-star {
+    display: inline-block;
+    background: url("../img/map/review-star.png") center/100% 100% no-repeat;
     width: 14.5px;
     height: 14px;
 }
@@ -2371,7 +2384,16 @@ ion-popover-view.fit ion-content {
     height: 20px;
 }
 
-.profile-review-star-for-click {
+.profile-review-star-clickable-white {
+    background: url("../img/professional-profile/white-star-single.png") center/100% 100% no-repeat;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+.profile-review-star-clickable-blue {
+    background: url("../img/professional-profile/blue-star-single.png") center/100% 100% no-repeat;
+    display: inline-block;
     width: 40px;
     height: 40px;
 }
@@ -2700,9 +2722,9 @@ ion-popover-view.fit ion-content {
 }
 
 .profile-feed-review-star {
+    background: url("../img/professional-profile/blue-small-star-single.png") center/100% 100% no-repeat;
     width: 12px;
     height: 12px;
-
 }
 
 #profile-feed-review-star-1 {
@@ -3049,6 +3071,8 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-search-list-star {
+    display: inline-block;
+    background: url("../img/map/tmp/search_list_star.png") center/100% 100% no-repeat;
     width: 13.5px;
     height: 13.5px;
 }
