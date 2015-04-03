@@ -499,22 +499,81 @@ ion-popover-view.fit ion-content {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* ob-form-text-input */
+/* ob-form-flex-row */
 /* ********** ********** ********** ********** ***********/
 
-.ob-form-text-input-row {
+.ob-form-flex-row {
     display: -webkit-flex;
     display: flex;
     -webkit-align-items: center;
     align-items: center;
 }
 
+.ob-form-icon-left, .ob-form-icon-right {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    margin: 13px;
+}
+
+.ob-form-icon-left {
+    margin-right: 0px;
+}
+
+.ob-form-icon-right {
+    margin-left: 0px;
+}
+
+.ob-form-icon-magnifier {
+    background: url("../img/event-profile/magnifier.png") center/100% 100% no-repeat;
+    width: 16px;
+    height: 16px;
+}
+
+.ob-form-icon-rightarrow {
+    background: url("../img/store/purchase-credits-arrow.png") center/100% 100% no-repeat;
+    width: 9px;
+    height: 14.25px;
+}
+
+.ob-form-icon-password {
+    background: url("../img/sign-up/password-checkmark.png") center/100% 100% no-repeat;
+    width: 17px;
+    height: 13px;
+}
+
+.ob-form-prompt {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    margin: 4px 0px 4px 12px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #3884ed;
+}
+
+.ob-form-text {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    height: 44px;
+    line-height: 44px;
+    margin: auto 12px;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-text-input */
+/* to be used inside ob-form-flex-row */
+/* ********** ********** ********** ********** ***********/
+
 .ob-form-text-input {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     height: 44px !important;
     line-height: 44px !important;
-    margin: 0px 12px;
+    margin: auto 12px;
     overflow: hidden;
     background: transparent;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -562,30 +621,6 @@ ion-popover-view.fit ion-content {
     color: #a4a2a3;
 }
 
-.ob-form-text-input-icon-left, .ob-form-text-input-icon-right {
-    -webkit-flex: 0 0 16px;
-    flex: 0 0 16px;
-    height: 16px;
-    margin: 13px;
-}
-
-.ob-form-text-input-icon-left {
-    margin-right: 0px;
-}
-
-.ob-form-text-input-icon-right {
-    margin-left: 0px;
-}
-
-.ob-form-text-input-prompt {
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-    margin: 4px 0px 4px 12px;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16px;
-    color: #3884ed;
-}
-
 /* ********** ********** ********** ********** ***********/
 /* ob-form-textarea */
 /* ********** ********** ********** ********** ***********/
@@ -597,7 +632,7 @@ ion-popover-view.fit ion-content {
     font-size: 16.5;
     color: white;
     padding: 11px;
-    height: 90px;
+    height: 120px;
 }
 
 .ob-form-textarea::-webkit-input-placeholder {
@@ -1475,10 +1510,6 @@ ion-popover-view.fit ion-content {
     -webkit-transform: translate(-50%, 0%);
     -moz-transform: translate(-50%, 0%);
     -o-transform: translate(-50%, 0%);
-}
-
-.ob-form-textarea {
-    height: 124px;
 }
 
 /* create-event-location */
@@ -2707,12 +2738,6 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 /* register-main.html */
 /* ********** ********** ********** ********** ***********/
-
-.password-icon {
-    -webkit-flex: 0 0 17px;
-    flex: 0 0 17px;
-    height: 13px;
-}
 
 .ob-sectioned-row {
     display: -webkit-flex;

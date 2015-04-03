@@ -6,11 +6,11 @@
                 <div class="menu1-content-div">
                     <div class="ob-instructions">Let's get started!</div>
                     <div class="ob-form">
-                        <div class="ob-form-row ob-form-text-input-row">
+                        <div class="ob-form-row ob-form-flex-row">
                             <input class="ob-form-text-input" ng-model="newuser.username"
                                    type="text" name="name" placeholder="Name"/>
                         </div>
-                        <!--<div class="ob-form-row ob-form-text-input-row">-->
+                        <!--<div class="ob-form-row ob-form-flex-row">-->
                             <!--<input class="ob-form-text-input" ng-model="newuser.lastname" type="text" name="last-name" placeholder="Last Name"/>-->
                         <!--</div>-->
                         <div class="ob-form-row ob-form-switch-row">
@@ -21,20 +21,19 @@
                                     ng-class="{'ob-form-switch-button-selected':newuser.gender === 'Male'}"
                                     ng-click="newuser.gender = 'Male'">Male</button>
                         </div>
-                        <div class="ob-form-row ob-form-text-input-row">
+                        <div class="ob-form-row ob-form-flex-row">
                             <input class="ob-form-text-input" type="email"
                                    ng-model="newuser.email" name="email" placeholder="Email"/>
                         </div>
-                        <div class="ob-form-row ob-form-text-input-row">
+                        <div class="ob-form-row ob-form-flex-row">
                             <input class="ob-form-text-input" type="password"
                                    ng-model="newuser.password" placeholder="Password"/>
-                            <img class="ob-form-text-input-icon-right password-icon"
-                                 src="img/sign-up/password-checkmark.png"/>
+                            <span class="ob-form-icon-right ob-form-icon-password"></span>
                         </div>
                         <!--
-                        <div class="ob-form-row ob-form-text-input-row">
+                        <div class="ob-form-row ob-form-flex-row">
                             <input class="ob-form-text-input" type="password" ng-model="newuser.confirmPassword" placeholder="Confirm Password"/>
-                            <img class="ob-form-text-input-icon-right password-icon" src="img/sign-up/password-checkmark.png"/>
+                            <span class="ob-form-icon-right ob-form-icon-password"></span>
                         </div>
                         -->
                         <div class="ob-form-row ob-form-switch-row">
@@ -87,8 +86,8 @@
                     <div class="ob-main-instructions">Hey Greg!</div>
                     <div class="ob-sub-instructions">Where is your gym?</div>
                     <div class="ob-form">
-                        <div class="ob-form-row ob-form-text-input-row">
-                            <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-icon-left ob-form-icon-magnifier"></span>
                             <input class="ob-form-text-input" type="text"
                                    name="location-search-field" placeholder="address, postal code, city, etc..."/>
                         </div>

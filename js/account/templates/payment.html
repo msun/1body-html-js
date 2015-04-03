@@ -3,10 +3,10 @@
         <div class="popup-content-div">
             <div class="ob-instructions">Change Payment Information</div>
             <form class="ob-form" stripe-form="handleStripe" name="myForm">
-                <div class="ob-form-row ob-form-text-input-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <input class="ob-form-text-input" type="text" placeholder="Cardholder name"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <input class="ob-form-text-input" type="number" placeholder="Card Number"
                            ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
                 </div>
@@ -40,20 +40,20 @@
                         </select>
                     </div>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <input class="ob-form-text-input" type="number" placeholder="Security Code/CVC"
                            ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <input class="ob-form-text-input" type="text" placeholder="Postal Code"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <input class="ob-form-text-input" type="text" placeholder="City / Town"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <input class="ob-form-text-input" type="text" placeholder="Province / State"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <input class="ob-form-text-input" type="text" placeholder="Country"/>
                 </div>
             </form>
