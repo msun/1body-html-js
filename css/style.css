@@ -1627,19 +1627,19 @@ input.ob-form-text-input[type="search"] {
 .signup-button-left, .signup-button-right {
     -webkit-flex: 0 1 32px;
     flex: 0 1 32px;
-    padding-left: 2px;
 }
 
 .signup-button-icon {
-    float: left;
-    margin-left: 5px;
+    display: block;
+    margin: 0px auto;
 }
 
 .signup-button-text {
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
     font-size: 16.35px;
-    padding-top: 4px;
+    padding: 4px 0px;
+    text-align: center;
 }
 
 .facebook-button {
