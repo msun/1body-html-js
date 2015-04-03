@@ -37,10 +37,10 @@
             <div class="full-name-container">
                 <span class="full-name-left"></span>
                 <span class="full-name">{{selectedTrainer.username}}</span>
-                    <span class="full-name-right">
-                        <img ng-show="true" class="full-name-icon profile-verified-icon" src="img/professional-profile/green-checkmark.png">
-                        <img ng-show="selectedTrainer.mobile" class="full-name-icon profile-car-icon" src="img/professional-profile/green-car.png">
-                    </span>
+                <span class="full-name-right">
+                    <img ng-show="true" class="full-name-icon profile-verified-icon" src="img/professional-profile/green-checkmark.png">
+                    <img ng-show="selectedTrainer.mobile" class="full-name-icon profile-car-icon" src="img/professional-profile/green-car.png">
+                </span>
             </div>
             <p class="profession">{{selectedTrainer.profession}}</p>
             <p class="personal-quote">{{selectedTrainer.information}}</p>
@@ -100,7 +100,7 @@
             </div>
             <div class="profile-bottom-content">
                 <div class="profile-map-container">
-                    <div class="item" id="trainer-detail-map" data-tap-disabled="true" style="width: 90%; margin-left: 5%; margin-right: 5%; height: 90px; border-radius: 15px; margin-top: 0px"></div>
+                    <div class="item profile-map" id="trainer-detail-map" data-tap-disabled="true"></div>
                 </div>
                 <ion-list class="profile-feed-review-list">
                     <ion-item class="profile-feed-review-list-row" ng-repeat="review in reviews" ng-click="replyto()">
