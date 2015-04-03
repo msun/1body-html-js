@@ -479,6 +479,7 @@ ion-popover-view.fit ion-content {
     border-bottom: 1px solid #7f7b73;
     overflow: hidden;
     min-height: 44px;
+    text-decoration: none;
 }
 
 .ob-form-row-:first-child {

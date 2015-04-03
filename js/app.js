@@ -148,6 +148,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.account.tos', {
+                url: "/tos",
+                views: {
+                    'account': {
+                        templateUrl: "js/account/templates/tos.html",
+                        controller: 'AccountCtrl'
+                    }
+                }
+            })
+
             .state('old-register', {
                 url: "/old-register",
                 templateUrl: "js/account/templates/old-register.html",
