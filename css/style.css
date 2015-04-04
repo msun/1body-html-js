@@ -532,7 +532,7 @@ ion-popover-view.fit ion-content {
 .ob-form-prompt {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    margin: 4px 0px 4px 12px;
+    margin: 4px 12px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: #3884ed;
@@ -694,40 +694,18 @@ input.ob-form-text-input[type="search"] {
 /* ob-form-select */
 /* ********** ********** ********** ********** ***********/
 
-.ob-form-select-row {
-    padding: 0px 9px;
-    height: 45px;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.ob-form-select-text {
-    display: inline-block;
-    position: relative;
-    bottom: 10px;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: white;
-    white-space: nowrap;
-    margin: 0px 9px 0px 0px;
-}
-
 .ob-form-select-container {
-    width: 70px;
+    width: 100px;
     display: inline-block;
     overflow: hidden;
     background: url("../img/register-class/dropdown-white-arrow.png") calc(100% - 8px) calc(50%) / 12.5px 8px no-repeat;
     border: 1px solid #7f7b73;
     border-radius: 14px;
-    margin: 7px 4px 0px 0px;
-}
-
-.ob-form-select-container:first-child {
-    margin-left: 12px;
+    margin: 0px 6px;
 }
 
 .ob-form-select {
-    width: 90px;
+    width: 120px;
     background: transparent;
     color: white;
     border: none;
@@ -747,11 +725,11 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-form-select-container-xlarge {
-    width: 200px;
+    width: 180px;
 }
 
 .ob-form-select-xlarge {
-    width: 220px;
+    width: 200px;
 }
 
 /* ********** ********** ********** ********** ***********/

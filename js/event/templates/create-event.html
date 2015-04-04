@@ -15,12 +15,15 @@
                     <div class="ob-sub-instructions">Let's get started</div>
                     <div class="ob-form create-event-ob-form">
                         <div class="ob-form-row">
-                            <input ng-model="newevent.name" class="ob-form-text-input" type="text" placeholder="Event Name"/>
+                            <input ng-model="newevent.name" class="ob-form-text-input"
+                                   type="text" placeholder="Event Name"/>
                         </div>
-                        <div class="ob-form-row ob-form-select-row">
-                            <span class="ob-form-select-text ob-blue-text">Category</span>
-                            <div class="ob-form-select-container ob-form-select-container-large">
-                                <select class="ob-form-select ob-form-select-large" ng-model="newevent.category" ng-options="category.name for category in categories">
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">Category</span>
+                            <div class="ob-form-select-container ob-form-select-container-xlarge">
+                                <select class="ob-form-select ob-form-select-xlarge"
+                                        ng-model="newevent.category"
+                                        ng-options="category.name for category in categories">
                                     <option value="01">01</option>
                                     <option value="01">01</option>
                                     <option value="other">Other</option>
@@ -42,8 +45,8 @@
                             <span class="ob-form-range-prompt"><span class="ob-blue-text">Duration</span>&nbsp;&nbsp;{{newevent.duration}}min</span>
                             <input class="ob-form-range" type="range" name="volume" min="0" max="120" ng-model="newevent.duration">
                         </div>
-                        <div class="ob-form-row ob-form-select-row">
-                            <span class="ob-form-select-text ob-blue-text">For</span>
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">For</span>
                             <div class="ob-form-select-container">
                                 <select class="ob-form-select">
                                     <option value="01">01</option>
