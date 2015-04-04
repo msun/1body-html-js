@@ -1697,16 +1697,70 @@ input.ob-form-text-input[type="search"] {
     padding: 0px;
     margin: auto;
     background: rgba(0, 0, 0, 0.3);
-}
-
-.ob-bar-search-input {
-    font-family: 'Avenir Next LT Pro', sans-serif !important;
-    font-size: 15px !important;
-    color: white !important;
+    display: -webkit-flex;
+    display: flex;
+    -wekit-align-items: center;
+    align-items: center;
 }
 
 .ob-bar-search-input-search-icon {
-    margin: 10px;
+    font-size: 18px;
+    color: white;
+    margin: auto 4px auto 8px;
+}
+
+.ob-bar-search-input {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    height: 28px !important;
+    line-height: 28px !important;
+    margin: auto 0px !important;
+    padding: 0px 8px !important;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif !important;
+    font-size: 16px !important;
+    color: white !important;
+}
+
+.ob-bar-search-input:hover {
+
+}
+
+.ob-bar-search-input:focus {
+
+}
+
+.ob-bar-search-input::-webkit-input-placeholder {
+    height: 28px !important;
+    line-height: 28px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
+}
+
+.ob-bar-search-input:-moz-placeholder {
+    height: 28px !important;
+    line-height: 28px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
+}
+
+.ob-bar-search-input::-moz-placeholder {
+    height: 28px !important;
+    line-height: 28px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
+}
+
+.ob-bar-search-input:-ms-input-placeholder {
+    height: 28px !important;
+    line-height: 28px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
 }
 
 .ob-map-header-bottom-white-line {
