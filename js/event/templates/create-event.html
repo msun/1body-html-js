@@ -41,9 +41,10 @@
                             <span class="ob-form-timepicker-prompt ob-blue-text">Start time</span>
                             <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                         </div>
-                        <div class="ob-form-row ob-form-select-row ob-form-range-row">
-                            <span class="ob-form-range-prompt"><span class="ob-blue-text">Duration</span>&nbsp;&nbsp;{{newevent.duration}}min</span>
-                            <input class="ob-form-range" type="range" name="volume" min="0" max="120" ng-model="newevent.duration">
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">Duration</span>
+                            <span class="ob-form-text">{{newevent.duration}}min</span>
+                            <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newevent.duration">
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">For</span>

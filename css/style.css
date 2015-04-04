@@ -355,6 +355,12 @@ ion-popover-view.fit ion-content {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
 }
 
+.ob-blue-text {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #3884ed;
+}
+
 .ob-main-instructions, .ob-instructions {
     width: 248px;
     margin: 22px auto 10px;
@@ -471,6 +477,7 @@ ion-popover-view.fit ion-content {
     overflow: hidden;
     min-height: 44px;
     text-decoration: none;
+    padding: 0px 4px;
 }
 
 .ob-form-row-:first-child {
@@ -532,7 +539,7 @@ ion-popover-view.fit ion-content {
 .ob-form-prompt {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    margin: 4px 12px;
+    margin: auto 6px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: #3884ed;
@@ -543,7 +550,7 @@ ion-popover-view.fit ion-content {
     flex: 1 1 auto;
     height: 44px;
     line-height: 44px;
-    margin: auto 12px;
+    margin: auto 6px;
     overflow: hidden;
     background: transparent;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -561,7 +568,7 @@ ion-popover-view.fit ion-content {
     flex: 1 1 auto;
     height: 44px !important;
     line-height: 44px !important;
-    margin: auto 12px;
+    margin: auto 6px;
     overflow: hidden;
     background: transparent;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -736,24 +743,9 @@ input.ob-form-text-input[type="search"] {
 /* ob-form-range */
 /* ********** ********** ********** ********** ***********/
 
-.ob-form-range-row {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-}
-
-.ob-form-range-prompt {
-    -mox-flex: 0 0 150px;
-    -webkit-flex: 0 0 150px;
-    flex: 0 0 150px;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #bcbbbb;
-}
-
 .ob-form-range {
-    flex: 1 1 200px;
+    flex: 0 1 125px;
+    margin: auto 6px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1423,12 +1415,9 @@ input.ob-form-text-input[type="search"] {
     margin-bottom: 10px;
 }
 
-.ob-blue-text {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #3884ed;
-}
-
+/* ******** ob-date ******** */
+/* ******** deprecated ******** */
+/*
 .ob-date-prompt-text {
     display: inline-block;
     margin: 12px 0px 12px 11px;
@@ -1449,6 +1438,7 @@ input.ob-form-text-input[type="search"] {
     height: 18px;
     margin: 13px 9.5px;
 }
+*/
 
 /* ******** create-event-picture-description ******** */
 
