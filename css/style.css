@@ -1,40 +1,4 @@
 
-@font-face {
-    font-family: 'Lato';
-    src: local('Lato'),
-         url('../font/Lato-Regular.woff');
-}
-
-@font-face {
-    font-family: 'Lato-Light';
-    src: local('Lato-Light'),
-         url('../font/Lato-Light.woff');
-}
-
-@font-face {
-    font-family: 'Avenir Next LT Pro';
-    src: local('Avenir Next LT Pro'),
-         url('../font/AvenirNextLTPro-Regular.woff');
-}
-
-@font-face {
-    font-family: 'AvenirNextLTPro-Demi';
-    src: local('AvenirNextLTPro-Demi'),
-         url('../font/AvenirNextLTPro-Demi.woff');
-}
-
-@font-face {
-    font-family: 'AvenirNextLTPro-Bold';
-    src: local('AvenirNextLTPro-Bold'),
-         url('../font/AvenirNextLTPro-Bold.woff');
-}
-
-@font-face {
-    font-family: 'AvenirNextLTPro-It';
-    src: local('AvenirNextLTPro-It'),
-         url('../font/AvenirNextLTPro-It.woff');
-}
-
 #eventmap {
     width: 100%;
     height: 100%;
@@ -183,12 +147,6 @@
     background-color: white;
 }
 
-.bar {
-    height: 64px;
-    border: none;
-    background-image: none !important;
-}
-
 .title {
     /*
     margin-top: 20px !important;
@@ -279,16 +237,7 @@
     padding: 0px;
 }
 
-.gm-style {
-}
 
-.gm-style-iw {
-}
-
-/* remove x on infowindow */
-.gm-style-iw + div {
-    /*display: none;*/
-}
 
 .ng-invalid {
     border-color: #f00 !important;
@@ -330,6 +279,46 @@
     position: absolute;
     top: 50vw;
     left: 50vw;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* fonts */
+/* ********** ********** ********** ********** ***********/
+
+@font-face {
+    font-family: 'Lato';
+    src: local('Lato'),
+         url('../font/Lato-Regular.woff');
+}
+
+@font-face {
+    font-family: 'Lato-Light';
+    src: local('Lato-Light'),
+         url('../font/Lato-Light.woff');
+}
+
+@font-face {
+    font-family: 'Avenir Next LT Pro';
+    src: local('Avenir Next LT Pro'),
+         url('../font/AvenirNextLTPro-Regular.woff');
+}
+
+@font-face {
+    font-family: 'AvenirNextLTPro-Demi';
+    src: local('AvenirNextLTPro-Demi'),
+         url('../font/AvenirNextLTPro-Demi.woff');
+}
+
+@font-face {
+    font-family: 'AvenirNextLTPro-Bold';
+    src: local('AvenirNextLTPro-Bold'),
+         url('../font/AvenirNextLTPro-Bold.woff');
+}
+
+@font-face {
+    font-family: 'AvenirNextLTPro-It';
+    src: local('AvenirNextLTPro-It'),
+         url('../font/AvenirNextLTPro-It.woff');
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1169,7 +1158,6 @@ input.ob-form-text-input[type="search"] {
     border: 1px solid #3988f6;
 }
 
-
 /* ********** ********** ********** ********** ***********/
 /* ob-section */
 /* ********** ********** ********** ********** ***********/
@@ -1484,7 +1472,7 @@ input.ob-form-text-input[type="search"] {
     margin: 13px 9.5px;
 }
 
-/* create-event-picture-description */
+/* ******** create-event-picture-description ******** */
 
 .ob-row-picture-upload-top-section {
     position: relative;
@@ -1587,7 +1575,7 @@ input.ob-form-text-input[type="search"] {
 /* home.html */
 /* ********** ********** ********** ********** ***********/
 
-/* home main layout */
+/* ******** home main layout ******** */
 
 .home-content-div {
     -webkit-align-items: center;
@@ -1605,7 +1593,7 @@ input.ob-form-text-input[type="search"] {
     width: 248px;
 }
 
-/* signup buttons */
+/* ******** signup buttons ******** */
 
 .signup-button {
     font-family: 'Avenir Next LT Pro', sans-serif;
@@ -1703,7 +1691,7 @@ input.ob-form-text-input[type="search"] {
     pointer-events: none;
 }
 
-/* ob-header */
+/* ******** ob-header ******** */
 
 .ob-header {
     position: absolute;
@@ -1794,7 +1782,7 @@ input.ob-form-text-input[type="search"] {
     margin: auto;
 }
 
-/* ob-tabs */
+/* ******** ob-tabs ******** */
 
 .ob-tabs {
     display: inline-block;
@@ -1837,7 +1825,7 @@ input.ob-form-text-input[type="search"] {
     background: rgb(56, 132, 237);
 }
 
-/* ob-map-button */
+/* ******** ob-map-button ******** */
 
 .ob-map-button {
     background-color: transparent;
@@ -3093,4 +3081,26 @@ input.ob-form-text-input[type="search"] {
     margin: 0px auto;
     width: 90%;
     border: 1px solid #999999;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* overrides */
+/* ********** ********** ********** ********** ***********/
+
+.bar {
+    height: 64px;
+    border: none;
+    background-image: none !important;
+}
+
+/* ******** google maps ******** */
+.gm-style {
+}
+
+.gm-style-iw {
+}
+
+/* remove x on infowindow */
+.gm-style-iw + div {
+    /*display: none;*/
 }
