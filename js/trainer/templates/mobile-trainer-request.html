@@ -19,9 +19,10 @@
                     <span class="ob-form-prompt">Start time</span>
                     <span class="ob-form-text">{{newrequest.starttime}}</span>
                 </div>
-                <div class="ob-form-row ob-form-select-row ob-form-range-row">
-                    <span class="ob-form-range-prompt"><span class="ob-blue-color">Duration</span>&nbsp;&nbsp;{{newrequest.duration}}min</span>
-                    <input class="ob-form-range" type="range" name="volume" min="0" max="120" ng-model="newrequest.duration">
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Duration</span>
+                    <span class="ob-form-text">{{newrequest.duration}}min</span>
+                    <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newrequest.duration">
                 </div>
                 <div class="ob-form-row ob-form-flex-row" ng-click="openMap()">
                     <span class="ob-form-text">Select Location from Map</span>

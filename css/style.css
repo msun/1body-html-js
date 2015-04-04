@@ -766,8 +766,9 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-range {
+    -webkit-flex: 0 1 125px;
     flex: 0 1 125px;
-    margin: auto 6px;
+    margin: auto 8px auto 4px;
 }
 
 /* ********** ********** ********** ********** ***********/
