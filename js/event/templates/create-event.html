@@ -14,9 +14,9 @@
                     <div class="ob-main-instructions">Create an Event</div>
                     <div class="ob-sub-instructions">Let's get started</div>
                     <div class="ob-form create-event-ob-form">
-                        <div class="ob-form-row">
-                            <input ng-model="newevent.name" class="ob-form-text-input"
-                                   type="text" placeholder="Event Name"/>
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">Event Name</span>
+                            <input ng-model="newevent.name" class="ob-form-text-input" type="text">
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Category</span>
@@ -37,8 +37,8 @@
                             <img class="ob-date-picker-button" src="img/event-profile/date-picker-button.png"/>
                         </div>
                         -->
-                        <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
-                            <span class="ob-form-timepicker-prompt ob-blue-text">Start time</span>
+                        <div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
+                            <span class="ob-form-prompt">Start Time</span>
                             <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                         </div>
                         <div class="ob-form-row ob-form-flex-row">

@@ -749,7 +749,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* ob-form-timepicker */
+/* ob-form-icon */
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-icon-row {
@@ -782,29 +782,15 @@ input.ob-form-text-input[type="search"] {
 /* ob-form-timepicker */
 /* ********** ********** ********** ********** ***********/
 
-.ob-form-timepicker-row {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    padding: 0px 9px;
-    height: auto;
-}
-
-.ob-form-timepicker-prompt {
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #bcbbbb;
-    margin-right: 9px;
-}
-
 .ob-form-timepicker {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
-    color: #3884ed;
     margin: 16px 0px;
+    color: white;
+}
+
+.ob-form-timepicker .timepicker-arrow-container {
+    color: #3884ed;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -2793,9 +2779,9 @@ input.ob-form-text-input[type="search"] {
     border-bottom: 1px solid white;
     vertical-align: middle;
     text-align: center;
-    font-family: "Avenir Next LT Pro", sans-serif;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 16px;
-    color: white;
+    color: #3884ed;
 }
 
 .timeslot-status-column {
@@ -2803,6 +2789,7 @@ input.ob-form-text-input[type="search"] {
     border-bottom: 1px solid white;
     height: 30px;
     vertical-align: middle;
+    color: white;
 }
 
 .timeslot-status {
@@ -2810,7 +2797,7 @@ input.ob-form-text-input[type="search"] {
     border-radius: 5px;
     vertical-align: middle;
     text-align: center;
-    font-family: "Avenir Next LT Pro", sans-serif;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 16px;
     color: white;
 }
@@ -2820,6 +2807,10 @@ input.ob-form-text-input[type="search"] {
     border-bottom: 1px solid white;
     height: 30px;
     background: none;
+}
+
+.timeslot-button-icon {
+    color: #3884ed;
 }
 
 .timeslot-button {
