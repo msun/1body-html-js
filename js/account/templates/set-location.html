@@ -1,11 +1,24 @@
 <ion-view title="Set Location">
     <ion-content class="has-header padding">
-        <ion-content>
-            <div id="set-location-map" data-tap-disabled="true"></div>
-        </ion-content>
-        <ion-footer-bar class="bar-dark">
+        <div class="ob-form">
+            <button class="button button-calm" ng-click="showGymSelectionModal()">Select a Gym</button>
+
+            <div class="ob-form-row ob-form-text-input-row">
+                <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
+                <input class="ob-form-text-input" type="text" ng-model="newevent.address" placeholder="Enter location"/>
+            </div>
+        </div>
+
+        <div id="set-location-map" data-tap-disabled="true"></div>
+
+        <div class="ob-form">
+            <div class="ob-form-row ob-form-text-input-row">
+                <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
+                <input class="ob-form-text-input" type="text" ng-model="newevent.commentlocation" placeholder="Comment on location"/>
+            </div>
             <button class="button button-calm" ng-click="confirm()">Confirm</button>
             <a ng-click="centerOnMe()" class="button button-icon icon ion-android-locate"></a>
-        </ion-footer-bar>
+        </div>
+
     </ion-content>
 </ion-view>

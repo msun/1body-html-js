@@ -105,7 +105,7 @@
                 <ion-list class="profile-feed-review-list">
                     <ion-item class="profile-feed-review-list-row" ng-repeat="review in reviews" ng-click="replyto()">
                         <span class="profile-feed-review-list-row-left">
-                            <img class="profile-feed-review-list-img" src="img/professional-profile/tmp/Review-Persona-RoundedCorner-Small.png"/>
+                            <img class="profile-feed-review-list-img" src="{{review.profilepic}}"/>
                         </span>
                         <span class="profile-feed-review-list-row-right">
                             <p class="profile-feed-review-text">{{review.text}}<span class="profile-feed-review-creation">{{review.created | parseTimestamp}}</span></p>

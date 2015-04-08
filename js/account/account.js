@@ -221,20 +221,6 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
 
 });
 
-account.controller('MyEventCtrl', function($scope, User, appFactory, baseUrl, $timeout){
-    $scope.events = appFactory.user.events;
-
-    $scope.edit = function(event){
-        console.log(event);
-        window.location.href = baseUrl + "#/menu/editevent/" + event.id;
-    }
-
-    $scope.delete = function(event){
-        console.log(event);
-    }
-
-});
-
 account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $firebaseObject, Transactions, MyTransactions){
     $scope.clientCode = "";
     $scope.scanClient = function() {
@@ -674,10 +660,25 @@ account.controller('AccountCtrl', function($scope, User, appFactory, baseUrl, $t
 //    }
 });
 
-account.controller('SetLocationCtrl', function($scope, User, appFactory, baseUrl, $timeout, accountFactory, GeoTrainers, $localstorage, $window) {
+account.controller('SetLocationCtrl', function($scope, eventFactory, appConfig, User, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window) {
     console.log("SetLocationCtrl ctrl");
 
     $scope.confirm = function(){
+        if($scope.newevent.address){
+            console.log($scope.newevent.address.replace(/ /g, "+"));
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newevent.address.replace(/ /g, "+") + "&key=" + appConfig.apikey;
+            eventFactory.getStreetAddress(url, function(data, status){
+                console.log(data);
+                $scope.newevent.latitude = data.results[0].geometry.location.lat;
+                $scope.newevent.longitude = data.results[0].geometry.location.lng;
+                $scope.newevent.location = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
+
+                $ionicSlideBoxDelegate.next();
+            });
+        } else {
+            alert("address cannot be empty");
+        }
+        
         GeoTrainers.set(appFactory.user.$id, [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()]).then(function() {
             console.log("Provided key has been added to GeoFire");
             appFactory.user.location = [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()];
@@ -691,6 +692,17 @@ account.controller('SetLocationCtrl', function($scope, User, appFactory, baseUrl
 
         });
     }
+
+    var setLocation = function(){
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.marker.getPosition().lat() + "," + $scope.marker.getPosition().lng() + "&key=" + appConfig.apikey;
+        eventFactory.getStreetAddress(url, function(data, status){
+            console.log(data);
+            appFactory.user.address = data.results[0].formatted_address;
+        });
+    }
+
+    showGymSelectionModal
+
 
     setTimeout(function() {
         appFactory.getLocation(function (position) {
@@ -709,8 +721,9 @@ account.controller('SetLocationCtrl', function($scope, User, appFactory, baseUrl
                 draggable: true
             });
 
-            google.maps.event.addListener(map, 'center_changed', function () {
+            google.maps.event.addListener(map, 'dragend', function () {
                 $scope.marker.setPosition(map.getCenter());
+
             });
 
             $scope.map = map;

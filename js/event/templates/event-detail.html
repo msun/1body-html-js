@@ -2,7 +2,7 @@
 <ion-view>
     <ion-header-bar class="bar-dark">
         <div class="buttons">
-            <a href="#/menu/Events" class = "button button-icon" >
+            <a href="#/menu/my-events" class = "button button-icon" >
                 <i class = "icon ion-arrow-left-c">
                 </i> Back
             </a>
@@ -45,6 +45,7 @@
         <div>
             <ion-list>
                 <ion-item ng-repeat="comment in selectedEvent.comments" ng-click="replyto()">
+                    <img src="{{comment.profilepic}}" />
                     <p>{{comment.text}}</p>
                     <p style="font-size: 10px">{{comment.username}} left at: {{comment.creation}}</p>
                 </ion-item>

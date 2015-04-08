@@ -8,7 +8,7 @@
         <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
     </ion-header-bar>
     <ion-content class="has-header menu1-content">
-        <ion-slide-box class="ob-slide-box" pager-click="navSlide(index)" active-slide="slideStop(index)">
+        <ion-slide-box class="ob-slide-box" pager-click="navSlide($index)" on-slide-changed="slideChanged($index)" ng-init="slideStop()">
             <ion-slide class="ob-slide">
                 <div class="menu1-content-div">
                     <div class="ob-main-instructions">Create an Event</div>
@@ -19,11 +19,16 @@
                             <input ng-model="newevent.name" class="ob-form-text-input" type="text">
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">Description</span>
+                            <input ng-model="newevent.description" class="ob-form-text-input" type="text" placeholder="Event description"/>
+                        </div>
+                        <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Category</span>
                             <div class="ob-form-select-container ob-form-select-container-xlarge">
                                 <select class="ob-form-select ob-form-select-xlarge"
                                         ng-model="newevent.category"
                                         ng-options="category.name for category in categories">
+
                                     <option value="01">01</option>
                                     <option value="01">01</option>
                                     <option value="other">Other</option>
@@ -46,32 +51,32 @@
                             <span class="ob-form-text">{{newevent.duration}}min</span>
                             <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newevent.duration">
                         </div>
-                        <div class="ob-form-row ob-form-flex-row">
-                            <span class="ob-form-prompt">For</span>
-                            <div class="ob-form-select-container">
-                                <select class="ob-form-select">
-                                    <option value="01">01</option>
-                                    <option value="02">02</option>
-                                    <option value="03">03</option>
-                                    <option value="04">04</option>
-                                    <option value="05">05</option>
-                                    <option value="06">06</option>
-                                    <option value="07">07</option>
-                                    <option value="08">08</option>
-                                    <option value="09">09</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                            </div>
-                            <div class="ob-form-select-container">
-                                <select class="ob-form-select">
-                                    <option value="days">days</option>
-                                    <option value="weeks">weeks</option>
-                                    <option value="month">months</option>
-                                </select>
-                            </div>
-                        </div>
+                        <!--<div class="ob-form-row ob-form-flex-row">-->
+                            <!--<span class="ob-form-prompt">For</span>-->
+                            <!--<div class="ob-form-select-container">-->
+                                <!--<select class="ob-form-select">-->
+                                    <!--<option value="01">01</option>-->
+                                    <!--<option value="02">02</option>-->
+                                    <!--<option value="03">03</option>-->
+                                    <!--<option value="04">04</option>-->
+                                    <!--<option value="05">05</option>-->
+                                    <!--<option value="06">06</option>-->
+                                    <!--<option value="07">07</option>-->
+                                    <!--<option value="08">08</option>-->
+                                    <!--<option value="09">09</option>-->
+                                    <!--<option value="10">10</option>-->
+                                    <!--<option value="11">11</option>-->
+                                    <!--<option value="12">12</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--<div class="ob-form-select-container">-->
+                                <!--<select class="ob-form-select">-->
+                                    <!--<option value="days">days</option>-->
+                                    <!--<option value="weeks">weeks</option>-->
+                                    <!--<option value="month">months</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="ob-form-row ob-form-switch-row"> <!--ng-model="newevent.private" for checkbox-->
                             <button class="ob-form-switch-button">Public</button>
                             <button class="ob-form-switch-button">Invite Only</button>
@@ -87,11 +92,19 @@
                     <div class="ob-form">
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-icon-left ob-form-icon-magnifier"></span>
-                            <input class="ob-form-text-input" type="search" placeholder="ex. Buena Vista Park"/>
+                            <input class="ob-form-text-input" type="text" ng-model="newevent.address" placeholder="Enter location"/>
                         </div>
                     </div>
-                    <div class="ob-event-create-map-container"></div>
-                    <button class="ob-block-button ob-blue-button" ng-click="nextPressed()">Almost Done!</button>
+                    <div id="create-eventmap" data-tap-disabled="true"></div>
+
+                    <div class="ob-form">
+                        <div class="ob-form-row ob-form-text-input-row">
+                            <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
+                            <input class="ob-form-text-input" type="text" ng-model="newevent.commentlocation" placeholder="Comment on location"/>
+                        </div>
+                    </div>
+
+                    <button class="block-blue-button" ng-click="locationReady()">Almost Done!</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">
@@ -110,7 +123,7 @@
                             <textarea class="ob-form-textarea" ng-model="newevent.information" placeholder="Tell us what this event is about"></textarea>
                         </div>
                     </div>
-                    <button class="ob-block-button ob-blue-button"ng-click="nextPressed()">Next</button>
+                    <button class="ob-block-button ob-blue-button"ng-click="createEvent()">Create Event</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">
@@ -124,68 +137,32 @@
                         </div>
                     </div>
                     <div class="ob-userlist">
-                        <div class="ob-userlist-row">
-                            <img class="ob-userlist-image" src="img/professional-profile/tmp/greg_hetherington_following_pic.png"/>
+                        <div class="ob-userlist-row" ng-repeat="item in following">
+                            <img class="ob-userlist-image" src="{{item.profilepic}}"/>
                             <div class="ob-userlist-text-column">
                                 <div class="ob-userlist-text-block">
-                                    <div class="ob-userlist-user-name">Greg Hetherington</div>
-                                    <div><span class="ob-userlist-mutual-friend-count">4</span> mutual friends</div>
+                                    <div class="ob-userlist-user-name">{{item.username}}</div>
+                                    <div class="ob-search-list-row-right" style="float: right">
+                                        <label class="checkbox" style="float: right;">
+                                            <input type="checkbox" ng-model="item.checked">
+                                        </label>
+                                    </div>
+                                    <!--<div><span class="ob-userlist-mutual-friend-count">4</span>friends</div>-->
                                 </div>
                             </div>
                         </div>
-                        <div class="ob-userlist-row">
-                            <img class="ob-userlist-image" src="img/professional-profile/tmp/dane_dehaan_following_pic.png"/>
-                            <div class="ob-userlist-text-column">
-                                <div class="ob-userlist-text-block">
-                                    <div class="ob-userlist-user-name">Dane Dehaan</div>
-                                    <div><span class="ob-userlist-mutual-friend-count">1</span> mutual friends</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ob-userlist-row">
-                            <img class="ob-userlist-image" src="img/professional-profile/tmp/maureen_aaron_profile_pic.png"/>
-                            <div class="ob-userlist-text-column">
-                                <div class="ob-userlist-text-block">
-                                    <div class="ob-userlist-user-name">Maureen Aaron</div>
-                                    <div><span class="ob-userlist-mutual-friend-count">8</span> mutual friends</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ob-userlist-row">
-                            <img class="ob-userlist-image" src="img/professional-profile/tmp/rani_kim_profile_pic.png"/>
-                            <div class="ob-userlist-text-column">
-                                <div class="ob-userlist-text-block">
-                                    <div class="ob-userlist-user-name">Rani Kim</div>
-                                    <div><span class="ob-userlist-mutual-friend-count">0</span> mutual friends</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ob-userlist-row">
-                            <img class="ob-userlist-image" src="img/professional-profile/tmp/jillian_katz_profile_pic.png"/>
-                            <div class="ob-userlist-text-column">
-                                <div class="ob-userlist-text-block">
-                                    <div class="ob-userlist-user-name">Jillian Katz</div>
-                                    <div><span class="ob-userlist-mutual-friend-count">2</span> mutual friends</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ob-userlist-row">
-                            <img class="ob-userlist-image" src="img/professional-profile/tmp/murphy_macdonald-rea_profile_pic.png"/>
-                            <div class="ob-userlist-text-column">
-                                <div class="ob-userlist-text-block">
-                                    <div class="ob-userlist-user-name">Murphy Macdonald-Rea</div>
-                                    <div><span class="ob-userlist-mutual-friend-count">18</span> mutual friends</div>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="button-bar">
+                        <button class="button button-calm" ng-click="sendInvites()">Invite</button>
+                        <button class="button button-calm" ng-click="skipInvites()">Skip</button>
                     </div>
                 </div>
             </ion-slide>
         </ion-slide-box>
     </ion-content>
-    <ion-footer-bar class="ob-footer-button" ng-show='currentIndex() == 3' ng-click="nextPressed()">
-        <div class="ob-footer-button-contents">
-            Invite
-        </div>
-    </ion-footer-bar>
+    <!--<ion-footer-bar class="ob-footer-button" ng-show='currentIndex() == 3' ng-click="nextPressed()">-->
+        <!--<div class="ob-footer-button-contents">-->
+            <!--Invite-->
+        <!--</div>-->
+    <!--</ion-footer-bar>-->
 </ion-view>

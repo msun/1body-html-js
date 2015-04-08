@@ -44,18 +44,13 @@ angular.module('starter.services', ["firebase"])
                 return JSON.parse($window.localStorage[key] || '{}');
             },
             clear: function(){
-                $window.localStorage.clear();
+                window.localStorage.clear();
             }
         }
     }])
 
     .factory("GeoTrainers", function(Firebase) {
         var ref = new GeoFire(Firebase.child("geoTrainers"));
-        return ref;
-    })
-
-    .factory("GeoEvents", function(Firebase) {
-        var ref = new GeoFire(Firebase.child("geoEvents"));
         return ref;
     })
 
@@ -146,6 +141,16 @@ angular.module('starter.services', ["firebase"])
 
     .factory("Classes", function(Firebase) {
         var ref = Firebase.child("classes");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("Invites", function(Firebase) {
+        var ref = Firebase.child("invites");
 
         return {
             ref: function(){

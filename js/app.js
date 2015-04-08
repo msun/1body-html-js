@@ -231,11 +231,21 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.event-detail', {
-                url: '/Events/:eventID',
+                url: '/Events/:userID/:eventID',
                 views: {
                     'menu': {
                         templateUrl: 'js/event/templates/event-detail.html',
                         controller: 'EventDetailCtrl'
+                    }
+                }
+            })
+
+            .state('menu.my-events', {
+                url: '/my-events',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/event/templates/my-events.html',
+                        controller: 'MyEventsCtrl'
                     }
                 }
             })
@@ -381,16 +391,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.my-events', {
-                url: '/my-events',
-                views: {
-                    'account': {
-                        templateUrl: 'js/account/templates/my-events.html',
-                        controller: 'MyEventCtrl'
-                    }
-                }
-            })
-
             .state('menu.account.my-classes', {
                 url: '/my-classes',
                 views: {
@@ -509,14 +509,17 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $rootScope.user = appFactory.user;
         $ionicSideMenuDelegate.toggleLeft();
 
-        console.log($localstorage.getObject("user"));
-        appFactory.trainers = $localstorage.getObject("Trainers");
-        console.log(appFactory.trainers);
-        appFactory.events = $localstorage.getObject("Events");
-        console.log(appFactory.events);
-        appFactory.gyms = $localstorage.getObject("Gyms");
-        console.log(appFactory.gyms);
-
+        try {
+            console.log($localstorage.getObject("user"));
+            appFactory.trainers = $localstorage.getObject("Trainers");
+            console.log(appFactory.trainers);
+            appFactory.events = $localstorage.getObject("Events");
+            console.log(appFactory.events);
+            appFactory.gyms = $localstorage.getObject("Gyms");
+            console.log(appFactory.gyms);
+        } catch(err){
+            alert("something wrong happened when loading data from localstorage, please try again.");
+        }
 //        var bm = cordova.require("cordova/plugin/BackgroundMode");
 
 

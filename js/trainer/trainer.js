@@ -174,6 +174,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             myreview.text = $scope.newreview.text;
             myreview.rating = $scope.newreview.rating;
             myreview.created = Date.now();
+            myreview.profilepic = appFactory.user.profilepic;
             myreview.$priority = $scope.reviewCount;
             myreview.$save();
 
