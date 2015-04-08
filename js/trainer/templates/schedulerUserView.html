@@ -1,8 +1,8 @@
 <div class="ob-form">
-    <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
+    <div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
         <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
     </div>
-    <div class="ob-form-row ob-form-row-autoheight">
+    <div class="ob-form-row">
         <table class="timeslot-table">
             <tr class="timeslot-row" ng-repeat="time in timeslots track by $index">
                 <td class="timeslot-time-column">
@@ -14,10 +14,10 @@
                 </td>
                 <td class="timeslot-button-column">
                     <button ng-show="chosen[$index] == 0" class="timeslot-button" ng-click="selectTime($index)">
-                        <i class="icon ion-plus"></i>
+                        <i class="icon ion-plus timeslot-button-icon"></i>
                     </button>
                     <button ng-show="chosen[$index] == 1" class="timeslot-button" ng-click="selectTime($index)">
-                        <i class="icon ion-checkmark"></i>
+                        <i class="icon ion-checkmark timeslot-button-icon"></i>
                     </button>
                 </td>
             </tr>
@@ -45,5 +45,5 @@
     </tr>
 </table>
 -->
-<button class="block-blue-button" ng-click="charge()">Confirm</button>
-<!--<button class="block-dark-button" ng-click="printTime()">Check Time</button>-->
+<button class="ob-block-button ob-blue-button" ng-click="charge()">Confirm</button>
+<!--<button class="ob-block-button ob-dark-button" ng-click="printTime()">Check Time</button>-->

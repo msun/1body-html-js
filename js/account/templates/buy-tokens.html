@@ -1,8 +1,8 @@
 <ion-view>
     <ion-content class="has-header menu1-content">
         <div class="menu1-content-div buy-tokens-content-div">
-            <div class="main-instructions">Select the number of credits to purchase</div>
-            <div class="sub-instructions buy-tokens-sub-instructions">You have {{currentTokens}} tokens left.</div>
+            <div class="ob-main-instructions">Select the number of credits to purchase</div>
+            <div class="ob-sub-instructions">You have <span class="text-bold">{{currentTokens}}</span> tokens left.</div>
             <div class="purchase-credits-table">
                 <div class="purchase-credits-row" ng-repeat="item in bundles">
                     <span class="purchase-credits-value">{{item.numberTokens}}</span>
@@ -24,7 +24,7 @@
         <span class="purchase-credits-total-text">Total ${{amount}}</span>
         <span class="purchase-credits-buy-credits-text-container" ng-click="confirm()">
             <span class="purchase-credits-buy-credits-text">Buy Credits</span>
-            <img class="purchase-credits-arrow" src="img/store/purchase-credits-arrow.png"/>
+            <span class="purchase-credits-arrow"></span>
         </span>
     </ion-footer-bar>
 </ion-view>

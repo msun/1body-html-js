@@ -1,14 +1,14 @@
 
         <div class="menu1-content-div">
-            <button class="block-blue-button block-button-shadow" ng-click="confirm()">Confirm</button>
-            <!--<button class="block-blue-button block-button-shadow" ng-click="printTime()">Check Time</button>-->
-            <div class="main-instructions scheduler-main-instructions">Set your availabile time slots as a professional</div>
+            <button class="ob-block-button ob-blue-button ob-button-shadow" ng-click="confirm()">Confirm</button>
+            <!--<button class="ob-block-button ob-blue-button ob-button-shadow" ng-click="printTime()">Check Time</button>-->
+            <div class="ob-instructions">Set your availabile time slots as a professional</div>
             <div class="ob-form">
-                <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
-                    <span class="ob-form-timepicker-prompt ob-blue-text">Date</span>
+                <div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
+                    <span class="ob-form-prompt">Date</span>
                     <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                 </div>
-                <div class="ob-form-row ob-form-row-autoheight">
+                <div class="ob-form-row">
                     <table class="timeslot-table">
                         <tr class="timeslot-row" ng-repeat="time in timeslots track by $index">
                             <td class="timeslot-time-column">
@@ -21,10 +21,10 @@
                             </td>
                             <td class="timeslot-button-column">
                                 <button ng-show="active[$index] == -1" class="timeslot-button" ng-click="selectTime($index)">
-                                    <i class="icon ion-plus"></i>
+                                    <i class="icon ion-plus timeslot-button-icon"></i>
                                 </button>
                                 <button ng-show="active[$index] == 0" class="timeslot-button" ng-click="selectTime($index)">
-                                    <i class="icon ion-checkmark"></i>
+                                    <i class="icon ion-checkmark timeslot-button-icon"></i>
                                 </button>
                             </td>
                         </tr>

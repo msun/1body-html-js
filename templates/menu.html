@@ -10,26 +10,26 @@
         <ion-nav-view name="menu"></ion-nav-view>
     </ion-pane>
     <ion-side-menu side="left" class="ob-sidemenu">
-        <div class="ob-dark-bg ob-sidemenu-header">
+        <div class="ob-darkpurple-bg ob-sidemenu-header">
             <div class="ob-sidemenu-header-content" ng-click="toggleMenu()">
                 <div class="ob-sidemenu-header-inner-content">
                     <a class="ob-sidemenu-usericon-container" href="#/menu/account/my-profile">
                         <img class="ob-sidemenu-usericon" src="{{$root.user.profilepic}}"/>
                     </a>
                     <a class="ob-sidemenu-title" href="#/menu/account/my-profile">{{$root.user.username}}</a>
-                    <a class="ob-sidemenu-cog-container" href="" ng-click="toggleMenu()">
-                        <!--<img class="ob-sidemenu-cog" src="img/tmp/Cog.png"/>-->
+                    <a class="ob-sidemenu-cog-container" href="#/menu/account/settings" ng-click="toggleMenu()">
+                        <img class="ob-sidemenu-cog" src="img/tmp/Cog.png"/>
                     </a>
                 </div>
                 <div class="ob-sidemenu-header-bottom-divider"></div>
             </div>
         </div>
-        <ion-content class="ob-sidemenu-tabs ob-dark-bg" scrollbar-x="false" scrollbar-y="false">
+        <ion-content class="ob-sidemenu-tabs ob-darkpurple-bg" scrollbar-x="false" scrollbar-y="false">
             <ul>
                 <a ng-click ="toggleMenu()" href="#/menu/map" class="item menu-font">Map</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-events" class="item menu-font">My Events</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-requests" class="item menu-font">My Requests</a>
-                <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/requested-sessions" class="item menu-font">Mobile Session Requests</a>
+                <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/requested-sessions" class="item menu-font">Requests Inbox</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/my-schedule" class="item menu-font">My Schedule</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/qrcode/a" class="item menu-font">My QR Codes</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/scan" class="item menu-font">Scan QR Code</a>

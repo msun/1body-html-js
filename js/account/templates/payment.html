@@ -1,18 +1,18 @@
 <ion-view>
     <ion-content class="has-header popup-content">
         <div class="popup-content-div">
-            <div class="main-instructions main-instructions-only">Change Payment Information</div>
+            <div class="ob-instructions">Change Payment Information</div>
             <form class="ob-form" stripe-form="handleStripe" name="myForm">
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name1" placeholder="Cardholder name"/>
+                <div class="ob-form-row ob-form-flex-row">
+                    <input class="ob-form-text-input" type="text" placeholder="Cardholder name"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name1" placeholder="Card Number"
+                <div class="ob-form-row ob-form-flex-row">
+                    <input class="ob-form-text-input" type="number" placeholder="Card Number"
                            ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
                 </div>
-                <div class="ob-form-row ob-form-select-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <!-- ng-model="expiry" payments-validate="expiry" payments-format="expiry" -->
-                    <span class="ob-form-select-text">Expires</span>
+                    <span class="ob-form-prompt">Expires</span>
                     <div class="ob-form-select-container">
                         <select class="ob-form-select">
                             <option value="01">01</option>
@@ -40,24 +40,24 @@
                         </select>
                     </div>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Security Code/CVC"
+                <div class="ob-form-row ob-form-flex-row">
+                    <input class="ob-form-text-input" type="number" placeholder="Security Code/CVC"
                            ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Postal Code"/>
+                <div class="ob-form-row ob-form-flex-row">
+                    <input class="ob-form-text-input" type="text" placeholder="Postal Code"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="City / Town"/>
+                <div class="ob-form-row ob-form-flex-row">
+                    <input class="ob-form-text-input" type="text" placeholder="City / Town"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Province / State"/>
+                <div class="ob-form-row ob-form-flex-row">
+                    <input class="ob-form-text-input" type="text" placeholder="Province / State"/>
                 </div>
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" type="text" name="name3" placeholder="Country"/>
+                <div class="ob-form-row ob-form-flex-row">
+                    <input class="ob-form-text-input" type="text" placeholder="Country"/>
                 </div>
             </form>
-            <button type="submit" class="block-blue-button">Done</button>
+            <button type="submit" class="ob-block-button ob-blue-button">Done</button>
         <div>
     </ion-content>
 </ion-view>

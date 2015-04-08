@@ -1,40 +1,4 @@
 
-@font-face {
-    font-family: 'Lato';
-    src: local('Lato'),
-         url('../font/Lato-Regular.woff');
-}
-
-@font-face {
-    font-family: 'Lato-Light';
-    src: local('Lato-Light'),
-         url('../font/Lato-Light.woff');
-}
-
-@font-face {
-    font-family: 'Avenir Next LT Pro';
-    src: local('Avenir Next LT Pro'),
-         url('../font/AvenirNextLTPro-Regular.woff');
-}
-
-@font-face {
-    font-family: 'AvenirNextLTPro-Demi';
-    src: local('AvenirNextLTPro-Demi'),
-         url('../font/AvenirNextLTPro-Demi.woff');
-}
-
-@font-face {
-    font-family: 'AvenirNextLTPro-Bold';
-    src: local('AvenirNextLTPro-Bold'),
-         url('../font/AvenirNextLTPro-Bold.woff');
-}
-
-@font-face {
-    font-family: 'AvenirNextLTPro-It';
-    src: local('AvenirNextLTPro-It'),
-         url('../font/AvenirNextLTPro-It.woff');
-}
-
 #eventmap {
     width: 100%;
     height: 100%;
@@ -183,12 +147,6 @@
     background-color: white;
 }
 
-.bar {
-    height: 64px;
-    border: none;
-    background-image: none !important;
-}
-
 .title {
     /*
     margin-top: 20px !important;
@@ -279,16 +237,7 @@
     padding: 0px;
 }
 
-.gm-style {
-}
 
-.gm-style-iw {
-}
-
-/* remove x on infowindow */
-.gm-style-iw + div {
-    /*display: none;*/
-}
 
 .ng-invalid {
     border-color: #f00 !important;
@@ -333,27 +282,65 @@
 }
 
 /* ********** ********** ********** ********** ***********/
-/* colors */
+/* override defaults */
 /* ********** ********** ********** ********** ***********/
 
-.ob-dark-bg {
-    background-color: #1f101c;
+.bar {
+    height: 64px;
+    border: none;
+    background-image: none !important;
 }
 
-.ob-grey-bg {
-    background: #383838;
+/* ******** google maps ******** */
+.gm-style {
 }
 
-.ob-white-color {
-    color: white;
+.gm-style-iw {
 }
 
-.ob-blue-color {
-    color: #3884ed;
+/* remove x on infowindow */
+.gm-style-iw + div {
+    /*display: none;*/
 }
 
-.ob-strong-blue-color {
-    color: #2b6acf;
+/* ********** ********** ********** ********** ***********/
+/* fonts */
+/* ********** ********** ********** ********** ***********/
+
+@font-face {
+    font-family: 'Lato';
+    src: local('Lato'),
+         url('../font/Lato-Regular.woff');
+}
+
+@font-face {
+    font-family: 'Lato-Light';
+    src: local('Lato-Light'),
+         url('../font/Lato-Light.woff');
+}
+
+@font-face {
+    font-family: 'Avenir Next LT Pro';
+    src: local('Avenir Next LT Pro'),
+         url('../font/AvenirNextLTPro-Regular.woff');
+}
+
+@font-face {
+    font-family: 'AvenirNextLTPro-Demi';
+    src: local('AvenirNextLTPro-Demi'),
+         url('../font/AvenirNextLTPro-Demi.woff');
+}
+
+@font-face {
+    font-family: 'AvenirNextLTPro-Bold';
+    src: local('AvenirNextLTPro-Bold'),
+         url('../font/AvenirNextLTPro-Bold.woff');
+}
+
+@font-face {
+    font-family: 'AvenirNextLTPro-It';
+    src: local('AvenirNextLTPro-It'),
+         url('../font/AvenirNextLTPro-It.woff');
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -374,81 +361,108 @@ ion-popover-view.fit ion-content {
     margin-top: 10px !important;
 }
 
-
 /* ********** ********** ********** ********** ***********/
-/* nav-bar */
-/* ********** ********** ********** ********** ***********/
-
-.ob-nav-bar-logo {
-    width: 114px;
-    height: 41px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-}
-
-.ob-navbar-title {
-    font-family: "AvenirNextLTPro-Demi", sans-serif;
-    color: white;
-    /*
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    */
-}
-
-/* ********** ********** ********** ********** ***********/
-/* generic menu view */
+/* text */
 /* ********** ********** ********** ********** ***********/
 
-.menu1-content {
-    background: url("../img/tmp/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
-                /*url("../img/tmp/Black-Shade.png") center/100% 100% no-repeat,*/
-                url("../img/tmp/bridge_background.jpg") 48% -64px/auto calc(100% + 64px) no-repeat;
+.text-bold {
+    font-weight: bold;
 }
 
-.menu1-content-no-header {
-    background: url("../img/tmp/Blue-Top-Gradient.png") center top/100% 34.243% no-repeat,
-                /*url("../img/tmp/Black-Shade.png") center/100% 100% no-repeat,*/
-                url("../img/tmp/bridge_background.jpg") 48% center/auto 100% no-repeat;
+.text-underline {
+    text-decoration: underline;
 }
 
-.menu1-content-div {
-    border: 1px solid transparent;
+.text-avnltp-demi {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
 }
 
-.menu2-content {
-    background: #383838;
+.ob-blue-text {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #3884ed;
 }
 
-.main-instructions {
-    width: 220px;
-    margin: 23px auto 10px;
+.ob-main-instructions, .ob-instructions {
+    width: 248px;
+    margin: 22px auto 10px;
     font-family: 'Lato', sans-serif;
     font-size: 18px;
     color: white;
     text-align: center;
 }
 
-.main-instructions-only {
-    margin-bottom: 20px;
+.ob-instructions {
+    margin-bottom: 22px;
 }
 
-.sub-instructions {
-    width: 220px;
-    margin: 10px auto 43px;
+.ob-sub-instructions {
+    width: 248px;
+    margin: 10px auto 22px;
     font-family: 'Lato-Light', sans-serif;
     font-size: 18px;
     color: white;
     text-align: center;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* colors */
+/* ********** ********** ********** ********** ***********/
+
+.ob-darkpurple-bg {
+    background-color: #1f101c;
+}
+
+.ob-grey-bg {
+    background: #383838;
+}
+
+.ob-white-color {
+    color: white;
+}
+
+.ob-blue-color {
+    color: #3884ed;
+}
+
+.ob-strong-blue-color {
+    color: #2b6acf;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* nav-bar */
+/* ********** ********** ********** ********** ***********/
+
+.ob-nav-bar-logo {
+    background: url("../img/Logo.png") center/100% 100% no-repeat;
+    display: inline-block;
+    width: 114px;
+    height: 41px;
+}
+
+.ob-navbar-title {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    color: white;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* generic views */
+/* ********** ********** ********** ********** ***********/
+
+.menu1-content {
+    background-color: transparent, #383838;
+    background-position: center top, center;
+    background-size: 100% 34.243%, cover;
+    background-repeat: no-repeat, no-repeat;
+    background-image: url("../img/tmp/Blue-Top-Gradient.png"), url("../img/tmp/bridge_background.jpg");
+}
+
+.menu1-content-div {
+    border: 1px solid transparent;
+    min-width: 150px;
+    width: 100%;
+    min-height: 300px;
+    height: 100%;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -470,11 +484,12 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form {
-    max-width: 300px;
+    width: 93.75%; /* 300px / 320px */
+    max-width: 500px;
     background-color: transparent;
     border-radius: 8px;
     border: 1px solid #7f7b73;
-    margin: 16px auto;
+    margin: 12px auto 4px;
     overflow: hidden;
 }
 
@@ -482,11 +497,9 @@ ion-popover-view.fit ion-content {
     background-color: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid #7f7b73;
     overflow: hidden;
-    height: 42px;
-}
-
-.ob-form-row-autoheight {
-    height: auto;
+    min-height: 44px;
+    text-decoration: none;
+    padding: 0px 4px;
 }
 
 .ob-form-row-:first-child {
@@ -502,84 +515,133 @@ ion-popover-view.fit ion-content {
     border-bottom-right-radius: 8px;
 }
 
-
 /* ********** ********** ********** ********** ***********/
-/* ob-form-text-input */
+/* ob-form-flex-row */
 /* ********** ********** ********** ********** ***********/
 
-.ob-form-text-input-row {
-    display: -moz-flex;
+.ob-form-flex-row {
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
 }
 
-.ob-form-text-input {
-    -moz-flex: 1 1 auto;
-    -webkit-flex: 1 1 auto;
-    flex: 1 1 auto;
-    overflow: hidden;
-    margin: 0px 12px;
-    background: transparent;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: white !important; /* why do we need this? */
-}
-
-.ob-form-text-input:hover, .ob-form-text-input:focus {
-    color: white;
-}
-
-.ob-form-text-input::-webkit-input-placeholder {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: #bebdbd;
-}
-
-.ob-form-text-input:-moz-placeholder { /* Firefox 18- */
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: #bebdbd;
-}
-
-.ob-form-text-input::-moz-placeholder {  /* Firefox 19+ */
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: #bebdbd;
-}
-
-.ob-form-text-input:-ms-input-placeholder {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
-    color: #bebdbd;
-}
-
-.ob-form-text-input-icon-left, .ob-form-text-input-icon-right {
-    -moz-flex: 0 0 16px;
-    -webkit-flex: 0 0 16px;
-    flex: 0 0 16px;
-    height: 16px;
+.ob-form-icon-left, .ob-form-icon-right {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
     margin: 13px;
 }
 
-.ob-form-text-input-icon-left {
+.ob-form-icon-left {
     margin-right: 0px;
 }
 
-.ob-form-text-input-icon-right {
+.ob-form-icon-right {
     margin-left: 0px;
 }
 
-.ob-form-text-input-prompt {
-    -moz-flex: 0 0 auto;
+.ob-form-icon-magnifier {
+    background: url("../img/event-profile/magnifier.png") center/100% 100% no-repeat;
+    width: 16px;
+    height: 16px;
+}
+
+.ob-form-icon-rightarrow {
+    background: url("../img/store/purchase-credits-arrow.png") center/100% 100% no-repeat;
+    width: 9px;
+    height: 14.25px;
+}
+
+.ob-form-icon-password {
+    background: url("../img/sign-up/password-checkmark.png") center/100% 100% no-repeat;
+    width: 17px;
+    height: 13px;
+}
+
+.ob-form-prompt {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    margin: 4px 0px 4px 12px;
+    margin: auto 6px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
+    font-size: 16px;
     color: #3884ed;
+}
+
+.ob-form-text {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    height: 44px;
+    line-height: 44px;
+    margin: auto 6px;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-text-input */
+/* to be used inside ob-form-flex-row */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-text-input {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    height: 44px !important;
+    line-height: 44px !important;
+    margin: auto 6px;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: white !important;
+}
+
+/* a hack to fix search bar height */
+input.ob-form-text-input[type="search"] {
+    height: 42px !important;
+    line-height: 42px !important;
+}
+
+.ob-form-text-input:hover {
+
+}
+
+.ob-form-text-input:focus {
+
+}
+
+.ob-form-text-input::-webkit-input-placeholder {
+    height: 44px !important;
+    line-height: 44px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
+}
+
+.ob-form-text-input:-moz-placeholder {
+    height: 44px !important;
+    line-height: 44px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
+}
+
+.ob-form-text-input::-moz-placeholder {
+    height: 44px !important;
+    line-height: 44px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
+}
+
+.ob-form-text-input:-ms-input-placeholder {
+    height: 44px !important;
+    line-height: 44px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -593,7 +655,7 @@ ion-popover-view.fit ion-content {
     font-size: 16.5;
     color: white;
     padding: 11px;
-    height: 90px;
+    height: 120px;
 }
 
 .ob-form-textarea::-webkit-input-placeholder {
@@ -629,17 +691,14 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-switch-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: stretch;
     -webkit-align-items: stretch;
     align-items: stretch;
     height: 42.5px;
 }
 
 .ob-form-switch-button {
-    -moz-flex: 1 1 50px;
     -webkit-flex: 1 1 50px;
     flex: 1 1 50px;
     width: 50%;
@@ -664,40 +723,18 @@ ion-popover-view.fit ion-content {
 /* ob-form-select */
 /* ********** ********** ********** ********** ***********/
 
-.ob-form-select-row {
-    padding: 0px 9px;
-    height: 45px;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.ob-form-select-text {
-    display: inline-block;
-    position: relative;
-    bottom: 10px;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: white;
-    white-space: nowrap;
-    margin: 0px 9px 0px 0px;
-}
-
 .ob-form-select-container {
-    width: 70px;
+    width: 100px;
     display: inline-block;
     overflow: hidden;
     background: url("../img/register-class/dropdown-white-arrow.png") calc(100% - 8px) calc(50%) / 12.5px 8px no-repeat;
     border: 1px solid #7f7b73;
     border-radius: 14px;
-    margin: 7px 4px 0px 0px;
-}
-
-.ob-form-select-container:first-child {
-    margin-left: 12px;
+    margin: 0px 6px;
 }
 
 .ob-form-select {
-    width: 90px;
+    width: 120px;
     background: transparent;
     color: white;
     border: none;
@@ -717,65 +754,45 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-select-container-xlarge {
-    width: 200px;
+    width: 180px;
 }
 
 .ob-form-select-xlarge {
-    width: 220px;
+    width: 200px;
 }
 
 /* ********** ********** ********** ********** ***********/
 /* ob-form-range */
 /* ********** ********** ********** ********** ***********/
 
-.ob-form-range-row {
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: flex;
-    -moz-align-items: center;
-    -webkit-align-items: center;
-    align-items: center;
-}
-
-.ob-form-range-prompt {
-    -mox-flex: 0 0 150px;
-    -webkit-flex: 0 0 150px;
-    flex: 0 0 150px;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #bcbbbb;
-}
-
 .ob-form-range {
-    flex: 1 1 200px;
+    -webkit-flex: 0 1 125px;
+    flex: 0 1 125px;
+    margin: auto 8px auto 4px;
 }
 
 /* ********** ********** ********** ********** ***********/
-/* ob-form-timepicker */
+/* ob-form-icon */
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-icon-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     padding-right: 12px;
 }
 
 .ob-form-icon-prompt {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     margin: auto 0px auto 12px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
+    font-size: 16px;
     color: #3884ed;
 }
 
 .ob-form-icon {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 32px;
@@ -788,33 +805,15 @@ ion-popover-view.fit ion-content {
 /* ob-form-timepicker */
 /* ********** ********** ********** ********** ***********/
 
-.ob-form-timepicker-row {
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: flex;
-    -moz-align-items: center;
-    -webkit-align-items: center;
-    align-items: center;
-    padding: 0px 9px;
-    height: auto;
-}
-
-.ob-form-timepicker-prompt {
-    -mox-flex: 0 0 auto;
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #bcbbbb;
-    margin-right: 9px;
-}
-
 .ob-form-timepicker {
-    -mox-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
-    color: #3884ed;
     margin: 16px 0px;
+    color: white;
+}
+
+.ob-form-timepicker .timepicker-arrow-container {
+    color: #3884ed;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -822,18 +821,17 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-note-block {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: stretch;
     -webkit-align-items: stretch;
     align-items: stretch;
     width: 100%;
-    margin: 28px 0px 0px;
+    margin: 12px auto;
+    border-top: 1px solid #aaaaaa;
+    max-width: 85%;
 }
 
 .ob-note-block-left {
-    -moz-flex: 1 1 0px;
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
     padding: 14px 0px 0px;
@@ -844,7 +842,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-note-block-middle {
-    -moz-flex: 0 0 215px;
     -webkit-flex: 0 0 215px;
     flex: 0 0 215px;
     padding: 9px 2px 0px;
@@ -855,7 +852,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-note-block-right {
-    -moz-flex: 1 1 0px;
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
 }
@@ -864,12 +860,9 @@ ion-popover-view.fit ion-content {
 /* buttons */
 /* ********** ********** ********** ********** ***********/
 
-.ob-center-button {
-    margin-left: auto;
-    margin-right: auto;
-}
+/* general buttons */
 
-.ob-dark-button, .ob-blue-button {
+.ob-button {
     border-radius: 5px;
     border: none;
     margin: 15px 8px 11px;
@@ -881,29 +874,13 @@ ion-popover-view.fit ion-content {
     text-decoration: none;
 }
 
-.ob-dark-button {
-    background-color: #282828;
-}
-
-.ob-dark-button:active {
-    background-color: #444444;
-}
-
-.ob-blue-button {
-    background-color: #3884ed;
-}
-
-.ob-blue-button:active {
-    background-color: #3172cc;
-}
-
-.block-dark-button, .block-blue-button {
+.ob-block-button {
     display: block;
     width: 93.75%; /* 300px / 320px */
     max-width: 500px;
     border-radius: 5px;
     border: none;
-    margin: 15px auto 11px;
+    margin: 16px auto 8px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.69px;
     color: white;
@@ -912,50 +889,38 @@ ion-popover-view.fit ion-content {
     text-decoration: none;
 }
 
-.block-dark-button {
-    background-color: #282828;
+.ob-block-button ~ .ob-block-button {
+    margin: 6px auto;
 }
 
-.block-dark-button:active {
-    background-color: #444444;
+.ob-block-button-smallmargins {
+    margin: 4px auto;
 }
 
-.block-blue-button {
-    background-color: #3884ed;
-}
-
-.block-blue-button:active {
-    background-color: #3172cc;
-}
-
-.ob-block-button-small-margins {
-    margin: 4px auto 4px;
-}
-
-.block-transparent-button {
+.ob-block-text-button {
     display: block;
     margin: 0px auto;
     background: transparent;
     border: none;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    color: rgb(235, 235, 235);
     font-size: 15px;
-    color: white;
     text-align: center;
     text-decoration: none;
+    padding: 12px 0px;
 }
 
-.block-transparent-button:active {
-    color: #888888;
+.ob-block-text-button:active {
+    color: #aaaaaa;
 }
 
-.block-button-shadow {
-    box-shadow: 0px 0px 100px 1px #333333;
+/* blockbuttongroup1 */
+
+.blockbuttongroup1 {
+
 }
 
-.block-button1-group {
-}
-
-.block-button1 {
+.blockbuttongroup1-button {
     display: block;
     width: 100%;
     font-family: 'Avenir Next LT Pro', sans-serif;
@@ -967,19 +932,21 @@ ion-popover-view.fit ion-content {
     padding: 14px 0px;
 }
 
-.block-button1:first-child {
+.blockbuttongroup1-button:first-child {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     border-top: 1px solid #dddddd;
 }
 
-.block-button1:active {
+.blockbuttongroup1-button:active {
     background-color: white;
 }
+
+/* buttongroup2 */
 
 .buttongroup2 {
     display: -webkit-flex;
     display: flex;
-    height: 42px;
+    height: 44px;
     width: 300px;
     margin: 12px auto;
     border-radius: 8px;
@@ -1021,13 +988,15 @@ ion-popover-view.fit ion-content {
     color: white;
 }
 
+/* ob-footer-button */
+
 .ob-footer-button {
     width: 100%;
     height: 44px;
     background: #3884ed;
     z-index: 9999;
     font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 16.7px;
+    font-size: 16px;
     color: white;
     padding: 0px;
 }
@@ -1043,12 +1012,33 @@ ion-popover-view.fit ion-content {
     text-align: center;
 }
 
+/* button additions */
+
+.ob-dark-button {
+    background-color: #282828;
+}
+
+.ob-dark-button:active {
+    background-color: #444444;
+}
+
+.ob-blue-button {
+    background-color: #3884ed;
+}
+
+.ob-blue-button:active {
+    background-color: #3172cc;
+}
+
+.ob-button-shadow {
+    box-shadow: 0px 0px 100px 1px #333333;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* ob-block-switch */
 /* ********** ********** ********** ********** ***********/
 
 .ob-block-switch {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
     width: 100%;
@@ -1056,7 +1046,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-block-switch-button {
-    -moz-flex: 1 1 0px;
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
     background: transparent;
@@ -1094,7 +1083,6 @@ ion-popover-view.fit ion-content {
 
 .locations-line {
     width: 100%;
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
     color: white;
@@ -1103,7 +1091,6 @@ ion-popover-view.fit ion-content {
 }
 
 .locations-line-prompt {
-    -moz-flex: 0 0 16px;
     -webkit-flex: 0 0 16px;
     flex: 0 0 auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -1112,7 +1099,6 @@ ion-popover-view.fit ion-content {
 }
 
 .locations-line-tags {
-    -moz-flex: 99 99 auto;
     -webkit-flex: 99 99 auto;
     flex: 99 99 auto;
 }
@@ -1122,7 +1108,6 @@ ion-popover-view.fit ion-content {
 }
 
 .locations-line-distance {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -1150,6 +1135,60 @@ ion-popover-view.fit ion-content {
 .ob-tag-blue {
     color: #3988f6;
     border: 1px solid #3988f6;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-section */
+/* ********** ********** ********** ********** ***********/
+
+.ob-sections {
+    display: -webkit-flex;
+    display: flex;
+}
+
+.ob-sections-vertical {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.ob-section {
+    -webkit-flex: 2 2 auto;
+    flex: 2 2 auto;
+}
+
+.ob-section-zerobase {
+    -webkit-flex: 2 2 0px;
+    flex: 2 2 0px;
+}
+
+.ob-half-section {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.ob-half-section-zerobase {
+    -webkit-flex: 1 1 0px;
+    flex: 1 1 0px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-vertical-center */
+/* ********** ********** ********** ********** ***********/
+
+.ob-vertical-center-parent {
+    position: relative;
+}
+
+.ob-vertical-center-child {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    -webkit-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1231,19 +1270,13 @@ ion-popover-view.fit ion-content {
     padding-bottom: 32px;
 }
 
-.buy-tokens-sub-instructions {
-    margin-bottom: 20px;
-}
-
 .purchase-credits-table {
 
 }
 
 .purchase-credits-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     width: 100%;
@@ -1329,10 +1362,8 @@ ion-popover-view.fit ion-content {
 }
 
 .purchase-credits-footer-button {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     width: 100%;
@@ -1354,7 +1385,6 @@ ion-popover-view.fit ion-content {
 .purchase-credits-buy-credits-text-container {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    -moz-align-self: stretch;
     -webkit-align-self: stretch;
     align-self: stretch;
     line-height: 64px;
@@ -1370,6 +1400,8 @@ ion-popover-view.fit ion-content {
 }
 
 .purchase-credits-arrow {
+    display: inline-block;
+    background: url("../img/store/purchase-credits-arrow.png") center/100% 100% no-repeat;
     width: 12px;
     height: 19px;
     margin: 0px 9px;
@@ -1388,20 +1420,13 @@ ion-popover-view.fit ion-content {
 .ob-slide {
 }
 
-.create-event-sub-instructions {
-    margin-bottom: 24px;
-}
-
 .create-event-ob-form {
     margin-bottom: 10px;
 }
 
-.ob-blue-text {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.5px;
-    color: #3884ed;
-}
-
+/* ******** ob-date ******** */
+/* ******** deprecated ******** */
+/*
 .ob-date-prompt-text {
     display: inline-block;
     margin: 12px 0px 12px 11px;
@@ -1422,8 +1447,9 @@ ion-popover-view.fit ion-content {
     height: 18px;
     margin: 13px 9.5px;
 }
+*/
 
-/* create-event-picture-description */
+/* ******** create-event-picture-description ******** */
 
 .ob-row-picture-upload-top-section {
     position: relative;
@@ -1431,6 +1457,7 @@ ion-popover-view.fit ion-content {
 }
 
 .picture-upload-placeholder {
+    background: url("../img/event-profile/picture-upload-placeholder.png") center/100% 100% no-repeat;
     position: absolute;
     left: 0px;
     bottom: 0px;
@@ -1439,6 +1466,7 @@ ion-popover-view.fit ion-content {
 }
 
 .picture-upload-plus-icon {
+    background: url("../img/event-profile/picture-upload-plus-icon.png") center/100% 100% no-repeat;
     width: 15.5px;
     height: 15.5px;
     position: absolute;
@@ -1451,6 +1479,7 @@ ion-popover-view.fit ion-content {
 }
 
 .picture-upload-e-tag {
+    background: url("../img/badge-event.png") center/100% 100% no-repeat;
     width: 28px;
     height: 28px;
     position: absolute;
@@ -1460,10 +1489,6 @@ ion-popover-view.fit ion-content {
     -webkit-transform: translate(-50%, 0%);
     -moz-transform: translate(-50%, 0%);
     -o-transform: translate(-50%, 0%);
-}
-
-.ob-form-textarea {
-    height: 124px;
 }
 
 /* create-event-location */
@@ -1479,6 +1504,7 @@ ion-popover-view.fit ion-content {
 /* ob-userlist */
 
 .ob-userlist {
+    margin-top: 12px;
     margin-bottom: 4px;
 }
 
@@ -1526,80 +1552,27 @@ ion-popover-view.fit ion-content {
 /* home.html */
 /* ********** ********** ********** ********** ***********/
 
-.home-main-instructions {
-    width: 248px;
-}
+/* ******** home main layout ******** */
 
-.home-transparent-button {
-    line-height: 15px;
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    color: rgb(235, 235, 235);
-    padding: 17px 0px;
-}
-
-.home-transparent-button:active {
-    color: #aaaaaa;
-}
-
-.text-strong {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-}
-
-.text-underline {
-    text-decoration: underline;
-}
-
-/* main flex layout */
-
-.signup1-content-div {
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: flex;
-    -moz-flex-direction: column;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    -moz-align-items: center;
+.home-content-div {
     -webkit-align-items: center;
     align-items: center;
-    height: 100%;
+    min-height: 100%;
 }
 
-.flex-top-space {
-    -moz-flex: 1 99 0px;
-    -webkit-flex: 1 99 0px;
-    flex: 1 99 0px;
-}
-
-.flex-main {
-    -moz-flex: 0 1 auto;
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
-    text-align: center;
-}
-
-.flex-bottom-space {
-    -moz-flex: 1 99 0px;
-    -webkit-flex: 1 99 0px;
-    flex: 1 99 0px;
-}
-
-.flex-bottom-space2 {
-    -moz-flex: 99 99 0px;
-    -webkit-flex: 99 99 0px;
-    flex: 99 99 0px;
+.home-bottom-space2 {
+    -webkit-flex: 99 1 0px;
+    flex: 99 1 0px;
     max-height: 20px;
 }
 
-.flex-footer {
-    -moz-flex: 0 1 auto;
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
+.home-footer {
     width: 248px;
 }
 
-/* sign up buttons */
+/* ******** signup buttons ******** */
 
-.signup1-button {
+.signup-button {
     font-family: 'Avenir Next LT Pro', sans-serif;
     border-radius: 6px;
     background: black;
@@ -1609,33 +1582,29 @@ ion-popover-view.fit ion-content {
     height: 43px;
     margin: 12px auto 0px;
     padding: 0px 8px;
-    display: -mox-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     text-decoration: none;
 }
 
-.signup1-button-left, .signup1-button-right {
-    -moz-flex: 1 1 32px;
-    -webkit-flex: 1 1 32px;
-    flex: 1 1 32px;
-    padding-left: 2px;
+.signup-button-left, .signup-button-right {
+    -webkit-flex: 0 1 32px;
+    flex: 0 1 32px;
 }
 
-.signup1-button-icon {
-    float: left;
-    margin-left: 5px;
+.signup-button-icon {
+    display: block;
+    margin: 0px auto;
 }
 
-.signup1-button-text {
-    -mox-flex: 99 99 0px;
-    -webkit-flex: 99 99 0px;
-    flex: 99 99 0px;
+.signup-button-text {
+    -webkit-flex: 1 1 0px;
+    flex: 1 1 0px;
     font-size: 16.35px;
-    padding-top: 4px;
+    padding: 4px 0px;
+    text-align: center;
 }
 
 .facebook-button {
@@ -1647,6 +1616,7 @@ ion-popover-view.fit ion-content {
 }
 
 .facebook-icon {
+    background: url("../img/sign-up/icon-facebook.png") center/100% 100% no-repeat;
     width: 9.5px;
     height: 17px;
 }
@@ -1660,6 +1630,7 @@ ion-popover-view.fit ion-content {
 }
 
 .google-plus-icon {
+    background: url("../img/sign-up/icon-google-plus.png") center/100% 100% no-repeat;
     width: 21px;
     height: 19px;
 }
@@ -1673,6 +1644,7 @@ ion-popover-view.fit ion-content {
 }
 
 .onebody-icon {
+    background: url("../img/sign-up/icon-1body.png") center/100% 100% no-repeat;
     width: 18px;
     height: 21.5px;
 }
@@ -1696,7 +1668,7 @@ ion-popover-view.fit ion-content {
     pointer-events: none;
 }
 
-/* ob-header */
+/* ******** ob-header ******** */
 
 .ob-header {
     position: absolute;
@@ -1717,10 +1689,8 @@ ion-popover-view.fit ion-content {
     position: relative;
     height: 44px;
     background: transparent;
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
 }
@@ -1730,13 +1700,11 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-header-icon {
-    -moz-flex: 0 0 44px;
     -webkit-flex: 0 0 44px;
     flex: 0 0 44px;
 }
 
 .ob-header-flex-area {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
 }
@@ -1752,16 +1720,70 @@ ion-popover-view.fit ion-content {
     padding: 0px;
     margin: auto;
     background: rgba(0, 0, 0, 0.3);
-}
-
-.ob-bar-search-input {
-    font-family: 'Avenir Next LT Pro', sans-serif !important;
-    font-size: 15px !important;
-    color: white !important;
+    display: -webkit-flex;
+    display: flex;
+    -wekit-align-items: center;
+    align-items: center;
 }
 
 .ob-bar-search-input-search-icon {
-    margin: 10px;
+    font-size: 18px;
+    color: white;
+    margin: auto 4px auto 8px;
+}
+
+.ob-bar-search-input {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    height: 28px !important;
+    line-height: 28px !important;
+    margin: auto 0px !important;
+    padding: 0px 8px !important;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif !important;
+    font-size: 16px !important;
+    color: white !important;
+}
+
+.ob-bar-search-input:hover {
+
+}
+
+.ob-bar-search-input:focus {
+
+}
+
+.ob-bar-search-input::-webkit-input-placeholder {
+    height: 28px !important;
+    line-height: 28px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
+}
+
+.ob-bar-search-input:-moz-placeholder {
+    height: 28px !important;
+    line-height: 28px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
+}
+
+.ob-bar-search-input::-moz-placeholder {
+    height: 28px !important;
+    line-height: 28px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
+}
+
+.ob-bar-search-input:-ms-input-placeholder {
+    height: 28px !important;
+    line-height: 28px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #a4a2a3;
 }
 
 .ob-map-header-bottom-white-line {
@@ -1784,13 +1806,14 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-header-list-view-icon {
+    background: url("../img/List-View-Icon.png") center/100% 100% no-repeat;
     display: block;
     width: 19px;
     height: 16px;
     margin: auto;
 }
 
-/* ob-tabs */
+/* ******** ob-tabs ******** */
 
 .ob-tabs {
     display: inline-block;
@@ -1813,7 +1836,7 @@ ion-popover-view.fit ion-content {
     padding: 12px;
     background-color: rgba(0, 0, 0, 0.3);
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.7px;
+    font-size: 16px;
     color: white;
     border-right: 1px solid #404040;
 }
@@ -1833,7 +1856,7 @@ ion-popover-view.fit ion-content {
     background: rgb(56, 132, 237);
 }
 
-/* ob-map-button */
+/* ******** ob-map-button ******** */
 
 .ob-map-button {
     background-color: transparent;
@@ -1860,19 +1883,16 @@ ion-popover-view.fit ion-content {
 }
 
 .map-bubble-content {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
 }
 
 .map-bubble-img-column {
     /*
-    -moz-flex: 0 0 calc(10px + 61px + 10px);
     -webkit-flex: 0 0 calc(10px + 61px + 10px);
     flex: 0 0 calc(10px + 61px + 10px);
     min-height: calc(10px + 61px + 10px);
     */
-    -moz-flex: 0 0 calc(61px + 10px);
     -webkit-flex: 0 0 calc(61px + 10px);
     flex: 0 0 calc(61px + 10px);
     min-height: calc(61px + 10px);
@@ -1916,7 +1936,6 @@ ion-popover-view.fit ion-content {
 }
 
 .map-bubble-text-column {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     /*padding: 16px 16px 16px 5px;*/
@@ -1969,6 +1988,8 @@ ion-popover-view.fit ion-content {
 }
 
 .map-bubble-review-star {
+    display: inline-block;
+    background: url("../img/map/review-star.png") center/100% 100% no-repeat;
     width: 14.5px;
     height: 14px;
 }
@@ -2047,16 +2068,13 @@ ion-popover-view.fit ion-content {
 .ob-sidemenu-header-inner-content {
     width: 100%;
     height: calc(100% - 1px);
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
 }
 
 .ob-sidemenu-usericon-container {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 60px;
@@ -2071,7 +2089,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-sidemenu-title {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     font-family: 'Lato', sans-serif;
@@ -2084,7 +2101,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-sidemenu-cog-container {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 44px;
@@ -2165,7 +2181,7 @@ ion-popover-view.fit ion-content {
     float: left;
     width: 100%;
     height: auto;
-    background: #999 url("../img/professional-profile/Image2-shade-cropped.jpg") center/400px 420px no-repeat;
+    background: #383838 url("../img/professional-profile/Image2-shade-cropped.jpg") center/cover no-repeat;
     padding-bottom: 2em;
 }
 
@@ -2267,16 +2283,13 @@ ion-popover-view.fit ion-content {
 }
 
 .full-name-container {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -web-kit-align-items: center;
     align-items: center;
 }
 
 .full-name-left, .full-name-right {
-    -moz-flex: 99 99 0px;
     -webkit-flex: 99 99 0px;
     flex: 99 99 0px;
 }
@@ -2343,19 +2356,16 @@ ion-popover-view.fit ion-content {
 }
 
 .profile-stats-container {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
 }
 
 .profile-stats-container-empty-item {
-    -moz-flex: 99 99 0px;
     -webkit-flex: 99 99 0px;
     flex: 99 99 0px;
 }
 
 .followers-item, .following-item, .achieved-item, .profile-reviews-item  {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     font-family: 'Avenir Next LT Pro', sans-serif;
@@ -2401,7 +2411,16 @@ ion-popover-view.fit ion-content {
     height: 20px;
 }
 
-.profile-review-star-for-click {
+.profile-review-star-clickable-white {
+    background: url("../img/professional-profile/white-star-single.png") center/100% 100% no-repeat;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+.profile-review-star-clickable-blue {
+    background: url("../img/professional-profile/blue-star-single.png") center/100% 100% no-repeat;
+    display: inline-block;
     width: 40px;
     height: 40px;
 }
@@ -2556,14 +2575,12 @@ ion-popover-view.fit ion-content {
 .profile-map-container {
     width: 100%;
     height: 88px;
-    background-color: #999;
+    background-color: #383838;
 }
 
 .profile-map {
-    width: 320px;
+    width: 100%;
     height: 100%;
-    margin: 0 auto;
-    background: #999 url("../img/professional-profile/tmp/map-background.png") center/320px 99px no-repeat;
 }
 
 .profile-photos {
@@ -2732,9 +2749,9 @@ ion-popover-view.fit ion-content {
 }
 
 .profile-feed-review-star {
+    background: url("../img/professional-profile/blue-small-star-single.png") center/100% 100% no-repeat;
     width: 12px;
     height: 12px;
-
 }
 
 #profile-feed-review-star-1 {
@@ -2769,25 +2786,12 @@ ion-popover-view.fit ion-content {
 /* register-main.html */
 /* ********** ********** ********** ********** ***********/
 
-.register-ob-form-1 {
-    margin-top: 40px;
-}
-
-.password-icon {
-    -moz-flex: 0 0 17px;
-    -webkit-flex: 0 0 17px;
-    flex: 0 0 17px;
-    height: 13px;
-}
-
 .ob-sectioned-row {
-    display: -mox-flex;
     display: -webkit-flex;
     display: flex;
 }
 
 .ob-sectioned-row > .left-prompt-text {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     padding: 12px 0px 12px 11px;
@@ -2796,7 +2800,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-sectioned-row > .main-content {
-    -moz-flex: 99 99 auto;
     -webkit-flex: 99 99 auto;
     flex: 99 99 auto;
     padding: 11px 10px;
@@ -2816,10 +2819,8 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-sectioned-row > .right-icon-container {
-    -moz-flex: 0 0 auto;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    -moz-align-self: flex-end;
     -webkit-align-self: flex-end;
     align-self: flex-end;
     padding: 6px 9px;
@@ -2839,34 +2840,8 @@ ion-popover-view.fit ion-content {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* scan.html */
-/* ********** ********** ********** ********** ***********/
-
-.scan-main-instructions {
-    margin-bottom: 100px;
-}
-
-.scan-ob-form {
-    margin-bottom: 0px;
-}
-
-.scan-block-blue-button:last-child {
-    margin-top: 8px;
-}
-
-.scan-divider {
-    margin: 50px auto;
-    width: 90%;
-    border: 1px solid #999999;
-}
-
-/* ********** ********** ********** ********** ***********/
 /* scheduler.css */
 /* ********** ********** ********** ********** ***********/
-
-.scheduler-main-instructions {
-    margin-bottom: 40px;
-}
 
 .timeslot-table {
     width: 100%;
@@ -2881,9 +2856,9 @@ ion-popover-view.fit ion-content {
     border-bottom: 1px solid white;
     vertical-align: middle;
     text-align: center;
-    font-family: "Avenir Next LT Pro", sans-serif;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 16px;
-    color: white;
+    color: #3884ed;
 }
 
 .timeslot-status-column {
@@ -2891,6 +2866,7 @@ ion-popover-view.fit ion-content {
     border-bottom: 1px solid white;
     height: 30px;
     vertical-align: middle;
+    color: white;
 }
 
 .timeslot-status {
@@ -2898,7 +2874,7 @@ ion-popover-view.fit ion-content {
     border-radius: 5px;
     vertical-align: middle;
     text-align: center;
-    font-family: "Avenir Next LT Pro", sans-serif;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 16px;
     color: white;
 }
@@ -2908,6 +2884,10 @@ ion-popover-view.fit ion-content {
     border-bottom: 1px solid white;
     height: 30px;
     background: none;
+}
+
+.timeslot-button-icon {
+    color: #3884ed;
 }
 
 .timeslot-button {
@@ -3013,7 +2993,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-trainer-bar {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
     width: 100%;
@@ -3022,7 +3001,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-trainer-bar-button {
-    -moz-flex: 1 1 0px;
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
     background: rgb(53, 127, 230);
@@ -3056,10 +3034,8 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-search-list-row {
-    display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
     background: transparent;
@@ -3073,7 +3049,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-search-list-row-left {
-    -moz-flex: 0 0 calc(7px + 38px + 7px);
     -webkit-flex: 0 0 calc(7px + 38px + 7px);
     flex: 0 0 calc(7px + 38px + 7px);
 }
@@ -3087,7 +3062,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-search-list-row-right {
-    -moz-flex: 1 1 auto;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 10px 7px 10px 4px;
@@ -3129,6 +3103,18 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-search-list-star {
+    display: inline-block;
+    background: url("../img/map/tmp/search_list_star.png") center/100% 100% no-repeat;
     width: 13.5px;
     height: 13.5px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* misc */
+/* ********** ********** ********** ********** ***********/
+
+.ob-divider {
+    margin: 0px auto;
+    width: 90%;
+    border: 1px solid #999999;
 }

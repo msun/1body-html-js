@@ -7,18 +7,21 @@
             <input type="text" ng-model="searchContainer.searchTerms" placeholder="Search term">
         </label>
         <label class="item item-input">
-            <input type="text" class="" ng-model="searchContainer.searchRadius" placeholder="Search radius (default 30km)">
+            <input type="text" class="" ng-model="searchContainer.searchRadius"
+                   placeholder="Search radius (default 30km)">
         </label>
         <label class="item item-input item-select" ng-show="header=='Events'">
             <div class="input-label">
                 Category
             </div>
-            <select ng-model="searchContainer.selectedCategory" ng-options="category.name for category in categories">
+            <select ng-model="searchContainer.selectedCategory"
+                    ng-options="category.name for category in categories">
             </select>
         </label>
 
         <!--<button class="button button-dark" ng-click="closePopover()">close</button>-->
-        <button class="block-blue-button ob-block-button-small-margins" ng-click="searchMap()">Search</button>
+        <button class="ob-block-button ob-blue-button ob-block-button-smallmargins"
+                ng-click="searchMap()">Search</button>
 
         <!--<div class="button-bar">-->
             <!--<button class="button button-dark" ng-click="cancelSearch()">-->

@@ -65,16 +65,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.old-home', {
-                url: "/old-home",
-                views: {
-                    'menu': {
-                        templateUrl: "js/account/templates/old-home.html",
-                        controller: 'LoginCtrl'
-                    }
-                }
-            })
-
             .state('menu.login', {
                 url: '/login',
                 abstract: true,
@@ -102,16 +92,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 views: {
                     'login': {
                         templateUrl: "js/account/templates/forgot-password.html",
-                        controller: 'LoginCtrl'
-                    }
-                }
-            })
-
-            .state('menu.old-login', {
-                url: "/old-login",
-                views: {
-                    'menu': {
-                        templateUrl: "js/account/templates/old-login.html",
                         controller: 'LoginCtrl'
                     }
                 }
@@ -148,11 +128,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('old-register', {
-                url: "/old-register",
-                templateUrl: "js/account/templates/old-register.html",
-                controller: 'RegisterCtrl'
+            .state('menu.account.tos', {
+                url: "/tos",
+                views: {
+                    'account': {
+                        templateUrl: "js/account/templates/tos.html",
+                        controller: 'AccountCtrl'
+                    }
+                }
             })
+
             // Each  has its own nav history stack:
 
 //            .state('menu.dash', {
@@ -255,16 +240,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.old-create-event', {
-                url: '/old-editevent/:eventID',
-                views: {
-                    'menu': {
-                        templateUrl: 'js/event/templates/old-create-event.html',
-                        controller: 'CreateEventCtrl'
-                    }
-                }
-            })
-
             .state('menu.create-event', {
                 url: '/editevent/:eventID',
                 views: {
@@ -346,16 +321,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.old-payment-method', {
-                url: '/old-payment-method',
-                views: {
-                    'account': {
-                        templateUrl: 'js/account/templates/old-payment.html',
-                        controller: 'AccountCtrl'
-                    }
-                }
-            })
-
             .state('menu.account.payment-method', {
                 url: '/payment-method',
                 views: {
@@ -412,16 +377,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     'account': {
                         templateUrl: 'js/account/templates/scan.html',
                         controller: 'MoneyCtrl'
-                    }
-                }
-            })
-
-            .state('menu.account.old-my-events', {
-                url: '/old-my-events',
-                views: {
-                    'account': {
-                        templateUrl: 'js/account/templates/old-my-events.html',
-                        controller: 'MyEventCtrl'
                     }
                 }
             })
@@ -496,32 +451,12 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.old-buy-tokens', {
-                url: '/old-buy-tokens',
-                views: {
-                    'account': {
-                        templateUrl: 'js/account/templates/old-buy-tokens.html',
-                        controller: 'BuyTokensCtrl'
-                    }
-                }
-            })
-
             .state('menu.account.buy-tokens', {
                 url: '/buy-tokens',
                 views: {
                     'account': {
                         templateUrl: 'js/account/templates/buy-tokens.html',
                         controller: 'BuyTokensCtrl'
-                    }
-                }
-            })
-
-            .state('menu.account.test1', {
-                url: '/test1',
-                views: {
-                    'account': {
-                        templateUrl: 'js/account/templates/test1.html',
-                        controller: 'Test1Ctrl'
                     }
                 }
             })

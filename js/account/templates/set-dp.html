@@ -1,5 +1,5 @@
 <ion-view title="My Info">
-    <ion-content class="has-header ob-dark-bg">
+    <ion-content class="has-header ob-darkpurple-bg">
         <ion-scroll min-zoom="1" delegate-handle="mainScroll" zooming="true" direction="xy" style="width: 100vw; height: 100vw" on-scroll="scrolling()">
             <div id="displayPicContainer" style="padding: 15%; width: 100%">
                 <img id="displayPic" width="100%"/>
@@ -41,6 +41,6 @@
             <button class="buttongroup2-button" ng-click="takeimg()"><i class="icon ion-camera buttongroup2-icon"></i></button>
             <button class="buttongroup2-button" ng-click="fromstorage()"><i class="icon ion-images buttongroup2-icon"></i></button>
         </div>
-        <div class="block-blue-button" ng-click="cropImage(true)">Save</div>
+        <div class="ob-block-button ob-blue-button" ng-click="cropImage(true)">Save</div>
     </ion-content>
 </ion-view>

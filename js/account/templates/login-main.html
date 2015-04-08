@@ -1,18 +1,26 @@
 <ion-view>
     <ion-content class="has-header menu1-content">
-        <div class="menu1-content-div">
-            <div class="main-instructions">Please login</div>
-            <div class="sub-instructions">to access your account</div>
-            <div class="ob-form">
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" ng-model="user.email" type="email" name="email" placeholder="Email Address"/>
-                </div>
-                <div class="ob-form-row ob-form-text-input-row">
-                    <input class="ob-form-text-input" ng-model="user.password" type="password" name="password" placeholder="Password"/>
+        <div class="menu1-content-div ob-sections-vertical">
+            <div class="ob-section-zerobase ob-vertical-center-parent">
+                <div class="ob-vertical-center-child">
+                    <div class="ob-instructions">Let's get started!</div>
                 </div>
             </div>
-            <button class="block-blue-button" ng-click="signin()">Login</button>
-            <a class="block-transparent-button" href="#/menu/login/forgot-password">Forgot password?</a>
+            <div>
+                <div class="ob-form">
+                    <div class="ob-form-row ob-form-flex-row">
+                        <input class="ob-form-text-input" ng-model="user.email"
+                               type="email" placeholder="Email Address"/>
+                    </div>
+                    <div class="ob-form-row ob-form-flex-row">
+                        <input class="ob-form-text-input" ng-model="user.password"
+                               type="password" placeholder="Password"/>
+                    </div>
+                </div>
+                <button class="ob-block-button ob-blue-button" ng-click="signin()">Login</button>
+                <a class="ob-block-text-button" href="#/menu/login/forgot-password">Forgot password?</a>
+            </div>
+            <div class="ob-section-zerobase"></div>
         </div>
     </ion-content>
 </ion-view>

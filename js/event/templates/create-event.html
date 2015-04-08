@@ -1,26 +1,29 @@
 <ion-view>
-    <ion-header-bar class="ob-dark-bg">
+    <ion-header-bar class="ob-darkpurple-bg">
         <div class="buttons">
             <button ng-click="toggleMenu()" class="button button-icon">
                 <i class="icon ion-navicon ob-white-color"></i>
             </button>
-            <img class="ob-nav-bar-logo" src="img/Logo.png"/>
         </div>
+        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
     </ion-header-bar>
     <ion-content class="has-header menu1-content">
         <ion-slide-box class="ob-slide-box" pager-click="navSlide(index)" active-slide="slideStop(index)">
             <ion-slide class="ob-slide">
                 <div class="menu1-content-div">
-                    <div class="main-instructions">Create an Event</div>
-                    <div class="sub-instructions create-event-sub-instructions">Let's get started</div>
+                    <div class="ob-main-instructions">Create an Event</div>
+                    <div class="ob-sub-instructions">Let's get started</div>
                     <div class="ob-form create-event-ob-form">
-                        <div class="ob-form-row">
-                            <input ng-model="newevent.name" class="ob-form-text-input" type="text" placeholder="Event Name"/>
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">Event Name</span>
+                            <input ng-model="newevent.name" class="ob-form-text-input" type="text">
                         </div>
-                        <div class="ob-form-row ob-form-select-row">
-                            <span class="ob-form-select-text ob-blue-text">Category</span>
-                            <div class="ob-form-select-container ob-form-select-container-large">
-                                <select class="ob-form-select ob-form-select-large" ng-model="newevent.category" ng-options="category.name for category in categories">
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">Category</span>
+                            <div class="ob-form-select-container ob-form-select-container-xlarge">
+                                <select class="ob-form-select ob-form-select-xlarge"
+                                        ng-model="newevent.category"
+                                        ng-options="category.name for category in categories">
                                     <option value="01">01</option>
                                     <option value="01">01</option>
                                     <option value="other">Other</option>
@@ -34,16 +37,17 @@
                             <img class="ob-date-picker-button" src="img/event-profile/date-picker-button.png"/>
                         </div>
                         -->
-                        <div class="ob-form-row ob-form-timepicker-row" ng-click="openDatePicker()">
-                            <span class="ob-form-timepicker-prompt ob-blue-text">Start time</span>
+                        <div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
+                            <span class="ob-form-prompt">Start Time</span>
                             <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                         </div>
-                        <div class="ob-form-row ob-form-select-row ob-form-range-row">
-                            <span class="ob-form-range-prompt"><span class="ob-blue-text">Duration</span>&nbsp;&nbsp;{{newevent.duration}}min</span>
-                            <input class="ob-form-range" type="range" name="volume" min="0" max="120" ng-model="newevent.duration">
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">Duration</span>
+                            <span class="ob-form-text">{{newevent.duration}}min</span>
+                            <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newevent.duration">
                         </div>
-                        <div class="ob-form-row ob-form-select-row">
-                            <span class="ob-form-select-text ob-blue-text">For</span>
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">For</span>
                             <div class="ob-form-select-container">
                                 <select class="ob-form-select">
                                     <option value="01">01</option>
@@ -73,32 +77,32 @@
                             <button class="ob-form-switch-button">Invite Only</button>
                         </div>
                     </div>
-                    <button class="block-blue-button" ng-click="nextPressed()">Next</button>
+                    <button class="ob-block-button ob-blue-button" ng-click="nextPressed()">Next</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">
                 <div class="menu1-content-div">
-                    <div class="main-instructions">Where's your event happening?</div>
-                    <div class="sub-instructions">Type in the address or drop a pin</div>
+                    <div class="ob-main-instructions">Where's your event happening?</div>
+                    <div class="ob-sub-instructions">Enter an address or drop a pin</div>
                     <div class="ob-form">
-                        <div class="ob-form-row ob-form-text-input-row">
-                            <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
-                            <input class="ob-form-text-input" type="text" placeholder="ex. Buena Vista Park"/>
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-icon-left ob-form-icon-magnifier"></span>
+                            <input class="ob-form-text-input" type="search" placeholder="ex. Buena Vista Park"/>
                         </div>
                     </div>
                     <div class="ob-event-create-map-container"></div>
-                    <button class="block-blue-button" ng-click="nextPressed()">Almost Done!</button>
+                    <button class="ob-block-button ob-blue-button" ng-click="nextPressed()">Almost Done!</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">
                 <div class="menu1-content-div">
-                    <div class="main-instructions">Next up,</div>
-                    <div class="sub-instructions">Upload a picture, and tell us about your event!</div>
+                    <div class="ob-main-instructions">Next up,</div>
+                    <div class="ob-sub-instructions">Upload a picture, and tell us about your event!</div>
                     <div class="ob-form">
                         <div class="ob-form-row ob-row-picture-upload-top-section">
-                            <img class="picture-upload-placeholder" src="img/event-profile/picture-upload-placeholder.png"/>
-                            <img class="picture-upload-plus-icon" src="img/event-profile/picture-upload-plus-icon.png"/>
-                            <img class="picture-upload-e-tag" src="img/badge-event.png"/>
+                            <span class="picture-upload-placeholder"></span>
+                            <span class="picture-upload-plus-icon"></span>
+                            <span class="picture-upload-e-tag"></span>
                         </div>
                     </div>
                     <div class="ob-form">
@@ -106,17 +110,17 @@
                             <textarea class="ob-form-textarea" ng-model="newevent.information" placeholder="Tell us what this event is about"></textarea>
                         </div>
                     </div>
-                    <button class="block-blue-button"ng-click="nextPressed()">Next</button>
+                    <button class="ob-block-button ob-blue-button"ng-click="nextPressed()">Next</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">
                 <div class="menu1-content-div">
-                    <div class="main-instructions">Who's coming?</div>
-                    <div class="sub-instructions">Search, or browse through your friends list below!</div>
+                    <div class="ob-main-instructions">Who's coming?</div>
+                    <div class="ob-sub-instructions">Search, or browse through your friends list below!</div>
                     <div class="ob-form">
-                        <div class="ob-form-row ob-form-text-input-row">
-                            <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
-                            <input class="ob-form-text-input" type="text" placeholder="Search"/>
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-icon-left ob-form-icon-magnifier"></span>
+                            <input class="ob-form-text-input" type="search" placeholder="Search"/>
                         </div>
                     </div>
                     <div class="ob-userlist">
