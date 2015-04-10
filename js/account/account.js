@@ -660,37 +660,51 @@ account.controller('AccountCtrl', function($scope, User, appFactory, baseUrl, $t
 //    }
 });
 
-account.controller('SetLocationCtrl', function($scope, eventFactory, appConfig, User, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window) {
+account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window, $rootScope) {
     console.log("SetLocationCtrl ctrl");
 
+    $scope.user = $firebaseObject(appFactory.userRef.child(appFactory.user.$id));
+    $scope.user.$loaded(function(){
+        appFactory.user = $scope.user;
+        $rootScope.user = appFactory.user;
+        $localstorage.setObject("user", $scope.user);
+    });
+
+    $ionicModal.fromTemplateUrl('js/account/templates/gym-select-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.modal = modal;
+    });
+
     $scope.confirm = function(){
-        if($scope.newevent.address){
-            console.log($scope.newevent.address.replace(/ /g, "+"));
-            var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newevent.address.replace(/ /g, "+") + "&key=" + appConfig.apikey;
+        if(appFactory.user.address){
+            console.log(appFactory.user.address.replace(/ /g, "+"));
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + appFactory.user.address.replace(/ /g, "+") + "&key=" + appConfig.apikey;
             eventFactory.getStreetAddress(url, function(data, status){
                 console.log(data);
-                $scope.newevent.latitude = data.results[0].geometry.location.lat;
-                $scope.newevent.longitude = data.results[0].geometry.location.lng;
-                $scope.newevent.location = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
+                appFactory.user.latitude = data.results[0].geometry.location.lat;
+                appFactory.user.longitude = data.results[0].geometry.location.lng;
+                appFactory.user.location = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
 
-                $ionicSlideBoxDelegate.next();
+                GeoTrainers.set(appFactory.user.$id, [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()]).then(function() {
+                    console.log("Provided key has been added to GeoFire");
+                    appFactory.user.location = [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()];
+                    $localstorage.set("user", appFactory.user);
+                    appFactory.user.$save().then(function(){
+                        alert("Position saved");
+                        $window.history.back();
+                    });
+                }, function(error) {
+                    console.log("Error: " + error);
+
+                });
             });
         } else {
             alert("address cannot be empty");
         }
         
-        GeoTrainers.set(appFactory.user.$id, [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()]).then(function() {
-            console.log("Provided key has been added to GeoFire");
-            appFactory.user.location = [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()];
-            $localstorage.set("user", appFactory.user);
-            appFactory.user.$save().then(function(){
-                alert("Position saved");
-                $window.history.back();
-            });
-        }, function(error) {
-            console.log("Error: " + error);
 
-        });
     }
 
     var setLocation = function(){
@@ -701,8 +715,75 @@ account.controller('SetLocationCtrl', function($scope, eventFactory, appConfig, 
         });
     }
 
-    showGymSelectionModal
+    $scope.showGymSelectionModal = function(){
+        $scope.gyms = [];
+        $scope.geoQuery = GeoGyms.query({
+            center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+            radius: 30
+        });
 
+        $scope.geoQuery.on("key_entered", function(key, location, distance) {
+            var mgym = $firebaseObject(Gyms.ref().child(key));
+            mgym.$loaded(function(){
+                mgym.distance = distance;
+                $scope.gyms.push(mgym);
+                console.log($scope.gyms);
+            })
+        });
+        $scope.modal.show();
+    }
+
+    $scope.hideGymSelectionModal = function(){
+        $scope.modal.hide();
+    }
+
+    $scope.setGym = function(gym){
+        console.log(gym);
+        if(!gym.Trainers){
+            gym.Trainers = [];
+        }
+        var gymTrainer = {
+            username: appFactory.user.username,
+            userID: appFactory.user.$id,
+            information: appFactory.user.info
+        }
+        if(appFactory.user.profilepic){
+            gymTrainer.profilepic = appFactory.user.profilepic;
+        }
+
+        if(appFactory.user.gym && appFactory.user.gym.gymID){
+            $firebaseObject(Gyms.ref().child(appFactory.user.gym.gymID).child(appFactory.user.$id)).$remove().then(function(){
+                appFactory.user.gym = {
+                    gymID: gym.$id,
+                    gymName: gym.name
+                }
+                if(gym.profilepic){
+                    appFactory.user.gym.profilepic = gym.profilepic;
+                }
+
+                $scope.user.lastModifiedDate = Date.now();
+                console.log($scope.user);
+                $localstorage.setObject("user", $scope.user);
+                $scope.user.$save().then(function(){
+                    $rootScope.user = appFactory.user;
+                    $state.transitionTo(appConfig.mapstate);
+                });
+            });
+        }
+
+        Gyms.ref().child(gym.$id).child('Trainers').child(appFactory.user.$id).set(gymTrainer, function(){
+            var modified = $firebaseObject(Gyms.ref().child(gym.$id).child("modified"));
+//            modified.$loaded(function(){
+                modified.$value = Firebase.ServerValue.TIMESTAMP;
+                modified.$save();
+                GeoTrainers.remove(appFactory.user.$id).then(function(){
+                    alert("Gym set successful");
+                    window.location.href = "#/menu/map";
+                });
+//            })
+
+        });
+    }
 
     setTimeout(function() {
         appFactory.getLocation(function (position) {

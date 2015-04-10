@@ -1,0 +1,12 @@
+<ion-modal-view>
+    <ion-content>
+        <ul class="list menu1-content">
+            <a class="item" ng-click="setGym(gym)" ng-repeat="gym in gyms">
+                <img src="{{gym.profilepic}}" width="80px" height="80px" />
+                <p>{{gym.name}}</p>
+                <p>{{gym.address}}</p>
+                <p>{{gym.information}}</p>
+            </a>
+        </ul>
+    </ion-content>
+</ion-modal-view>

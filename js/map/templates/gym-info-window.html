@@ -1,15 +1,17 @@
 <div class="list infowindow-list">
-    <!--<a ng-repeat="(key, item) in array" ng-if="markers[val].items.indexOf(key) > -1" class="map-bubble-content-container" href="#/menu/Class/{{item.$id}}">-->
-    <a class="map-bubble-content-container" href="#/menu/Gym/{{item.$id}}">
+    <div class="map-bubble-title">{{gym.name}}</div>
+    <div class="map-bubble-title">{{gym.tab}}</div>
+    <a ng-repeat="item in items" class="map-bubble-content-container" href="#/menu/{{gym.tab}}/{{item.$id}}">
         <div class="map-bubble-content">
             <div class="map-bubble-img-column">
                 <span class="map-bubble-img-container">
-                    <img class="map-bubble-img" src="{{item.classpic}}"/> <!--src="{{item.imgLink}}"-->
-                    <img src="img/badge-class.png" class="map-bubble-img-badge"/>
+                    <img class="map-bubble-img" src="{{item.classpic}}"/>
+                    <img ng-show="gym.tab == 'Classes'" src="img/badge-class.png" class="map-bubble-img-badge"/>
+                    <img ng-show="gym.tab == 'Trainers'" src="img/badge-professional.png" class="map-bubble-img-badge"/>
                 </span>
             </div>
             <div class="map-bubble-text-column map-bubble-text-column-class">
-                <div class="map-bubble-title">{{item.name}}</div> <!--{{item.imgLink}}-->
+                <div class="map-bubble-title">{{item.name}}</div>
                 <div class="map-bubble-subtitle">{{item.information}}</div>
                 <div class="map-bubble-subtitle">{{item.address}}</div>
                 <div class="map-bubble-time">Starts Thursday May 15</div>
@@ -25,20 +27,4 @@
             </div>
         </div>
     </a>
-    <!--
-    <div class="list card">
-        <div class="item item-avatar">
-            <img src="' + obj.profilepic + '">
-            <h2>' + obj.name + '</h2>
-            <p>' + obj.commentlocation + '</p>
-            <div class="item item-body">
-                <a ng-repeat="item in markers[val].items" class="item item-avatar" href="#/menu/Classes/{{item.$id}}">
-                    <img src="img/mcfly.jpg">
-                    <h2>{{item.name}}</h2>
-                    <p>Info: {{item.information}}</p>
-                </a>
-            </div>
-        </div>
-    </div>
-    -->
 </div>
