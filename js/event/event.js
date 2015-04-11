@@ -239,7 +239,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, ba
     $scope.createEvent = function(){
         $scope.newevent.userID = appFactory.user.$id;
 
-        $scope.newevent.modified = Date.now();
+        $scope.newevent.modified = Firebase.ServerValue.TIMESTAMP;
         $scope.newevent.starttime = $scope.dt;
         console.log($scope.newevent);
 

@@ -223,6 +223,8 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
 
 account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $firebaseObject, Transactions, MyTransactions){
     $scope.clientCode = "";
+
+
     $scope.scanClient = function() {
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady() {
@@ -523,7 +525,7 @@ account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $loc
     });
 
     $scope.save = function(){
-        $scope.user.lastModifiedDate = Date.now();
+        $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
         console.log($scope.user);
         $localstorage.setObject("user", $scope.user);
         $scope.user.$save().then(function(){
@@ -677,24 +679,41 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFac
         $scope.modal = modal;
     });
 
+    var saveCustomer = function(){
+        $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
+        $localstorage.set("user", $scope.user);
+        $scope.user.$save().then(function(){
+            alert("Position saved");
+            $window.history.back();
+        });
+    }
+
     $scope.confirm = function(){
-        if(appFactory.user.address){
-            console.log(appFactory.user.address.replace(/ /g, "+"));
-            var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + appFactory.user.address.replace(/ /g, "+") + "&key=" + appConfig.apikey;
+        if($scope.user.address){
+            console.log($scope.user.address.replace(/ /g, "+"));
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.user.address.replace(/ /g, "+") + "&key=" + appConfig.apikey;
             eventFactory.getStreetAddress(url, function(data, status){
                 console.log(data);
-                appFactory.user.latitude = data.results[0].geometry.location.lat;
-                appFactory.user.longitude = data.results[0].geometry.location.lng;
-                appFactory.user.location = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
+                $scope.user.latitude = data.results[0].geometry.location.lat;
+                $scope.user.longitude = data.results[0].geometry.location.lng;
+                $scope.user.location = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
 
-                GeoTrainers.set(appFactory.user.$id, [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()]).then(function() {
+                GeoTrainers.set($scope.user.$id, [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()]).then(function() {
                     console.log("Provided key has been added to GeoFire");
-                    appFactory.user.location = [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()];
-                    $localstorage.set("user", appFactory.user);
-                    appFactory.user.$save().then(function(){
-                        alert("Position saved");
-                        $window.history.back();
-                    });
+                    $scope.user.location = [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()];
+                    if($scope.user.gym && $scope.user.gym.gymID) {
+                        Gyms.ref().child($scope.user.gym.gymID).child("Trainers").child($scope.user.$id).remove(function () {
+                            var modified = $firebaseObject(Gyms.ref().child($scope.user.gym.gymID).child("modified"));
+                            console.log(modified);
+                            $scope.user.gym = {};
+                            modified.$value = Firebase.ServerValue.TIMESTAMP;
+                            modified.$save().then(function(){
+                                saveCustomer();
+                            });
+                        });
+                    } else {
+                        saveCustomer();
+                    }
                 }, function(error) {
                     console.log("Error: " + error);
 
@@ -711,7 +730,7 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFac
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.marker.getPosition().lat() + "," + $scope.marker.getPosition().lng() + "&key=" + appConfig.apikey;
         eventFactory.getStreetAddress(url, function(data, status){
             console.log(data);
-            appFactory.user.address = data.results[0].formatted_address;
+            $scope.user.address = data.results[0].formatted_address;
         });
     }
 
@@ -739,46 +758,72 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFac
 
     $scope.setGym = function(gym){
         console.log(gym);
+        var allReady = 4;
+        var checkReady = function(){
+            allReady--;
+            if(allReady == 0){
+                alert("Gym set successful");
+                $scope.modal.hide();
+                window.location.href = "#/menu/map";
+            }
+        }
         if(!gym.Trainers){
             gym.Trainers = [];
         }
-        var gymTrainer = {
-            username: appFactory.user.username,
-            userID: appFactory.user.$id,
-            information: appFactory.user.info
-        }
-        if(appFactory.user.profilepic){
-            gymTrainer.profilepic = appFactory.user.profilepic;
-        }
 
-        if(appFactory.user.gym && appFactory.user.gym.gymID){
-            $firebaseObject(Gyms.ref().child(appFactory.user.gym.gymID).child(appFactory.user.$id)).$remove().then(function(){
-                appFactory.user.gym = {
-                    gymID: gym.$id,
-                    gymName: gym.name
-                }
-                if(gym.profilepic){
-                    appFactory.user.gym.profilepic = gym.profilepic;
-                }
+        if($scope.user.gym && $scope.user.gym.gymID){
+            console.log($scope.user.gym.gymID);
+            allReady += 2;
+            Gyms.ref().child($scope.user.gym.gymID).child("Trainers").child($scope.user.$id).remove(function(){
+                checkReady();
+            });
 
-                $scope.user.lastModifiedDate = Date.now();
-                console.log($scope.user);
-                $localstorage.setObject("user", $scope.user);
-                $scope.user.$save().then(function(){
-                    $rootScope.user = appFactory.user;
-                    $state.transitionTo(appConfig.mapstate);
-                });
+            var modified2 = $firebaseObject(Gyms.ref().child($scope.user.gym.gymID).child("modified"));
+            modified2.$value = Firebase.ServerValue.TIMESTAMP;
+            modified2.$save().then(function(){
+                checkReady();
             });
         }
 
-        Gyms.ref().child(gym.$id).child('Trainers').child(appFactory.user.$id).set(gymTrainer, function(){
-            var modified = $firebaseObject(Gyms.ref().child(gym.$id).child("modified"));
+        var gymTrainer = {
+            username: $scope.user.username,
+            userID: $scope.user.$id,
+            information: $scope.user.info
+        };
+
+        if($scope.user.profilepic){
+            gymTrainer.profilepic = $scope.user.profilepic;
+        }
+
+        $scope.user.gym = {
+            gymID: gym.$id,
+            gymName: gym.name
+        };
+
+        if(gym.profilepic){
+            $scope.user.gym.profilepic = gym.profilepic;
+        }
+
+        $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
+
+        console.log($scope.user);
+        $localstorage.setObject("user", $scope.user);
+        $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
+        $scope.user.$save().then(function(){
+            $rootScope.user = $scope.user;
+            checkReady();
+        });
+
+        Gyms.ref().child(gym.$id).child('Trainers').child($scope.user.$id).set(gymTrainer, function(){
+            checkReady();
+            var modified1 = $firebaseObject(Gyms.ref().child(gym.$id).child("modified"));
 //            modified.$loaded(function(){
-                modified.$value = Firebase.ServerValue.TIMESTAMP;
-                modified.$save();
-                GeoTrainers.remove(appFactory.user.$id).then(function(){
-                    alert("Gym set successful");
-                    window.location.href = "#/menu/map";
+                modified1.$value = Firebase.ServerValue.TIMESTAMP;
+                modified1.$save().then(function(){
+                    checkReady();
+                });
+                GeoTrainers.remove($scope.user.$id).then(function(){
+                    checkReady();
                 });
 //            })
 
@@ -804,7 +849,7 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFac
 
             google.maps.event.addListener(map, 'dragend', function () {
                 $scope.marker.setPosition(map.getCenter());
-
+                setLocation();
             });
 
             $scope.map = map;
@@ -882,30 +927,36 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
     }
 
     $scope.confirm = function(){
-        var exec = cordova.require("cordova/exec");
+        if(ionic.Platform.isIOS()){
+            alert("ios paypal plugin here");
+            
+        } else {
+            var exec = cordova.require("cordova/exec");
 
-        var successCallback = function(result){
-            console.log(result);
-            if(result["Result"] == "Cancelled"){
-                alert("Token purchase failed");
-            } else {
-                alert($scope.totalTokens + " tokens purchased.");
-                appFactory.user.tokens += $scope.totalTokens;
-                $scope.totalTokens = 0;
-                $scope.amount = 0;
-                $localstorage.setObject("user", appFactory.user);
-                appFactory.user.$save().then(function(){
-                    $window.history.back();
-                });
+            var successCallback = function (result) {
+                console.log(result);
+                if (result["Result"] == "Cancelled") {
+                    alert("Token purchase failed");
+                } else {
+                    alert($scope.totalTokens + " tokens purchased.");
+                    appFactory.user.tokens += $scope.totalTokens;
+                    $scope.totalTokens = 0;
+                    $scope.amount = 0;
+                    $localstorage.setObject("user", appFactory.user);
+                    appFactory.user.$save().then(function () {
+                        $window.history.back();
+                    });
 
+                }
             }
-        }
-        var errorCallback = function(result){
-            console.log(result);
-        }
+            var errorCallback = function (result) {
+                console.log(result);
+            }
 
-        exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', [{amount:$scope.amount, item: $scope.totalTokens + " Tokens"}]);
-
+            exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', [
+                {amount: $scope.amount, item: $scope.totalTokens + " Tokens"}
+            ]);
+        }
     }
 });
 
