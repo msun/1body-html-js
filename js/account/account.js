@@ -41,13 +41,52 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage) {
+account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage) {
+    console.log(UserAuth.$getAuth());
+
+
+
+    var checkUrl = function(){
+        if(ionic.Platform.isAndroid()){
+            var exec = cordova.require("cordova/exec");
+            exec(function(result){
+                console.log(result);
+                alert("received url: " + result.url);
+                window.location.href = result.url;
+            }, function(err){
+                console.log(err);
+            }, 'Card_io', 'gcmpush', [{id: appFactory.user.$id}]);
+        } else {
+            $state.transitionTo(mapstate);
+        }
+        document.addEventListener("deviceready", function(){
+            alert(device.uuid);
+            var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id).child(device.uuid));
+            gcmID.$loaded(function(){
+                if(!gcmID.$value){
+                    var exec = cordova.require("cordova/exec");
+                    exec(function(result){
+                        alert(result["regid"]);
+                        if(result["regid"] && result["regid"].length > 0){
+                            gcmID.$value = result["regid"];
+                            gcmID.$save().then(function(){
+                                alert(result["regid"] + " saved to db");
+                            })
+                        }
+                    }, function(err){
+                        console.log(err);
+                    }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
+                }
+            })
+        }, false);
+    }
+
     var loadLocalUser = function(user){
         appFactory.user = user;
         $rootScope.user = appFactory.user;
         alert("loaded the user from localstorage");
         $ionicLoading.hide();
-        $state.transitionTo(mapstate);
+        checkUrl();
         if(user.group == 'Trainers'){
             appFactory.userRef = Trainers.ref();
         } else {
@@ -63,7 +102,7 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebase
                 console.log(appFactory.user);
                 $localstorage.setObject("user", appFactory.user);
                 $ionicLoading.hide();
-                $state.transitionTo(mapstate);
+                checkUrl();
                 appFactory.userRef = Users.ref();
             } else {
                 appFactory.user = $firebaseObject(Trainers.ref().child(user.uid));
@@ -72,7 +111,7 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebase
                     console.log(appFactory.user);
                     $localstorage.setObject("user", appFactory.user);
                     $ionicLoading.hide();
-                    $state.transitionTo(mapstate);
+                    checkUrl();
                     appFactory.userRef = Trainers.ref();
                 });
             }
@@ -89,7 +128,6 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebase
             showDelay: 0
         });
 
-        console.log(UserAuth.$getAuth());
         if(UserAuth.$getAuth() && !$scope.user.email){
             appFactory.mysizes = $firebaseObject(Sizes.ref().child(UserAuth.$getAuth().uid));
 
@@ -127,6 +165,9 @@ account.controller('LoginCtrl', function(GeoTrainers, $firebaseObject, $firebase
         $ionicNavBarDelegate.back();
     };
 
+    if(UserAuth.$getAuth()){
+        $scope.signin();
+    }
 });
 
 account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject, UserAuth, $scope, Users, Trainers, $state, mapstate) {
@@ -929,7 +970,7 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
     $scope.confirm = function(){
         if(ionic.Platform.isIOS()){
             alert("ios paypal plugin here");
-            
+
         } else {
             var exec = cordova.require("cordova/exec");
 

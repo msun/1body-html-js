@@ -2,7 +2,7 @@
     <div class="map-bubble-title">{{gym.name}}</div>
     <div class="map-bubble-title">{{gym.tab}}</div>
     <div class="map-bubble-distance">{{gym.distance | number:1}}km</div>
-    <a ng-repeat="item in items | limitTo:2" class="map-bubble-content-container" href="#/menu/{{gym.tab}}/{{item.$id}}">
+    <a ng-repeat="item in items | limitTo:2" class="map-bubble-content-container" href="#/menu/{{gym.tab}}/{{item.userID}}">
         <div class="map-bubble-content">
             <div class="map-bubble-img-column">
                 <span class="map-bubble-img-container">

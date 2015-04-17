@@ -55,29 +55,21 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                controller: 'TabCtrl'
 //            })
 
-            .state('menu.home', {
+            .state('home', {
                 url: "/home",
-                views: {
-                    'menu': {
-                        templateUrl: "js/account/templates/home.html",
-                        controller: 'LoginCtrl'
-                    }
-                }
+                templateUrl: "js/account/templates/home.html",
+                controller: 'LoginCtrl'
             })
 
-            .state('menu.login', {
+            .state('login', {
                 url: '/login',
                 abstract: true,
-                views: {
-                    'menu': {
-                        templateUrl: 'js/account/templates/login.html',
-                        controller: 'LoginCtrl'
-                    }
-                }
+                templateUrl: 'js/account/templates/login.html',
+                controller: 'LoginCtrl'
             })
 
 
-            .state('menu.login.login-main', {
+            .state('login.login-main', {
                 url: "/login-main",
                 views: {
                     'login': {
@@ -87,7 +79,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.login.forgot-password', {
+            .state('login.forgot-password', {
                 url: "/forgot-password",
                 views: {
                     'login': {
@@ -97,18 +89,14 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.register', {
+            .state('register', {
                 url: "/register",
                 abstract: true,
-                views: {
-                    'menu': {
-                        templateUrl: "js/account/templates/register.html",
-                        controller: 'RegisterCtrl'
-                    }
-                }
+                templateUrl: "js/account/templates/register.html",
+                controller: 'RegisterCtrl'
             })
 
-            .state('menu.register.register-main', {
+            .state('register.register-main', {
                 url: "/register-main",
                 views: {
                     'register': {
@@ -118,7 +106,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.register.tos', {
+            .state('register.tos', {
                 url: "/tos",
                 views: {
                     'register': {
@@ -128,7 +116,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.tos', {
+            .state('account.tos', {
                 url: "/tos",
                 views: {
                     'account': {
@@ -137,18 +125,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     }
                 }
             })
-
-            // Each  has its own nav history stack:
-
-//            .state('menu.dash', {
-//                url: '/dash',
-//                abstract: true,
-//                views: {
-//                    'menu': {
-//                        templateUrl: 'js/trainer/templates/menu.html'
-//                    }
-//                }
-//            })
 
             .state('menu.map', {
                 url: '/map',
@@ -169,16 +145,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     }
                 }
             })
-
-//            .state('menu.trainer', {
-//                url: '/Trainers',
-//                views: {
-//                    'menu': {
-//                        templateUrl: 'js/trainer/templates/trainer.html',
-//                        controller: 'ListCtrl'
-//                    }
-//                }
-//            })
 
             .state('menu.trainer-detail', {
                 url: '/Trainers/:trainerName',
@@ -250,12 +216,32 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.my-training', {
+                url: '/my-events',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/event/templates/my-events.html',
+                        controller: 'MyEventsCtrl'
+                    }
+                }
+            })
+
             .state('menu.create-event', {
                 url: '/editevent/:eventID',
                 views: {
                     'menu': {
                         templateUrl: 'js/event/templates/create-event.html',
                         controller: 'CreateEventCtrl'
+                    }
+                }
+            })
+
+            .state('menu.conversations', {
+                url: '/conversations/:userID',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/trainer/templates/conversation.html',
+                        controller: 'ConversationCtrl'
                     }
                 }
             })
@@ -480,12 +466,17 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                }
 //            })
         // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/menu/home');
+        $urlRouterProvider.otherwise('/home');
 
     })
-    .controller("MenuCtrl", function($scope, $ionicSideMenuDelegate, appFactory, $rootScope, $firebase, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray){
+    .controller("MenuCtrl", function($scope, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID){
 //        window.plugin.backgroundMode.enable();
         $rootScope.header = "Trainers";
+        $rootScope.goTo = function(url){
+            console.log("goto " + url);
+            window.location.href = url;
+        };
+
         navigator.geolocation.getCurrentPosition(function(position){
             console.log("location ready");
             $rootScope.position = position;
@@ -506,6 +497,28 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             window.location.href = "#";
         };
 
+        $scope.registerGcm = function(){
+//            var exec = cordova.require("cordova/exec");
+//            exec(function(result){
+//                if(result["regid"] && result["regid"].length > 0){
+//                    var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id));
+//                    gcmID.$value = result["regid"];
+//                    gcmID.$save().then(function(){
+//                        alert(result["regid"]);
+//                    })
+//                }
+//            }, function(err){
+//                console.log(err);
+//            }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
+
+            var exec = cordova.require("cordova/exec");
+            exec(function(result){
+                console.log(result);
+            }, function(err){
+                console.log(err);
+            }, 'Card_io', 'gcmpush', [{id: appFactory.user.$id}]);
+        };
+
         $rootScope.user = appFactory.user;
         $ionicSideMenuDelegate.toggleLeft();
 
@@ -518,10 +531,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             appFactory.gyms = $localstorage.getObject("Gyms");
             console.log(appFactory.gyms);
         } catch(err){
-            alert("something wrong happened when loading data from localstorage, please try again.");
+            alert("something went wrong when loading data from localstorage, please restart 1Body.");
         }
-//        var bm = cordova.require("cordova/plugin/BackgroundMode");
-
 
         $scope.toggleMenu = function() {
             console.log("toggle left");
@@ -535,73 +546,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             $rootScope.offline = false;
         }
 
-        var successCallback = function(result){
-            console.log(result);
-        }
-        var errorCallback = function(result){
-            console.log(result);
-        }
 
-        $scope.warningMsg = "";
-//        console.log(appFactory.userRef.child('transactions'));
-        $interval(function(){
-            if(appFactory.userRef != undefined) {
-                var myTransactions = $firebaseArray(appFactory.userRef.child(appFactory.user.$id).child('transactions'));
-                myTransactions.$loaded(function () {
-                    console.log(myTransactions);
-                    if (myTransactions.length > 0) {
-                        var closestScan = undefined;
-                        var closestReview = undefined;
-                        for (var i = 0; i < myTransactions.length; i++) {
-                            if (!myTransactions[i].scanned) {
-                                if (closestScan == undefined || (myTransactions[i].schedule < closestScan.schedule)) {
-                                    closestScan = myTransactions[i];
-                                }
-                            }
-                            if (!myTransactions[i].leftreview) {
-                                if (closestReview == undefined || (myTransactions[i].schedule < closestReview.schedule)) {
-                                    closestReview = myTransactions[i];
-                                }
-                            }
-                        }
-                        var timedifference = 0;
-                        var message = "";
-                        var trainerID = "";
-                        if (closestReview != undefined) {
-                            console.log(closestReview)
-                            trainerID = closestReview.trainerID;
-                            message = "Please leave a review for your last workout"
-                        }
 
-                        if (closestScan != undefined) {
-                            console.log(closestScan)
-                            var d = new Date().getTime();
-                            timedifference = closestScan.schedule - d;
-                            trainerID = closestScan.trainerID;
-                            console.log(timedifference);
-                            message = "Time to scan your qrcode";
-                        }
-
-                        $timeout(function () {
-                            var mappopup = $ionicPopup.show({
-                                template: '<p>' + message + '</p>',
-                                title: "Alert",
-                                scope: $scope,
-                                buttons: [
-                                    {
-                                        text: '<b>Okay</b>',
-                                        onTap: function (e) {
-                                            window.location.href = "#/menu/Trainers/" + trainerID;
-                                        }
-                                    },
-                                    { text: 'Cancel' }
-                                ]
-                            });
-                        }, timedifference);
-                    }
-                });
-            }
-        }, 3000000);
-//            var exec = cordova.require("cordova/exec");
-//            exec(successCallback, errorCallback, 'Card_io', 'timer', [{id: appFactory.user.$id}]);
-    })
+    });

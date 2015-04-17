@@ -1,0 +1,27 @@
+<ion-view>
+    <ion-header-bar class="ob-darkpurple-bg">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon button-dark">
+                <i class = "icon ion-navicon-round"></i>
+            </button>
+
+        </div>
+        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
+    </ion-header-bar>
+    <ion-content class="ob-grey-bg">
+        <ul class="list">
+            <a class="item" ng-repeat="message in messages">
+
+                <img src="{{users[message.userID].profilepic}}" width="40px" height="40px">
+                <p>{{message.text}}</p>
+
+                <p>{{users[message.userID].username}} {{message.created}}</p>
+            </a>
+        </ul>
+
+    </ion-content>
+    <ion-footer-bar>
+        <input ng-model="newmessage.text" type="text" />
+        <button class="button button-calm" ng-click="addNewMessage()">Send</button>
+    </ion-footer-bar>
+</ion-view>

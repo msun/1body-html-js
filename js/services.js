@@ -74,6 +74,36 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
+    .factory("GcmID", function(Firebase) {
+        var ref = Firebase.child("gcmID");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("Notifications", function(Firebase) {
+        var ref = Firebase.child("notifications");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("MyNotifications", function(Firebase) {
+        var ref = Firebase.child("userNotifications");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
     .factory("IncomingRequests", function(Firebase) {
         var ref = Firebase.child("incomingRequests");
 
@@ -86,6 +116,36 @@ angular.module('starter.services', ["firebase"])
 
     .factory("Events", function(Firebase) {
         var ref = Firebase.child("events");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("EventComments", function(Firebase) {
+        var ref = Firebase.child("eventComments");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("EventGoers", function(Firebase) {
+        var ref = Firebase.child("eventGoers");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("Conversations", function(Firebase) {
+        var ref = Firebase.child("conversations");
 
         return {
             ref: function(){

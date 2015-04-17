@@ -85,9 +85,8 @@ map.directive('gymInfoWindow', function($firebaseArray){
         templateUrl: 'js/map/templates/gym-info-window.html',
         scope: {gym: '='},
         link: function(scope, element, attrs) {
-
             scope.items = scope.gym[scope.gym.tab];
-            console.log(scope.gym);
+            console.log(scope.items);
         }
     }
 });
@@ -186,13 +185,13 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     }
 
     console.log("map ctrl");
-//    $ionicLoading.show({
-//        content: '<i class="icon ion-looping"></i> Loading location data',
-//        animation: 'fade-in',
-//        showBackdrop: true,
-//        maxWidth: 200,
-//        showDelay: 0
-//    });
+    $ionicLoading.show({
+        content: '<i class="icon ion-looping"></i> Loading location data',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
 
     $timeout(function(){
         console.log("timeout");
@@ -359,6 +358,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
     var position;
     if($rootScope.position){
+        $ionicLoading.hide();
         console.log($rootScope.position);
         position = $rootScope.position;
         setmap();
@@ -374,6 +374,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             dropGymPins(appFactory.state);
         }
         $scope.$on('locationReady', function (event, data) {
+            $ionicLoading.hide();
             position = $rootScope.position;
             console.log(appFactory.user.position);
             setmap();

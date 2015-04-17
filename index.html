@@ -67,8 +67,21 @@
     <script src="js/event/timepicker.js"></script>
     <script src="js/class/class.js"></script>
     <script src="js/gym/gym.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function(){
+            console.log(angular.element(document.getElementById('body')).scope());
+        };
+        function callFromJava(url){
+
+            alert("ANDROID calling " + url);
+
+            angular.element(document.getElementById('body')).scope().goTo(url);
+        }
+    </script>
+
 </head>
-<body ng-app="starter" animation="none">
+<body id="body" ng-app="starter" animation="none">
 <!--
   The nav bar that will be updated as we navigate between views.
 -->

@@ -36,26 +36,35 @@
                 </p>
             </div>
 
-            <button class="item button button-block button-dark">
-                Join Event
-            </button>
+            <div class="item button-bar">
+                <button ng-show="inEvent == -1" class="button button-dark" ng-click="joinEvent()">
+                    Join Event
+                </button>
+                <button ng-show="inEvent > -1" class="button button-dark" ng-click="leaveEvent()">
+                    Leave Event
+                </button>
+                <button class="button button-dark" ng-click="whosGoing()">
+                    Who's going?
+                </button>
+            </div>
         </div>
-
 
         <div>
             <ion-list>
-                <ion-item ng-repeat="comment in selectedEvent.comments" ng-click="replyto()">
+                <ion-item ng-repeat="comment in comments" ng-click="replyto(comment)">
                     <img src="{{comment.profilepic}}" />
                     <p>{{comment.text}}</p>
-                    <p style="font-size: 10px">{{comment.username}} left at: {{comment.creation}}</p>
+                    <p ng-hide="comment.replyUserID" style="font-size: 10px">{{comment.username}} left at: {{comment.creation}}</p>
+                    <p ng-show="comment.replyUserID" style="font-size: 10px">{{comment.username}} @{{comment.replyUserName}} left at: {{comment.creation}}</p>
                 </ion-item>
             </ion-list>
         </div>
         <label class="item item-input item-stacked-label">
+            <span>{{commentTitle}}</span>
             <input type="text" ng-model="newcomment.text" placeholder="Comment">
         </label>
         <button class="button button-dark" ng-click="addcomment()">Enter</button>
-
+        <button class="button button-dark" ng-click="clear()">Clear</button>
             <!--<div class="item tabs tabs-secondary tabs-icon-left">-->
                 <!--<a class="tab-item" href="#">-->
                     <!--<i class="icon ion-thumbsup"></i>-->

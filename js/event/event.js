@@ -45,59 +45,177 @@ event.controller('MyEventsCtrl', function($scope, Events, appFactory, $firebaseA
     })
 });
 
-event.controller('EventDetailCtrl', function($scope, $firebaseObject, User, appFactory, $timeout, mapFactory, $stateParams, Events, Following) {
+event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal, $firebaseArray, $firebaseObject, EventGoers, User, appFactory, $timeout, mapFactory, $stateParams, Events, Following, Notifications, EventComments) {
     console.log(appFactory.events);
     console.log($stateParams.userID);
     console.log($stateParams.eventID);
-    var eventRef = Events.ref().child($stateParams.userID).child($stateParams.eventID);
-    $scope.newcomment = {};
+    $ionicModal.fromTemplateUrl('js/event/templates/whos-going.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.modal = modal;
+    });
+    $scope.inEvent = -1;
 
-    if(appFactory.events[$stateParams.eventID]){
-        $scope.selectedEvent = appFactory.events[$stateParams.eventID];
-    } else {
-        $scope.selectedEvent = $firebaseObject(eventRef);
-        console.log($scope.selectedEvent)
+    var eventRef = Events.ref().child($stateParams.userID).child($stateParams.eventID);
+
+    $scope.comments = $firebaseArray(EventComments.ref().child($stateParams.eventID));
+
+    $scope.goers = $firebaseArray(EventGoers.ref().child($stateParams.eventID));
+
+    $scope.goers.$loaded(function(){
+        console.log($scope.goers);
+        for(var i=0; i<$scope.goers.length; i++){
+            if($scope.goers[i].userID == appFactory.user.$id){
+                $scope.inEvent = i;
+            }
+        }
+    });
+
+    var modified = $firebaseObject(Events.ref().child($stateParams.userID).child($stateParams.eventID).child("modified"));
+
+    $scope.newcomment = {};
+    $scope.commentTitle = "Leave a comment:";
+
+    modified.$loaded(function(){
+        console.log(modified);
+        if(modified.$value && appFactory.events[$stateParams.eventID].modified >= modified.$value){
+            $scope.selectedEvent = appFactory.events[$stateParams.eventID];
+            showMap();
+            console.log($scope.selectedEvent);
+        } else {
+            $scope.selectedEvent = $firebaseObject(eventRef);
+            $scope.selectedEvent.$loaded(function(){
+                appFactory.events[$scope.selectedEvent.$id] = $scope.selectedEvent;
+                appFactory.events[$scope.selectedEvent.$id].refreshed = false;
+                $localstorage.setObject("Events", appFactory.events);
+                appFactory.events[$scope.selectedEvent.$id].refreshed = true;
+                showMap();
+            });
+            console.log($scope.selectedEvent);
+        }
+    });
+
+    $scope.joinEvent = function(){
+        console.log($scope.inEvent);
+        var going = {
+            userID: appFactory.user.$id,
+            username: appFactory.user.username,
+            created: new Date().getTime()
+        };
+        if(appFactory.user.profilepic){
+            going.profilepic = appFactory.user.profilepic;
+        }
+        var notif = {
+            creatorID: appFactory.user.$id,
+            starttime: new Date().getTime(),
+            url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
+            receivers: [$stateParams.userID],
+            message: appFactory.user.username + " has joined your event: " + $scope.selectedEvent.name
+        }
+
+        console.log(going);
+        EventGoers.ref().child($stateParams.eventID).child(appFactory.user.$id).set(going, function(){
+            $timeout(function(){
+//                $scope.inEvent = $scope.goers.$indexFor(appFactory.user.$id);
+                $scope.inEvent = -2;
+            })
+
+            Notifications.ref().push(notif, function(){
+                alert("You have joined this event");
+
+            });
+        });
+    };
+
+    $scope.leaveEvent = function(){
+        var notif = {
+            creatorID: appFactory.user.$id,
+            starttime: new Date().getTime(),
+            url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
+            receivers: [$stateParams.userID],
+            message: appFactory.user.username + " has left your event: " + $scope.selectedEvent.name
+        }
+        $scope.goers.$remove($scope.inEvent).then(function(){
+            Notifications.ref().push(notif, function(){
+                alert("You have left this event.");
+                $timeout(function(){
+                    $scope.inEvent = -2;
+                })
+            });
+        });
+    };
+
+    $scope.whosGoing = function(){
+        $scope.modal.show();
     }
 
-//    appFactory.events.forEach(function(item){
-//        if(item.$id == $scope.eventID){
-//            $timeout(function(){
-//                $scope.selectedEvent = item;
-//
-//                var myRef = Events.ref().child($scope.selectedEvent.$id).child("comments");
-//                $scope.comments = $firebase(myRef);
-////                $scope.comments = sync.$asArray();
-//                console.log(myRef);
-////                console.log(sync);
-//                console.log($scope.comments);
-//
-//                console.log(item);
-//                $scope.map = mapFactory.initialize([], "event-detail-", $scope.selectedEvent, []);
-//                var marker;
-//
-//                marker = new google.maps.Marker({
-//                    position: $scope.map.getCenter(),
-//                    map: $scope.map
-//                });
-//            })
-//        }
-//    });
+    $scope.closeModal = function(){
+        $scope.modal.hide();
+    }
+
+    $scope.$on('$destroy', function() {
+        $scope.modal.remove();
+    });
+
+    $scope.replyto = function(comment){
+        $scope.replyUserID = comment.userID;
+        $scope.replyUserName = comment.username;
+        $timeout(function() {
+            $scope.commentTitle = "Leave a comment @" + comment.username + ":";
+        });
+    }
+
+    $scope.clear = function(){
+        $scope.replyUserID = undefined;
+        $scope.commentTitle = "Leave a comment:";
+    }
+
+    function showMap(){
+        $scope.map = new google.maps.Map(document.getElementById('event-detail-map'), {
+            zoom: 12,
+            center: new google.maps.LatLng($scope.selectedEvent.location[0], $scope.selectedEvent.location[1]),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var marker;
+
+        marker = new google.maps.Marker({
+            position: $scope.map.getCenter(),
+            map: $scope.map
+        });
+    }
 
     $scope.addcomment = function(){
         if(!$scope.newcomment.text || $scope.newcomment.text.length <=0){
             alert("comment cannot be empty");
         } else {
+            var notif = {
+                creatorID: appFactory.user.$id,
+                starttime: new Date().getTime(),
+                url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
+                receivers: [$stateParams.userID],
+                message: "You have received a new message in event: " + $scope.selectedEvent.name
+            }
+            if($scope.replyUserID){
+                notif.receivers.push($scope.replyUserID);
+                $scope.newcomment.replyUserID = $scope.replyUserID;
+                $scope.newcomment.replyUserName = $scope.replyUserName;
+            }
+
             $scope.newcomment.creation = Date.now();
             $scope.newcomment.username = appFactory.user.username;
             $scope.newcomment.userID = appFactory.user.$id;
             if(appFactory.user.profilepic){
                 $scope.newcomment.profilepic = appFactory.user.profilepic;
             }
-            eventRef.child("comments").push($scope.newcomment, function(){
-                $timeout(function(){
-                    $scope.newcomment.text = "";
+            $scope.comments.$add($scope.newcomment).then(function(){
+                Notifications.ref().push(notif, function(){
+                    $timeout(function(){
+                        $scope.newcomment.text = "";
+                        alert("comment added");
+                    });
                 });
-                alert("comment added");
             });
         }
     }

@@ -8,8 +8,73 @@ trainer.factory('Time', function(){
     return Time;
 });
 
+trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversations, Users, Trainers, $ionicModal, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams, $window, appConfig, Notifications){
+    console.log($stateParams.userID);
+    var conversationID = ""
+    if($stateParams.userID.localeCompare(appFactory.user.$id) > 0){
+        conversationID = $stateParams.userID + ":::" + appFactory.user.$id;
+    } else if($stateParams.userID.localeCompare(appFactory.user.$id) < 0){
+        conversationID = appFactory.user.$id + ":::" + $stateParams.userID;
+    } else {
+        alert("please do not talk to yourself");
+        $window.history.back();
+    }
 
-trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Sizes, Review, MyReviews, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, Reviews, appConfig, Followers, Following) {
+    $scope.newmessage = {};
+    $scope.users = {};
+    $scope.users[appFactory.user.$id] = appFactory.user;
+
+    if(appFactory.trainers[$stateParams.userID]){
+        $scope.users[$stateParams.userID] = appFactory.trainers[$stateParams.userID];
+        console.log($scope.users);
+    } else {
+        var user = $firebaseObject(Trainers.ref().child($stateParams.userID));
+        user.$loaded(function(){
+            if(user.username){
+                $scope.users[$stateParams.userID] = user;
+                console.log($scope.users);
+                appFactory.trainers[$stateParams.userID] = user;
+                $localstorage.setObject("Trainers", appFactory.trainers);
+            } else {
+                user = $firebaseObject(Users.ref().child($stateParams.userID));
+                user.$loaded(function(){
+                    console.log(user);
+                    $scope.users[$stateParams.userID] = user;
+
+                    appFactory.users[$stateParams.userID] = $scope.user;
+//                    appFactory.trainers[$stateParams.userID] = user;
+//                    $localstorage.setObject("Trainers", appFactory.trainers);
+                });
+            }
+        });
+    }
+
+    $scope.messages = $firebaseArray(Conversations.ref().child(conversationID).limitToLast(appConfig.defaultItemsPerPage));
+
+    $scope.addNewMessage = function(){
+        $scope.newmessage.created = new Date().getTime();
+        $scope.newmessage.userID = appFactory.user.$id;
+
+        $scope.messages.$add($scope.newmessage).then(function(){
+            console.log($scope.newmessage);
+
+            var notif = {
+                creatorID: appFactory.user.$id,
+                starttime: new Date().getTime(),
+                url: "#/menu/conversations/" + appFactory.user.$id,
+                receivers: [$stateParams.userID],
+                message: appFactory.user.username + " has left you a message: " + $scope.newmessage.text
+            }
+
+            Notifications.ref().push(notif);
+
+            $scope.newmessage.text = "";
+        });
+    }
+});
+
+
+trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Sizes, Review, MyReviews, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, GeoGyms, Reviews, appConfig, Followers, Following) {
     console.log($stateParams.trainerName);
     $scope.trainerName = $stateParams.trainerName;
     $scope.max = 5;
@@ -81,11 +146,16 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 
         $scope.followerMe = $firebaseObject(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id));
 
-        $scope.selectedTrainerLocation = $firebaseObject(GeoTrainers.ref().child($scope.trainerName));
-
         $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("trainerID").equalTo($scope.selectedTrainer.$id));
 
+        if($scope.selectedTrainer.gym && $scope.selectedTrainer.gym.gymID){
+            $scope.selectedTrainerLocation = $firebaseObject(GeoGyms.ref().child($scope.selectedTrainer.gym.gymID));
+        } else {
+            $scope.selectedTrainerLocation = $firebaseObject(GeoTrainers.ref().child($scope.trainerName));
+        }
+
         $scope.selectedTrainerLocation.$loaded(function () {
+            console.log($scope.selectedTrainerLocation);
             loadMap();
 
             $scope.myTransactions.$loaded(function () {
@@ -126,7 +196,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         };
     }
 
-    if(appFactory.trainers[$scope.trainerName].refreshed){
+    if(appFactory.trainers[$scope.trainerName] && appFactory.trainers[$scope.trainerName].refreshed){
         $scope.selectedTrainer = appFactory.trainers[$scope.trainerName];
         loadData();
     } else {
@@ -543,7 +613,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
     }
 });
 
-trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFactory, $ionicPopup, Schedule, $firebaseArray, Transactions, MyTransactions) {
+trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFactory, $ionicPopup, Schedule, $firebaseArray, Transactions, MyTransactions, Notifications) {
     return {
         restrict: "E",
         templateUrl: "js/trainer/templates/schedulerUserView.html",
@@ -599,7 +669,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
             scope.$watch('dt', function (newValue, oldValue) {
                 console.log(scope.dt);
                 scope.theday = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
-                daySchedule = $firebaseObject(Schedule.ref().child(scope.selectedTrainer.$id).child(scope.theday));
+                daySchedule = $firebaseObject(Schedule.ref().child(scope.trainerName).child(scope.theday));
                 daySchedule.$loaded(function(){
                     if(daySchedule.active){
                         scope.active = daySchedule.active;
@@ -704,15 +774,39 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         startTimestamp: startTimestamp
                     };
 
+
                     (function(newTransaction){
                         console.log(newTransaction);
-                        var transactionRef = transactions.push(newTransaction);
-                        transactionRef.setPriority(startTimestamp);
-                        console.log(transactionRef.key());
-                        newTransaction.reviewed = false;
-                        newTransaction.scanned = false;
-                        myTransactions.child(transactionRef.key()).set(newTransaction);
-                        myTransactions.child(transactionRef.key()).setPriority(startTimestamp);
+                        var transactionRef = transactions.push(newTransaction, function(){
+                            transactionRef.setPriority(startTimestamp);
+                            console.log(transactionRef.key());
+                            var notifToTrainer = {
+                                creatorID: appFactory.user.$id,
+                                starttime: Date.now(),
+                                url: "#/menu/Trainers/" + appFactory.user.$id,
+                                receivers: [scope.selectedTrainer.$id],
+                                message: "A training was booked by user: " + appFactory.user.username + " at " + starttime
+                            }
+                            Notifications.ref().push(notifToTrainer);
+
+                            var notifToUser = {
+                                creatorID: appFactory.user.$id,
+                                starttime: newTransaction.startTimestamp,
+                                notifyPeriod:900000,
+                                url: "#/menu/Trainers/" + scope.selectedTrainer.$id,
+                                receivers: [appFactory.user.$id],
+                                message: "A training with: " + scope.selectedTrainer.username + " is starting at " + starttime
+                            }
+                            Notifications.ref().push(notifToUser);
+
+                            newTransaction.reviewed = false;
+                            newTransaction.scanned = false;
+                            myTransactions.child(transactionRef.key()).set(newTransaction, function(){
+                                myTransactions.child(transactionRef.key()).setPriority(startTimestamp);
+
+                            });
+                        });
+
                     }(transaction));
                 }
 
