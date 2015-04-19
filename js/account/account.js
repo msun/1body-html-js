@@ -1139,6 +1139,45 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, b
     }
 });
 
+account.controller('MyTransactionsCtrl', function($scope, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, MyTransactions, $window, $localstorage){
+    $scope.dt = new Date();
+
+    $scope.$watch('dt', function () {
+        console.log($scope.dt.getFullYear());
+        console.log($scope.dt.getMonth());
+        console.log($scope.dt.getDate());
+        console.log($scope.dt.getHours());
+        console.log($scope.dt.getMinutes());
+        console.log($scope.dt.getSeconds());
+
+        var startDate = new Date();
+        startDate.setFullYear($scope.dt.getFullYear());
+        startDate.setMonth($scope.dt.getMonth());
+        startDate.setDate($scope.dt.getDate());
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        console.log(startDate);
+        console.log(startDate.getTime());
+
+        var endDate = new Date();
+        endDate.setFullYear($scope.dt.getFullYear());
+        endDate.setMonth($scope.dt.getMonth());
+        endDate.setDate($scope.dt.getDate());
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(59);
+        console.log(endDate);
+        console.log(endDate.getTime());
+
+        $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByPriority().startAt(startDate.getTime()).endAt(endDate.getTime()));
+    }, true);
+
+    $scope.showAll = function(){
+        $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id));
+    }
+});
+
 account.filter('parseTimestamp', function() {
     return function(timestamp) {
         return new Date(timestamp);

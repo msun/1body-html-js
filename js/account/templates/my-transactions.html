@@ -1,0 +1,36 @@
+<ion-view xmlns="http://www.w3.org/1999/html">
+    <ion-header-bar class="ob-darkpurple-bg">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon button-dark">
+                <i class = "icon ion-navicon-round"></i>
+            </button>
+            <!--
+                        <h2 class="title" style="padding: 7px">
+                            {{selectedTrainer.username}}
+                            <a href="#/menu/{{$root.header}}" class = "button button-icon button-dark">
+                                <i class = "icon ion-gear-b">
+                                </i>
+                            </a>
+                        </h2>
+
+                        <a href="#/menu/{{$root.header}}" style="padding: 5px" class = "button button-icon button-dark">
+                            <i class = "icon ion-arrow-return-left">
+                            </i>
+                        </a>
+            -->
+        </div>
+        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
+    </ion-header-bar>
+    <ion-content class="ob-grey-bg">
+        <button class="button button-calm" ng-click="showAll()">Show All</button>
+        <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+        <ul class="list">
+            <a class="item" ng-repeat="item in myTransactions">
+                <span>Trainer Name: {{item.trainerName}}</span>
+                <span>StartTime: {{item.starttime}}</span>
+                <p>Created: {{item.created | parseTimestamp}}</p>
+                <p>Duration: {{item.duration * 30}} MINUTES</p>
+            </a>
+        </ul>
+    </ion-content>
+</ion-view>

@@ -387,6 +387,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.account.my-transactions', {
+                url: '/my-transactions',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/my-transactions.html',
+                        controller: 'MyTransactionsCtrl'
+                    }
+                }
+            })
+
             .state('menu.account.set-location', {
                 url: '/set-location',
                 views: {
