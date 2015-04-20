@@ -13,7 +13,21 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         mapstate: "menu.map",
         defaultItemsPerPage: 5,
         maxReviewCount: 100000,
-        maxFollowerCount: 100000
+        maxFollowerCount: 100000,
+        categories: [
+            {name: "Winter", type: "sports"},
+            {name: "Workout", type: "sports"},
+            {name: "Cycling", type: "sports"},
+            {name: "In-door", type: "sports"},
+            {name: "Out-door", type: "sports"},
+            {name: "Water", type: "sports"},
+            {name: "Others", type: "others"}],
+        repeatIntervals: [
+            {interval: "Daily"},
+            {interval: "Weekly"},
+            {interval: "Monthly"},
+            {interval: "Once"}
+        ]
     })
     .value("baseUrl", "http://localhost:8888/")
     .value("apikey", "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc")
@@ -147,7 +161,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.trainer-detail', {
-                url: '/Trainers/:trainerName',
+                url: '/Trainers/:trainerName/:gymID',
                 views: {
                     'menu': {
                         templateUrl: 'js/trainer/templates/trainer-detail.html',
@@ -257,7 +271,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.class-detail', {
-                url: '/Classes/:classID',
+                url: '/Classes/:classID/:gymID',
                 views: {
                     'menu': {
                         templateUrl: 'js/class/templates/class-detail.html',
@@ -457,15 +471,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-//            .state('menu.account.add-class', {
-//                url: '/add-class',
-//                views: {
-//                    'account': {
-//                        templateUrl: 'js/account/templates/add-class.html',
-//                        controller: 'AddClassCtrl'
-//                    }
-//                }
-//            })
+
+
 //            .state('menu.account.qrcode.transactionID', {
 //                url: '/qrcode/:transactionID',
 //                views: {
@@ -502,9 +509,18 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $scope.logout = function(){
             UserAuth.$unauth();
             $localstorage.clear();
-            $scope.toggleMenu();
-            alert("logged out");
-            window.location.href = "#";
+            if(ionic.Platform.isAndroid()){
+                var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id).child(device.uuid));
+                gcmID.$remove().then(function() {
+                    $scope.toggleMenu();
+                    alert("logged out");
+                    window.location.href = "#";
+                });
+            } else {
+                $scope.toggleMenu();
+                alert("logged out");
+                window.location.href = "#";
+            }
         };
 
         $scope.registerGcm = function(){
@@ -540,6 +556,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             console.log(appFactory.events);
             appFactory.gyms = $localstorage.getObject("Gyms");
             console.log(appFactory.gyms);
+            appFactory.classes = $localstorage.getObject("Classes");
+            console.log(appFactory.classes);
         } catch(err){
             alert("something went wrong when loading data from localstorage, please restart 1Body.");
         }

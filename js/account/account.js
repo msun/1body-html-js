@@ -84,7 +84,7 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
     var loadLocalUser = function(user){
         appFactory.user = user;
         $rootScope.user = appFactory.user;
-        alert("loaded the user from localstorage");
+//        alert("loaded the user from localstorage");
         $ionicLoading.hide();
         checkUrl();
         if(user.group == 'Trainers'){
@@ -189,13 +189,14 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                     var myRef = Trainers.ref().child(client.uid);
                     var user = $firebaseObject(myRef);
 
-                    user.$priority = Date.now();
+                    user.$priority = Firebase.ServerValue.TIMESTAMP;;
                     user.group = "Trainers";
                     user.username = $scope.newuser.username;
                     user.email = $scope.newuser.email;
                     if($scope.newuser.gym){
                         user.gym = $scope.newuser.gym;
                     }
+                    user.modified = Firebase.ServerValue.TIMESTAMP;;
                     user.tokens = 0;
                     user.$save().then(function (thing) {
                         console.log(thing);
@@ -205,10 +206,11 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                 } else {
                     var myRef = Users.ref().child(client.uid);
                     var user = $firebaseObject(myRef);
-                    user.$priority = Date.now();
+                    user.$priority = Firebase.ServerValue.TIMESTAMP;;
                     user.group = "Users";
                     user.username = $scope.newuser.username;
                     user.email = $scope.newuser.email;
+                    user.modified = Firebase.ServerValue.TIMESTAMP;;
                     user.tokens = 0;
                     user.$save().then(function (thing) {
                         console.log(thing);
@@ -263,8 +265,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
 });
 
 account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $firebaseObject, Transactions, MyTransactions){
-    $scope.clientCode = "";
-
+    $scope.clientCode = {};
 
     $scope.scanClient = function() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -286,10 +287,12 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
                 transcation.$loaded(function () {
                     console.log(transcation);
                     var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child(result.text));
-                    myTransaction.scanned = true;
-                    myTransaction.$save().then(function(){
-                        alert("Transaction processed");
-                    });
+                    myTransaction.$loaded(function(){
+                        myTransaction.scanned = true;
+                        myTransaction.$save().then(function(){
+                            alert("Transaction processed");
+                        });
+                    })
                 })
             }, function (error) {
                 console.log("Scanning failed: ", error);
@@ -298,46 +301,47 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
     }
 
     $scope.enterCode = function(){
-        var transcation = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child($scope.clientCode));
+        alert($scope.clientCode.key);
+        var transcation = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child($scope.clientCode.key));
         transcation.$loaded(function () {
             console.log(transcation);
-            var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child($scope.clientCode));
-            myTransaction.scanned = true;
-            myTransaction.$save().then(function(){
-                alert("Transaction processed");
-            });
+            var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child($scope.clientCode.key));
+            myTransaction.$loaded(function(){
+                myTransaction.scanned = true;
+                myTransaction.$save().then(function(){
+                    alert("Transaction processed");
+                });
+            })
         })
     }
 });
 
 account.controller('QRcodeCtrl', function($scope, Transaction, Users, Trainers, $firebaseObject, $firebaseArray, MyTransactions, appFactory, $timeout, $stateParams){
-    if($stateParams.transactionID.length > 1){
+    $scope.update = function(transactionID){
+        console.log(transactionID);
+        $scope.transactionID = transactionID;
         var element = document.getElementById("qrcode");
 
         var bodyElement = document.body;
         if(element.lastChild)
-            element.replaceChild(showQRCode($stateParams.transactionID), element.lastChild);
+            element.replaceChild(showQRCode(transactionID), element.lastChild);
         else
-            element.appendChild(showQRCode($stateParams.transactionID));
-    } else {
-        $scope.transaction = "";
-        $scope.transactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("scanned").equalTo(false));
-        $scope.transactions.$loaded(function(){
-            console.log($scope.transactions);
-        });
+            element.appendChild(showQRCode(transactionID));
 
-        $scope.update = function(transaction){
-            console.log(transaction);
-            var element = document.getElementById("qrcode");
-
-            var bodyElement = document.body;
-            if(element.lastChild)
-                element.replaceChild(showQRCode(transaction.$id), element.lastChild);
-            else
-                element.appendChild(showQRCode(transaction.$id));
-
-        }
     }
+
+    if($stateParams.transactionID.length > 1){
+        var element = document.getElementById("qrcode");
+        $scope.transactionID = $stateParams.transactionID;
+        $scope.update($stateParams.transactionID);
+    }
+
+    $scope.transaction = "";
+    $scope.transactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("scanned").equalTo(false));
+    $scope.transactions.$loaded(function(){
+        console.log($scope.transactions);
+    });
+
 });
 
 account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate) {
@@ -773,7 +777,7 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFac
             console.log(data);
             $scope.user.address = data.results[0].formatted_address;
         });
-    }
+    };
 
     $scope.showGymSelectionModal = function(){
         $scope.gyms = [];
@@ -791,11 +795,11 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFac
             })
         });
         $scope.modal.show();
-    }
+    };
 
     $scope.hideGymSelectionModal = function(){
         $scope.modal.hide();
-    }
+    };
 
     $scope.setGym = function(gym){
         console.log(gym);
@@ -902,7 +906,7 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFac
 
 account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseArray, Requests, Trainers){
     $scope.requests = $firebaseArray(Requests.ref().child(appFactory.user.$id));
-    var now = Date.now();
+    var now = Firebase.ServerValue.TIMESTAMP;;
     $scope.requests.$loaded(function(){
         console.log(now);
         for(var j=0; j<$scope.requests.length; j++) {
@@ -1008,7 +1012,7 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, b
         console.log($scope.requests);
         for(var j=0; j<$scope.requests.length; j++){
             $scope.requests[j].trainerAccepted = false;
-            var now = Date.now();
+            var now = Firebase.ServerValue.TIMESTAMP;;
             if(now - $scope.requests[j].created > 3600000){
                 $scope.requests[j].expired = true;
             }

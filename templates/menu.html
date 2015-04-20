@@ -34,9 +34,9 @@
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/my-schedule" class="item menu-font">My Schedule</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/qrcode/a" class="item menu-font">My QR Codes</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/scan" class="item menu-font">Scan QR Code</a>
-                <!--<a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/my-money" class="item menu-font">My Money</a>-->
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/set-location" class="item menu-font">My Location</a>
-                <!--<a ng-click ="toggleMenu()" href="#/menu/account/payment-method"  class="item menu-font">My Payment Method</a>-->
+                <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editgym/new" class="item menu-font">Create Gym</a>
+                <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editclass/new" class="item menu-font">Create Class</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/buy-tokens" class="item menu-font">Buy Tokens</a>
                 <a ng-click ="registerGcm()" class="item menu-font">Register GCM</a>
                 <a ng-click ="logout()" class="item menu-font">Logout</a>

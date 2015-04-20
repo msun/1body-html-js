@@ -44,12 +44,12 @@ gymModule.controller('GymDetailCtrl', function($scope, $firebase, User, appFacto
             $timeout(function(){
                 $scope.selectedGym = item;
 
-                var myRef = Gyms.ref().child($scope.selectedGym.$id).child("comments");
-                $scope.comments = $firebase(myRef);
-//                $scope.comments = sync.$asArray();
-                console.log(myRef);
-//                console.log(sync);
-                console.log($scope.comments);
+//                var myRef = Gyms.ref().child($scope.selectedGym.$id).child("comments");
+//                $scope.comments = $firebase(myRef);
+////                $scope.comments = sync.$asArray();
+//                console.log(myRef);
+////                console.log(sync);
+//                console.log($scope.comments);
 
                 console.log(item);
                 $scope.map = mapFactory.initialize([], "gym-detail-map", $scope.selectedGym, []);
@@ -78,7 +78,7 @@ gymModule.controller('GymDetailCtrl', function($scope, $firebase, User, appFacto
     }
 });
 
-gymModule.controller('CreateGymCtrl', function($firebase, baseUrl, RepeatIntervals, $scope, $rootScope, $timeout, $stateParams, $ionicPopup, Trainers, gymModuleFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, apikey, Gyms, GeoGyms, Categories, $window) {
+gymModule.controller('CreateGymCtrl', function($firebaseObject, baseUrl, RepeatIntervals, $scope, $rootScope, $timeout, $stateParams, $ionicPopup, Trainers, gymModuleFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, apikey, Gyms, GeoGyms, Categories, $window) {
     console.log('CreateGymCtrl');
     console.log($stateParams.gymID);
     var position = $rootScope.position;
@@ -88,7 +88,7 @@ gymModule.controller('CreateGymCtrl', function($firebase, baseUrl, RepeatInterva
     var href = "";
     if($stateParams.gymID != "new"){
         var myRef = Gyms.ref().child($stateParams.gymID);
-        $scope.newgym = $firebase(myRef).$asObject();
+        $scope.newgym = $firebaseObject(myRef).$asObject();
     } else {
         $scope.newgym = {};
     }
@@ -133,7 +133,7 @@ gymModule.controller('CreateGymCtrl', function($firebase, baseUrl, RepeatInterva
                         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + marker.getPosition().lat() + "," + marker.getPosition().lng() + "&key=" + apikey;
                         gymModuleFactory.getStreetAddress(url, function(data, status){
                             console.log(data);
-                            $scope.newgym.location = data.results[0].formatted_address;
+                            $scope.newgym.address = data.results[0].formatted_address;
                         });
                     }
                 }
@@ -143,31 +143,30 @@ gymModule.controller('CreateGymCtrl', function($firebase, baseUrl, RepeatInterva
 
     $scope.createGym = function(){
         console.log($scope.newgym);
-        console.log($scope.newgym.location.replace(/ /g, "+"));
-        var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newgym.location.replace(/ /g, "+") + "&key=" + apikey;
+        console.log($scope.newgym.address.replace(/ /g, "+"));
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newgym.address.replace(/ /g, "+") + "&key=" + apikey;
         gymModuleFactory.getStreetAddress(url, function(data, status){
             console.log(data);
             $scope.newgym.latitude = data.results[0].geometry.location.lat;
             $scope.newgym.longitude = data.results[0].geometry.location.lng;
+            $scope.newgym.location = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
             $scope.newgym.userId = appFactory.user.$id;
             $scope.newgym.modified = Date.now();
 
             if($stateParams.gymID != "new"){
+                $scope.newgym.modified = Date.now();
                 $scope.newgym.$save().then(function(){
-                    for(var num=0; num<appFactory.user.gymModules.length; num++){
-                        if(appFactory.user.gymModules[num].id == $scope.newgym.$id){
-                            appFactory.user.gymModules[num].name = $scope.newgym.name;
-                        }
-                    }
-                    window.location.href = "#/menu/account/my-gymModules";
+                    alert("Gym saved");
+                    window.location.href = "#/menu/map";
                 });
             } else {
                 $scope.newgym.created = Date.now();
-                Gyms.sync().$push($scope.newgym).then(function(ref){
-                    console.log(ref.path.m[1]);
-                    GeoGyms.set(ref.path.m[1], [$scope.newgym.latitude, $scope.newgym.longitude]).then(function() {
+                var newGymRef = Gyms.ref().push($scope.newgym, function(){
+                    console.log(newGymRef.key());
+                    GeoGyms.set(newGymRef.key(), [$scope.newgym.latitude, $scope.newgym.longitude]).then(function() {
                         console.log("Provided key has been added to GeoFire");
-                        $window.location.back();
+                        alert("New Gym saved");
+                        window.location.href = "#/menu/map";
                     });
                 });
             }

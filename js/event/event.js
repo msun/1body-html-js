@@ -79,7 +79,7 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
 
     modified.$loaded(function(){
         console.log(modified);
-        if(modified.$value && appFactory.events[$stateParams.eventID].modified >= modified.$value){
+        if(modified.$value && appFactory.events[$stateParams.eventID] && appFactory.events[$stateParams.eventID].modified >= modified.$value){
             $scope.selectedEvent = appFactory.events[$stateParams.eventID];
             showMap();
             console.log($scope.selectedEvent);

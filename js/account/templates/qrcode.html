@@ -10,12 +10,12 @@
                         <select class="ob-form-select ob-form-select-xlarge"
                                 ng-model="transaction"
                                 ng-options="transaction.starttime for transaction in transactions"
-                                ng-change="update(transaction)">
+                                ng-change="update(transaction.$id)">
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="qr-transaction-id-text">{{transaction.$id}}</div>
+            <div class="qr-transaction-id-text">{{transactionID}}</div>
             <div class="qr-qrcode-container">
                 <div id="qrcode" class="qr-qrcode"></div>
             </div>

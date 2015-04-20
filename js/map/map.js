@@ -73,7 +73,7 @@ map.directive('classInfoWindow', function(){
     return{
         restrict: 'E',
         templateUrl: 'js/map/templates/class-info-window.html',
-        scope: {item: '@'},
+        scope: {item: '='},
         link: function(scope, element, attrs) {
         }
     }
@@ -494,7 +494,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                         $scope.gyms[key] = obj;
                         $localstorage.setObject("Gyms", $scope.gyms);
                         $scope.gyms[key].refreshed = true;
-                        alert($scope.gyms[key].name);
                         if($scope.markers[key]){
                             $scope.markers[key].marker.setMap(null);
                         }
