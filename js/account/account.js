@@ -394,19 +394,24 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
                     onTap: function(e) {
                         e.preventDefault();
 
+                        var pluginName = '';
                         if (ionic.Platform.isAndroid()) {
-                            exec(function(result){
-                                console.log(result);
-                                alert("image rotate successful");
-                                image.src = result.uri;
-                                mappopup.close();
-                            }, function(result){
-                                console.log(result);
-                                alert("image rotate failed");
-                            }, 'Card_io', 'rotate', [
-                                {angle: angle, uri: image.src}
-                            ]);
+                            pluginName = 'Card_io';
+                        } else if (ionic.Platform.isIOS()) {
+                            pluginName = 'OBImageEditor';
                         }
+
+                        exec(function(result){
+                            console.log(result);
+                            alert("image rotate successful");
+                            image.src = result.uri;
+                            mappopup.close();
+                        }, function(result){
+                            console.log(result);
+                            alert("image rotate failed");
+                        }, pluginName, 'rotate', [
+                            {angle: angle, uri: image.src}
+                        ]);
                     }
                 }
             ]
@@ -428,11 +433,16 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
             console.log(result);
         }
 
+        var pluginName = '';
         if (ionic.Platform.isAndroid()) {
-            exec(successCallback, errorCallback, 'Card_io', 'rotate', [
-                {angle: angle, uri: image.src}
-            ]);
+            pluginName = 'Card_io';
+        } else if (ionic.Platform.isIOS()) {
+            pluginName = 'OBImageEditor';
         }
+
+        exec(successCallback, errorCallback, pluginName, 'rotate', [
+            {angle: angle, uri: image.src}
+        ]);
 
         $scope.modal.hide();
     }
@@ -513,33 +523,38 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
         y = (y/imageHeight).toFixed(4);
         console.log('x: ' + x + ' y: ' + y + ' width: ' + cropwidth + ' height: ' + cropheight + 'uri: ' + image.src);
 
+        var pluginName = '';
         if (ionic.Platform.isAndroid()) {
-            exec(
-                function(result){
-                    scrollDelegate.zoomTo(1);
-                    image.src = result.uri;
-                    console.log(result.uri);
-                    if(useimg) {
-                        exec(function () {
-                            appFactory.user.profilepic = image.src;
-                            appFactory.user.$save().then(function(){
-                                $localstorage.setObject("user", appFactory.user);
-                                alert("image saved");
-                                $rootScope.user = appFactory.user;
-                                window.location.href = "#/menu/account/my-profile";
-                            })
-                        }, function (err) {
-                            console.log(err);
-                        }, 'Card_io', 'useimg', [
-                            {'id': $scope.user.$id, 'uri': image.src}
-                        ]);
-                    }
-                }, function(result){
-                    console.log(result);
-                }, 'Card_io', 'crop', [
-                    {"top": y, "left": x, "width": cropwidth, 'height': cropheight, 'uri': image.src, 'id': appFactory.user.$id}
-            ]);
+            pluginName = 'Card_io';
+        } else if (ionic.Platform.isIOS()) {
+            pluginName = 'OBImageEditor';
         }
+
+        exec(
+            function(result){
+                scrollDelegate.zoomTo(1);
+                image.src = result.uri;
+                console.log(result.uri);
+                if(useimg) {
+                    exec(function () {
+                        appFactory.user.profilepic = image.src;
+                        appFactory.user.$save().then(function(){
+                            $localstorage.setObject("user", appFactory.user);
+                            alert("image saved");
+                            $rootScope.user = appFactory.user;
+                            window.location.href = "#/menu/account/my-profile";
+                        })
+                    }, function (err) {
+                        console.log(err);
+                    }, pluginName, 'useimg', [
+                        {'id': $scope.user.$id, 'uri': image.src}
+                    ]);
+                }
+            }, function(result){
+                console.log(result);
+            }, pluginName, 'crop', [
+                {"top": y, "left": x, "width": cropwidth, 'height': cropheight, 'uri': image.src, 'id': appFactory.user.$id}
+        ]);
     }
 
     function onSuccess(imageURI) {
