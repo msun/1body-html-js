@@ -417,10 +417,11 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
     function clearpins(){
         for(var key in $scope.markers) {
+            if (!$scope.markers.hasOwnProperty(key)) {
+                continue;
+            }
+
             (function(id){
-                if (!$scope.markers.hasOwnProperty(id)) {
-                    continue;
-                }
                 console.log(id);
                 $scope.markers[id].marker.setMap(null);
             }(key));
@@ -475,10 +476,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         $scope.gyms = appFactory.gyms;
 
         $scope.gymGeoQuery.on("key_entered", function(key, location, distance) {
-//            if($scope.gyms[key] && appFactory.modified["Gyms"][key].modified && $scope.gyms[key].modified >= appFactory.modified["Gyms"][key].modified){
-            if($scope.gyms[key]){
-                appFactory.modified["Gyms"][key].modified = $scope.gyms[key].modified;
-
+            if($scope.gyms[key] && appFactory.modified["Gyms"][key] && $scope.gyms[key].modified >= appFactory.modified["Gyms"][key]){
                 $scope.gyms[key].location = location;
                 $scope.gyms[key].distance = distance;
                 if($scope.markers[key]){
@@ -489,6 +487,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 $scope.gyms[key].refreshed = true;
                 dropGymMarker(key, radius, center, searchTerms, mobile, tab);
             } else {
+                $scope.gyms[key] = {};
                 $scope.gyms[key].location = location;
                 $scope.gyms[key].distance = distance;
                 if($scope.markers[key]){
@@ -499,6 +498,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 $scope.gyms[key].refreshed = true;
                 dropGymMarker(key, radius, center, searchTerms, mobile, tab);
                 var obj = $firebaseObject(Gyms.ref().child(key));
+
                 obj.$loaded().then(function () {
                     obj.distance = distance;
                     obj.location = location;
@@ -615,9 +615,11 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 userID = keys[1];
             }
 
-//            if($scope.array[key] && appFactory.modified[tab][key].modified && $scope.array[key].modified >= appFactory.modified[tab][key].modified){
-            if($scope.array[key]){
-                appFactory.modified[tab][key].modified = $scope.array[key].modified;
+            console.log($scope.array[key]);
+            console.log(appFactory.modified[tab][key]);
+            alert(appFactory.modified[tab][key]);
+            if($scope.array[key] && appFactory.modified[tab][key] && $scope.array[key].modified >= appFactory.modified[tab][key]){
+                $scope.array[key] = {};
                 $scope.array[key].location = location;
                 $scope.array[key].distance = distance;
                 if($scope.markers[key]){
@@ -635,6 +637,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                     obj = $firebaseObject(firebaseSource.ref().child(key));
                 }
                 obj.$loaded().then(function () {
+                    alert(appFactory.modified[tab][key] + " " + obj.modified);
                     obj.distance = distance;
                     obj.location = location;
                     obj.refreshed = false;

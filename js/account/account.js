@@ -130,14 +130,15 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
         if(UserAuth.$getAuth() && !$scope.user.email){
             appFactory.mysizes = $firebaseObject(Sizes.ref().child(UserAuth.$getAuth().uid));
             appFactory.modified = $firebaseObject(Modified.ref());
-
-            var user = $localstorage.getObject("user");
-            console.log(user);
-            if(user.$id && user.$id === UserAuth.$getAuth().uid){
-                loadLocalUser(user);
-            } else {
-                loadUserFromFirebase(UserAuth.$getAuth());
-            }
+            appFactory.modified.$loaded(function(){
+                var user = $localstorage.getObject("user");
+                console.log(user);
+                if(user.$id && user.$id === UserAuth.$getAuth().uid){
+                    loadLocalUser(user);
+                } else {
+                    loadUserFromFirebase(UserAuth.$getAuth());
+                }
+            });
         } else {
             UserAuth.$authWithPassword({
                 email: $scope.user.email,
@@ -145,15 +146,16 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
             }).then(function (user) {
                 appFactory.mysizes = $firebaseObject(Sizes.ref().child(user.uid));
                 appFactory.modified = $firebaseObject(Modified.ref());
+                appFactory.modified.$loaded(function(){
+                    var localuser = $localstorage.getObject("user");
+                    console.log(localuser);
+                    if(localuser.$id && localuser.$id == user.uid){
+                        loadLocalUser(localuser);
+                    } else {
+                        loadUserFromFirebase(user);
+                    }
 
-                var localuser = $localstorage.getObject("user");
-                console.log(localuser);
-                if(localuser.$id && localuser.$id == user.uid){
-                    loadLocalUser(localuser);
-                } else {
-                    loadUserFromFirebase(user);
-                }
-
+                })
             }, function (error) {
                 console.error("Login failed: ", error);
                 alert("login failed, please try again");
@@ -190,14 +192,14 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                     var myRef = Trainers.ref().child(client.uid);
                     var user = $firebaseObject(myRef);
 
-                    user.$priority = Firebase.ServerValue.TIMESTAMP;;
+                    user.$priority = Firebase.ServerValue.TIMESTAMP;
                     user.group = "Trainers";
                     user.username = $scope.newuser.username;
                     user.email = $scope.newuser.email;
                     if($scope.newuser.gym){
                         user.gym = $scope.newuser.gym;
                     }
-                    user.modified = Firebase.ServerValue.TIMESTAMP;;
+                    user.modified = Firebase.ServerValue.TIMESTAMP;
                     user.tokens = 0;
                     user.$save().then(function (thing) {
                         console.log(thing);

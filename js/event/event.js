@@ -398,33 +398,36 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
 
         if($stateParams.eventID != "new"){
             $scope.newevent.$save().then(function(){
-                GeoEvents.set($scope.newevent.$id + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
-                    console.log("Provided key has been added to GeoFire");
+                appFactory.modified.$ref().child("Events").child($scope.newevent.$id).set($scope.newevent.modified, function(){
+                    GeoEvents.set($scope.newevent.$id + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
+                        console.log("Provided key has been added to GeoFire");
 
-                    var events = $localstorage.getObject("Events");
-                    events[$scope.newevent.$id] = $scope.newevent;
-                    console.log(events);
-                    $localstorage.setObject("Events", events);
+                        var events = $localstorage.getObject("Events");
+                        events[$scope.newevent.$id] = $scope.newevent;
+                        console.log(events);
+                        $localstorage.setObject("Events", events);
 
-                    alert("event saved");
-                    $ionicSlideBoxDelegate.next();
+                        alert("event saved");
+                        $ionicSlideBoxDelegate.next();
+                    });
                 });
             });
         } else {
             $scope.newevent.created = Date.now();
             var newEventRef = Events.ref().child(appFactory.user.$id).push($scope.newevent, function(){
                 newEventRef.setPriority(appFactory.user.$id);
+                appFactory.modified.$ref().child("Events").child(newEventRef.key()).set($scope.newevent.modified, function(){
+                    GeoEvents.set(newEventRef.key() + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
+                        console.log("Provided key has been added to GeoFire");
+                        $scope.newevent = $firebaseObject(Events.ref().child(appFactory.user.$id).child(newEventRef.key()));
 
-                GeoEvents.set(newEventRef.key() + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
-                    console.log("Provided key has been added to GeoFire");
-                    $scope.newevent = $firebaseObject(Events.ref().child(appFactory.user.$id).child(newEventRef.key()));
+                        var events = $localstorage.getObject("Events");
+                        events[newEventRef.key()] = $scope.newevent;
+                        console.log(events);
+                        $localstorage.setObject("Events", events);
 
-                    var events = $localstorage.getObject("Events");
-                    events[newEventRef.key()] = $scope.newevent;
-                    console.log(events);
-                    $localstorage.setObject("Events", events);
-
-                    $ionicSlideBoxDelegate.next();
+                        $ionicSlideBoxDelegate.next();
+                    });
                 });
             });
         }
