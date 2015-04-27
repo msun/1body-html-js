@@ -47,7 +47,7 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
 
 
     var checkUrl = function(){
-        if(ionic.Platform.isAndroid()){
+        if (ionic.Platform.isAndroid()) {
             var exec = cordova.require("cordova/exec");
             exec(function(result){
                 console.log(result);
@@ -64,18 +64,22 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
             var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id).child(device.uuid));
             gcmID.$loaded(function(){
                 if(!gcmID.$value){
-                    var exec = cordova.require("cordova/exec");
-                    exec(function(result){
-                        alert(result["regid"]);
-                        if(result["regid"] && result["regid"].length > 0){
-                            gcmID.$value = result["regid"];
-                            gcmID.$save().then(function(){
-                                alert(result["regid"] + " saved to db");
-                            })
+                    if (ionic.Platform.isAndroid()) {
+                        if (ionic.Platform.isAndroid()) {
+                            var exec = cordova.require("cordova/exec");
+                            exec(function(result){
+                                alert(result["regid"]);
+                                if(result["regid"] && result["regid"].length > 0){
+                                    gcmID.$value = result["regid"];
+                                    gcmID.$save().then(function(){
+                                        alert(result["regid"] + " saved to db");
+                                    })
+                                }
+                            }, function(err){
+                                console.log(err);
+                            }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
                         }
-                    }, function(err){
-                        console.log(err);
-                    }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
+                    }
                 }
             })
         }, false);
@@ -389,6 +393,14 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
                     type: 'button-positive',
                     onTap: function(e) {
                         e.preventDefault();
+
+                        var pluginName = '';
+                        if (ionic.Platform.isAndroid()) {
+                            pluginName = 'Card_io';
+                        } else if (ionic.Platform.isIOS()) {
+                            pluginName = 'OBImageEditor';
+                        }
+
                         exec(function(result){
                             console.log(result);
                             alert("image rotate successful");
@@ -397,7 +409,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
                         }, function(result){
                             console.log(result);
                             alert("image rotate failed");
-                        }, 'Card_io', 'rotate', [
+                        }, pluginName, 'rotate', [
                             {angle: angle, uri: image.src}
                         ]);
                     }
@@ -421,9 +433,17 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
             console.log(result);
         }
 
-        exec(successCallback, errorCallback, 'Card_io', 'rotate', [
+        var pluginName = '';
+        if (ionic.Platform.isAndroid()) {
+            pluginName = 'Card_io';
+        } else if (ionic.Platform.isIOS()) {
+            pluginName = 'OBImageEditor';
+        }
+
+        exec(successCallback, errorCallback, pluginName, 'rotate', [
             {angle: angle, uri: image.src}
         ]);
+
         $scope.modal.hide();
     }
 
@@ -503,6 +523,13 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
         y = (y/imageHeight).toFixed(4);
         console.log('x: ' + x + ' y: ' + y + ' width: ' + cropwidth + ' height: ' + cropheight + 'uri: ' + image.src);
 
+        var pluginName = '';
+        if (ionic.Platform.isAndroid()) {
+            pluginName = 'Card_io';
+        } else if (ionic.Platform.isIOS()) {
+            pluginName = 'OBImageEditor';
+        }
+
         exec(
             function(result){
                 scrollDelegate.zoomTo(1);
@@ -519,15 +546,15 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
                         })
                     }, function (err) {
                         console.log(err);
-                    }, 'Card_io', 'useimg', [
+                    }, pluginName, 'useimg', [
                         {'id': $scope.user.$id, 'uri': image.src}
                     ]);
                 }
             }, function(result){
                 console.log(result);
-            }, 'Card_io', 'crop', [
+            }, pluginName, 'crop', [
                 {"top": y, "left": x, "width": cropwidth, 'height': cropheight, 'uri': image.src, 'id': appFactory.user.$id}
-            ]);
+        ]);
     }
 
     function onSuccess(imageURI) {
@@ -655,7 +682,9 @@ account.controller('MoneyCtrl', function($scope, User, appFactory, baseUrl, $tim
         console.log(result);
     }
 
-    exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', []);
+    if (ionic.Platform.isAndroid()) {
+        exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', []);
+    }
 
 });
 
@@ -767,7 +796,7 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFac
         } else {
             alert("address cannot be empty");
         }
-        
+
 
     }
 
@@ -998,9 +1027,11 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
                 console.log(result);
             }
 
-            exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', [
-                {amount: $scope.amount, item: $scope.totalTokens + " Tokens"}
-            ]);
+            if (ionic.Platform.isAndroid()) {
+                exec(successCallback, errorCallback, 'Card_io', 'paypalpayment', [
+                    {amount: $scope.amount, item: $scope.totalTokens + " Tokens"}
+                ]);
+            }
         }
     }
 });

@@ -41,7 +41,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             }
             if(window.StatusBar) {
                 // org.apache.cordova.statusbar required
-                StatusBar.styleDefault();
+                StatusBar.styleLightContent();
             }
         });
     })
@@ -537,12 +537,14 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                console.log(err);
 //            }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
 
-            var exec = cordova.require("cordova/exec");
-            exec(function(result){
-                console.log(result);
-            }, function(err){
-                console.log(err);
-            }, 'Card_io', 'gcmpush', [{id: appFactory.user.$id}]);
+            if (ionic.Platform.isAndroid()){
+                var exec = cordova.require("cordova/exec");
+                exec(function(result){
+                    console.log(result);
+                }, function(err){
+                    console.log(err);
+                }, 'Card_io', 'gcmpush', [{id: appFactory.user.$id}]);
+            }
         };
 
         $rootScope.user = appFactory.user;
