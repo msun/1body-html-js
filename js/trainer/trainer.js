@@ -84,7 +84,6 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     $scope.amount = 0;
     $scope.isReadonly = false;
     $scope.newreview = {rating:0};
-    $scope.notFollowing = true;
     $scope.reviewRating = 0;
     $scope.numOfFollowers = 0;
     $scope.numOfFollowings = 0;
@@ -217,9 +216,12 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             trainerID: $scope.selectedTrainer.$id,
             text: $scope.newreview.text,
             rating: $scope.newreview.rating,
-            created: Date.now(),
+            created: Firebase.ServerValue.TIMESTAMP,
             $priority: $scope.reviewCount
         };
+        if(appFactory.user.profilepic){
+            newReview.profilepic = appFactory.user.profilepic;
+        }
         console.log(newReview);
 
         var newReviewRef = $scope.reviews.$add(newReview).then(function(ref) {
@@ -233,7 +235,8 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 
             $scope.sizes.$save().then(function(){
                 console.log($scope.sizes);
-                $scope.myTransactions.$remove($scope.transaction).then(function(){
+                $scope.transaction.reviewed = true;
+                $scope.myTransactions.$save($scope.transaction).then(function(){
                     alert("Review added");
                     $scope.closeReviewModal();
                 });
@@ -243,8 +246,11 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             myreview.trainerID = $scope.selectedTrainer.$id;
             myreview.text = $scope.newreview.text;
             myreview.rating = $scope.newreview.rating;
-            myreview.created = Date.now();
-            myreview.profilepic = appFactory.user.profilepic;
+            myreview.created = Firebase.ServerValue.TIMESTAMP;
+            if(appFactory.user.profilepic){
+                myreview.profilepic = appFactory.user.profilepic;
+            }
+
             myreview.$priority = $scope.reviewCount;
             myreview.$save();
 
@@ -302,7 +308,14 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     }
 
     $scope.follow = function(){
-        console.log(appFactory.user);
+        var notif = {
+            creatorID: appFactory.user.$id,
+            starttime: new Date().getTime(),
+            url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
+            receivers: [$stateParams.userID],
+            message: appFactory.user.username + " has joined your event: " + $scope.selectedEvent.name
+        }
+
         $scope.followerMe.username = appFactory.user.username;
         if(appFactory.user.profilepic){
             $scope.followerMe.profilepic = appFactory.user.profilepic;
@@ -322,6 +335,8 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         var following = $firebaseObject(Following.ref().child(appFactory.user.$id).child($scope.selectedTrainer.$id));
         following.$loaded(function() {
             following.username = $scope.selectedTrainer.username;
+            following.created = Firebase.ServerValue.TIMESTAMP;
+            following.$priority = following.created;
             console.log($scope.selectedTrainer.profilepic);
             if($scope.selectedTrainer.profilepic){
                 following.profilepic = $scope.selectedTrainer.profilepic;
@@ -340,6 +355,21 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 
                 alert("Following user: " + $scope.selectedTrainer.username);
             });
+        });
+    };
+
+    $scope.unfollow = function(){
+        $scope.followerMe.$remove().then(function(){
+            $scope.sizes.numOfFollowers--;
+            $scope.sizes.$save();
+        });
+
+        var following = $firebaseObject(Following.ref().child(appFactory.user.$id).child($scope.selectedTrainer.$id));
+        following.$remove().then(function() {
+            appFactory.mysizes.numOfFollowing--;
+            appFactory.mysizes.$save();
+
+            alert("Following user: " + $scope.selectedTrainer.username);
         });
     };
 });
@@ -576,7 +606,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
             $scope.newrequest.userID = appFactory.user.$id;
             $scope.newrequest.userName = appFactory.user.username;
 
-            $scope.newrequest.created = Date.now();
+            $scope.newrequest.created = Firebase.ServerValue.TIMESTAMP;
 
             var requestRef = Requests.ref().child(appFactory.user.$id);
 
@@ -613,7 +643,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
     }
 });
 
-trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFactory, $ionicPopup, Schedule, $firebaseArray, Transactions, MyTransactions, Notifications) {
+trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFactory, $ionicPopup, Schedule, $firebaseArray, Transactions, MyTransactions, Notifications, Feeds) {
     return {
         restrict: "E",
         templateUrl: "js/trainer/templates/schedulerUserView.html",
@@ -768,10 +798,10 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         trainerID: scope.selectedTrainer.$id,
                         trainerName: scope.selectedTrainer.username,
                         tokens: 2,
-                        created: Date.now(),
+                        type: "trainer",
+                        created: Firebase.ServerValue.TIMESTAMP,
                         duration: bookedReduced[i].period,
-                        starttime: starttime,
-                        startTimestamp: startTimestamp
+                        starttime: startTimestamp
                     };
 
 
@@ -782,18 +812,27 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                             console.log(transactionRef.key());
                             var notifToTrainer = {
                                 creatorID: appFactory.user.$id,
-                                starttime: Date.now(),
-                                url: "#/menu/Trainers/" + appFactory.user.$id,
+                                starttime: Firebase.ServerValue.TIMESTAMP,
+                                url: "#/menu/Trainers/" + appFactory.user.$id + "/",
                                 receivers: [scope.selectedTrainer.$id],
                                 message: "A training was booked by user: " + appFactory.user.username + " at " + starttime
                             }
-                            Notifications.ref().push(notifToTrainer);
+                            Notifications.ref().push(notifToTrainer, function(){
+                                if(appFactory.user.profilepic){
+                                    notifToTrainer.profilepic = appFactory.user.profilepic;
+                                }
+                                notifToTrainer.created =
+
+                                Feeds.ref().child(scope.selectedTrainer.$id).push(notifToTrainer);
+
+                            });
+
 
                             var notifToUser = {
                                 creatorID: appFactory.user.$id,
-                                starttime: newTransaction.startTimestamp,
+                                starttime: newTransaction.starttime,
                                 notifyPeriod:900000,
-                                url: "#/menu/Trainers/" + scope.selectedTrainer.$id,
+                                url: "#/menu/account/my-transactions",
                                 receivers: [appFactory.user.$id],
                                 message: "A training with: " + scope.selectedTrainer.username + " is starting at " + starttime
                             }
@@ -801,6 +840,10 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
 
                             newTransaction.reviewed = false;
                             newTransaction.scanned = false;
+                            if(scope.selectedTrainer.profilepic){
+                                newTransaction.profilepic = scope.selectedTrainer.profilepic;
+                            }
+                            newTransaction.type = "trainer";
                             myTransactions.child(transactionRef.key()).set(newTransaction, function(){
                                 myTransactions.child(transactionRef.key()).setPriority(startTimestamp);
 

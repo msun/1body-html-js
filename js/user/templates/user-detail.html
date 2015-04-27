@@ -1,0 +1,102 @@
+<ion-view>
+    <ion-header-bar class="ob-darkpurple-bg">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon button-dark">
+                <i class = "icon ion-navicon-round"></i>
+            </button>
+        </div>
+        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
+    </ion-header-bar>
+    <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
+        <div class="profile-top">
+            <div class="follow-button" ng-show="!followerMe.username" ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
+            <div class="following-button" ng-show="followerMe.username" ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
+
+            <div class="profile-top-padding-div"></div>
+
+            <div class="profile-picture-div">
+                <img class="profile-picture" src="{{selectedUser.profilepic}}"/>
+                <img class="profile-picture-tag" src="img/badge-professional.png"/>
+            </div>
+
+            <div class="full-name-container">
+                <span class="full-name-left"></span>
+                <span class="full-name">{{selectedUser.username}}</span>
+            </div>
+            <p class="profession">{{selectedUser.profession}}</p>
+            <p class="personal-quote">{{selectedUser.information}}</p>
+
+            <div class="profile-stats-container">
+                <span class="profile-stats-container-empty-item"></span>
+                    <span class="followers-item">
+                        <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
+                        <div>Followers</div>
+                    </span>
+                    <!--<span class="profile-reviews-item">-->
+                        <!--<div class="profile-review-stars">-->
+                            <!--<img class="profile-review-star" src="img/professional-profile/blue-star-single.png"/>-->
+                            <!--<img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/white-star-single.png"/>-->
+                            <!--<img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/blue-star-single.png"/>-->
+                            <!--<img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/white-star-single.png"/>-->
+                            <!--<img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/blue-star-single.png"/>-->
+                            <!--<img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/white-star-single.png"/>-->
+                            <!--<img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/blue-star-single.png"/>-->
+                            <!--<img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/white-star-single.png"/>-->
+                            <!--<img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/blue-star-single.png"/>-->
+                        <!--</div>-->
+                        <!--<div>(<span class="profile-reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>-->
+                    <!--</span>-->
+                    <span class="following-item">
+                        <div class="following-count">{{sizes.numOfFollowings || 0}}</div>
+                        <div>Following</div>
+                    </span>
+                <span class="profile-stats-container-empty-item"></span>
+            </div>
+
+            <!--<button class="profile-main-action-button" ng-click="showScheduleModal()">-->
+                <!--<span class="first-word">Book</span> a class with {{selectedUser.username}}!-->
+            <!--</button>-->
+
+        </div>
+        <div class="profile-bottom">
+            <div class="profile-tab-bar-container">
+                    <span class="button-bar profile-tab-bar">
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-1">
+                            <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>-->
+                        </a>
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-2">
+                            <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>-->
+                        </a>
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-3">
+                            <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
+                        </a>
+                        <a class="button profile-tab" id="profile-tab-4" href="#/menu/conversations/{{selectedUser.$id}}">
+                            <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>-->
+                        </a>
+                    </span>
+            </div>
+            <div class="profile-bottom-content">
+                <div class="profile-map-container">
+                    <div class="item profile-map" id="trainer-detail-map" data-tap-disabled="true"></div>
+                </div>
+                <ion-list class="profile-feed-review-list">
+                    <ion-item class="profile-feed-review-list-row" ng-repeat="item in transactions" ng-click="replyto()">
+                        <span class="profile-feed-review-list-row-left">
+                            <img class="profile-feed-review-list-img" src="{{item.profilepic}}"/>
+                        </span>
+                        <span class="profile-feed-review-list-row-right">
+                            <span class="profile-feed-review-creation">{{item.created | parseTimestamp}}</span>
+                            <p class="profile-feed-review-text" ng-show="item.type == 'class'">Attended {{item.className}}</p>
+                        </span>
+                    </ion-item>
+                    <p class="profile-feed-end" ng-show="transactions.length < 5">No more feeds</p>
+                    <button class="ob-block-button ob-dark-button" ng-show="reviews.length >= 5" class="button" ng-click="moreActivities()">More Activities</button>
+                </ion-list>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

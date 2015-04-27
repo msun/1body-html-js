@@ -28,6 +28,7 @@ angular.module('timeAndDate', [])
                 scope.widget = {};
                 scope.showTimePicker = attrs.showTimePicker || true;
                 scope.showDatePicker = attrs.showDatePicker || true;
+                scope.allowTimeBeforeNow = attrs.allowTimeBeforeNow || false;
 
                 scope.time = attrs.time;
                 console.log(scope);
@@ -104,7 +105,7 @@ angular.module('timeAndDate', [])
 
                 var setDate = function(){
 
-                    if(dTime < Date.now()){
+                    if(!scope.allowTimeBeforeNow && dTime < Date.now()){
                         dTime = new Date();
                     }
                     var theRightHour = scope.widget.hours;
