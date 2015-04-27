@@ -1,15 +1,15 @@
 <ion-view>
     <ion-header-bar class="bar-dark">
         <div class="buttons">
-            <a  ng-click ="toggleMenu()" class = "button button-icon" >
-                <i class = "icon ion-navicon">
-                </i>
+            <a href="#/menu/Events" class = "button button-icon" >
+                <i class = "icon ion-arrow-left-c">
+                </i> Back
             </a>
             <h2 class="title">{{selectedClass.name}}</h2>
         </div>
     </ion-header-bar>
 
-    <ion-content has-header="true" >
+    <ion-content has-header="true">
         <div class="list card">
 
             <div class="item item-avatar">
@@ -20,7 +20,7 @@
                 <p>{{selectedClass.user.group}}</p>
             </div>
 
-            <div class="item item-body menu1-content" >
+            <div class="item item-body">
                 <h2>{{selectedClass.name}}</h2>
                 <p>
                     {{selectedClass.information}}
@@ -28,26 +28,16 @@
                 <p>
                     {{selectedClass.location}}
                 </p>
-
-                <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
-                <ul class="list menu1-content">
-                    <a class="item" ng-repeat="item in openClasses">
-                        <p>Starttime: {{item.classtime}}</p>
-                        <p>openslots: {{item.slotsopen}}</p>
-                        <button class="button button-calm" ng-click="bookClass(item)">Book</button>
-                    </a>
-                </ul>
-
-                <!--<div id="class-detail-map" data-tap-disabled="true" style="width: 100%; height: 200px"></div>-->
-                <!--<p>-->
-                    <!--<a href="#" class="subdued">1 Like</a>-->
-                    <!--<a href="#" class="subdued">{{selectedClass.comments.length}} Comments</a>-->
-                <!--</p>-->
+                <div id="class-detail-map" data-tap-disabled="true" style="width: 100%; height: 200px"></div>
+                <p>
+                    <a href="#" class="subdued">1 Like</a>
+                    <a href="#" class="subdued">{{selectedClass.comments.length}} Comments</a>
+                </p>
             </div>
 
-            <!--<button class="item button button-block button-dark" ng-click="openClassSelectionModal()">-->
-                <!--Book this class-->
-            <!--</button>-->
+            <button class="item button button-block button-dark">
+                Join Event
+            </button>
         </div>
 
         <div>

@@ -281,24 +281,6 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Feeds", function(Firebase) {
-        var ref = Firebase.child("history");
-        return {
-            ref: function(){
-                return ref;
-            }
-        };
-    })
-
-    .factory("Modified", function(Firebase) {
-        var ref = Firebase.child("modified");
-        return {
-            ref: function(){
-                return ref;
-            }
-        };
-    })
-
     .factory("Transactions", function($firebase, Firebase) {
         var ref = Firebase.child("transactions");
 
@@ -572,7 +554,6 @@ angular.module('starter.services', ["firebase"])
         factory.position = null;
         factory.state = "Trainers";
         factory.mysizes = {};
-        factory.modified = {};
 
         factory.getDistance = function(lat1,lon1,lat2,lon2) {
             var R = 6371; // Radius of the earth in km

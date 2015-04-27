@@ -39,6 +39,9 @@
                 <span class="input-label">Description</span>
                 <input type="text" ng-model="newclass.information" placeholder="Description">
             </label>
+            <div class="item ob-form-row ob-form-flex-row">
+                <time-picker class="ob-form-timepicker" show-date-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+            </div>
 
             <div class="item range range-positive">
                 <span class="input-label">Duration {{newclass.duration}}min</span>
@@ -50,19 +53,6 @@
                 <input type="number" ng-model="newclass.slotsopen">
             </div>
 
-            <div class="item range range-positive">
-                <span class="input-label">Tokens</span>
-                <input type="number" ng-model="newclass.tokens">
-            </div>
-
-            <div class="item range">
-                <span class="input-label">Instructor</span>
-                <input type="text" ng-model="newclass.instructor">
-            </div>
-
-            <div class="item ob-form-row ob-form-flex-row">
-                <time-picker class="ob-form-timepicker" show-date-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
-            </div>
 
             <label class="item item-input item-select">
                 <div class="input-label">
@@ -74,14 +64,14 @@
 
             <div class="item item-input item-select" ng-show="newclass.repeat[0] && newclass.repeat[0].interval == 'Weekly'">
                 <span class="input-label">Select day</span>
-                <select ng-model="newclass.repeat[0].day">
-                    <option value="1">Monday</option>
-                    <option value="2">Tuesday</option>
-                    <option value="3">Wednesday</option>
-                    <option value="4">Thursday</option>
-                    <option value="5">Friday</option>
-                    <option value="6">Saturday</option>
-                    <option value="7">Sunday</option>
+                <select ng-model="newclass.repeat.day">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
                 </select>
             </div>
 

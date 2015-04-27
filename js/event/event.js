@@ -39,14 +39,13 @@ event.controller('MyEventsCtrl', function($scope, Events, appFactory, $firebaseA
     $scope.events.$loaded(function(){
         for(var i=0; i<$scope.events.length; i++){
             if($scope.events[i].starttime < Date.now()){
-//                $scope.events.$remove(i);
-                //TODO: remove event
+                $scope.events.$remove(index);
             }
         }
     })
 });
 
-event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal, $firebaseArray, $firebaseObject, EventGoers, User, appFactory, $timeout, mapFactory, $stateParams, Events, Following, Notifications, EventComments, MyTransactions, Feeds, $rootScope) {
+event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal, $firebaseArray, $firebaseObject, EventGoers, User, appFactory, $timeout, mapFactory, $stateParams, Events, Following, Notifications, EventComments) {
     console.log(appFactory.events);
     console.log($stateParams.userID);
     console.log($stateParams.eventID);
@@ -57,7 +56,6 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
         $scope.modal = modal;
     });
     $scope.inEvent = -1;
-    var transactionID = "";
 
     var eventRef = Events.ref().child($stateParams.userID).child($stateParams.eventID);
 
@@ -70,7 +68,6 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
         for(var i=0; i<$scope.goers.length; i++){
             if($scope.goers[i].userID == appFactory.user.$id){
                 $scope.inEvent = i;
-                transactionID = $scope.goers[i].transactionID;
             }
         }
     });
@@ -115,38 +112,18 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
             url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
             receivers: [$stateParams.userID],
             message: appFactory.user.username + " has joined your event: " + $scope.selectedEvent.name
-        };
-
-        var transaction = {
-            userID: appFactory.user.$id,
-            eventID: $scope.selectedEvent.$id,
-            eventName: $scope.selectedEvent.name,
-            type: "event",
-            created: Firebase.ServerValue.TIMESTAMP,
-            duration: $scope.selectedEvent.duration,
-            starttime: $scope.selectedEvent.starttime
-        };
+        }
 
         console.log(going);
-        var tranRef = MyTransactions.ref().child(appFactory.user.$id).push(transaction, function(){
-            tranRef.setPriority(transaction.starttime);
-            going.transactionID = tranRef.key();
-            EventGoers.ref().child($stateParams.eventID).child(appFactory.user.$id).set(going, function(){
-                $timeout(function(){
+        EventGoers.ref().child($stateParams.eventID).child(appFactory.user.$id).set(going, function(){
+            $timeout(function(){
 //                $scope.inEvent = $scope.goers.$indexFor(appFactory.user.$id);
-                    $scope.inEvent = -2;
-                })
+                $scope.inEvent = -2;
+            })
 
-                Notifications.ref().push(notif, function(){
-                    if($scope.selectedEvent.profilepic){
-                        notif.profilepic = $scope.selectedEvent.profilepic;
-                    }
-                    notif.message = "You joined event " + $scope.selectedEvent.name;
-                    notif.created = Firebase.ServerValue.TIMESTAMP;
-                    Feeds.ref().child(appFactory.user.$id).push(notif);
+            Notifications.ref().push(notif, function(){
+                alert("You have joined this event");
 
-                    alert("You have joined this event");
-                });
             });
         });
     };
@@ -158,27 +135,15 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
             url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
             receivers: [$stateParams.userID],
             message: appFactory.user.username + " has left your event: " + $scope.selectedEvent.name
-        };
-
-        $firebaseObject(MyTransactions.ref().child(appFactory.user.$id).child(transactionID)).$remove().then(function(){
-            $scope.goers.$remove($scope.inEvent).then(function(){
-                Notifications.ref().push(notif, function(){
-                    if($scope.selectedEvent.profilepic){
-                        notif.profilepic = $scope.selectedEvent.profilepic;
-                    }
-                    notif.message = "You left event " + $scope.selectedEvent.name;
-                    notif.created = Firebase.ServerValue.TIMESTAMP;
-                    Feeds.ref().child(appFactory.user.$id).push(notif);
-
-                    $timeout(function(){
-                        alert("You have left this event.");
-                        $scope.inEvent = -2;
-                        transactionID = "";
-                    })
-                });
+        }
+        $scope.goers.$remove($scope.inEvent).then(function(){
+            Notifications.ref().push(notif, function(){
+                alert("You have left this event.");
+                $timeout(function(){
+                    $scope.inEvent = -2;
+                })
             });
-        })
-
+        });
     };
 
     $scope.whosGoing = function(){
@@ -256,7 +221,7 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
     }
 });
 
-event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $rootScope, $scope, $timeout, $stateParams, $ionicPopup, Trainers, Event, eventFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, appConfig, Events, GeoEvents, Categories, Following, Invites, $localstorage) {
+event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, baseUrl, $scope, $timeout, $stateParams, $ionicPopup, Trainers, Event, eventFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, appConfig, Events, GeoEvents, Categories, Following, Invites, $localstorage) {
     console.log('CreateEventCtrl');
     console.log($stateParams.eventID);
 
@@ -291,7 +256,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
 
             var map = new google.maps.Map(document.getElementById('create-eventmap'), {
                 zoom: 11,
-                center: new google.maps.LatLng($rootScope.position.coords.latitude, $rootScope.position.coords.longitude),
+                center: new google.maps.LatLng(appFactory.user.latitude, appFactory.user.longitude),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             });
 
@@ -348,7 +313,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
                 (function (targetUser) {
                     var invite = {
                         ownerID: appFactory.user.$id,
-                        type: "event",
+                        type: "Events",
                         name: $scope.newevent.name,
                         key: $scope.newevent.$id,
                         inviteCreated: Date.now(),
@@ -393,7 +358,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
         $scope.newevent.userID = appFactory.user.$id;
 
         $scope.newevent.modified = Firebase.ServerValue.TIMESTAMP;
-        $scope.newevent.starttime = $scope.dt.getTime();
+        $scope.newevent.starttime = $scope.dt;
         console.log($scope.newevent);
 
         if($stateParams.eventID != "new"){

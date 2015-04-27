@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services', 'eventModule', 'classModule', 'gymModule', 'userModule'])
+angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services', 'eventModule', 'classModule', 'gymModule'])
 //    .value("baseUrl", "http://108.168.247.49:10355/")
     .constant('appConfig', {
         baseUrl: "http://localhost:8888/",
@@ -25,7 +25,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         repeatIntervals: [
             {interval: "Daily"},
             {interval: "Weekly"},
-//            {interval: "Monthly"},
+            {interval: "Monthly"},
             {interval: "Once"}
         ]
     })
@@ -150,15 +150,15 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-//            .state('menu.list', {
-//                url: '/list',
-//                views: {
-//                    'menu': {
-//                        templateUrl: 'js/map/templates/list.html',
-//                        controller: 'ListCtrl'
-//                    }
-//                }
-//            })
+            .state('menu.list', {
+                url: '/list',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/map/templates/list.html',
+                        controller: 'ListCtrl'
+                    }
+                }
+            })
 
             .state('menu.trainer-detail', {
                 url: '/Trainers/:trainerName/:gymID',
@@ -166,16 +166,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     'menu': {
                         templateUrl: 'js/trainer/templates/trainer-detail.html',
                         controller: 'TrainerDetailCtrl'
-                    }
-                }
-            })
-
-            .state('menu.user', {
-                url: '/Users/:userID',
-                views: {
-                    'menu': {
-                        templateUrl: 'js/user/templates/user-detail.html',
-                        controller: 'UserDetailCtrl'
                     }
                 }
             })
@@ -401,15 +391,15 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-//            .state('menu.account.my-classes', {
-//                url: '/my-classes',
-//                views: {
-//                    'account': {
-//                        templateUrl: 'js/account/templates/my-classes.html',
-//                        controller: 'MyClassCtrl'
-//                    }
-//                }
-//            })
+            .state('menu.account.my-classes', {
+                url: '/my-classes',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/my-classes.html',
+                        controller: 'MyClassCtrl'
+                    }
+                }
+            })
 
             .state('menu.account.my-transactions', {
                 url: '/my-transactions',
@@ -441,15 +431,15 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-//            .state('menu.account.qrcode', {
-//                url: '/qrcode/:transactionID',
-//                views: {
-//                    'account': {
-//                        templateUrl: 'js/account/templates/qrcode.html',
-//                        controller: 'QRcodeCtrl'
-//                    }
-//                }
-//            })
+            .state('menu.account.qrcode', {
+                url: '/qrcode/:transactionID',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/qrcode.html',
+                        controller: 'QRcodeCtrl'
+                    }
+                }
+            })
 
             .state('menu.account.requested-sessions', {
                 url: '/requested-sessions',
@@ -496,16 +486,13 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $urlRouterProvider.otherwise('/home');
 
     })
-    .controller("MenuCtrl", function($scope, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications){
+    .controller("MenuCtrl", function($scope, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID){
+//        window.plugin.backgroundMode.enable();
         $rootScope.header = "Trainers";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
             window.location.href = url;
         };
-
-        $rootScope.findImage = function(userID){
-            return "";
-        }
 
         navigator.geolocation.getCurrentPosition(function(position){
             console.log("location ready");
@@ -518,17 +505,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
             $rootScope.$broadcast('locationReady', 'locationReady');
         });
-
-        $scope.sendNotification = function(){
-            var notifToTrainer = {
-                creatorID: appFactory.user.$id,
-                starttime: Date.now() + 10000,
-                url: "#/menu/Trainers/" + appFactory.user.$id,
-                receivers: ["simplelogin:37"],
-                message: "A test notification " + appFactory.user.username
-            }
-            Notifications.ref().push(notifToTrainer);
-        };
 
         $scope.logout = function(){
             UserAuth.$unauth();
