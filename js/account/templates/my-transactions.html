@@ -23,13 +23,25 @@
     </ion-header-bar>
     <ion-content class="ob-grey-bg">
         <button class="button button-calm" ng-click="showAll()">Show All</button>
-        <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+        <time-picker class="ob-form-timepicker" allow-time-before-now="true" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
         <ul class="list">
-            <a class="item" ng-repeat="item in myTransactions" href="#/menu/account/qrcode/{{item.$id}}">
-                <span>Trainer Name: {{item.trainerName}}</span>
-                <span>StartTime: {{item.starttime}}</span>
-                <p>Created: {{item.created | parseTimestamp}}</p>
-                <p>Duration: {{item.duration * 30}} MINUTES</p>
+            <a class="item" ng-repeat="item in myTransactions" ng-click="showQRcode(item)">
+                <span ng-show="item.type == 'Users'">
+                    Trainer Name: {{item.trainerName}}
+                    <img src="{{$root.findImage(item.trainerID, item.type)}}" width="80px" height="80px" />
+                </span>
+                <span ng-show="item.type == 'Classes'">
+                    <img src="{{$root.findImage(item.classID, item.type, item.gymID)}}" width="80px" height="80px" />
+                    Type: Class  Class Name: {{item.className}}
+                </span>
+                <span ng-show="item.type == 'Events'">
+                    <img src="{{$root.findImage(item.eventID, item.type)}}" width="80px" height="80px" />
+                    Type: Event  Event Name: {{item.className}}
+                </span>
+                <p>StartTime: {{item.starttime | parseTimestamp}}</p>
+                <span>Scanned: {{item.scanned}}</span>
+                <span>Created: {{item.created | parseTimestamp}}</span>
+                <span>Duration: {{item.duration * 30}} MINUTES</span>
             </a>
         </ul>
     </ion-content>

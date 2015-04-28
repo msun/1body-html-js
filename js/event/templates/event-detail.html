@@ -2,7 +2,7 @@
 <ion-view>
     <ion-header-bar class="bar-dark">
         <div class="buttons">
-            <a href="#/menu/my-events" class = "button button-icon" >
+            <a ng-click="toggleMenu()" class = "button button-icon" >
                 <i class = "icon ion-arrow-left-c">
                 </i> Back
             </a>
@@ -52,7 +52,7 @@
         <div>
             <ion-list>
                 <ion-item ng-repeat="comment in comments" ng-click="replyto(comment)">
-                    <img src="{{comment.profilepic}}" />
+                    <img src="{{$root.findImage(comment.userID, 'Users')}}" />
                     <p>{{comment.text}}</p>
                     <p ng-hide="comment.replyUserID" style="font-size: 10px">{{comment.username}} left at: {{comment.creation}}</p>
                     <p ng-show="comment.replyUserID" style="font-size: 10px">{{comment.username}} @{{comment.replyUserName}} left at: {{comment.creation}}</p>

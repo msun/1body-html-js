@@ -245,7 +245,7 @@ angular.module('starter.services', ["firebase"])
     })
 
     .factory("Trainers", function(Firebase) {
-        var ref = Firebase.child("trainers");
+        var ref = Firebase.child("users");
 
         return {
             ref: function(){
@@ -274,6 +274,24 @@ angular.module('starter.services', ["firebase"])
 
     .factory("Followers", function(Firebase) {
         var ref = Firebase.child("followers");
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("Feeds", function(Firebase) {
+        var ref = Firebase.child("history");
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("Modified", function(Firebase) {
+        var ref = Firebase.child("modified");
         return {
             ref: function(){
                 return ref;
@@ -544,7 +562,7 @@ angular.module('starter.services', ["firebase"])
         return Event;
     })
 
-    .factory('appFactory', function($http, baseUrl, User, Event, Gyms, GeoTrainers, Trainers, GeoEvents, Events, GeoGyms, Classes, $firebaseObject, $firebaseArray, $localstorage, Sizes) {
+    .factory('appFactory', function($http, baseUrl, User, Event, Gyms, GeoTrainers, Trainers, Users, GeoEvents, Events, GeoGyms, Classes, $firebaseObject, $firebaseArray, $localstorage, Sizes) {
         var factory = {};
         factory.user = {};
         factory.userRef = undefined;
@@ -552,8 +570,9 @@ angular.module('starter.services', ["firebase"])
         factory.trainers = {};
         factory.events = {};
         factory.position = null;
-        factory.state = "Trainers";
+        factory.state = "Users";
         factory.mysizes = {};
+        factory.modified = {};
 
         factory.getDistance = function(lat1,lon1,lat2,lon2) {
             var R = 6371; // Radius of the earth in km
@@ -603,7 +622,7 @@ angular.module('starter.services', ["firebase"])
             var sources = {
                 trainers : {
                     pinSource : GeoTrainers,
-                    firebaseSource : Trainers
+                    firebaseSource : Users
                 },
                 events : {
                     pinSource : GeoEvents,

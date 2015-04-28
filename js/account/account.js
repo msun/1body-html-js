@@ -41,7 +41,7 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage) {
+account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage, Modified) {
     console.log(UserAuth.$getAuth());
 
 
@@ -51,7 +51,7 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
             var exec = cordova.require("cordova/exec");
             exec(function(result){
                 console.log(result);
-                alert("received url: " + result.url);
+//                alert("received url: " + result.url);
                 window.location.href = result.url;
             }, function(err){
                 console.log(err);
@@ -60,7 +60,7 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
             $state.transitionTo(mapstate);
         }
         document.addEventListener("deviceready", function(){
-            alert(device.uuid);
+//            alert(device.uuid);
             var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id).child(device.uuid));
             gcmID.$loaded(function(){
                 if(!gcmID.$value){
@@ -86,16 +86,12 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
     }
 
     var loadLocalUser = function(user){
-        appFactory.user = user;
+        console.log(user);
+        appFactory.user = $firebaseObject(Users.ref().child(user.$id));
+        appFactory.user.position = user.position;
         $rootScope.user = appFactory.user;
-//        alert("loaded the user from localstorage");
         $ionicLoading.hide();
         checkUrl();
-        if(user.group == 'Trainers'){
-            appFactory.userRef = Trainers.ref();
-        } else {
-            appFactory.userRef = Users.ref();
-        }
     }
 
     var loadUserFromFirebase = function(user){
@@ -107,17 +103,9 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
                 $localstorage.setObject("user", appFactory.user);
                 $ionicLoading.hide();
                 checkUrl();
-                appFactory.userRef = Users.ref();
             } else {
-                appFactory.user = $firebaseObject(Trainers.ref().child(user.uid));
-                appFactory.user.$loaded(function(){
-                    $rootScope.user = appFactory.user;
-                    console.log(appFactory.user);
-                    $localstorage.setObject("user", appFactory.user);
-                    $ionicLoading.hide();
-                    checkUrl();
-                    appFactory.userRef = Trainers.ref();
-                });
+                alert("Login failed, please try again");
+                $ionicLoading.hide();
             }
         });
     }
@@ -134,29 +122,33 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
 
         if(UserAuth.$getAuth() && !$scope.user.email){
             appFactory.mysizes = $firebaseObject(Sizes.ref().child(UserAuth.$getAuth().uid));
-
-            var user = $localstorage.getObject("user");
-            console.log(user);
-            if(user.$id && user.$id === UserAuth.$getAuth().uid){
-                loadLocalUser(user);
-            } else {
-                loadUserFromFirebase(UserAuth.$getAuth());
-            }
+            appFactory.modified = $firebaseObject(Modified.ref());
+            appFactory.modified.$loaded(function(){
+                var user = $localstorage.getObject("user");
+                console.log(user);
+                if(user.$id && user.$id === UserAuth.$getAuth().uid){
+                    loadLocalUser(user);
+                } else {
+                    loadUserFromFirebase(UserAuth.$getAuth());
+                }
+            });
         } else {
             UserAuth.$authWithPassword({
                 email: $scope.user.email,
                 password: $scope.user.password
             }).then(function (user) {
                 appFactory.mysizes = $firebaseObject(Sizes.ref().child(user.uid));
+                appFactory.modified = $firebaseObject(Modified.ref());
+                appFactory.modified.$loaded(function(){
+                    var localuser = $localstorage.getObject("user");
+                    console.log(localuser);
+                    if(localuser.$id && localuser.$id == user.uid){
+                        loadLocalUser(localuser);
+                    } else {
+                        loadUserFromFirebase(user);
+                    }
 
-                var localuser = $localstorage.getObject("user");
-                console.log(localuser);
-                if(localuser.$id && localuser.$id == user.uid){
-                    loadLocalUser(localuser);
-                } else {
-                    loadUserFromFirebase(user);
-                }
-
+                })
             }, function (error) {
                 console.error("Login failed: ", error);
                 alert("login failed, please try again");
@@ -176,7 +168,7 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
 
 account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject, UserAuth, $scope, Users, Trainers, $state, mapstate) {
     $scope.newuser = {};
-    $scope.newuser.group = "User";
+    $scope.newuser.group = "Users";
     console.log(UserAuth);
     UserAuth.$unauth(); //FOR TESTING
 
@@ -189,45 +181,20 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                 email: $scope.newuser.email,
                 password: $scope.newuser.password
             }).then(function (client) {
-                if ($scope.newuser.group == "Trainers") {
-                    var myRef = Trainers.ref().child(client.uid);
-                    var user = $firebaseObject(myRef);
+                var myRef = Users.ref().child(client.uid);
+                var user = $firebaseObject(myRef);
 
-                    user.$priority = Firebase.ServerValue.TIMESTAMP;;
-                    user.group = "Trainers";
-                    user.username = $scope.newuser.username;
-                    user.email = $scope.newuser.email;
-                    if($scope.newuser.gym){
-                        user.gym = $scope.newuser.gym;
-                    }
-                    user.modified = Firebase.ServerValue.TIMESTAMP;;
-                    user.tokens = 0;
-                    user.$save().then(function (thing) {
-                        console.log(thing);
-                        alert("Registered Successfully!");
-                        window.location.href = "#";
-                    });
-                } else {
-                    var myRef = Users.ref().child(client.uid);
-                    var user = $firebaseObject(myRef);
-                    user.$priority = Firebase.ServerValue.TIMESTAMP;;
-                    user.group = "Users";
-                    user.username = $scope.newuser.username;
-                    user.email = $scope.newuser.email;
-                    user.modified = Firebase.ServerValue.TIMESTAMP;;
-                    user.tokens = 0;
-                    user.$save().then(function (thing) {
-                        console.log(thing);
-                        alert("Registered Successfully!");
-                        window.location.href = "#";
-                    });
-                }
-
-
-                if ($scope.newuser.group.name == "trainer") {
-                }
-                console.log(user);
-
+                user.$priority = Firebase.ServerValue.TIMESTAMP;
+                user.group = "Trainers";
+                user.username = $scope.newuser.username;
+                user.email = $scope.newuser.email;
+                user.modified = Firebase.ServerValue.TIMESTAMP;
+                user.tokens = 0;
+                user.$save().then(function (thing) {
+                    console.log(thing);
+                    alert("Registered Successfully!");
+                    window.location.href = "#";
+                });
             }, function (error) {
                 console.error("Login failed: ", error);
             });
@@ -268,8 +235,36 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
 
 });
 
-account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $firebaseObject, Transactions, MyTransactions){
+account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $firebaseObject, Transactions, MyTransactions, Notifications){
     $scope.clientCode = {};
+
+    var processTransaction = function(text){
+        var transcation = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child(text));
+        transcation.$loaded(function () {
+            console.log(transcation);
+            if(transcation.trainerID == appFactory.user.$id || transcation.type == 'class' && appFactory.user.admin){
+                var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child(text));
+                myTransaction.$loaded(function(){
+                    myTransaction.scanned = true;
+                    myTransaction.scanTime = Firebase.ServerValue.TIMESTAMP;
+                    myTransaction.$save().then(function(){
+                        var notif = {
+                            creatorID: appFactory.user.$id,
+                            starttime: Date.now() + transcation.duration * 30 * 1000 * 60,
+                            url: "#/menu/Trainers/" + appFactory.user.$id,
+                            receivers: [transcation.userID],
+                            message: "Please leave a review for " + appFactory.user.username
+                        };
+                        Notifications.ref().push(notif, function(){
+                            alert("Transaction processed");
+                        });
+                    });
+                })
+            } else {
+                alert("This is not your training");
+            }
+        })
+    }
 
     $scope.scanClient = function() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -287,17 +282,7 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
                     "format: " + result.format + "\n" +
                     "cancelled: " + result.cancelled + "\n");
 
-                var transcation = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child(result.text));
-                transcation.$loaded(function () {
-                    console.log(transcation);
-                    var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child(result.text));
-                    myTransaction.$loaded(function(){
-                        myTransaction.scanned = true;
-                        myTransaction.$save().then(function(){
-                            alert("Transaction processed");
-                        });
-                    })
-                })
+                processTransaction(result.text);
             }, function (error) {
                 console.log("Scanning failed: ", error);
             });
@@ -305,48 +290,37 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
     }
 
     $scope.enterCode = function(){
-        alert($scope.clientCode.key);
-        var transcation = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child($scope.clientCode.key));
-        transcation.$loaded(function () {
-            console.log(transcation);
-            var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child($scope.clientCode.key));
-            myTransaction.$loaded(function(){
-                myTransaction.scanned = true;
-                myTransaction.$save().then(function(){
-                    alert("Transaction processed");
-                });
-            })
-        })
+        processTransaction($scope.clientCode.key);
     }
 });
 
-account.controller('QRcodeCtrl', function($scope, Transaction, Users, Trainers, $firebaseObject, $firebaseArray, MyTransactions, appFactory, $timeout, $stateParams){
-    $scope.update = function(transactionID){
-        console.log(transactionID);
-        $scope.transactionID = transactionID;
-        var element = document.getElementById("qrcode");
-
-        var bodyElement = document.body;
-        if(element.lastChild)
-            element.replaceChild(showQRCode(transactionID), element.lastChild);
-        else
-            element.appendChild(showQRCode(transactionID));
-
-    }
-
-    if($stateParams.transactionID.length > 1){
-        var element = document.getElementById("qrcode");
-        $scope.transactionID = $stateParams.transactionID;
-        $scope.update($stateParams.transactionID);
-    }
-
-    $scope.transaction = "";
-    $scope.transactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("scanned").equalTo(false));
-    $scope.transactions.$loaded(function(){
-        console.log($scope.transactions);
-    });
-
-});
+//account.controller('QRcodeCtrl', function($scope, Transaction, Users, Trainers, $firebaseObject, $firebaseArray, MyTransactions, appFactory, $timeout, $stateParams){
+//    $scope.update = function(transactionID){
+//        console.log(transactionID);
+//        $scope.transactionID = transactionID;
+//        var element = document.getElementById("qrcode");
+//
+//        var bodyElement = document.body;
+//        if(element.lastChild)
+//            element.replaceChild(showQRCode(transactionID), element.lastChild);
+//        else
+//            element.appendChild(showQRCode(transactionID));
+//
+//    }
+//
+//    if($stateParams.transactionID.length > 1){
+//        var element = document.getElementById("qrcode");
+//        $scope.transactionID = $stateParams.transactionID;
+//        $scope.update($stateParams.transactionID);
+//    }
+//
+//    $scope.transaction = "";
+//    $scope.transactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("scanned").equalTo(false));
+//    $scope.transactions.$loaded(function(){
+//        console.log($scope.transactions);
+//    });
+//
+//});
 
 account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate) {
     $scope.user = appFactory.user;
@@ -570,7 +544,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
 account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $localstorage, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, appConfig) {
     console.log("ProfileCtrl");
 
-    $scope.user = $firebaseObject(appFactory.userRef.child(appFactory.user.$id));
+    $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
     $scope.user.$loaded(function(){
         appFactory.user = $scope.user;
         $rootScope.user = appFactory.user;
@@ -736,10 +710,10 @@ account.controller('AccountCtrl', function($scope, User, appFactory, baseUrl, $t
 //    }
 });
 
-account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window, $rootScope) {
+account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window, $rootScope) {
     console.log("SetLocationCtrl ctrl");
 
-    $scope.user = $firebaseObject(appFactory.userRef.child(appFactory.user.$id));
+    $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
     $scope.user.$loaded(function(){
         appFactory.user = $scope.user;
         $rootScope.user = appFactory.user;
@@ -940,7 +914,7 @@ account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl
         console.log(now);
         for(var j=0; j<$scope.requests.length; j++) {
             var req = $scope.requests[j];
-            $scope.requests[j].profilepic = appFactory.trainers[req.trainerID].profilepic;
+            $scope.requests[j].profilepic = appFactory.users[req.trainerID].profilepic;
 
             if (now - req.created > 86400000) {
                 console.log("remove");
@@ -1174,7 +1148,7 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, b
     }
 });
 
-account.controller('MyTransactionsCtrl', function($scope, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, MyTransactions, $window, $localstorage){
+account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, MyTransactions, $window, $localstorage){
     $scope.dt = new Date();
 
     $scope.$watch('dt', function () {
@@ -1211,6 +1185,49 @@ account.controller('MyTransactionsCtrl', function($scope, Users, appFactory, $fi
     $scope.showAll = function(){
         $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id));
     }
+
+    $ionicModal.fromTemplateUrl('js/account/templates/qrcode.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.modal = modal;
+    });
+
+    $scope.showQRcode = function(transaction){
+//        MyTransactions.ref().child(appFactory.user.$id).child(transaction.$id).on("child_changed", function(childSnapshot){
+        var unwatch = $scope.myTransactions.$watch(function(event) {
+            console.log(event);
+            console.log($scope.myTransactions);
+            console.log(transaction);
+            if(transaction.scanned == true){
+                alert("successfully scanned");
+                unwatch();
+                $scope.modal.hide();
+            }
+        });
+
+        if(transaction.scanned == true){
+            alert("Transaction is already scanned");
+        }
+        $scope.modal.show().then(function(){
+            $scope.transactionID = transaction.$id;
+            var element = document.getElementById("qrcode");
+
+            if(element.lastChild)
+                element.replaceChild(showQRCode($scope.transactionID), element.lastChild);
+            else
+                element.appendChild(showQRCode($scope.transactionID));
+        });
+    }
+
+    $scope.closeQRcodeModal = function(){
+        console.log("hide");
+        $scope.modal.hide();
+    }
+
+    $scope.$on('$destroy', function() {
+        $scope.modal.remove();
+    });
 });
 
 account.filter('parseTimestamp', function() {
