@@ -1,6 +1,5 @@
 <div class="list infowindow-list">
     <div class="map-bubble-title">{{gym.name}}</div>
-    <div class="map-bubble-title">{{gym.tab}}</div>
     <div class="map-bubble-distance">{{gym.distance | number:1}}km</div>
     <a ng-repeat="item in items | limitTo:2" class="map-bubble-content-container" href="#/menu/{{gym.tab}}/{{item.userID}}{{item.classID}}/{{gym.$id}}">
         <div class="map-bubble-content">
@@ -8,7 +7,7 @@
                 <span class="map-bubble-img-container">
                     <img class="map-bubble-img" src="{{item.profilepic}}"/>
                     <img ng-show="gym.tab == 'Classes'" src="img/badge-class.png" class="map-bubble-img-badge"/>
-                    <img ng-show="gym.tab == 'Trainers'" src="img/badge-professional.png" class="map-bubble-img-badge"/>
+                    <img ng-show="gym.tab == 'Users'" src="img/badge-professional.png" class="map-bubble-img-badge"/>
                 </span>
             </div>
             <div class="map-bubble-text-column map-bubble-text-column-class">

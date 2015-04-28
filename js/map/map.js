@@ -195,7 +195,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
     $timeout(function(){
         console.log("timeout");
-        if(appFactory.trainers.length <= 0){
+        if(appFactory.users.length <= 0){
             $ionicLoading.hide();
             var alertPopup = $ionicPopup.alert({
                 title: 'Network Error',
@@ -212,6 +212,10 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
     var dropGymMarker = function(key, radius, center, searchTerms, mobile, tab){
         (function(index){
+            if(tab == "Users"){
+                tab = "Trainers";
+            }
+
             $scope.gyms[index].tab = tab;
             var obj = $scope.gyms[index];
             console.log($scope.gyms);
@@ -310,7 +314,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
             var contentString;
             var infowindow;
-            if(tab == "Trainers"){
+            if(tab == "Users"){
                 contentString = '<trainer-info-window item=\'array["' + index + '"]\'></trainer-info-window>';
                 console.log(contentString);
                 infowindow = new google.maps.InfoWindow();
@@ -367,6 +371,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         appFactory.user.position = $rootScope.position;
         $localstorage.setObject("user", appFactory.user);
     } else {
+        $ionicLoading.hide();
         if(appFactory.user.position){
             position = appFactory.user.position;
             setmap();
@@ -374,7 +379,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             dropGymPins(appFactory.state);
         }
         $scope.$on('locationReady', function (event, data) {
-            $ionicLoading.hide();
             position = $rootScope.position;
             console.log(appFactory.user.position);
             setmap();
@@ -487,16 +491,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 $scope.gyms[key].refreshed = true;
                 dropGymMarker(key, radius, center, searchTerms, mobile, tab);
             } else {
-                $scope.gyms[key] = {};
-                $scope.gyms[key].location = location;
-                $scope.gyms[key].distance = distance;
-                if($scope.markers[key]){
-                    $scope.markers[key].marker.setMap(null);
-                }
-                $scope.gyms[key].refreshed = false;
-                $localstorage.setObject("Gyms", $scope.gyms);
-                $scope.gyms[key].refreshed = true;
-                dropGymMarker(key, radius, center, searchTerms, mobile, tab);
                 var obj = $firebaseObject(Gyms.ref().child(key));
 
                 obj.$loaded().then(function () {
@@ -585,8 +579,8 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         var pinSource = GeoTrainers;
         var firebaseSource = Trainers;
         var source;
-        if(tab == "Trainers"){
-            $scope.array = appFactory.trainers;
+        if(tab == "Users"){
+            $scope.array = appFactory.users;
             pinSource = GeoTrainers;
             firebaseSource = Trainers;
         } else if(tab == "Events") {
@@ -616,10 +610,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             }
 
             console.log($scope.array[key]);
-            console.log(appFactory.modified[tab][key]);
-            alert(appFactory.modified[tab][key]);
             if($scope.array[key] && appFactory.modified[tab][key] && $scope.array[key].modified >= appFactory.modified[tab][key]){
-                $scope.array[key] = {};
                 $scope.array[key].location = location;
                 $scope.array[key].distance = distance;
                 if($scope.markers[key]){
@@ -637,7 +628,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                     obj = $firebaseObject(firebaseSource.ref().child(key));
                 }
                 obj.$loaded().then(function () {
-                    alert(appFactory.modified[tab][key] + " " + obj.modified);
                     obj.distance = distance;
                     obj.location = location;
                     obj.refreshed = false;

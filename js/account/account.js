@@ -81,16 +81,12 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
     }
 
     var loadLocalUser = function(user){
-        appFactory.user = user;
+        console.log(user);
+        appFactory.user = $firebaseObject(Users.ref().child(user.$id));
+        appFactory.user.position = user.position;
         $rootScope.user = appFactory.user;
-//        alert("loaded the user from localstorage");
         $ionicLoading.hide();
         checkUrl();
-        if(user.group == 'Trainers'){
-            appFactory.userRef = Trainers.ref();
-        } else {
-            appFactory.userRef = Users.ref();
-        }
     }
 
     var loadUserFromFirebase = function(user){
@@ -102,17 +98,9 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
                 $localstorage.setObject("user", appFactory.user);
                 $ionicLoading.hide();
                 checkUrl();
-                appFactory.userRef = Users.ref();
             } else {
-                appFactory.user = $firebaseObject(Trainers.ref().child(user.uid));
-                appFactory.user.$loaded(function(){
-                    $rootScope.user = appFactory.user;
-                    console.log(appFactory.user);
-                    $localstorage.setObject("user", appFactory.user);
-                    $ionicLoading.hide();
-                    checkUrl();
-                    appFactory.userRef = Trainers.ref();
-                });
+                alert("Login failed, please try again");
+                $ionicLoading.hide();
             }
         });
     }
@@ -175,7 +163,7 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
 
 account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject, UserAuth, $scope, Users, Trainers, $state, mapstate) {
     $scope.newuser = {};
-    $scope.newuser.group = "User";
+    $scope.newuser.group = "Users";
     console.log(UserAuth);
     UserAuth.$unauth(); //FOR TESTING
 
@@ -188,45 +176,20 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                 email: $scope.newuser.email,
                 password: $scope.newuser.password
             }).then(function (client) {
-                if ($scope.newuser.group == "Trainers") {
-                    var myRef = Trainers.ref().child(client.uid);
-                    var user = $firebaseObject(myRef);
+                var myRef = Users.ref().child(client.uid);
+                var user = $firebaseObject(myRef);
 
-                    user.$priority = Firebase.ServerValue.TIMESTAMP;
-                    user.group = "Trainers";
-                    user.username = $scope.newuser.username;
-                    user.email = $scope.newuser.email;
-                    if($scope.newuser.gym){
-                        user.gym = $scope.newuser.gym;
-                    }
-                    user.modified = Firebase.ServerValue.TIMESTAMP;
-                    user.tokens = 0;
-                    user.$save().then(function (thing) {
-                        console.log(thing);
-                        alert("Registered Successfully!");
-                        window.location.href = "#";
-                    });
-                } else {
-                    var myRef = Users.ref().child(client.uid);
-                    var user = $firebaseObject(myRef);
-                    user.$priority = Firebase.ServerValue.TIMESTAMP;;
-                    user.group = "Users";
-                    user.username = $scope.newuser.username;
-                    user.email = $scope.newuser.email;
-                    user.modified = Firebase.ServerValue.TIMESTAMP;;
-                    user.tokens = 0;
-                    user.$save().then(function (thing) {
-                        console.log(thing);
-                        alert("Registered Successfully!");
-                        window.location.href = "#";
-                    });
-                }
-
-
-                if ($scope.newuser.group.name == "trainer") {
-                }
-                console.log(user);
-
+                user.$priority = Firebase.ServerValue.TIMESTAMP;
+                user.group = "Trainers";
+                user.username = $scope.newuser.username;
+                user.email = $scope.newuser.email;
+                user.modified = Firebase.ServerValue.TIMESTAMP;
+                user.tokens = 0;
+                user.$save().then(function (thing) {
+                    console.log(thing);
+                    alert("Registered Successfully!");
+                    window.location.href = "#";
+                });
             }, function (error) {
                 console.error("Login failed: ", error);
             });
@@ -553,7 +516,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
 account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $localstorage, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, appConfig) {
     console.log("ProfileCtrl");
 
-    $scope.user = $firebaseObject(appFactory.userRef.child(appFactory.user.$id));
+    $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
     $scope.user.$loaded(function(){
         appFactory.user = $scope.user;
         $rootScope.user = appFactory.user;
@@ -717,10 +680,10 @@ account.controller('AccountCtrl', function($scope, User, appFactory, baseUrl, $t
 //    }
 });
 
-account.controller('SetLocationCtrl', function($scope, $firebaseObject, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window, $rootScope) {
+account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window, $rootScope) {
     console.log("SetLocationCtrl ctrl");
 
-    $scope.user = $firebaseObject(appFactory.userRef.child(appFactory.user.$id));
+    $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
     $scope.user.$loaded(function(){
         appFactory.user = $scope.user;
         $rootScope.user = appFactory.user;
@@ -921,7 +884,7 @@ account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl
         console.log(now);
         for(var j=0; j<$scope.requests.length; j++) {
             var req = $scope.requests[j];
-            $scope.requests[j].profilepic = appFactory.trainers[req.trainerID].profilepic;
+            $scope.requests[j].profilepic = appFactory.users[req.trainerID].profilepic;
 
             if (now - req.created > 86400000) {
                 console.log("remove");

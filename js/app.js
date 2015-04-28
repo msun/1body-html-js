@@ -496,28 +496,66 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $urlRouterProvider.otherwise('/home');
 
     })
-    .controller("MenuCtrl", function($scope, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications){
+    .run(function($rootScope){
+        navigator.geolocation.getCurrentPosition(function(position){
+            console.log("location ready");
+            $rootScope.position = position;
+            console.log(position);
+
+            $rootScope.$broadcast('locationReady', 'locationReady');
+        });
+    })
+    .controller("MenuCtrl", function($scope,Users,Events,Classes, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
         $rootScope.header = "Trainers";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
             window.location.href = url;
         };
 
-        $rootScope.findImage = function(userID){
-            return "";
-        }
-
-        navigator.geolocation.getCurrentPosition(function(position){
-            console.log("location ready");
-            $rootScope.position = position;
-            console.log(position);
-
 //            appFactory.getObjsWithinRadius("trainers", [position.coords.latitude, position.coords.longitude], 30);
 //            appFactory.getObjsWithinRadius("events", [position.coords.latitude, position.coords.longitude], 30);
 //            appFactory.getObjsWithinRadius("classes", [position.coords.latitude, position.coords.longitude], 30);
 
-            $rootScope.$broadcast('locationReady', 'locationReady');
-        });
+        $rootScope.findImage = function(id, type, gymID){
+            if(type == "Users"){
+                if(appFactory.users[id] && appFactory.users[id].profilepic &&
+                    appFactory.users[id].modified >= appFactory.modified[type][id]){
+                    return appFactory.users[id].profilepic;
+                } else {
+                    var record = $firebaseObject(Users.ref().child(id));
+                    record.$loaded(function(){
+                        appFactory.users[id] = record;
+                        $localstorage.setObject(type, $scope.users);
+                        return record.profilepic;
+                    });
+                }
+            } else if(type == "Events"){
+                if(appFactory.events[id] && appFactory.events[id].profilepic &&
+                    appFactory.events[id].modified >= appFactory.modified[type][id]){
+                    return appFactory.events[id].profilepic;
+                } else {
+                    var record = $firebaseObject(Events.ref().child(id));
+                    record.$loaded(function(){
+                        appFactory.events[id] = record;
+                        $localstorage.setObject(type, $scope.events);
+                        return record.profilepic;
+                    });
+                }
+            } else if(type == "Classes"){
+                if(appFactory.classes[id] && appFactory.classes[id].profilepic &&
+                    appFactory.classes[id].modified >= appFactory.modified[type][id]){
+                    return appFactory.classes[id].profilepic;
+                } else {
+                    var record = $firebaseObject(Classes.ref().child(id));
+                    record.$loaded(function(){
+                        appFactory.classes[id] = record;
+                        $localstorage.setObject(type, $scope.classes);
+                        return record.profilepic;
+                    });
+                }
+            }
+            return "";
+        }
 
         $scope.sendNotification = function(){
             var notifToTrainer = {
@@ -574,8 +612,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         try {
             console.log($localstorage.getObject("user"));
-            appFactory.trainers = $localstorage.getObject("Trainers");
-            console.log(appFactory.trainers);
+            appFactory.users = $localstorage.getObject("Users");
+            console.log(appFactory.users);
             appFactory.events = $localstorage.getObject("Events");
             console.log(appFactory.events);
             appFactory.gyms = $localstorage.getObject("Gyms");

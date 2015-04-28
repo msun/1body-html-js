@@ -86,7 +86,7 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
         }, true);
     };
 
-    $scope.user = $firebaseObject(appFactory.userRef.child(appFactory.user.$id));
+    $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
     $scope.user.$loaded(function(){
         appFactory.user = $scope.user;
         $localstorage.setObject("user", $scope.user);
@@ -154,7 +154,7 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
             starttime.setMinutes(splits[1]);
             console.log(starttime);
             obj.starttime = starttime.getTime();
-            obj.type = "class";
+            obj.type = "Classes";
             var transactionRef = Transactions.ref().child("simplelogin:37").push(obj, function(){
                 obj.scanned = false;
                 obj.reviewed = false;

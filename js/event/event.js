@@ -106,9 +106,6 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
             username: appFactory.user.username,
             created: new Date().getTime()
         };
-        if(appFactory.user.profilepic){
-            going.profilepic = appFactory.user.profilepic;
-        }
         var notif = {
             creatorID: appFactory.user.$id,
             starttime: new Date().getTime(),
@@ -121,7 +118,7 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
             userID: appFactory.user.$id,
             eventID: $scope.selectedEvent.$id,
             eventName: $scope.selectedEvent.name,
-            type: "event",
+            type: "Events",
             created: Firebase.ServerValue.TIMESTAMP,
             duration: $scope.selectedEvent.duration,
             starttime: $scope.selectedEvent.starttime
@@ -241,9 +238,6 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
             $scope.newcomment.creation = Date.now();
             $scope.newcomment.username = appFactory.user.username;
             $scope.newcomment.userID = appFactory.user.$id;
-            if(appFactory.user.profilepic){
-                $scope.newcomment.profilepic = appFactory.user.profilepic;
-            }
             $scope.comments.$add($scope.newcomment).then(function(){
                 Notifications.ref().push(notif, function(){
                     $timeout(function(){
@@ -348,7 +342,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
                 (function (targetUser) {
                     var invite = {
                         ownerID: appFactory.user.$id,
-                        type: "event",
+                        type: "Events",
                         name: $scope.newevent.name,
                         key: $scope.newevent.$id,
                         inviteCreated: Date.now(),

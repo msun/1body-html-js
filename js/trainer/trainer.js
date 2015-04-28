@@ -24,28 +24,16 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
     $scope.users = {};
     $scope.users[appFactory.user.$id] = appFactory.user;
 
-    if(appFactory.trainers[$stateParams.userID]){
-        $scope.users[$stateParams.userID] = appFactory.trainers[$stateParams.userID];
+    if(appFactory.users[$stateParams.userID]){
+        $scope.users[$stateParams.userID] = appFactory.users[$stateParams.userID];
         console.log($scope.users);
     } else {
         var user = $firebaseObject(Trainers.ref().child($stateParams.userID));
         user.$loaded(function(){
-            if(user.username){
-                $scope.users[$stateParams.userID] = user;
-                console.log($scope.users);
-                appFactory.trainers[$stateParams.userID] = user;
-                $localstorage.setObject("Trainers", appFactory.trainers);
-            } else {
-                user = $firebaseObject(Users.ref().child($stateParams.userID));
-                user.$loaded(function(){
-                    console.log(user);
-                    $scope.users[$stateParams.userID] = user;
-
-                    appFactory.users[$stateParams.userID] = $scope.user;
-//                    appFactory.trainers[$stateParams.userID] = user;
-//                    $localstorage.setObject("Trainers", appFactory.trainers);
-                });
-            }
+            $scope.users[$stateParams.userID] = user;
+            console.log($scope.users);
+            appFactory.users[$stateParams.userID] = user;
+            $localstorage.setObject("Users", appFactory.users);
         });
     }
 
@@ -195,16 +183,16 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         };
     }
 
-    if(appFactory.trainers[$scope.trainerName] && appFactory.trainers[$scope.trainerName].refreshed){
-        $scope.selectedTrainer = appFactory.trainers[$scope.trainerName];
+    if(appFactory.users[$scope.trainerName] && appFactory.users[$scope.trainerName].refreshed){
+        $scope.selectedTrainer = appFactory.users[$scope.trainerName];
         loadData();
     } else {
         $scope.selectedTrainer = $firebaseObject(Trainers.ref().child($scope.trainerName));
         $scope.selectedTrainer.$loaded(function(){
-            appFactory.trainers[$scope.trainerName] = $scope.selectedTrainer;
-            appFactory.trainers[$scope.trainerName].refreshed = true;
+            appFactory.users[$scope.trainerName] = $scope.selectedTrainer;
+            appFactory.users[$scope.trainerName].refreshed = true;
             alert("loaded from firebase");
-            $localstorage.setObject("Trainers", appFactory.trainers);
+            $localstorage.setObject("Users", appFactory.users);
             loadData();
         })
     }
@@ -428,13 +416,13 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
 
     $scope.mobile_trainers = [];
 
-    for(var key in appFactory.trainers){
-        if(!appFactory.trainers.hasOwnProperty(key)){
+    for(var key in appFactory.users){
+        if(!appFactory.users.hasOwnProperty(key)){
             continue;
         }
 
-        if(appFactory.trainers[key].mobile){
-            $scope.mobile_trainers.push(appFactory.trainers[key]);
+        if(appFactory.users[key].mobile){
+            $scope.mobile_trainers.push(appFactory.users[key]);
         }
     }
     console.log($scope.mobile_trainers);
@@ -798,7 +786,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         trainerID: scope.selectedTrainer.$id,
                         trainerName: scope.selectedTrainer.username,
                         tokens: 2,
-                        type: "trainer",
+                        type: "Users",
                         created: Firebase.ServerValue.TIMESTAMP,
                         duration: bookedReduced[i].period,
                         starttime: startTimestamp
@@ -843,7 +831,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                             if(scope.selectedTrainer.profilepic){
                                 newTransaction.profilepic = scope.selectedTrainer.profilepic;
                             }
-                            newTransaction.type = "trainer";
+                            newTransaction.type = "Users";
                             myTransactions.child(transactionRef.key()).set(newTransaction, function(){
                                 myTransactions.child(transactionRef.key()).setPriority(startTimestamp);
 
