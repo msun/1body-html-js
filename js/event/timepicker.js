@@ -31,7 +31,13 @@ angular.module('timeAndDate', [])
                 scope.allowTimeBeforeNow = attrs.allowTimeBeforeNow || false;
 
                 scope.time = attrs.time;
-                console.log(scope);
+                console.log(scope.$parent);
+
+//                scope.$parent.loadtime = function(t) {
+//                    console.log(t);
+//                    setDate(t);
+//                };
+
                 var dTime;
 
                 scope.decrementHours = function() {
@@ -103,11 +109,15 @@ angular.module('timeAndDate', [])
                 };
 
 
-                var setDate = function(){
+                var setDate = function(overwrite){
 
                     if(!scope.allowTimeBeforeNow && dTime < Date.now()){
                         dTime = new Date();
                     }
+                    if(overwrite){
+                        dTime = overwrite;
+                    }
+
                     var theRightHour = scope.widget.hours;
                     var theRightMeridian = scope.widget.meridian;
                     if (scope.showMeridian) {
@@ -133,7 +143,7 @@ angular.module('timeAndDate', [])
                         scope.$parent.dt = dTime;
                         console.log(scope.dt);
                     })
-                }
+                };
 
                 scope.decrementYear = function() {
                     dTime.setYear(dTime.getFullYear()-1);

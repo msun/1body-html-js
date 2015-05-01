@@ -22,6 +22,9 @@ angular.module('starter.services', ["firebase"])
                 return $window.localStorage[key] || defaultValue;
             },
             setObject: function(key, value) {
+                if(value == undefined){
+                    return;
+                }
                 var cache = [];
                 $window.localStorage[key] = JSON.stringify(value, function(a, b) {
 //                    console.log(a);
@@ -41,6 +44,7 @@ angular.module('starter.services', ["firebase"])
                 cache = null;
             },
             getObject: function(key) {
+                console.log($window.localStorage[key]);
                 return JSON.parse($window.localStorage[key] || '{}');
             },
             clear: function(){

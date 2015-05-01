@@ -115,10 +115,10 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
         };
 
         var transaction = {
-            userID: appFactory.user.$id,
             eventID: $scope.selectedEvent.$id,
             eventName: $scope.selectedEvent.name,
             type: "Events",
+            eventUserID: $scope.selectedEvent.userID,
             created: Firebase.ServerValue.TIMESTAMP,
             duration: $scope.selectedEvent.duration,
             starttime: $scope.selectedEvent.starttime
@@ -135,12 +135,10 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
                 })
 
                 Notifications.ref().push(notif, function(){
-                    if($scope.selectedEvent.profilepic){
-                        notif.profilepic = $scope.selectedEvent.profilepic;
-                    }
                     notif.message = "You joined event " + $scope.selectedEvent.name;
                     notif.created = Firebase.ServerValue.TIMESTAMP;
-                    Feeds.ref().child(appFactory.user.$id).push(notif);
+                    var feedRef = Feeds.ref().child(appFactory.user.$id).push(notif);
+                    feedRef.setPriority(notif.created);
 
                     alert("You have joined this event");
                 });
@@ -151,6 +149,7 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
     $scope.leaveEvent = function(){
         var notif = {
             creatorID: appFactory.user.$id,
+            eventId: $scope.selectedEvent.$id,
             starttime: new Date().getTime(),
             url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
             receivers: [$stateParams.userID],
@@ -160,9 +159,6 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
         $firebaseObject(MyTransactions.ref().child(appFactory.user.$id).child(transactionID)).$remove().then(function(){
             $scope.goers.$remove($scope.inEvent).then(function(){
                 Notifications.ref().push(notif, function(){
-                    if($scope.selectedEvent.profilepic){
-                        notif.profilepic = $scope.selectedEvent.profilepic;
-                    }
                     notif.message = "You left event " + $scope.selectedEvent.name;
                     notif.created = Firebase.ServerValue.TIMESTAMP;
                     Feeds.ref().child(appFactory.user.$id).push(notif);
@@ -250,16 +246,20 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
     }
 });
 
-event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $rootScope, $scope, $timeout, $stateParams, $ionicPopup, Trainers, Event, eventFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, appConfig, Events, GeoEvents, Categories, Following, Invites, $localstorage) {
+event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $rootScope, $scope, $timeout, $stateParams, $ionicPopup, Trainers, Event, eventFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, appConfig, Events, GeoEvents, Categories, Following, Invites, $localstorage, Images) {
     console.log('CreateEventCtrl');
     console.log($stateParams.eventID);
-
+    $scope.eventID = $stateParams.eventID;
     $scope.categories = Categories;
     var href = "";
     if($stateParams.eventID != "new"){
-        var myRef = Events.ref().child($stateParams.eventID);
+        var myRef = Events.ref().child(appFactory.user.$id).child($stateParams.eventID);
         $scope.newevent = $firebaseObject(myRef);
-        $scope.dt = $scope.newevent.dt;
+//        $scope.newevent.$loaded(function(){
+//            console.log($scope);
+//            $scope.loadtime(new Date($scope.newevent.starttime));
+//        });
+
     } else {
         $scope.dt = new Date();
         $scope.newevent = {};
@@ -273,6 +273,9 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
         $scope.slideIndex = index;
         console.log(index);
         if(index == 1){
+            if($scope.eventID != "new"){
+                $scope.createEvent();
+            }
             var marker;
 
             var setLocation = function(){
@@ -305,22 +308,73 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
             });
 
             $scope.locationReady = function(){
-                if($scope.newevent.address){
-                    console.log($scope.newevent.address.replace(/ /g, "+"));
-                    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newevent.address.replace(/ /g, "+") + "&key=" + appConfig.apikey;
-                    eventFactory.getStreetAddress(url, function(data, status){
-                        console.log(data);
-                        $scope.newevent.latitude = data.results[0].geometry.location.lat;
-                        $scope.newevent.longitude = data.results[0].geometry.location.lng;
-                        $scope.newevent.location = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
 
-                        $ionicSlideBoxDelegate.next();
-                    });
-                } else {
-                    alert("address cannot be empty");
-                }
 
             }
+        } else if(index == 2){
+            var exec;
+            if (ionic.Platform.isAndroid()) {
+                exec = cordova.require("cordova/exec");
+            }
+
+            var image = document.getElementById('displayPic');
+
+            var onSuccess = function(imageURI) {
+                image.src = imageURI;
+
+            }
+
+            var onFail = function(message) {
+                alert('Failed because: ' + message);
+            }
+
+            $scope.fromstorage = function() {
+                alert("from storage");
+                // Retrieve image file location from specified source
+                navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: 0 });
+            };
+
+            $scope.fromcamera = function(){
+                navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+            };
+
+            $scope.skipImgUpload = function(){
+                $ionicSlideBoxDelegate.next();
+            };
+
+            $scope.useimg = function(){
+                if (ionic.Platform.isAndroid()) {
+                    exec(function (result) {
+                        var bigimg = {
+                            data: result.big,
+                            id: $scope.newevent.$id,
+                            name: "profilepic_hd.jpg",
+                            type: "Events"
+                        };
+
+                        var smallimg = {
+                            data: result.small,
+                            id: $scope.newevent.$id,
+                            name: "profilepic.jpg",
+                            type: "Events"
+                        };
+
+                        Images.ref().push(smallimg, function(){
+                            Images.ref().push(bigimg, function(){
+                                alert("Your event picture is saved");
+                                $ionicSlideBoxDelegate.next();
+                            });
+                        });
+                    }, function (err) {
+                        console.log(err);
+                    }, 'Card_io', 'useimg', [
+                        {'id': $scope.user.$id, 'uri': image.src}
+                    ]);
+                }
+            }
+
         } else if(index == 3){
             $scope.following = $firebaseArray(Following.ref().child(appFactory.user.$id));
             $scope.following.$loaded(function(){
@@ -328,6 +382,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
             });
         }
     };
+
 
     $scope.skipInvites = function(){
         window.location.href = "#/menu/my-events";
@@ -387,43 +442,56 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
         $scope.newevent.userID = appFactory.user.$id;
 
         $scope.newevent.modified = Firebase.ServerValue.TIMESTAMP;
-        $scope.newevent.starttime = $scope.dt.getTime();
         console.log($scope.newevent);
 
-        if($stateParams.eventID != "new"){
-            $scope.newevent.$save().then(function(){
-                appFactory.modified.$ref().child("Events").child($scope.newevent.$id).set($scope.newevent.modified, function(){
-                    GeoEvents.set($scope.newevent.$id + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
-                        console.log("Provided key has been added to GeoFire");
+        if($scope.newevent.address){
+            console.log($scope.newevent.address.replace(/ /g, "+"));
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newevent.address.replace(/ /g, "+") + "&key=" + appConfig.apikey;
+            eventFactory.getStreetAddress(url, function(data, status){
+                console.log(data);
+                $scope.newevent.latitude = data.results[0].geometry.location.lat;
+                $scope.newevent.longitude = data.results[0].geometry.location.lng;
+                $scope.newevent.location = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
 
-                        var events = $localstorage.getObject("Events");
-                        events[$scope.newevent.$id] = $scope.newevent;
-                        console.log(events);
-                        $localstorage.setObject("Events", events);
+                if($stateParams.eventID != "new"){
+                    $scope.newevent.$save().then(function(){
+                        appFactory.modified.$ref().child("Events").child($scope.newevent.$id).set($scope.newevent.modified, function(){
+                            GeoEvents.set($scope.newevent.$id + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
+                                console.log("Provided key has been added to GeoFire");
 
-                        alert("event saved");
-                        $ionicSlideBoxDelegate.next();
+                                var events = $localstorage.getObject("Events");
+                                events[$scope.newevent.$id] = $scope.newevent;
+                                console.log(events);
+                                $localstorage.setObject("Events", events);
+
+                                alert("event saved");
+                                $ionicSlideBoxDelegate.next();
+                            });
+                        });
                     });
-                });
+                } else {
+                    $scope.newevent.starttime = $scope.dt.getTime();
+                    $scope.newevent.created = Date.now();
+                    var newEventRef = Events.ref().child(appFactory.user.$id).push($scope.newevent, function(){
+                        newEventRef.setPriority(appFactory.user.$id);
+                        appFactory.modified.$ref().child("Events").child(newEventRef.key()).set($scope.newevent.modified, function(){
+                            GeoEvents.set(newEventRef.key() + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
+                                console.log("Provided key has been added to GeoFire");
+                                $scope.newevent = $firebaseObject(Events.ref().child(appFactory.user.$id).child(newEventRef.key()));
+
+                                var events = $localstorage.getObject("Events");
+                                events[newEventRef.key()] = $scope.newevent;
+                                console.log(events);
+                                $localstorage.setObject("Events", events);
+                                alert("new event saved");
+                                $ionicSlideBoxDelegate.next();
+                            });
+                        });
+                    });
+                }
             });
         } else {
-            $scope.newevent.created = Date.now();
-            var newEventRef = Events.ref().child(appFactory.user.$id).push($scope.newevent, function(){
-                newEventRef.setPriority(appFactory.user.$id);
-                appFactory.modified.$ref().child("Events").child(newEventRef.key()).set($scope.newevent.modified, function(){
-                    GeoEvents.set(newEventRef.key() + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
-                        console.log("Provided key has been added to GeoFire");
-                        $scope.newevent = $firebaseObject(Events.ref().child(appFactory.user.$id).child(newEventRef.key()));
-
-                        var events = $localstorage.getObject("Events");
-                        events[newEventRef.key()] = $scope.newevent;
-                        console.log(events);
-                        $localstorage.setObject("Events", events);
-
-                        $ionicSlideBoxDelegate.next();
-                    });
-                });
-            });
+            alert("address cannot be empty");
         }
     };
 

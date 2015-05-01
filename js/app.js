@@ -505,7 +505,23 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             $rootScope.$broadcast('locationReady', 'locationReady');
         });
     })
-    .controller("MenuCtrl", function($scope,Users,Events,Classes, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
+    .filter('htmlEncode', function(){
+        return function(html) {
+            if(html == undefined){
+                return "";
+            }
+
+            return html.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;").replace(/:/g, "%3A");
+//            var el = document.createElement("div");
+//            el.innerText = el.textContent = html;
+//            console.log(el.innerHTML);
+//            return el.innerHTML;
+
+//            var filtered = angular.element('<div>').html(html).text();
+//            return filtered;
+        }
+    })
+    .controller("MenuCtrl", function($scope,Users,Events,Gyms, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
         $rootScope.header = "Trainers";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
@@ -516,41 +532,52 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //            appFactory.getObjsWithinRadius("events", [position.coords.latitude, position.coords.longitude], 30);
 //            appFactory.getObjsWithinRadius("classes", [position.coords.latitude, position.coords.longitude], 30);
 
-        $rootScope.findImage = function(id, type, gymID){
-            if(type == "Users"){
-                if(appFactory.users[id] && appFactory.users[id].profilepic &&
-                    appFactory.users[id].modified >= appFactory.modified[type][id]){
-                    return appFactory.users[id].profilepic;
+        var defaultImage = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEB\n/bn/AKU13f67vV6t1f8APf356nr9e55zkkoorX+vz8/6u9Xrfvj8K9F/7kP/2Q==\n";
+        $rootScope.findImage = function(id, type, secondID){
+            console.log(id);
+            console.log(type);
+            console.log(secondID);
+            if(type == "Users" || type == "Trainers"){
+                if(appFactory.users[id] && appFactory.users[id].modified >= appFactory.modified["Users"][id]){
+                    console.log("load from local");
+                    return appFactory.users[id].profilepic || defaultImage;
                 } else {
                     var record = $firebaseObject(Users.ref().child(id));
                     record.$loaded(function(){
                         appFactory.users[id] = record;
-                        $localstorage.setObject(type, $scope.users);
-                        return record.profilepic;
+                        $localstorage.setObject("Users", appFactory.users);
+                        console.log("load from firebase");
+                        return record.profilepic || defaultImage;
                     });
                 }
             } else if(type == "Events"){
-                if(appFactory.events[id] && appFactory.events[id].profilepic &&
-                    appFactory.events[id].modified >= appFactory.modified[type][id]){
-                    return appFactory.events[id].profilepic;
+                if(appFactory.events[id] && appFactory.events[id].modified >= appFactory.modified[type][id]){
+                    console.log("load from local");
+                    return appFactory.events[id].profilepic || defaultImage;
                 } else {
-                    var record = $firebaseObject(Events.ref().child(id));
+                    console.log(appFactory.events);
+                    var record = $firebaseObject(Events.ref().child(secondID).child(id));
                     record.$loaded(function(){
                         appFactory.events[id] = record;
-                        $localstorage.setObject(type, $scope.events);
-                        return record.profilepic;
+                        console.log("load from firebase");
+                        $localstorage.setObject(type, appFactory.events);
+                        return record.profilepic || defaultImage;
                     });
                 }
             } else if(type == "Classes"){
-                if(appFactory.classes[id] && appFactory.classes[id].profilepic &&
-                    appFactory.classes[id].modified >= appFactory.modified[type][id]){
-                    return appFactory.classes[id].profilepic;
+                console.log(appFactory.gyms[secondID]);
+                console.log(appFactory.modified["Gyms"][secondID]);
+                if(appFactory.gyms[secondID] && appFactory.gyms[secondID].modified >= appFactory.modified["Gyms"][secondID]){
+                    console.log("load from local");
+                    return appFactory.gyms[secondID].Classes[id].profilepic || defaultImage;
                 } else {
-                    var record = $firebaseObject(Classes.ref().child(id));
+                    var record = $firebaseObject(Gyms.ref().child(secondID));
                     record.$loaded(function(){
-                        appFactory.classes[id] = record;
-                        $localstorage.setObject(type, $scope.classes);
-                        return record.profilepic;
+                        console.log(record);
+                        appFactory.gyms[secondID] = record;
+                        console.log("load from firebase");
+                        $localstorage.setObject(type, appFactory.gyms);
+                        return record.Classes[id].profilepic || defaultImage;
                     });
                 }
             }
@@ -612,19 +639,18 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $rootScope.user = appFactory.user;
         $ionicSideMenuDelegate.toggleLeft();
 
-        try {
-            console.log($localstorage.getObject("user"));
-            appFactory.users = $localstorage.getObject("Users");
-            console.log(appFactory.users);
-            appFactory.events = $localstorage.getObject("Events");
-            console.log(appFactory.events);
-            appFactory.gyms = $localstorage.getObject("Gyms");
-            console.log(appFactory.gyms);
-            appFactory.classes = $localstorage.getObject("Classes");
-            console.log(appFactory.classes);
-        } catch(err){
-            alert("something went wrong when loading data from localstorage, please restart 1Body.");
-        }
+//        try {
+        console.log($localstorage.getObject("user"));
+        appFactory.users = $localstorage.getObject("Users");
+        console.log(appFactory.users);
+        appFactory.events = $localstorage.getObject("Events");
+        console.log(appFactory.events);
+        appFactory.gyms = $localstorage.getObject("Gyms");
+        console.log(appFactory.gyms);
+//        } catch(err){
+//            console.log(err);
+//            alert("something went wrong when loading data from localstorage, please restart 1Body.");
+//        }
 
         $scope.toggleMenu = function() {
             console.log("toggle left");

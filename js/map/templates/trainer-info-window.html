@@ -3,14 +3,13 @@
         <div class="map-bubble-content">
             <div class="map-bubble-img-column">
                 <span class="map-bubble-img-container">
-                    <img class="map-bubble-img" src="{{item.profilepic}}"/> <!--src="{{item.imgLink}}"-->
+                    <img class="map-bubble-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.$id | htmlEncode}}/profilepic.jpg"/>
                     <img src="img/badge-professional.png" class="map-bubble-img-badge"/>
                 </span>
             </div>
             <div class="map-bubble-text-column map-bubble-text-column-trainer">
-                <div class="map-bubble-title">{{item.username}}</div> <!--{{item.imgLink}}-->
+                <div class="map-bubble-title">{{item.username}}</div>
                 <div class="map-bubble-subtitle">Trainer</div>
-                <!--<div class="map-bubble-time">Starts Thursday May 15</div>-->
                 <div class="map-bubble-review-stars">
                     <span class="map-bubble-review-star" id="map-bubble-review-star-1"></span>
                     <span class="map-bubble-review-star" id="map-bubble-review-star-2"></span>
@@ -18,17 +17,8 @@
                     <span class="map-bubble-review-star" id="map-bubble-review-star-4"></span>
                     <span class="map-bubble-review-star" id="map-bubble-review-star-5"></span>
                 </div>
-                <!--<div class="map-bubble-organizer">Organizer: <span class="map-bubble-organizer-name">Jane Fass</span></div>-->
                 <div class="map-bubble-distance">{{item.distance | number:1}} km</div>
             </div>
         </div>
-
-        <!--
-        <img src="{{item.imgLink}}">
-    <a ng-repeat="item in markers[val].items" class="item item-thumbnail-left" href="#/menu/Trainers/{{item.$id}}">
-        <img src="{{item.profilepic}}">
-        <h2>{{item.username}}</h2>
-        <p>gym: {{item.gym}}</p>
-        -->
     </a>
 </div>

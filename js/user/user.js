@@ -4,7 +4,7 @@ userModule.factory('userModuleFactory', function(appFactory){
 
 });
 
-userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Followers){
+userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Followers, Feeds){
     console.log($stateParams.userID);
     $scope.reviewRating = 0;
     $scope.numOfFollowers = 0;
@@ -12,7 +12,7 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
 
     $scope.selectedUser = $firebaseObject(Users.ref().child($stateParams.userID));
 
-    $scope.transactions = $firebaseArray(Feeds.ref().child($stateParams.userID));
+    $scope.feeds = $firebaseArray(Feeds.ref().child($stateParams.userID));
 
     $scope.sizes = $firebaseObject(Sizes.ref().child($scope.selectedTrainer.$id));
 

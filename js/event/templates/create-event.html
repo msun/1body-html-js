@@ -20,7 +20,7 @@
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Description</span>
-                            <input ng-model="newevent.description" class="ob-form-text-input" type="text" placeholder="Event description"/>
+                            <input ng-model="newevent.information" placeholder="Tell us what this event is about" class="ob-form-text-input" type="text" />
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Category</span>
@@ -42,7 +42,7 @@
                             <img class="ob-date-picker-button" src="img/event-profile/date-picker-button.png"/>
                         </div>
                         -->
-                        <div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
+                        <div ng-show="eventID == 'new'" class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
                             <span class="ob-form-prompt">Start Time</span>
                             <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                         </div>
@@ -104,26 +104,31 @@
                         </div>
                     </div>
 
-                    <button class="block-blue-button" ng-click="locationReady()">Almost Done!</button>
+                    <button class="block-blue-button" ng-click="createEvent()">Create and set a display picture!</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">
                 <div class="menu1-content-div">
                     <div class="ob-main-instructions">Next up,</div>
-                    <div class="ob-sub-instructions">Upload a picture, and tell us about your event!</div>
+                    <div class="ob-sub-instructions">Upload a picture for your event!</div>
                     <div class="ob-form">
                         <div class="ob-form-row ob-row-picture-upload-top-section">
-                            <span class="picture-upload-placeholder"></span>
+                            <span class="picture-upload-placeholder">
+                                <img id="displayPic" style="max-width: 300px" src="https://s3.amazonaws.com/com.onebody.profile/Events/{{newevent.$id | htmlEncode}}/profilepic_hd.jpg" />
+                            </span>
                             <span class="picture-upload-plus-icon"></span>
                             <span class="picture-upload-e-tag"></span>
                         </div>
+                        <button ng-click="fromstorage()">From Storage</button>
+                        <button ng-click="fromcamera()">Take a picture</button>
+                        <button ng-click="useimg()">Use Image</button>
                     </div>
-                    <div class="ob-form">
-                        <div class="ob-form-row">
-                            <textarea class="ob-form-textarea" ng-model="newevent.information" placeholder="Tell us what this event is about"></textarea>
-                        </div>
-                    </div>
-                    <button class="ob-block-button ob-blue-button"ng-click="createEvent()">Create Event</button>
+                    <!--<div class="ob-form">-->
+                        <!--<div class="ob-form-row">-->
+                            <!--<textarea class="ob-form-textarea" ng-model="newevent.information" placeholder="Tell us what this event is about"></textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <button class="ob-block-button ob-blue-button"ng-click="skipImgUpload()">Skip</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">

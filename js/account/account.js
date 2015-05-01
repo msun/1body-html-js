@@ -126,7 +126,7 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
             appFactory.modified.$loaded(function(){
                 var user = $localstorage.getObject("user");
                 console.log(user);
-                if(user.$id && user.$id === UserAuth.$getAuth().uid){
+                if(user.$id && UserAuth.$getAuth().uid && user.$id === UserAuth.$getAuth().uid){
                     loadLocalUser(user);
                 } else {
                     loadUserFromFirebase(UserAuth.$getAuth());
@@ -189,6 +189,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
                 user.username = $scope.newuser.username;
                 user.email = $scope.newuser.email;
                 user.modified = Firebase.ServerValue.TIMESTAMP;
+//                user.profilepic = "https://s3.amazonaws.com/com.onebody.profile/Users/" + client.uid + "/profilepic.jpg";
                 user.tokens = 0;
                 user.$save().then(function (thing) {
                     console.log(thing);
@@ -322,7 +323,7 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
 //
 //});
 
-account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate) {
+account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images) {
     $scope.user = appFactory.user;
     var exec = cordova.require("cordova/exec");
 
@@ -431,11 +432,11 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
         navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
             sourceType: 0 });
-    }
+    };
 
     $scope.takeimg = function(){
         navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
-    }
+    };
 
     var scrollDelegate;
     var view;
@@ -510,14 +511,35 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
                 image.src = result.uri;
                 console.log(result.uri);
                 if(useimg) {
-                    exec(function () {
-                        appFactory.user.profilepic = image.src;
-                        appFactory.user.$save().then(function(){
-                            $localstorage.setObject("user", appFactory.user);
-                            alert("image saved");
-                            $rootScope.user = appFactory.user;
-                            window.location.href = "#/menu/account/my-profile";
+                    exec(function (result) {
+                        var bigimg = {
+                            data: result.big,
+                            id: appFactory.user.$id,
+                            name: "profilepic_hd.jpg",
+                            type: "Users"
+                        };
+
+                        var smallimg = {
+                            data: result.small,
+                            id: appFactory.user.$id,
+                            name: "profilepic.jpg",
+                            type: "Users"
+                        };
+
+                        Images.ref().push(smallimg, function(){
+                            Images.ref().push(bigimg, function(){
+                                alert("Your profile picture is saved");
+                                window.location.href = "#/menu/account/my-profile";
+                            });
                         })
+
+//                        appFactory.user.profilepic = image.src;
+//                        appFactory.user.$save().then(function(){
+//                            $localstorage.setObject("user", appFactory.user);
+//                            alert("image saved");
+//                            $rootScope.user = appFactory.user;
+//                            window.location.href = "#/menu/account/my-profile";
+//                        })
                     }, function (err) {
                         console.log(err);
                     }, pluginName, 'useimg', [
@@ -838,19 +860,19 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
             userID: $scope.user.$id,
             information: $scope.user.info
         };
-
-        if($scope.user.profilepic){
-            gymTrainer.profilepic = $scope.user.profilepic;
-        }
+//
+//        if($scope.user.profilepic){
+//            gymTrainer.profilepic = $scope.user.profilepic;
+//        }
 
         $scope.user.gym = {
             gymID: gym.$id,
             gymName: gym.name
         };
 
-        if(gym.profilepic){
-            $scope.user.gym.profilepic = gym.profilepic;
-        }
+//        if(gym.profilepic){
+//            $scope.user.gym.profilepic = gym.profilepic;
+//        }
 
         $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
 

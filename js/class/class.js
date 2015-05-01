@@ -158,9 +158,8 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
             var transactionRef = Transactions.ref().child("simplelogin:37").push(obj, function(){
                 obj.scanned = false;
                 obj.reviewed = false;
-                if($scope.selectedClass.profilepic){
-                    obj.profilepic = $scope.selectedClass.profilepic;
-                }
+                obj.gymID = $stateParams.gymID;
+
                 console.log(obj);
                 console.log(transactionRef.key());
                 MyTransactions.ref().child(appFactory.user.$id).child(transactionRef.key()).set(obj, function(){

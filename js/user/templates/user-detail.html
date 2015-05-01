@@ -15,7 +15,7 @@
             <div class="profile-top-padding-div"></div>
 
             <div class="profile-picture-div">
-                <img class="profile-picture" src="{{selectedUser.profilepic}}"/>
+                <img class="profile-picture" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.$id | htmlEncode}}/profilepic.jpg"/>
                 <img class="profile-picture-tag" src="img/badge-professional.png"/>
             </div>
 
@@ -84,7 +84,7 @@
                     <div class="item profile-map" id="trainer-detail-map" data-tap-disabled="true"></div>
                 </div>
                 <ion-list class="profile-feed-review-list">
-                    <ion-item class="profile-feed-review-list-row" ng-repeat="item in transactions" ng-click="replyto()">
+                    <ion-item class="profile-feed-review-list-row" ng-repeat="item in feeds" ng-click="replyto()">
                         <span class="profile-feed-review-list-row-left">
                             <img class="profile-feed-review-list-img" src="{{item.profilepic}}"/>
                         </span>

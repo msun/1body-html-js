@@ -79,13 +79,20 @@ map.directive('classInfoWindow', function(){
     }
 });
 
-map.directive('gymInfoWindow', function($firebaseArray){
+map.directive('gymInfoWindow', function($rootScope){
     return{
         restrict: 'E',
         templateUrl: 'js/map/templates/gym-info-window.html',
         scope: {gym: '='},
         link: function(scope, element, attrs) {
-            scope.items = scope.gym[scope.gym.tab];
+            if(scope.gym.tab == "Trainers"){
+                scope.items = scope.gym["Trainers"];
+                scope.gym.type == "Users";
+            } else {
+                scope.items = scope.gym[scope.gym.tab];
+                scope.gym.type == scope.gym.tab;
+            }
+
             console.log(scope.items);
         }
     }
@@ -212,6 +219,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
     var dropGymMarker = function(key, radius, center, searchTerms, mobile, tab){
         (function(index){
+            $scope.gyms[index].type = tab;
             if(tab == "Users"){
                 tab = "Trainers";
             }
