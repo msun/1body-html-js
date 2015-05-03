@@ -250,6 +250,8 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
     console.log('CreateEventCtrl');
     console.log($stateParams.eventID);
     $scope.eventID = $stateParams.eventID;
+    $scope.privacy = "Public";
+
     $scope.categories = Categories;
     var href = "";
     if($stateParams.eventID != "new"){
@@ -500,12 +502,9 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
     };
 
     $scope.slideStop = function(index) {
-        $timeout(function(){
+        $timeout(function() {
             $ionicSlideBoxDelegate.enableSlide(0);
         });
-//        $ionicSlideBoxDelegate.enableSlide(false);
-
-
     }
 
     $scope.nextPressed = function(index) {

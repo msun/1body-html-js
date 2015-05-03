@@ -9,11 +9,6 @@
     height: 100%;
 }
 
-#create-eventmap {
-    width: 100%;
-    height: 300px;
-}
-
 #create-requestmap {
     width: 100%;
     height: 300px;
@@ -485,10 +480,11 @@ ion-popover-view.fit ion-content {
 
 .ob-form {
     width: 93.75%; /* 300px / 320px */
+    min-width: 300px;
     max-width: 500px;
     background-color: transparent;
-    border-radius: 8px;
     border: 1px solid #7f7b73;
+    border-radius: 8px;
     margin: 12px auto 4px;
     overflow: hidden;
 }
@@ -502,7 +498,7 @@ ion-popover-view.fit ion-content {
     padding: 0px 4px;
 }
 
-.ob-form-row-:first-child {
+.ob-form-row:first-child {
     background-color: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid #7f7b73;
     border-top-left-radius: 8px;
@@ -526,18 +522,12 @@ ion-popover-view.fit ion-content {
     align-items: center;
 }
 
-.ob-form-icon-left, .ob-form-icon-right {
+.ob-form-icon {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    margin: 13px;
-}
-
-.ob-form-icon-left {
-    margin-right: 0px;
-}
-
-.ob-form-icon-right {
-    margin-left: 0px;
+    margin: auto 6px;
+    width: 32px;
+    height: 32px;
 }
 
 .ob-form-icon-magnifier {
@@ -561,10 +551,17 @@ ion-popover-view.fit ion-content {
 .ob-form-prompt {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
+    width: 33%;
+    max-width: 100px;
     margin: auto 6px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: #3884ed;
+}
+
+.ob-form-prompt-small {
+    width: auto;
+    max-width: 100%;
 }
 
 .ob-form-text {
@@ -654,7 +651,7 @@ input.ob-form-text-input[type="search"] {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.5;
     color: white;
-    padding: 11px;
+    padding: 12px 6px;
     height: 120px;
 }
 
@@ -696,6 +693,7 @@ input.ob-form-text-input[type="search"] {
     -webkit-align-items: stretch;
     align-items: stretch;
     height: 42.5px;
+    padding: 0px;
 }
 
 .ob-form-switch-button {
@@ -769,36 +767,6 @@ input.ob-form-text-input[type="search"] {
     -webkit-flex: 0 1 125px;
     flex: 0 1 125px;
     margin: auto 8px auto 4px;
-}
-
-/* ********** ********** ********** ********** ***********/
-/* ob-form-icon */
-/* ********** ********** ********** ********** ***********/
-
-.ob-form-icon-row {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    padding-right: 12px;
-}
-
-.ob-form-icon-prompt {
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-    margin: auto 0px auto 12px;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16px;
-    color: #3884ed;
-}
-
-.ob-form-icon {
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: 32px;
-    height: 32px;
-    margin: 0px auto 0px 12px;
-    border-radius: 4px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -877,12 +845,13 @@ input.ob-form-text-input[type="search"] {
 .ob-block-button {
     display: block;
     width: 93.75%; /* 300px / 320px */
+    min-width: 300px;
     max-width: 500px;
     border-radius: 5px;
     border: none;
-    margin: 16px auto 8px;
+    margin: 12px auto 8px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 16.69px;
+    font-size: 16px;
     color: white;
     padding: 8px 0px;
     text-align: center;
@@ -1014,24 +983,57 @@ input.ob-form-text-input[type="search"] {
 
 /* button additions */
 
-.ob-dark-button {
+.ob-button-dark {
     background-color: #282828;
 }
 
-.ob-dark-button:active {
+.ob-button-dark:active {
     background-color: #444444;
 }
 
-.ob-blue-button {
+.ob-button-blue {
     background-color: #3884ed;
 }
 
-.ob-blue-button:active {
+.ob-button-blue:active {
     background-color: #3172cc;
 }
 
 .ob-button-shadow {
     box-shadow: 0px 0px 100px 1px #333333;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-footer */
+/* ********** ********** ********** ********** ***********/
+
+.ob-footer {
+    width: 100%;
+    height: 44px;
+    z-index: 9999;
+    padding: 0px;
+}
+
+.ob-footer-buttonbar {
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.ob-footer-buttonbar-button {
+    -webkit-flex: 1 1 0px;
+    flex: 1 1 0px;
+    height: 100%;
+    border: none;
+    border-right: 1px solid #888888;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+.ob-footer-buttonbar-button:last-child {
+    border-right: none;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1410,7 +1412,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* create-events.html */
+/* create-event.html */
 /* ********** ********** ********** ********** ***********/
 
 .ob-slide-box {
@@ -1422,6 +1424,16 @@ input.ob-form-text-input[type="search"] {
 
 .create-event-ob-form {
     margin-bottom: 10px;
+}
+
+#create-eventmap {
+    width: 93.75%; /* 300px / 320px */
+    min-width: 150px;
+    max-width: 500px;
+    height: 180px;
+    border: 1px solid #7f7b73;
+    border-radius: 8px;
+    margin: 12px auto;
 }
 
 /* ******** ob-date ******** */
@@ -1547,6 +1559,77 @@ input.ob-form-text-input[type="search"] {
 .ob-userlist-mutual-friend-count {
 
 }
+
+/* ********** ********** ********** ********** ***********/
+/* ob-list */
+/* ********** ********** ********** ********** ***********/
+
+.ob-list {
+
+}
+
+.ob-list-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #a1a6ae;
+    text-decoration: none;
+}
+
+.ob-list-col-flex {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.ob-list-col-img {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 80px;
+}
+
+.ob-list-img {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 60px;
+    height: 60px;
+    margin: 5px 10px;
+    border-radius: 4px;
+    display: block;
+}
+
+.ob-list-text {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16.5px;
+    color: white;
+}
+
+.ob-list-subtext {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 14px;
+    color: white;
+}
+
+.ob-list-col-small {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 50px;
+}
+
+.ob-list-checkbox {
+    background: transparent;
+    width: 31px !important;
+    height: 31px !important;
+    border: 1px solid white;
+    border-radius: 15.5px;
+}
+
+.ob-list-checkbox:not(:checked):before {
+    background: transparent;
+    border: 1px solid white;
+}
+
 
 /* ********** ********** ********** ********** ***********/
 /* home.html */
@@ -3117,4 +3200,20 @@ input.ob-form-text-input[type="search"] {
     margin: 0px auto;
     width: 90%;
     border: 1px solid #999999;
+}
+
+.ob-roundedcorners4 {
+    border-radius: 4px;
+}
+
+.ob-whiteborder {
+    border: 1px solid white;
+}
+
+.ob-margins0 {
+    margin: 0px;
+}
+
+.ob-margins8 {
+    margin: 8px;
 }

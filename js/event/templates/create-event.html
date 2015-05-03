@@ -8,7 +8,7 @@
         <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
     </ion-header-bar>
     <ion-content class="has-header menu1-content">
-        <ion-slide-box class="ob-slide-box" pager-click="navSlide($index)" on-slide-changed="slideChanged($index)" ng-init="slideStop()">
+        <ion-slide-box class="ob-slide-box" pager-click="navSlide(index)" on-slide-changed="slideChanged($index)" ng-init="slideStop()">
             <ion-slide class="ob-slide">
                 <div class="menu1-content-div">
                     <div class="ob-main-instructions">Create an Event</div>
@@ -16,11 +16,12 @@
                     <div class="ob-form create-event-ob-form">
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Event Name</span>
-                            <input ng-model="newevent.name" class="ob-form-text-input" type="text">
+                            <input ng-model="newevent.name" type="text"
+                                   class="ob-form-text-input" placeholder="Event Name">
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Description</span>
-                            <input ng-model="newevent.information" placeholder="Tell us what this event is about" class="ob-form-text-input" type="text" />
+                            <input ng-model="newevent.information" placeholder="Short Description" class="ob-form-text-input" type="text" />
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Category</span>
@@ -28,10 +29,6 @@
                                 <select class="ob-form-select ob-form-select-xlarge"
                                         ng-model="newevent.category"
                                         ng-options="category.name for category in categories">
-
-                                    <option value="01">01</option>
-                                    <option value="01">01</option>
-                                    <option value="other">Other</option>
                                 </select>
                             </div>
                         </div>
@@ -47,7 +44,7 @@
                             <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
-                            <span class="ob-form-prompt">Duration</span>
+                            <span class="ob-form-prompt ob-form-prompt-small">Duration</span>
                             <span class="ob-form-text">{{newevent.duration}}min</span>
                             <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newevent.duration">
                         </div>
@@ -78,11 +75,15 @@
                             <!--</div>-->
                         <!--</div>-->
                         <div class="ob-form-row ob-form-switch-row"> <!--ng-model="newevent.private" for checkbox-->
-                            <button class="ob-form-switch-button">Public</button>
-                            <button class="ob-form-switch-button">Invite Only</button>
+                            <button class="ob-form-switch-button"
+                                    ng-class="{'ob-form-switch-button-selected':privacy === 'Public'}"
+                                    ng-click="privacy = 'Public'">Public</button>
+                            <button class="ob-form-switch-button"
+                                    ng-class="{'ob-form-switch-button-selected':privacy === 'Private'}"
+                                    ng-click="privacy = 'Private'">Invite Only</button>
                         </div>
                     </div>
-                    <button class="ob-block-button ob-blue-button" ng-click="nextPressed()">Next</button>
+                    <button class="ob-block-button ob-button-blue" ng-click="nextPressed()">Next</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">
@@ -91,20 +92,19 @@
                     <div class="ob-sub-instructions">Enter an address or drop a pin</div>
                     <div class="ob-form">
                         <div class="ob-form-row ob-form-flex-row">
-                            <span class="ob-form-icon-left ob-form-icon-magnifier"></span>
-                            <input class="ob-form-text-input" type="text" ng-model="newevent.address" placeholder="Enter location"/>
+                            <span class="ob-form-icon ob-form-icon-magnifier"></span>
+                            <input class="ob-form-text-input" type="text"
+                                   ng-model="newevent.address" placeholder="Enter location"/>
                         </div>
                     </div>
                     <div id="create-eventmap" data-tap-disabled="true"></div>
-
                     <div class="ob-form">
-                        <div class="ob-form-row ob-form-text-input-row">
-                            <img class="ob-form-text-input-icon-left" src="img/event-profile/magnifier.png"/>
-                            <input class="ob-form-text-input" type="text" ng-model="newevent.commentlocation" placeholder="Comment on location"/>
+                        <div class="ob-form-row ob-form-flex-row">
+                            <input class="ob-form-text-input" type="text"
+                                   ng-model="newevent.commentlocation" placeholder="Comment on location"/>
                         </div>
                     </div>
-
-                    <button class="block-blue-button" ng-click="createEvent()">Create and set a display picture!</button>
+                    <button class="ob-block-button ob-button-blue" ng-click="createEvent()">Create and set a display picture!</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">
@@ -137,37 +137,34 @@
                     <div class="ob-sub-instructions">Search, or browse through your friends list below!</div>
                     <div class="ob-form">
                         <div class="ob-form-row ob-form-flex-row">
-                            <span class="ob-form-icon-left ob-form-icon-magnifier"></span>
+                            <span class="ob-form-icon ob-form-icon-magnifier"></span>
                             <input class="ob-form-text-input" type="search" placeholder="Search"/>
                         </div>
                     </div>
-                    <div class="ob-userlist">
-                        <div class="ob-userlist-row" ng-repeat="item in following">
-                            <img class="ob-userlist-image" src="{{item.profilepic}}"/>
-                            <div class="ob-userlist-text-column">
-                                <div class="ob-userlist-text-block">
-                                    <div class="ob-userlist-user-name">{{item.username}}</div>
-                                    <div class="ob-search-list-row-right" style="float: right">
-                                        <label class="checkbox" style="float: right;">
-                                            <input type="checkbox" ng-model="item.checked">
-                                        </label>
-                                    </div>
-                                    <!--<div><span class="ob-userlist-mutual-friend-count">4</span>friends</div>-->
-                                </div>
+                    <div class="ob-list">
+                        <div class="ob-list-row" ng-repeat="item in following">
+                            <div class="ob-list-col-img">
+                                <img class="ob-list-img" src="{{item.profilepic}}"/>
+                            </div>
+                            <div class="ob-list-col-flex">
+                                <div class="ob-list-text">{{item.username}}</div>
+                                <div class="ob-list-subtext"><span>4</span>friends</div>
+                            </div>
+                            <div class="ob-list-col-small">
+                                <label class="checkbox">
+                                    <input type="checkbox" class="ob-list-checkbox" ng-model="item.checked">
+                                </label>
                             </div>
                         </div>
-                    </div>
-                    <div class="button-bar">
-                        <button class="button button-calm" ng-click="sendInvites()">Invite</button>
-                        <button class="button button-calm" ng-click="skipInvites()">Skip</button>
                     </div>
                 </div>
             </ion-slide>
         </ion-slide-box>
     </ion-content>
-    <!--<ion-footer-bar class="ob-footer-button" ng-show='currentIndex() == 3' ng-click="nextPressed()">-->
-        <!--<div class="ob-footer-button-contents">-->
-            <!--Invite-->
-        <!--</div>-->
-    <!--</ion-footer-bar>-->
+    <ion-footer-bar class="ob-footer" ng-show='currentIndex() == 3' ng-click="nextPressed()">
+        <div class="ob-footer-buttonbar">
+            <button class="ob-footer-buttonbar-button ob-button-blue" ng-click="skipInvites()">Skip</button>
+            <button class="ob-footer-buttonbar-button ob-button-blue" ng-click="sendInvites()">Send Invites</button>
+        </div>
+    </div>
 </ion-view>

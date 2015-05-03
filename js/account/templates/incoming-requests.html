@@ -13,7 +13,7 @@
                                 <div>{{item.message}}</div>
                                 <div>Start Time: {{item.starttime | parseTimestamp}}</div>
                             </div>
-                            <button ng-hide="item.trainerAccecpted || item.expired" class="ob-button ob-blue-button" ng-click="acceptRequest(item)">Accept</button>
+                            <button ng-hide="item.trainerAccecpted || item.expired" class="ob-button ob-button-blue" ng-click="acceptRequest(item)">Accept</button>
                             <span class="ob-search-list-text-demi" ng-show="item.expired && !item.trainerAccecpted">Expired</span>
                             <span class="ob-search-list-text-demi" ng-show="item.trainerAccecpted">Accepted</span>
                         </div>

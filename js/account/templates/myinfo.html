@@ -6,9 +6,9 @@
                     <span class="ob-form-prompt">Username</span>
                     <input class="ob-form-text-input" type="text" ng-model="user.username" placeholder="{{user.username}}"/>
                 </div>
-                <div class="ob-form-row ob-form-icon-row">
-                    <span class="ob-form-icon-prompt">Profile Picture </span>
-                    <img class="ob-form-icon" src="{{user.profilepic}}" ng-click="setdp()">
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Profile Picture</span>
+                    <img class="ob-form-icon ob-roundedcorners4 ob-whiteborder" src="{{user.profilepic}}" ng-click="setdp()">
                 </div>
                 <div class="ob-form-row ob-form-flex-row">
                     <span class="ob-form-prompt">First Name</span>
@@ -19,18 +19,15 @@
                     <input class="ob-form-text-input" type="text" ng-model="user.lastname" placeholder="{{user.lastname}}"/>
                 </div>
                 <div class="ob-form-row">
-                    <textarea class="ob-form-textarea ob-form-textarea-small" ng-model="user.info" placeholder="Tell us about yourself and your passion for fitness">{{user.info}}</textarea>
-                </div>
-                <div class="ob-form-row ob-form-flex-row">
-                    <span class="ob-form-prompt">Gym</span>
-                    <input class="ob-form-text-input" type="text" ng-model="user.gym" placeholder=""/>
+                    <textarea class="ob-form-textarea ob-form-textarea-small" ng-model="user.info"
+                              placeholder="Tell us about yourself and your passion for fitness">{{user.info}}</textarea>
                 </div>
             </div>
-            <div class="ob-block-button ob-dark-button" ng-click="addCertificate()">
+            <div class="ob-block-button ob-button-dark" ng-click="addCertificate()">
                 <i class="icon ion-email"></i>
                 Add Certificate
             </div>
-            <div class="ob-block-button ob-blue-button" ng-click="save()">Save</div>
+            <div class="ob-block-button ob-button-blue" ng-click="save()">Save</div>
             <ion-list>
                 <ion-item ng-repeat="cert in user.certs">
                     <img src="{{cert}}" style="width: 80%; margin-right: 10%; margin-left: 10%" />
