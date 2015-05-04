@@ -65,20 +65,18 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
             gcmID.$loaded(function(){
                 if(!gcmID.$value){
                     if (ionic.Platform.isAndroid()) {
-                        if (ionic.Platform.isAndroid()) {
-                            var exec = cordova.require("cordova/exec");
-                            exec(function(result){
-                                alert(result["regid"]);
-                                if(result["regid"] && result["regid"].length > 0){
-                                    gcmID.$value = result["regid"];
-                                    gcmID.$save().then(function(){
-                                        alert(result["regid"] + " saved to db");
-                                    })
-                                }
-                            }, function(err){
-                                console.log(err);
-                            }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
-                        }
+                        var exec = cordova.require("cordova/exec");
+                        exec(function(result){
+                            alert(result["regid"]);
+                            if(result["regid"] && result["regid"].length > 0){
+                                gcmID.$value = result["regid"];
+                                gcmID.$save().then(function(){
+                                    alert(result["regid"] + " saved to db");
+                                })
+                            }
+                        }, function(err){
+                            console.log(err);
+                        }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
                     }
                 }
             })
