@@ -4,7 +4,7 @@ userModule.factory('userModuleFactory', function(appFactory){
 
 });
 
-userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Followers, Feeds){
+userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Followers, Feeds, Notifications, appConfig){
     console.log($stateParams.userID);
     $scope.reviewRating = 0;
     $scope.numOfFollowers = 0;
@@ -12,22 +12,20 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
 
     $scope.selectedUser = $firebaseObject(Users.ref().child($stateParams.userID));
 
-    $scope.feeds = $firebaseArray(Feeds.ref().child($stateParams.userID));
+    $scope.feeds = $firebaseArray(Feeds.ref().child("Users").child($stateParams.userID).orderByPriority().endAt(Date.now()).limitToLast(appConfig.defaultItemsPerPage));
 
-    $scope.sizes = $firebaseObject(Sizes.ref().child($scope.selectedTrainer.$id));
+    $scope.sizes = $firebaseObject(Sizes.ref().child($stateParams.userID));
 
-    $scope.followerMe = $firebaseObject(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id));
+    $scope.followerMe = $firebaseObject(Followers.ref().child($stateParams.userID).child(appFactory.user.$id));
 
-    $scope.moreActivities = function(){
-
+    $scope.moreFeeds = function(){
+        $scope.feeds = $firebaseArray(Feeds.ref().child("Users").child($stateParams.userID).orderByPriority().endAt($scope.feeds[0].$priority).limitToLast(appConfig.defaultItemsPerPage));
     };
 
     $scope.follow = function(){
         console.log(appFactory.user);
         $scope.followerMe.username = appFactory.user.username;
-        if(appFactory.user.profilepic){
-            $scope.followerMe.profilepic = appFactory.user.profilepic;
-        }
+        $scope.userID = $stateParams.userID;
         if(appFactory.user.info){
             $scope.followerMe.info = appFactory.user.info;
         }
@@ -40,16 +38,15 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
             $scope.sizes.$save();
         });
 
-        var following = $firebaseObject(Following.ref().child(appFactory.user.$id).child($scope.selectedTrainer.$id));
+        var following = $firebaseObject(Following.ref().child(appFactory.user.$id).child($stateParams.userID));
         following.$loaded(function() {
-            following.username = $scope.selectedTrainer.username;
-            console.log($scope.selectedTrainer.profilepic);
-            if($scope.selectedTrainer.profilepic){
-                following.profilepic = $scope.selectedTrainer.profilepic;
+            following.username = $scope.selectedUser.username;
+            following.modified = Firebase.ServerValue.TIMESTAMP;
+            following.$priority = following.modified;
+            if($scope.selectedUser.info){
+                following.info = $scope.selectedUser.info;
             }
-            if($scope.selectedTrainer.info){
-                following.info = $scope.selectedTrainer.info;
-            }
+            following.userID = $stateParams.userID;
             console.log(following);
             following.$save().then(function(){
                 if(appFactory.mysizes.numOfFollowing){
@@ -59,8 +56,65 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
                 }
                 appFactory.mysizes.$save();
 
+                var notif = {
+                    creatorID: appFactory.user.$id,
+                    starttime: Firebase.ServerValue.TIMESTAMP,
+                    url: "#/menu/Users/" + appFactory.user.$id,
+                    receivers: [$scope.selectedUser.$id],
+                    message: appFactory.user.username + " is following you."
+                };
+                Notifications.ref().push(notif);
+
+                Feeds.push("Users",
+                    $scope.selectedUser.$id,
+                    $scope.selectedUser.username,
+                    "You followed " + $scope.selectedUser.username,
+                    appFactory.user.username + " followed you"
+                );
+
                 alert("Following user: " + $scope.selectedTrainer.username);
             });
+        });
+    };
+
+    $scope.unfollow = function(){
+        console.log(appFactory.user);
+        $scope.followerMe.$remove().then(function(){
+            if($scope.sizes.numOfFollowers){
+                $scope.sizes.numOfFollowers--;
+            } else {
+                $scope.sizes.numOfFollowers = 0;
+            }
+            $scope.sizes.$save();
+        });
+
+        var following = $firebaseObject(Following.ref().child(appFactory.user.$id).child($stateParams.userID));
+        following.$remove.then(function() {
+            if(appFactory.mysizes.numOfFollowing){
+                appFactory.mysizes.numOfFollowing--;
+            } else {
+                appFactory.mysizes.numOfFollowing = 0;
+            }
+            appFactory.mysizes.$save().then(function(){
+                var notif = {
+                    creatorID: appFactory.user.$id,
+                    starttime: Firebase.ServerValue.TIMESTAMP,
+                    url: "#/menu/Users/" + appFactory.user.$id,
+                    receivers: [$scope.selectedUser.$id],
+                    message: appFactory.user.username + " has stopped following you."
+                };
+                Notifications.ref().push(notif);
+
+                Feeds.push("Users",
+                    $scope.selectedUser.$id,
+                    $scope.selectedUser.username,
+                    "You unfollowed " + $scope.selectedUser.username,
+                    appFactory.user.username + " followed you"
+                );
+
+                alert("unfollowed " + $scope.selectedUser.username);
+            });
+
         });
     };
 });

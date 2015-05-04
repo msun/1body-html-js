@@ -1250,8 +1250,3 @@ account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, ap
     });
 });
 
-account.filter('parseTimestamp', function() {
-    return function(timestamp) {
-        return new Date(timestamp);
-    };
-});

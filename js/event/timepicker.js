@@ -176,12 +176,21 @@ angular.module('timeAndDate', [])
                 };
 
                 function formatMinutes() {
-                    if (parseInt(scope.widget.minutes, 10) < 10) {
-                        scope.widget.minutes = '0' + parseInt(scope.widget.minutes, 10);
+                    if (parseInt(scope.widget.minutes, scope.minuteStep) < scope.minuteStep) {
+                        var mi = parseInt(scope.widget.minutes, scope.minuteStep);
+                        if(mi > 9){
+                            scope.widget.minutes = "" + mi;
+                        } else {
+                            scope.widget.minutes = '0' + mi;
+                        }
+
+
                     }
+
                     console.log(scope.widget.minutes);
-                    scope.widget.minutes = Math.ceil(scope.widget.minutes / scope.minuteStep) * scope.minuteStep;
+                    scope.widget.minutes = Math.floor(scope.widget.minutes / scope.minuteStep) * scope.minuteStep;
                     console.log(scope.widget.minutes);
+
                 };
 
                 var updateModel = function() {

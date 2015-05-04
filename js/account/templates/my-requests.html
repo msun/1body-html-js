@@ -9,7 +9,7 @@
                     <div class="ob-search-list-row-right ob-search-list-text-demi">
                         <div ng-click="showOnMap(item)">
                             <p>{{item.username}}{{item.name}}{{item.trainer}}</p>
-                            <p>Start: {{item.starttime | parseTimestamp}}</p>
+                            <p>Start: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
                         </div>
                         <div ng-show="item.expired && !item.trainerAccecpted">Expired</div>
                         <div ng-show="item.trainerAccecpted">Accepted</div>

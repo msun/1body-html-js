@@ -135,10 +135,13 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
                 })
 
                 Notifications.ref().push(notif, function(){
-                    notif.message = "You joined event " + $scope.selectedEvent.name;
-                    notif.created = Firebase.ServerValue.TIMESTAMP;
-                    var feedRef = Feeds.ref().child(appFactory.user.$id).push(notif);
-                    feedRef.setPriority(notif.created);
+                    Feeds.push("Events",
+                        $stateParams.eventID,
+                        $scope.selectedEvent.name,
+                        "You joined event " + $scope.selectedEvent.name,
+                        appFactory.user.username + " joined this event."
+                    );
+
 
                     alert("You have joined this event");
                 });
@@ -159,9 +162,12 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
         $firebaseObject(MyTransactions.ref().child(appFactory.user.$id).child(transactionID)).$remove().then(function(){
             $scope.goers.$remove($scope.inEvent).then(function(){
                 Notifications.ref().push(notif, function(){
-                    notif.message = "You left event " + $scope.selectedEvent.name;
-                    notif.created = Firebase.ServerValue.TIMESTAMP;
-                    Feeds.ref().child(appFactory.user.$id).push(notif);
+                    Feeds.push("Events",
+                        $stateParams.eventID,
+                        $scope.selectedEvent.name,
+                        "You left event " + $scope.selectedEvent.name,
+                        appFactory.user.username + " left event."
+                    );
 
                     $timeout(function(){
                         alert("You have left this event.");
@@ -246,7 +252,7 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
     }
 });
 
-event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $rootScope, $scope, $timeout, $stateParams, $ionicPopup, Trainers, Event, eventFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, appConfig, Events, GeoEvents, Categories, Following, Invites, $localstorage, Images) {
+event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $rootScope, $scope, $timeout, $stateParams, $ionicPopup, Trainers, Event, eventFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, appConfig, Events, GeoEvents, Categories, Following, Invites, $localstorage, Images, Feeds, Notifications) {
     console.log('CreateEventCtrl');
     console.log($stateParams.eventID);
     $scope.eventID = $stateParams.eventID;
@@ -404,11 +410,18 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
                         key: $scope.newevent.$id,
                         inviteCreated: Date.now(),
                         created: $scope.newevent.created
-                    }
+                    };
 
-                    if(appFactory.user.profilepic){
-                        invite.profilepic = appFactory.user.profilepic;
-                    }
+                    var notif = {
+                        creatorID: appFactory.user.$id,
+                        starttime: new Date().getTime(),
+                        url: "#/menu/Events/" + appFactory.user.$id + "/" + $scope.newevent.$id,
+                        receivers: [targetUser.$id],
+                        message: appFactory.user.username + " has invited you to join his event: " + $scope.newevent.name
+                    };
+
+                    Notifications.ref().push(notif);
+
                     if($scope.newevent.description){
                         invite.description = $scope.newevent.description;
                     }
@@ -418,9 +431,6 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
                         var eventInvite = {
                             userID: targetUser.$id,
                             inviteCreated: Date.now()
-                        }
-                        if(targetUser.profilepic){
-                            eventInvite.profilepic = targetUser.profilepic;
                         }
 
                         if(!$scope.newevent.invites){
@@ -457,6 +467,13 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
 
                 if($stateParams.eventID != "new"){
                     $scope.newevent.$save().then(function(){
+                        Feeds.push("Events",
+                            $scope.newevent.$id,
+                            $scope.newevent.name,
+                            "You modifed event " + $scope.newevent.name,
+                            appFactory.user.username + " modified event information"
+                        );
+
                         appFactory.modified.$ref().child("Events").child($scope.newevent.$id).set($scope.newevent.modified, function(){
                             GeoEvents.set($scope.newevent.$id + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
                                 console.log("Provided key has been added to GeoFire");
@@ -475,7 +492,15 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
                     $scope.newevent.starttime = $scope.dt.getTime();
                     $scope.newevent.created = Date.now();
                     var newEventRef = Events.ref().child(appFactory.user.$id).push($scope.newevent, function(){
-                        newEventRef.setPriority(appFactory.user.$id);
+                        newEventRef.setPriority($scope.newevent.starttime);
+
+                        Feeds.push("Events",
+                            newEventRef.key(),
+                            $scope.newevent.name,
+                            "You created event " + $scope.newevent.name,
+                            appFactory.user.username + " created this event."
+                        );
+
                         appFactory.modified.$ref().child("Events").child(newEventRef.key()).set($scope.newevent.modified, function(){
                             GeoEvents.set(newEventRef.key() + "," + appFactory.user.$id, [$scope.newevent.latitude, $scope.newevent.longitude]).then(function() {
                                 console.log("Provided key has been added to GeoFire");

@@ -7,7 +7,7 @@ angular.module('starter.services', ["firebase"])
 //        return $resource(baseUrl + "event/:id");
 //    })
 
-    .factory("Firebase", function() {
+    .factory("FirebaseRef", function() {
         var ref = new Firebase('https://amber-heat-8595.firebaseio.com/');
 
         return ref;
@@ -53,23 +53,23 @@ angular.module('starter.services', ["firebase"])
         }
     }])
 
-    .factory("GeoTrainers", function(Firebase) {
-        var ref = new GeoFire(Firebase.child("geoTrainers"));
+    .factory("GeoTrainers", function(FirebaseRef) {
+        var ref = new GeoFire(FirebaseRef.child("geoTrainers"));
         return ref;
     })
 
-    .factory("GeoEvents", function(Firebase) {
-        var ref = new GeoFire(Firebase.child("geoEvents"));
+    .factory("GeoEvents", function(FirebaseRef) {
+        var ref = new GeoFire(FirebaseRef.child("geoEvents"));
         return ref;
     })
 
-    .factory("GeoRequests", function(Firebase) {
-        var ref = new GeoFire(Firebase.child("geoRequests"));
+    .factory("GeoRequests", function(FirebaseRef) {
+        var ref = new GeoFire(FirebaseRef.child("geoRequests"));
         return ref;
     })
 
-    .factory("Requests", function(Firebase) {
-        var ref = Firebase.child("requests");
+    .factory("Requests", function(FirebaseRef) {
+        var ref = FirebaseRef.child("requests");
 
         return {
             ref: function(){
@@ -78,8 +78,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("GcmID", function(Firebase) {
-        var ref = Firebase.child("gcmID");
+    .factory("GcmID", function(FirebaseRef) {
+        var ref = FirebaseRef.child("gcmID");
 
         return {
             ref: function(){
@@ -88,8 +88,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Notifications", function(Firebase) {
-        var ref = Firebase.child("notifications");
+    .factory("Notifications", function(FirebaseRef) {
+        var ref = FirebaseRef.child("notifications");
 
         return {
             ref: function(){
@@ -98,8 +98,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("MyNotifications", function(Firebase) {
-        var ref = Firebase.child("userNotifications");
+    .factory("MyNotifications", function(FirebaseRef) {
+        var ref = FirebaseRef.child("userNotifications");
 
         return {
             ref: function(){
@@ -108,8 +108,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("IncomingRequests", function(Firebase) {
-        var ref = Firebase.child("incomingRequests");
+    .factory("IncomingRequests", function(FirebaseRef) {
+        var ref = FirebaseRef.child("incomingRequests");
 
         return {
             ref: function(){
@@ -118,8 +118,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Events", function(Firebase) {
-        var ref = Firebase.child("events");
+    .factory("Events", function(FirebaseRef) {
+        var ref = FirebaseRef.child("events");
 
         return {
             ref: function(){
@@ -128,8 +128,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("EventComments", function(Firebase) {
-        var ref = Firebase.child("eventComments");
+    .factory("EventComments", function(FirebaseRef) {
+        var ref = FirebaseRef.child("eventComments");
 
         return {
             ref: function(){
@@ -138,8 +138,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("EventGoers", function(Firebase) {
-        var ref = Firebase.child("eventGoers");
+    .factory("EventGoers", function(FirebaseRef) {
+        var ref = FirebaseRef.child("eventGoers");
 
         return {
             ref: function(){
@@ -148,8 +148,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Conversations", function(Firebase) {
-        var ref = Firebase.child("conversations");
+    .factory("Conversations", function(FirebaseRef) {
+        var ref = FirebaseRef.child("conversations");
 
         return {
             ref: function(){
@@ -158,8 +158,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Reviews", function(Firebase) {
-        var ref = Firebase.child("reviews");
+    .factory("Reviews", function(FirebaseRef) {
+        var ref = FirebaseRef.child("reviews");
 
         return {
             ref: function(){
@@ -168,8 +168,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("MyReviews", function(Firebase) {
-        var ref = Firebase.child("myReviews");
+    .factory("MyReviews", function(FirebaseRef) {
+        var ref = FirebaseRef.child("myReviews");
 
         return {
             ref: function(){
@@ -178,8 +178,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Schedule", function(Firebase) {
-        var ref = Firebase.child("schedule");
+    .factory("Schedule", function(FirebaseRef) {
+        var ref = FirebaseRef.child("schedule");
 
         return {
             ref: function(){
@@ -188,8 +188,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Sizes", function(Firebase, $firebaseObject) {
-        var ref = Firebase.child("sizes");
+    .factory("Sizes", function(FirebaseRef, $firebaseObject) {
+        var ref = FirebaseRef.child("sizes");
 
         return {
             ref: function(){
@@ -198,13 +198,13 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("GeoClasses", function(Firebase) {
-        var ref = new GeoFire(Firebase.child("geoClasses"));
+    .factory("GeoClasses", function(FirebaseRef) {
+        var ref = new GeoFire(FirebaseRef.child("geoClasses"));
         return ref;
     })
 
-    .factory("Classes", function(Firebase) {
-        var ref = Firebase.child("classes");
+    .factory("Classes", function(FirebaseRef) {
+        var ref = FirebaseRef.child("classes");
 
         return {
             ref: function(){
@@ -213,8 +213,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Invites", function(Firebase) {
-        var ref = Firebase.child("invites");
+    .factory("Invites", function(FirebaseRef) {
+        var ref = FirebaseRef.child("invites");
 
         return {
             ref: function(){
@@ -223,13 +223,13 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("GeoGyms", function(Firebase) {
-        var ref = new GeoFire(Firebase.child("geoGyms"));
+    .factory("GeoGyms", function(FirebaseRef) {
+        var ref = new GeoFire(FirebaseRef.child("geoGyms"));
         return ref;
     })
 
-    .factory("Gyms", function(Firebase) {
-        var ref = Firebase.child("gyms");
+    .factory("Gyms", function(FirebaseRef) {
+        var ref = FirebaseRef.child("gyms");
 
         return {
             ref: function(){
@@ -238,8 +238,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Users", function(Firebase) {
-        var ref = Firebase.child("users");
+    .factory("Users", function(FirebaseRef) {
+        var ref = FirebaseRef.child("users");
 
         return {
             ref: function(){
@@ -248,8 +248,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Trainers", function(Firebase) {
-        var ref = Firebase.child("users");
+    .factory("Trainers", function(FirebaseRef) {
+        var ref = FirebaseRef.child("users");
 
         return {
             ref: function(){
@@ -258,8 +258,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Images", function(Firebase) {
-        var ref = Firebase.child("images");
+    .factory("Images", function(FirebaseRef) {
+        var ref = FirebaseRef.child("images");
         return {
             ref: function(){
                 return ref;
@@ -267,8 +267,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Following", function(Firebase) {
-        var ref = Firebase.child("following");
+    .factory("Following", function(FirebaseRef) {
+        var ref = FirebaseRef.child("following");
         return {
             ref: function(){
                 return ref;
@@ -276,8 +276,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Followers", function(Firebase) {
-        var ref = Firebase.child("followers");
+    .factory("Followers", function(FirebaseRef) {
+        var ref = FirebaseRef.child("followers");
         return {
             ref: function(){
                 return ref;
@@ -285,8 +285,42 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Feeds", function(Firebase) {
-        var ref = Firebase.child("history");
+    .factory("Feeds", function(FirebaseRef, appFactory) {
+        var ref = FirebaseRef.child("history");
+        return {
+            ref: function(){
+                return ref;
+            },
+            push: function(type, id, name, inboundMsg, outboundMsg, callback){
+                var feed = {};
+                feed.created = Firebase.ServerValue.TIMESTAMP;
+                feed.type = type;
+                feed.id = id;
+                feed.message = inboundMsg
+
+                var feedToHim = {};
+                feedToHim.created = Firebase.ServerValue.TIMESTAMP;
+                feedToHim.type = "Users";
+                feedToHim.id = appFactory.user.$id;
+                feedToHim.message = outboundMsg;
+
+                var feedRef = ref.child("Users").child(appFactory.user.$id).push(feed, function(){
+                    feedRef.setPriority(feed.created, function(){
+                        var trainerFeedRef = ref.child(type).child(id).push(feedToHim,function(){
+                            trainerFeedRef.setPriority(feedToHim.created, function(){
+                                if(callback){
+                                    callback();
+                                }
+                            });
+                        });
+                    });
+                });
+            }
+        };
+    })
+
+    .factory("Modified", function(FirebaseRef) {
+        var ref = FirebaseRef.child("modified");
         return {
             ref: function(){
                 return ref;
@@ -294,17 +328,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("Modified", function(Firebase) {
-        var ref = Firebase.child("modified");
-        return {
-            ref: function(){
-                return ref;
-            }
-        };
-    })
-
-    .factory("Transactions", function($firebase, Firebase) {
-        var ref = Firebase.child("transactions");
+    .factory("Transactions", function($firebase, FirebaseRef) {
+        var ref = FirebaseRef.child("transactions");
 
         return {
             ref: function(){
@@ -313,8 +338,8 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("MyTransactions", function(Firebase) {
-        var ref = Firebase.child("userTransactions");
+    .factory("MyTransactions", function(FirebaseRef) {
+        var ref = FirebaseRef.child("userTransactions");
 
         return {
             ref: function(){
@@ -344,7 +369,7 @@ angular.module('starter.services', ["firebase"])
         ]
     })
 
-    .factory("Transaction", function($firebase, Firebase, Users, Trainers, Transactions, appFactory) {
+    .factory("Transaction", function($firebase, FirebaseRef, Users, Trainers, Transactions, appFactory) {
         var transaction = function() {
             if(arguments.length == 0){
                 this.user = appFactory.user.username;
@@ -490,7 +515,7 @@ angular.module('starter.services', ["firebase"])
         return transaction;
     })
 
-    .factory("Review", function($firebase, Firebase, Users, Trainers, appFactory) {
+    .factory("Review", function($firebase, FirebaseRef, Users, Trainers, appFactory) {
         var review = function() {
             if(arguments.length == 0){
 
@@ -550,8 +575,8 @@ angular.module('starter.services', ["firebase"])
         return review;
     })
 
-    .factory("UserAuth", function($firebaseAuth, Firebase) {
-        var loginObj = $firebaseAuth(Firebase);
+    .factory("UserAuth", function($firebaseAuth, FirebaseRef) {
+        var loginObj = $firebaseAuth(FirebaseRef);
         return loginObj;
     })
 

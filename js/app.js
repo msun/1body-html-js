@@ -532,58 +532,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //            appFactory.getObjsWithinRadius("events", [position.coords.latitude, position.coords.longitude], 30);
 //            appFactory.getObjsWithinRadius("classes", [position.coords.latitude, position.coords.longitude], 30);
 
-        var defaultImage = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEB\n/bn/AKU13f67vV6t1f8APf356nr9e55zkkoorX+vz8/6u9Xrfvj8K9F/7kP/2Q==\n";
-        $rootScope.findImage = function(id, type, secondID){
-            console.log(id);
-            console.log(type);
-            console.log(secondID);
-            if(type == "Users" || type == "Trainers"){
-                if(appFactory.users[id] && appFactory.users[id].modified >= appFactory.modified["Users"][id]){
-                    console.log("load from local");
-                    return appFactory.users[id].profilepic || defaultImage;
-                } else {
-                    var record = $firebaseObject(Users.ref().child(id));
-                    record.$loaded(function(){
-                        appFactory.users[id] = record;
-                        $localstorage.setObject("Users", appFactory.users);
-                        console.log("load from firebase");
-                        return record.profilepic || defaultImage;
-                    });
-                }
-            } else if(type == "Events"){
-                if(appFactory.events[id] && appFactory.events[id].modified >= appFactory.modified[type][id]){
-                    console.log("load from local");
-                    return appFactory.events[id].profilepic || defaultImage;
-                } else {
-                    console.log(appFactory.events);
-                    var record = $firebaseObject(Events.ref().child(secondID).child(id));
-                    record.$loaded(function(){
-                        appFactory.events[id] = record;
-                        console.log("load from firebase");
-                        $localstorage.setObject(type, appFactory.events);
-                        return record.profilepic || defaultImage;
-                    });
-                }
-            } else if(type == "Classes"){
-                console.log(appFactory.gyms[secondID]);
-                console.log(appFactory.modified["Gyms"][secondID]);
-                if(appFactory.gyms[secondID] && appFactory.gyms[secondID].modified >= appFactory.modified["Gyms"][secondID]){
-                    console.log("load from local");
-                    return appFactory.gyms[secondID].Classes[id].profilepic || defaultImage;
-                } else {
-                    var record = $firebaseObject(Gyms.ref().child(secondID));
-                    record.$loaded(function(){
-                        console.log(record);
-                        appFactory.gyms[secondID] = record;
-                        console.log("load from firebase");
-                        $localstorage.setObject(type, appFactory.gyms);
-                        return record.Classes[id].profilepic || defaultImage;
-                    });
-                }
-            }
-            return "";
-        }
-
         $scope.sendNotification = function(){
             var notifToTrainer = {
                 creatorID: appFactory.user.$id,

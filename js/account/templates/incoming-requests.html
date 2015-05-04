@@ -11,7 +11,7 @@
                             <div ng-click="showOnMap(item)">
                                 <div>From: <span class="ob-search-list-text-demi">{{item.userName}}{{item.name}}</span></div>
                                 <div>{{item.message}}</div>
-                                <div>Start Time: {{item.starttime | parseTimestamp}}</div>
+                                <div>Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                             </div>
                             <button ng-hide="item.trainerAccecpted || item.expired" class="ob-button ob-button-blue" ng-click="acceptRequest(item)">Accept</button>
                             <span class="ob-search-list-text-demi" ng-show="item.expired && !item.trainerAccecpted">Expired</span>

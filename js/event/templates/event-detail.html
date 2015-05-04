@@ -52,7 +52,7 @@
         <div>
             <ion-list>
                 <ion-item ng-repeat="comment in comments" ng-click="replyto(comment)">
-                    <img src="{{$root.findImage(comment.userID, 'Users')}}" />
+                    <img src="https://s3.amazonaws.com/com.onebody.profile/Users/{{comment.userID | htmlEncode}}/profilepic.jpg" />
                     <p>{{comment.text}}</p>
                     <p ng-hide="comment.replyUserID" style="font-size: 10px">{{comment.username}} left at: {{comment.creation}}</p>
                     <p ng-show="comment.replyUserID" style="font-size: 10px">{{comment.username}} @{{comment.replyUserName}} left at: {{comment.creation}}</p>

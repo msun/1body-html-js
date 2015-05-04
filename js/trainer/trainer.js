@@ -1,16 +1,39 @@
 var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'ui.bootstrap', 'ui.calendar', 'eventModule']);
 
 trainer.factory('Time', function(){
-    var Time = function(hour, minute){
-        this.hour = hour;
-        this.minute = minute;
+    var Time = {};
+    Time.parseTime = function(time) {
+        var endtime = time+30;
+        if (endtime%100 == 60){
+            endtime = time + 100 - 30;
+        }
+        var stringtime = ""
+        if(endtime.toString().length == 1){
+            stringtime =  "00:0" + endtime;
+        } else if(endtime.toString().length == 2){
+            stringtime =  "00:" + endtime;
+        } else if(endtime.toString().length == 3){
+            stringtime = "0" + endtime.toString().substring(0,1) + ":" + endtime.toString().substring(1,3);
+        } else if(endtime.toString().length == 4){
+            stringtime = endtime.toString().substring(0,2) + ":" + endtime.toString().substring(2,4);
+        }
+
+        if(time.toString().length == 1){
+            return "00:0" + time + " - " + stringtime;
+        } else if(time.toString().length == 2){
+            return "00:" + time + " - " + stringtime;
+        } else if(time.toString().length == 3){
+            return "0" + time.toString().substring(0,1) + ":" + time.toString().substring(1,3)  + " - " + stringtime;
+        } else if(time.toString().length == 4){
+            return time.toString().substring(0,2) + ":" + time.toString().substring(2,4)  + " - " + stringtime;
+        }
     }
     return Time;
 });
 
 trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversations, Users, Trainers, $ionicModal, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams, $window, appConfig, Notifications){
     console.log($stateParams.userID);
-    var conversationID = ""
+    var conversationID = "";
     if($stateParams.userID.localeCompare(appFactory.user.$id) > 0){
         conversationID = $stateParams.userID + ":::" + appFactory.user.$id;
     } else if($stateParams.userID.localeCompare(appFactory.user.$id) < 0){
@@ -62,7 +85,7 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
 });
 
 
-trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Sizes, Review, MyReviews, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, GeoGyms, Reviews, appConfig, Followers, Following) {
+trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Sizes, Review, MyReviews, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, GeoGyms, Reviews, appConfig, Followers, Following, Notifications, Feeds) {
     console.log($stateParams.trainerName);
     $scope.trainerName = $stateParams.trainerName;
     $scope.max = 5;
@@ -74,8 +97,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     $scope.newreview = {rating:0};
     $scope.reviewRating = 0;
     $scope.numOfFollowers = 0;
-    $scope.numOfFollowings = 0;
-    $scope.numOfReviews = 0;
+    $scope.numOfFollowing = 0;
 
     $ionicModal.fromTemplateUrl('js/trainer/templates/review.html', {
         scope: $scope,
@@ -159,27 +181,10 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         });
 
         var reviewRef = Reviews.ref().child($scope.selectedTrainer.$id);
-        var reviewPriority = 0;
-        $scope.reviewCount = appConfig.maxReviewCount;
-        $scope.reviews = $firebaseArray(reviewRef.startAt(reviewPriority).limitToFirst(appConfig.defaultItemsPerPage));
-        $scope.reviews.$loaded(function(){
-            if($scope.reviews.length > 0){
-                $scope.reviewCount = $scope.reviews[0].$priority;
-                console.log($scope.reviews);
-                reviewPriority = $scope.reviews[$scope.reviews.length - 1].$priority + 1;
-                console.log(reviewPriority);
-            }
-        });
+        $scope.reviews = $firebaseArray(reviewRef.orderByPriority().endAt(Date.now()).limitToLast(appConfig.defaultItemsPerPage));
 
         $scope.moreReviews = function(){
-            $scope.reviews = $firebaseArray(reviewRef.startAt(reviewPriority).limitToFirst(appConfig.defaultItemsPerPage));
-            $scope.reviews.$loaded(function(){
-                if($scope.reviews.length > 0) {
-                    console.log($scope.reviews);
-                    reviewPriority = $scope.reviews[$scope.reviews.length - 1].$priority + 1;
-                    console.log(reviewPriority);
-                }
-            });
+            $scope.reviews = $firebaseArray(reviewRef.orderByPriority().endAt($scope.reviews[0].$priority).limitToLast(appConfig.defaultItemsPerPage));
         };
     }
 
@@ -198,18 +203,15 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     }
 
     $scope.addReview = function(){
-        $scope.reviewCount --;
         var newReview = {
             userID: appFactory.user.$id,
             trainerID: $scope.selectedTrainer.$id,
             text: $scope.newreview.text,
             rating: $scope.newreview.rating,
             created: Firebase.ServerValue.TIMESTAMP,
-            $priority: $scope.reviewCount
+            $priority: Firebase.ServerValue.TIMESTAMP
         };
-        if(appFactory.user.profilepic){
-            newReview.profilepic = appFactory.user.profilepic;
-        }
+
         console.log(newReview);
 
         var newReviewRef = $scope.reviews.$add(newReview).then(function(ref) {
@@ -235,13 +237,15 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             myreview.text = $scope.newreview.text;
             myreview.rating = $scope.newreview.rating;
             myreview.created = Firebase.ServerValue.TIMESTAMP;
-            if(appFactory.user.profilepic){
-                myreview.profilepic = appFactory.user.profilepic;
-            }
-
-            myreview.$priority = $scope.reviewCount;
+            myreview.$priority = Firebase.ServerValue.TIMESTAMP;
             myreview.$save();
 
+            Feeds.push("Users",
+                $scope.selectedTrainer.$id,
+                $scope.selectedTrainer.username,
+                "You left a review for " + $scope.selectedTrainer.username,
+                appFactory.user.username + " left you a review"
+            );
         });
     };
 
@@ -296,18 +300,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     }
 
     $scope.follow = function(){
-        var notif = {
-            creatorID: appFactory.user.$id,
-            starttime: new Date().getTime(),
-            url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
-            receivers: [$stateParams.userID],
-            message: appFactory.user.username + " has joined your event: " + $scope.selectedEvent.name
-        }
-
         $scope.followerMe.username = appFactory.user.username;
-        if(appFactory.user.profilepic){
-            $scope.followerMe.profilepic = appFactory.user.profilepic;
-        }
         if(appFactory.user.info){
             $scope.followerMe.info = appFactory.user.info;
         }
@@ -323,16 +316,12 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         var following = $firebaseObject(Following.ref().child(appFactory.user.$id).child($scope.selectedTrainer.$id));
         following.$loaded(function() {
             following.username = $scope.selectedTrainer.username;
-            following.created = Firebase.ServerValue.TIMESTAMP;
-            following.$priority = following.created;
-            console.log($scope.selectedTrainer.profilepic);
-            if($scope.selectedTrainer.profilepic){
-                following.profilepic = $scope.selectedTrainer.profilepic;
-            }
+            following.modified = Firebase.ServerValue.TIMESTAMP;
+            following.$priority = following.modified;
             if($scope.selectedTrainer.info){
                 following.info = $scope.selectedTrainer.info;
             }
-            console.log(following);
+            console.log(appFactory.mysizes);
             following.$save().then(function(){
                 if(appFactory.mysizes.numOfFollowing){
                     appFactory.mysizes.numOfFollowing++;
@@ -341,6 +330,21 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
                 }
                 appFactory.mysizes.$save();
 
+                var notif = {
+                    creatorID: appFactory.user.$id,
+                    starttime: Firebase.ServerValue.TIMESTAMP,
+                    url: "#/menu/Users/" + appFactory.user.$id,
+                    receivers: [$scope.selectedTrainer.$id],
+                    message: appFactory.user.username + " is following you."
+                };
+                Notifications.ref().push(notif);
+
+                Feeds.push("Users",
+                    $scope.selectedTrainer.$id,
+                    $scope.selectedTrainer.username,
+                    "You followed " + $scope.selectedTrainer.username,
+                    appFactory.user.username + " followed you"
+                );
                 alert("Following user: " + $scope.selectedTrainer.username);
             });
         });
@@ -356,6 +360,22 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         following.$remove().then(function() {
             appFactory.mysizes.numOfFollowing--;
             appFactory.mysizes.$save();
+
+            var notif = {
+                creatorID: appFactory.user.$id,
+                starttime: Firebase.ServerValue.TIMESTAMP,
+                url: "#/menu/Users/" + appFactory.user.$id,
+                receivers: [$scope.selectedTrainer.$id],
+                message: appFactory.user.username + " has stopped following you."
+            };
+            Notifications.ref().push(notif);
+
+            Feeds.push("Users",
+                $scope.selectedTrainer.$id,
+                $scope.selectedTrainer.username,
+                "You unfollowed " + $scope.selectedTrainer.username,
+                appFactory.user.username + " followed you"
+            );
 
             alert("Following user: " + $scope.selectedTrainer.username);
         });
@@ -413,19 +433,9 @@ trainer.controller('FollowingTrainerCtrl', function($scope, User, appFactory, $t
 trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebase, eventFactory, apikey, Requests, GeoRequests, Trainers, IncomingRequests) {
     $scope.newrequest = {};
     $scope.newrequest.duration = 30;
+    $scope.dt = Date.now();
 
     $scope.mobile_trainers = [];
-
-    for(var key in appFactory.users){
-        if(!appFactory.users.hasOwnProperty(key)){
-            continue;
-        }
-
-        if(appFactory.users[key].mobile){
-            $scope.mobile_trainers.push(appFactory.users[key]);
-        }
-    }
-    console.log($scope.mobile_trainers);
 
     $ionicModal.fromTemplateUrl('js/trainer/templates/choose-trainer-modal.html', {
         scope: $scope,
@@ -433,33 +443,6 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
     }).then(function(modal){
         $scope.modal = modal;
     });
-
-
-    $scope.openDatePicker = function() {
-        console.log('openDatePicker');
-        $scope.tmp = {};
-        $scope.tmp.newDate = {};
-
-        var birthDatePopup = $ionicPopup.show({
-            template: '<datetimepicker ng-model="tmp.newDate"></datetimepicker>',
-            title: "Choose Start Time",
-            scope: $scope,
-            buttons: [
-                { text: 'Cancel' },
-                {
-                    text: '<b>Save</b>',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        $scope.newrequest.starttime = $scope.tmp.newDate.getTime();
-//                        console.log($scope.newrequest.starttime.getTime());
-                        if(typeof $scope.tmp.newDate.getTime === 'undefined'){
-                            alert("please select a valid time");
-                        }
-                    }
-                }
-            ]
-        });
-    }
 
     $scope.openMap = function(){
         var marker;
@@ -516,11 +499,18 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-//        var marker = new google.maps.Marker({
-//            position: $scope.mobile_trainer_location.getCenter(),
-//            map: $scope.mobile_trainer_location,
-//            draggable: true
-//        });
+
+        for(var key in appFactory.users){
+            if(!appFactory.users.hasOwnProperty(key)){
+                continue;
+            }
+
+            if(appFactory.users[key].mobile){
+
+                $scope.mobile_trainers.push(appFactory.users[key]);
+            }
+        }
+        console.log($scope.mobile_trainers);
     }
 
     $scope.showOnMap = function(item){
@@ -804,15 +794,16 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                                 url: "#/menu/Trainers/" + appFactory.user.$id + "/",
                                 receivers: [scope.selectedTrainer.$id],
                                 message: "A training was booked by user: " + appFactory.user.username + " at " + starttime
-                            }
+                            };
                             Notifications.ref().push(notifToTrainer, function(){
-                                if(appFactory.user.profilepic){
-                                    notifToTrainer.profilepic = appFactory.user.profilepic;
-                                }
-                                notifToTrainer.created =
+                                notifToTrainer.created = Firebase.ServerValue.TIMESTAMP;
 
-                                Feeds.ref().child(scope.selectedTrainer.$id).push(notifToTrainer);
-
+                                Feeds.push("Users",
+                                    $scope.selectedTrainer.$id,
+                                    $scope.selectedTrainer.username,
+                                    "You booked a training session with " + $scope.selectedTrainer.username + " at " + starttime,
+                                    "A training was booked by user: " + appFactory.user.username + " at " + starttime
+                                );
                             });
 
 
@@ -902,6 +893,7 @@ trainer.directive('scheduler', function($timeout, appFactory, $firebaseArray, $f
 
                 daySchedule.$save().then(function(){
                     alert("Sechdule saved, thanks");
+                    window.location.href = "#/menu/map";
                 });
 
             }
@@ -937,7 +929,7 @@ trainer.directive('scheduleSelect', function($timeout, User){
     }
 })
 
-trainer.filter('displayTime', function() {
+trainer.filter('displayTime', function(Time) {
     return function(time) {
         var endtime = time+30;
         if (endtime%100 == 60){

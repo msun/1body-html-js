@@ -10,9 +10,9 @@
     </ion-header-bar>
     <ion-content class="ob-grey-bg">
         <ul class="list">
-            <a class="item" ng-repeat="message in messages">
+            <a class="item" ng-repeat="message in messages | orderBy:'-created'">
 
-                <img src="{{users[message.userID].profilepic}}" width="40px" height="40px">
+                <img src="https://s3.amazonaws.com/com.onebody.profile/Users/{{message.userID | htmlEncode}}/profilepic.jpg" width="40px" height="40px">
                 <p>{{message.text}}</p>
 
                 <p>{{users[message.userID].username}} {{message.created}}</p>

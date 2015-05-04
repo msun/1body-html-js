@@ -36,9 +36,9 @@
                 <span ng-show="item.type == 'Events'">
                     Type: Event  Event Name: {{item.className}}
                 </span>
-                <p>StartTime: {{item.starttime | parseTimestamp}}</p>
+                <p>StartTime: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
                 <span>Scanned: {{item.scanned}}</span>
-                <span>Created: {{item.created | parseTimestamp}}</span>
+                <span>Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                 <span>Duration: {{item.duration * 30}} MINUTES</span>
             </a>
         </ul>

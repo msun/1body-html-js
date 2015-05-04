@@ -15,9 +15,9 @@
                               ng-model="newrequest.message"
                               placeholder="Message for mobile request"></textarea>
                 </div>
-                <div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
-                    <span class="ob-form-prompt">Start time</span>
-                    <span class="ob-form-text">{{newrequest.starttime}}</span>
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Start Time </span>
+                    <time-picker class="ob-form-timepicker" minute-step="30" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                 </div>
                 <div class="ob-form-row ob-form-flex-row">
                     <span class="ob-form-prompt">Duration</span>
