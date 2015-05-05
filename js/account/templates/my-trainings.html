@@ -1,0 +1,45 @@
+<ion-view xmlns="http://www.w3.org/1999/html">
+    <ion-header-bar class="ob-darkpurple-bg">
+        <div class="buttons">
+            <button ng-click ="toggleMenu()" class = "button button-icon button-dark">
+                <i class = "icon ion-navicon-round"></i>
+            </button>
+            <!--
+                        <h2 class="title" style="padding: 7px">
+                            {{selectedTrainer.username}}
+                            <a href="#/menu/{{$root.header}}" class = "button button-icon button-dark">
+                                <i class = "icon ion-gear-b">
+                                </i>
+                            </a>
+                        </h2>
+
+                        <a href="#/menu/{{$root.header}}" style="padding: 5px" class = "button button-icon button-dark">
+                            <i class = "icon ion-arrow-return-left">
+                            </i>
+                        </a>
+            -->
+        </div>
+        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
+    </ion-header-bar>
+    <ion-content class="ob-grey-bg">
+        <button class="button button-calm" ng-click="showAll()">Show All</button>
+        <time-picker class="ob-form-timepicker" allow-time-before-now="true" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+        <ul class="list">
+            <a class="item" ng-repeat="item in myTransactions" ng-click="showQRcode(item)">
+                <img src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.classID}}{{item.eventID}}{{item.userID | htmlEncode}}/profilepic.jpg" width="80px" height="80px" />
+                <span ng-show="item.type == 'Users'">
+                    Trainer Name: {{item.trainerName}}
+                </span>
+                <span ng-show="item.type == 'Classes'">
+                    Type: Class  Class Name: {{item.className}}
+                </span>
+                <span ng-show="item.type == 'Events'">
+                    Type: Event  Event Name: {{item.className}}
+                </span>
+                <p>StartTime: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+                <span>Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                <span>Duration: {{item.duration * 30}} MINUTES</span>
+            </a>
+        </ul>
+    </ion-content>
+</ion-view>

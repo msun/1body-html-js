@@ -118,3 +118,12 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
         });
     };
 });
+
+userModule.controller("ImagesCtrl", function($scope, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Images, Feeds, Notifications, appConfig){
+    console.log($stateParams.id);
+    console.log($stateParams.type);
+
+    $scope.images = $firebaseArray(Images.ref().child($stateParams.type).child($stateParams.id));
+
+
+});

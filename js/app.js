@@ -310,6 +310,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.images', {
+                url: '/images/:type/:id',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/user/templates/images.html',
+                        controller: 'ImagesCtrl'
+                    }
+                }
+            })
+
             .state('menu.gym-detail', {
                 url: '/Gyms/:gymID',
                 views: {
@@ -351,6 +361,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.account.add-image', {
+                url: '/add-image/:type/:id',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/add-image.html',
+                        controller: 'AddImageCtrl'
+                    }
+                }
+            })
+
             .state('menu.account.my-profile', {
                 url: '/my-profile',
                 views: {
@@ -387,6 +407,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     'account': {
                         templateUrl: 'js/account/templates/settings.html',
                         controller: 'AccountCtrl'
+                    }
+                }
+            })
+
+            .state('menu.account.my-trainings', {
+                url: '/my-trainings',
+                views: {
+                    'account': {
+                        templateUrl: 'js/account/templates/my-trainings.html',
+                        controller: 'MyTrainingsCtrl'
                     }
                 }
             })

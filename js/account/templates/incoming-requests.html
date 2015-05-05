@@ -5,7 +5,7 @@
                 <div class="ob-search-list">
                     <div class="ob-search-list-row" ng-repeat="item in requests">
                         <div class="ob-search-list-row-left">
-                            <img class="ob-search-list-img" src="{{item.profilepic}}" ng-click="window.location.href = '#/menu/{{item.group}}/{{item.$id}}'"/>
+                            <img class="ob-search-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.userID | htmlEncode}}/profilepic.jpg" ng-click="window.location.href = '#/menu/{{item.group}}/{{item.$id}}'"/>
                         </div>
                         <div class="ob-search-list-row-right ob-search-list-text">
                             <div ng-click="showOnMap(item)">

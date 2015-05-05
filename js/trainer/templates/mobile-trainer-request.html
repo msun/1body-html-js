@@ -21,8 +21,8 @@
                 </div>
                 <div class="ob-form-row ob-form-flex-row">
                     <span class="ob-form-prompt">Duration</span>
-                    <span class="ob-form-text">{{newrequest.duration}}min</span>
-                    <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newrequest.duration">
+                    <span class="ob-form-text">{{newrequest.minutes}}min</span>
+                    <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newrequest.minutes">
                 </div>
                 <div class="ob-form-row ob-form-flex-row" ng-click="openMap()">
                     <span class="ob-form-text">Select Location from Map</span>
@@ -31,7 +31,7 @@
                 <div class="ob-form-row ob-form-flex-row">
                     <span class="ob-form-prompt">Location</span>
                     <input class="ob-form-text-input" type="text"
-                           ng-model="newrequest.location" placeholder=""/>
+                           ng-model="newrequest.address" placeholder=""/>
                 </div>
                 <div class="ob-form-row">
                     <textarea class="ob-form-textarea ob-form-textarea-small"
@@ -39,7 +39,7 @@
                               placeholder="Comments on location"></textarea>
                 </div>
                 <div class="ob-form-row ob-form-flex-row" ng-click="openSelectTrainerModal()">
-                    <span class="ob-form-text-input">Select Trainers</span>
+                    <span class="ob-form-text-input">Select Available Trainers</span>
                     <span class="ob-form-icon ob-form-icon-rightarrow"></span>
                 </div>
             </div>

@@ -430,7 +430,7 @@ trainer.controller('FollowingTrainerCtrl', function($scope, User, appFactory, $t
     });
 });
 
-trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebase, eventFactory, apikey, Requests, GeoRequests, Trainers, IncomingRequests) {
+trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebaseObject, eventFactory, apikey, Requests, GeoRequests, Trainers, IncomingRequests, Schedule) {
     $scope.newrequest = {};
     $scope.newrequest.duration = 30;
     $scope.dt = Date.now();
@@ -482,7 +482,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
                         console.log(url);
                         eventFactory.getStreetAddress(url, function(data, status){
                             console.log(data);
-                            $scope.newrequest.location = data.results[0].formatted_address;
+                            $scope.newrequest.address = data.results[0].formatted_address;
                         });
                     }
                 }
@@ -499,22 +499,40 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-
+        var theday = $scope.dt.getFullYear() + "-" + $scope.dt.getMonth() + "-" + $scope.dt.getDate();
         for(var key in appFactory.users){
             if(!appFactory.users.hasOwnProperty(key)){
                 continue;
             }
 
             if(appFactory.users[key].mobile){
-
                 $scope.mobile_trainers.push(appFactory.users[key]);
+//                (function(id){
+//                    var num = $scope.dt.getHours() * 2;
+//                    if($scope.dt.getMinutes() == 30){
+//                        num++;
+//                    }
+//                    console.log(num);
+//                    console.log(theday);
+//                    var availability = $firebaseObject(Schedule.ref().child(key).child(theday).child("active").child(num));
+//
+//                    availability.$loaded(function(){
+//                        console.log(availability);
+//                        console.log(availability[num]);
+//                        if(availability.$value == 0){
+//                            $scope.mobile_trainers.push(appFactory.users[id]);
+//                        }
+//                    });
+//
+//
+//                }(key));
             }
         }
         console.log($scope.mobile_trainers);
     }
 
     $scope.showOnMap = function(item){
-        var center = new google.maps.LatLng(item.latitude, item.longitude);
+        var center = new google.maps.LatLng(item.location[0], item.location[1]);
         if($scope.marker){
             $scope.marker.setMap(null);
         }
@@ -575,18 +593,20 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
     });
 
     $scope.confirmRequest = function(){
-        var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newrequest.location.replace(/ /g, "+") + "&key=" + apikey;
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.newrequest.address.replace(/ /g, "+") + "&key=" + apikey;
         eventFactory.getStreetAddress(url, function(data, status) {
             console.log(data);
-            $scope.newrequest.latitude = data.results[0].geometry.location.lat;
-            $scope.newrequest.longitude = data.results[0].geometry.location.lng;
+            $scope.newrequest.location = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
+
+            $scope.newrequest.starttime = $scope.dt.getTime();
 
             $scope.newrequest.userID = appFactory.user.$id;
             $scope.newrequest.userName = appFactory.user.username;
+            $scope.newrequest.duration = $scope.newrequest.minutes / 30;
 
-            $scope.newrequest.created = Firebase.ServerValue.TIMESTAMP;
+            $scope.newrequest.created = Date.now();
 
-            var requestRef = Requests.ref().child(appFactory.user.$id);
+            var requestRef = Requests.ref();
 
             var noTrainer = true;
             for (var j = 0; j < $scope.checked.length; j++) {
@@ -598,12 +618,12 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
                     var newReqRef = requestRef.push(mNewrequest);
                     console.log(newReqRef.key());
 
-                    newReqRef.setPriority(mNewrequest.created);
+                    newReqRef.setPriority($scope.newrequest.created);
 
-                    var incomingRequestRef = IncomingRequests.ref().child(mNewrequest.trainerID).child(newReqRef.key());
-
-                    incomingRequestRef.set(mNewrequest);
-                    incomingRequestRef.setPriority(appFactory.user.$id);
+//                    var incomingRequestRef = IncomingRequests.ref().child(mNewrequest.trainerID).child(newReqRef.key());
+//
+//                    incomingRequestRef.set(mNewrequest);
+//                    incomingRequestRef.setPriority(appFactory.user.$id);
                 }($scope.newrequest));
 
                 if(j == $scope.checked.length -1){
@@ -819,10 +839,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
 
                             newTransaction.reviewed = false;
                             newTransaction.scanned = false;
-                            if(scope.selectedTrainer.profilepic){
-                                newTransaction.profilepic = scope.selectedTrainer.profilepic;
-                            }
-                            newTransaction.type = "Users";
+
                             myTransactions.child(transactionRef.key()).set(newTransaction, function(){
                                 myTransactions.child(transactionRef.key()).setPriority(startTimestamp);
 

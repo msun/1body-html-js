@@ -28,11 +28,13 @@
             <ul>
                 <a ng-click ="toggleMenu()" href="#/menu/map" class="item menu-font">Map</a>
                 <a ng-click ="toggleMenu()" href="#/menu/my-events" class="item menu-font">My Events</a>
+                <a ng-click ="toggleMenu()" href="#/menu/account/add-image" class="item menu-font">Upload image</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-requests" class="item menu-font">My Requests</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-transactions" class="item menu-font">My Booked Sessions</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/requested-sessions" class="item menu-font">Requests Inbox</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/my-schedule" class="item menu-font">My Schedule</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/scan" class="item menu-font">Scan QR Code</a>
+                <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/my-trainings" class="item menu-font">My Trainings</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/set-location" class="item menu-font">My Location</a>
                 <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editgym/new" class="item menu-font">Create Gym</a>
                 <a ng-show="$root.user.admin == 1" ng-click ="toggleMenu()" href="#/menu/editclass/new" class="item menu-font">Create Class</a>

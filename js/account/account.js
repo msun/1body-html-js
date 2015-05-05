@@ -928,13 +928,12 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
 });
 
 account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseArray, Requests, Trainers){
-    $scope.requests = $firebaseArray(Requests.ref().child(appFactory.user.$id));
-    var now = Firebase.ServerValue.TIMESTAMP;;
+    $scope.requests = $firebaseArray(Requests.ref().orderByChild("userID").equalTo(appFactory.user.$id));
+    var now = Date.now();
     $scope.requests.$loaded(function(){
         console.log(now);
         for(var j=0; j<$scope.requests.length; j++) {
             var req = $scope.requests[j];
-            $scope.requests[j].profilepic = appFactory.users[req.trainerID].profilepic;
 
             if (now - req.created > 86400000) {
                 console.log("remove");
@@ -1030,14 +1029,14 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
     }
 });
 
-account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseArray, $firebaseObject, Requests, IncomingRequests, Trainers){
+account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions, MyTransactions, appFactory, baseUrl, $timeout, $firebaseArray, $firebaseObject, Requests, IncomingRequests, Trainers){
     console.log(appFactory.user);
-    $scope.requests = $firebaseArray(IncomingRequests.ref().child(appFactory.user.$id));
+    $scope.requests = $firebaseArray(Requests.ref().orderByChild("trainerID").equalTo(appFactory.user.$id));
     $scope.requests.$loaded(function(){
         console.log($scope.requests);
         for(var j=0; j<$scope.requests.length; j++){
             $scope.requests[j].trainerAccepted = false;
-            var now = Firebase.ServerValue.TIMESTAMP;;
+            var now = Date.now();
             if(now - $scope.requests[j].created > 3600000){
                 $scope.requests[j].expired = true;
             }
@@ -1067,7 +1066,7 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, b
             $scope.marker.setMap(null);
         }
 
-        var center = new google.maps.LatLng(item.latitude, item.longitude);
+        var center = new google.maps.LatLng(item.location[0], location[1]);
         $scope.marker = new google.maps.Marker({
             position: center,
             map: map,
@@ -1078,25 +1077,56 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, b
     };
 
     $scope.acceptRequest = function(item){
-        var reqRef = Requests.ref().child(item.userID);
-        var reqs = $firebaseArray(reqRef.orderByPriority().equalTo(item.created));
+
+        var reqs = $firebaseArray(Requests.ref().orderByPriority().equalTo(item.created));
+
+        var transactions = Transactions.ref().child(appFactory.user.$id);
+        var myTransactions = MyTransactions.ref().child(item.userID);
 
         reqs.$loaded(function(){
             console.log(reqs);
+
             for(var i=0; i < reqs.length; i++){
                 if(reqs[i].$id == item.$id){
                     if(!reqs[i].expired){
                         reqs[i].trainerAccecpted = true;
                         item.trainerAccecpted = true;
-                        $scope.requests.$save(item);
                         (function(index){
-                            reqs.$save(index);
-                        }(i))
+                            reqs.$save(index).then(function(){
+                                var transaction = {
+                                    userID: item.userID,
+                                    trainerID: item.trainerID,
+                                    trainerName: item.userName,
+                                    tokens: 2,
+                                    mobile: true,
+                                    location: item.location,
+                                    type: "Users",
+                                    created: Firebase.ServerValue.TIMESTAMP,
+                                    duration: item.duration,
+                                    starttime: item.starttime
+                                };
+                                var transactionRef = transactions.push(transaction, function() {
+                                    transactionRef.setPriority(item.starttime);
+
+                                    transaction.reviewed = false;
+                                    transaction.scanned = false;
+
+                                    myTransactions.child(transactionRef.key()).set(transaction, function(){
+                                        myTransactions.child(transactionRef.key()).setPriority(item.starttime);
+
+                                    });
+
+                                });
+                            });
+                        }(i));
+
                     }
                 } else {
                     if(!reqs[i].trainerAccecpted){
-                        reqs[i].expired = true;
+
+//                        reqs.$save(i);
                         (function(index){
+                            reqs[index].expired = true;
                             reqs.$save(index);
                         }(i))
                     }
@@ -1165,6 +1195,144 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, appFactory, b
     $scope.delete = function(item){
         $scope.requests.splice($scope.requests.indexOf(item), 1);
         $scope.requests.$save();
+    }
+});
+
+account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, Transactions, $window, $localstorage){
+    $scope.dt = new Date();
+
+    $scope.$watch('dt', function () {
+        console.log($scope.dt.getFullYear());
+        console.log($scope.dt.getMonth());
+        console.log($scope.dt.getDate());
+        console.log($scope.dt.getHours());
+        console.log($scope.dt.getMinutes());
+        console.log($scope.dt.getSeconds());
+
+        var startDate = new Date();
+        startDate.setFullYear($scope.dt.getFullYear());
+        startDate.setMonth($scope.dt.getMonth());
+        startDate.setDate($scope.dt.getDate());
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        console.log(startDate);
+        console.log(startDate.getTime());
+
+        var endDate = new Date();
+        endDate.setFullYear($scope.dt.getFullYear());
+        endDate.setMonth($scope.dt.getMonth());
+        endDate.setDate($scope.dt.getDate());
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(59);
+        console.log(endDate);
+        console.log(endDate.getTime());
+
+        $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByPriority().startAt(startDate.getTime()).endAt(endDate.getTime()));
+    }, true);
+
+    $scope.showAll = function(){
+        $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id));
+
+        $scope.myTransactions.$loaded(function(){
+            for(var i=0; i<$scope.myTransactions.length; i++){
+                console.log($scope.myTransactions.$priority);
+            }
+        });
+    }
+
+    $ionicModal.fromTemplateUrl('js/account/templates/qrcode.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.modal = modal;
+    });
+
+    $scope.closeQRcodeModal = function(){
+        console.log("hide");
+        $scope.modal.hide();
+    }
+
+    $scope.$on('$destroy', function() {
+        $scope.modal.remove();
+    });
+});
+
+account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, ImageUrl, $timeout, Images, $ionicLoading, $stateParams, $localstorage){
+    var exec;
+    if (ionic.Platform.isAndroid()) {
+        exec = cordova.require("cordova/exec");
+    }
+
+    $scope.newimage = {};
+
+    var image = document.getElementById('displayPic');
+
+    var onSuccess = function(imageURI) {
+        image.src = imageURI;
+
+    }
+
+    var onFail = function(message) {
+        alert('Failed because: ' + message);
+    }
+
+    $scope.fromstorage = function() {
+        alert("from storage");
+        // Retrieve image file location from specified source
+        navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: 0 });
+    };
+
+    $scope.fromcamera = function(){
+        navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+    };
+
+    $scope.useimg = function(){
+        if (ionic.Platform.isAndroid()) {
+            $ionicLoading.show({
+                content: '<i class="icon ion-looping"></i> Saving image to server...',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+
+            exec(function (result) {
+                var bigimg = {
+                    data: result.big,
+                    id: $stateParams.id,
+                    name: $stateParams.id + "_" + Date.now() + "_hd.jpg",
+                    type: $stateParams.type
+                };
+
+                var smallimg = {
+                    data: result.small,
+                    id: $stateParams.id,
+                    name: $stateParams.id + "_" + Date.now() + ".jpg",
+                    type: $stateParams.type
+                };
+
+                $scope.newimage.hdurl = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + bigimg.name;
+                $scope.newimage.url = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + smallimg.name;
+                $scope.newimage.created = Firebase.ServerValue.TIMESTAMP;
+
+                Images.ref().push(smallimg, function(){
+                    Images.ref().push(bigimg, function(){
+                        ImageUrl.ref().child("Users").child(appFactory.user.$id).push($scope.newimage, function(){
+                            $ionicLoading.hide();
+                            alert("Your event picture is saved");
+                        });
+                    });
+                });
+            }, function (err) {
+                console.log(err);
+            }, 'Card_io', 'useimg', [
+                {'id': $scope.user.$id, 'uri': image.src}
+            ]);
+        }
     }
 });
 
