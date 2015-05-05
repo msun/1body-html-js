@@ -585,8 +585,8 @@ ion-popover-view.fit ion-content {
 .ob-form-text-input {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
-    height: 44px !important;
-    line-height: 44px !important;
+    height: 42px !important;
+    line-height: 42px !important;
     margin: auto 6px;
     overflow: hidden;
     background: transparent;
@@ -597,8 +597,8 @@ ion-popover-view.fit ion-content {
 
 /* a hack to fix search bar height */
 input.ob-form-text-input[type="search"] {
-    height: 42px !important;
-    line-height: 42px !important;
+    height: 40px !important;
+    line-height: 40px !important;
 }
 
 .ob-form-text-input:hover {
@@ -610,32 +610,32 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-form-text-input::-webkit-input-placeholder {
-    height: 44px !important;
-    line-height: 44px;
+    height: 42px !important;
+    line-height: 42px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: #a4a2a3;
 }
 
 .ob-form-text-input:-moz-placeholder {
-    height: 44px !important;
-    line-height: 44px;
+    height: 42px !important;
+    line-height: 42px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: #a4a2a3;
 }
 
 .ob-form-text-input::-moz-placeholder {
-    height: 44px !important;
-    line-height: 44px;
+    height: 42px !important;
+    line-height: 42px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: #a4a2a3;
 }
 
 .ob-form-text-input:-ms-input-placeholder {
-    height: 44px !important;
-    line-height: 44px;
+    height: 42px !important;
+    line-height: 42px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: #a4a2a3;
@@ -862,7 +862,8 @@ input.ob-form-text-input[type="search"] {
     margin: 6px auto;
 }
 
-.ob-block-button-smallmargins {
+.ob-block-button-small {
+    min-width: 0px;
     margin: 4px auto;
 }
 
@@ -1077,6 +1078,76 @@ input.ob-form-text-input[type="search"] {
     border-radius: 8px;
     font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 14px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-list */
+/* ********** ********** ********** ********** ***********/
+
+.ob-list {
+
+}
+
+.ob-list-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #a1a6ae;
+    text-decoration: none;
+}
+
+.ob-list-col-flex {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.ob-list-col-img {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 80px;
+}
+
+.ob-list-img {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 60px;
+    height: 60px;
+    margin: 5px 10px;
+    border-radius: 4px;
+    display: block;
+}
+
+.ob-list-text {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16.5px;
+    color: white;
+}
+
+.ob-list-subtext {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 14px;
+    color: white;
+}
+
+.ob-list-col-small {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 50px;
+}
+
+.ob-list-checkbox {
+    background: transparent;
+    width: 31px !important;
+    height: 31px !important;
+    border: 1px solid white;
+    border-radius: 15.5px;
+}
+
+.ob-list-checkbox:not(:checked):before {
+    background: transparent;
+    border: 1px solid white;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1422,10 +1493,6 @@ input.ob-form-text-input[type="search"] {
 .ob-slide {
 }
 
-.create-event-ob-form {
-    margin-bottom: 10px;
-}
-
 #create-eventmap {
     width: 93.75%; /* 300px / 320px */
     min-width: 150px;
@@ -1512,124 +1579,6 @@ input.ob-form-text-input[type="search"] {
     border-radius: 8px;
     margin: 9px auto 0px;
 }
-
-/* ob-userlist */
-
-.ob-userlist {
-    margin-top: 12px;
-    margin-bottom: 4px;
-}
-
-.ob-userlist-row {
-    width: 100%;
-    height: 72px;
-    color: white;
-    border-bottom: 1px solid #898787;
-}
-
-.ob-userlist-row:active {
-    background-color: white;
-}
-
-.ob-userlist-image {
-    float: left;
-    width: 60px;
-    height: 60px;
-    margin: 4px 10px;
-}
-
-.ob-userlist-text-column {
-    height: 100%;
-    display: table;
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 14px;
-}
-
-.ob-userlist-text-block {
-    height: 100%;
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.ob-userlist-user-name {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 15.5px;
-}
-
-.ob-userlist-mutual-friend-count {
-
-}
-
-/* ********** ********** ********** ********** ***********/
-/* ob-list */
-/* ********** ********** ********** ********** ***********/
-
-.ob-list {
-
-}
-
-.ob-list-row {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.3);
-    border-bottom: 1px solid #a1a6ae;
-    text-decoration: none;
-}
-
-.ob-list-col-flex {
-    -webkit-flex: 1 1 auto;
-    flex: 1 1 auto;
-}
-
-.ob-list-col-img {
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
-    width: 80px;
-}
-
-.ob-list-img {
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
-    width: 60px;
-    height: 60px;
-    margin: 5px 10px;
-    border-radius: 4px;
-    display: block;
-}
-
-.ob-list-text {
-    font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 16.5px;
-    color: white;
-}
-
-.ob-list-subtext {
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 14px;
-    color: white;
-}
-
-.ob-list-col-small {
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
-    width: 50px;
-}
-
-.ob-list-checkbox {
-    background: transparent;
-    width: 31px !important;
-    height: 31px !important;
-    border: 1px solid white;
-    border-radius: 15.5px;
-}
-
-.ob-list-checkbox:not(:checked):before {
-    background: transparent;
-    border: 1px solid white;
-}
-
 
 /* ********** ********** ********** ********** ***********/
 /* home.html */
