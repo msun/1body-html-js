@@ -1066,7 +1066,7 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions,
             $scope.marker.setMap(null);
         }
 
-        var center = new google.maps.LatLng(item.location[0], location[1]);
+        var center = new google.maps.LatLng(item.location[0], item.location[1]);
         $scope.marker = new google.maps.Marker({
             position: center,
             map: map,
