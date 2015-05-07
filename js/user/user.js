@@ -119,11 +119,63 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
     };
 });
 
-userModule.controller("ImagesCtrl", function($scope, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Images, Feeds, Notifications, appConfig){
+userModule.controller("ImagesCtrl", function($scope, $ionicModal, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Images, ImageUrls, $window, appConfig){
     console.log($stateParams.id);
     console.log($stateParams.type);
+    $scope.id = $stateParams.id;
+    $scope.userID = $stateParams.userID;
+    $scope.myID = appFactory.user.$id;
+    $scope.type = $stateParams.type;
+    $scope.edit = false;
 
-    $scope.images = $firebaseArray(Images.ref().child($stateParams.type).child($stateParams.id));
+    $ionicModal.fromTemplateUrl('js/user/templates/image.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.modal = modal;
+    });
 
+
+    $scope.images = $firebaseArray(ImageUrls.ref().child($stateParams.type).child($stateParams.id).orderByPriority().endAt(Date.now()).limitToLast(9));
+
+    $scope.moreImages = function(){
+        $scope.images = $firebaseArray(ImageUrls.ref().child($stateParams.type).child($stateParams.id).orderByPriority().endAt($scope.images[0].$priority).limitToLast(9));
+    };
+
+    $scope.delete = function(item){
+        $scope.images.$remove(item);
+    }
+
+    $scope.edit = function(item){
+        item.edit = item.message;
+        item.toggle = true;
+    }
+
+    $scope.save = function(item){
+        console.log(item);
+        $scope.images.$save(item);
+    }
+
+    $scope.cancel = function(item){
+        console.log(item);
+        item.toggle = false;
+    }
+
+    $scope.back = function(){
+        $window.history.back();
+    }
+
+    $scope.opendImageModal = function(item){
+        $scope.image = item;
+        $scope.modal.show();
+    }
+
+    $scope.closeImageModal = function(){
+        $scope.modal.hide();
+    }
+
+    $scope.$on('$destroy', function() {
+        $scope.modal.remove();
+    });
 
 });

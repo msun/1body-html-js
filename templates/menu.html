@@ -14,7 +14,7 @@
             <div class="ob-sidemenu-header-content" ng-click="toggleMenu()">
                 <div class="ob-sidemenu-header-inner-content">
                     <a class="ob-sidemenu-usericon-container" href="#/menu/account/my-profile">
-                        <img class="ob-sidemenu-usericon" src="{{$root.user.profilepic}}"/>
+                        <img class="ob-sidemenu-usericon" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{$root.user.$id | htmlEncode}}/profilepic.jpg"/>
                     </a>
                     <a class="ob-sidemenu-title" href="#/menu/account/my-profile">{{$root.user.username}}</a>
                     <a class="ob-sidemenu-cog-container" href="#/menu/account/settings" ng-click="toggleMenu()">
@@ -28,7 +28,7 @@
             <ul>
                 <a ng-click ="toggleMenu()" href="#/menu/map" class="item menu-font">Map</a>
                 <a ng-click ="toggleMenu()" href="#/menu/my-events" class="item menu-font">My Events</a>
-                <a ng-click ="toggleMenu()" href="#/menu/account/add-image" class="item menu-font">Upload image</a>
+                <a ng-click ="toggleMenu()" href="#/menu/images/Users/{{$root.user.$id}}/{{$root.user.$id}}" class="item menu-font">My images</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-requests" class="item menu-font">My Requests</a>
                 <a ng-click ="toggleMenu()" href="#/menu/account/my-transactions" class="item menu-font">My Booked Sessions</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click ="toggleMenu()" href="#/menu/account/requested-sessions" class="item menu-font">Requests Inbox</a>

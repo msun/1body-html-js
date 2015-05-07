@@ -15,7 +15,7 @@
 
             <div class="item item-avatar">
                 <a href="#/menu/{{item.group}}/{{item.$id}}">
-                    <img src="{{selectedEvent.user.profilepic}}">
+                    <img src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedEvent.userID | htmlEncode}}/profilepic.jpg">
                 </a>
                 <h2>{{selectedEvent.user.username}}</h2>
                 <p>{{selectedEvent.user.group}}</p>
@@ -23,6 +23,7 @@
 
             <div class="item item-body">
                 <h2>{{selectedEvent.name}}</h2>
+                <h2>{{selectedEvent.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</h2>
                 <p>
                     {{selectedEvent.information}}
                 </p>
@@ -30,10 +31,7 @@
                     {{selectedEvent.location}}
                 </p>
                 <div id="event-detail-map" data-tap-disabled="true" style="width: 100%; height: 200px"></div>
-                <p>
-                    <a href="#" class="subdued">1 Like</a>
-                    <a href="#" class="subdued">{{selectedEvent.comments.length}} Comments</a>
-                </p>
+
             </div>
 
             <div class="item button-bar">
@@ -46,6 +44,7 @@
                 <button class="button button-dark" ng-click="whosGoing()">
                     Who's going?
                 </button>
+                <a class="button button-dark" href="#/menu/images/Events/{{selectedEvent.$id}}/{{selectedEvent.userID}}">Event Images</a>
             </div>
         </div>
 

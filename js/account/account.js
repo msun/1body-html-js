@@ -1259,7 +1259,7 @@ account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFa
     });
 });
 
-account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, ImageUrl, $timeout, Images, $ionicLoading, $stateParams, $localstorage){
+account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, ImageUrls, $timeout, Images, $ionicLoading, $stateParams, $window){
     var exec;
     if (ionic.Platform.isAndroid()) {
         exec = cordova.require("cordova/exec");
@@ -1315,15 +1315,18 @@ account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFacto
                     type: $stateParams.type
                 };
 
-                $scope.newimage.hdurl = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + bigimg.name;
-                $scope.newimage.url = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + smallimg.name;
+                $scope.newimage.hdurl = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + "/" + $stateParams.id + "/" + bigimg.name;
+                $scope.newimage.url = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + "/" + $stateParams.id + "/" + smallimg.name;
                 $scope.newimage.created = Firebase.ServerValue.TIMESTAMP;
 
                 Images.ref().push(smallimg, function(){
                     Images.ref().push(bigimg, function(){
-                        ImageUrl.ref().child("Users").child(appFactory.user.$id).push($scope.newimage, function(){
+                        alert($scope.newimage);
+                        var imgRef = ImageUrls.ref().child($stateParams.type).child($stateParams.id).push($scope.newimage, function(){
+                            imgRef.setPriority($scope.newimage.created);
                             $ionicLoading.hide();
                             alert("Your event picture is saved");
+                            $window.history.back();
                         });
                     });
                 });

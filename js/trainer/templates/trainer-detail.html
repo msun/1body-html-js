@@ -30,7 +30,7 @@
             <div class="profile-top-padding-div"></div>
 
             <div class="profile-picture-div">
-                <img class="profile-picture" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic.jpg"/>
+                <img class="profile-picture" ng-click="openImageModal()" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic.jpg"/>
                 <img class="profile-picture-tag" src="img/badge-professional.png"/>
             </div>
 
@@ -84,11 +84,11 @@
                             <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
                             <!--<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>-->
                         </a>
-                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-2">
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-2" href="#/menu/images/Users/{{selectedTrainer.$id}}/{{selectedTrainer.$id}}">
                             <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
                             <!--<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>-->
                         </a>
-                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-3">
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-3" href="#/menu/Users/{{selectedTrainer.$id}}">
                             <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
                             <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
                         </a>

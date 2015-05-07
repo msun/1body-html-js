@@ -273,22 +273,6 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 
     $scope.openImageModal = function(){
         $scope.imageModal.show();
-        $scope.bigimage = $firebaseObject(Images.ref().child($scope.selectedTrainer.$id).child("profilepic"));
-        $scope.bigimage.$loaded(function(){
-            console.log($scope.bigimage);
-        });
-    };
-
-    $scope.closeImageModal = function(){
-        $scope.imageModal.hide();
-    };
-
-    $scope.openImageModal = function(){
-        $scope.imageModal.show();
-        $scope.bigimage = $firebaseObject(Images.ref().child($scope.selectedTrainer.$id).child("profilepic"));
-        $scope.bigimage.$loaded(function(){
-            console.log($scope.bigimage);
-        });
     };
 
     $scope.closeImageModal = function(){
@@ -860,6 +844,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                 }
                 daySchedule.$save().then(function(){
                     alert("That worked :D");
+                    scope.scheduleModal.hide();
                 });
 
             }

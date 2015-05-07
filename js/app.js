@@ -311,7 +311,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.images', {
-                url: '/images/:type/:id',
+                url: '/images/:type/:id/:userID',
                 views: {
                     'menu': {
                         templateUrl: 'js/user/templates/images.html',
