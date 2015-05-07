@@ -44,7 +44,7 @@
                             <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
-                            <span class="ob-form-prompt ob-form-prompt-small">Duration</span>
+                            <span class="ob-form-prompt">Duration</span>
                             <span class="ob-form-text">{{newevent.duration}}min</span>
                             <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newevent.duration">
                         </div>
@@ -97,7 +97,7 @@
                                    ng-model="newevent.address" placeholder="Enter location"/>
                         </div>
                     </div>
-                    <div id="create-eventmap" data-tap-disabled="true"></div>
+                    <div id="create-eventmap" class="ob-block-map" data-tap-disabled="true"></div>
                     <div class="ob-form">
                         <div class="ob-form-row ob-form-flex-row">
                             <input class="ob-form-text-input" type="text"
@@ -119,16 +119,18 @@
                             <span class="picture-upload-plus-icon"></span>
                             <span class="picture-upload-e-tag"></span>
                         </div>
-                        <button ng-click="fromstorage()">From Storage</button>
-                        <button ng-click="fromcamera()">Take a picture</button>
-                        <button ng-click="useimg()">Use Image</button>
+                    </div>
+                    <div class="buttongroup2">
+                        <button class="buttongroup2-button" ng-click="fromcamera()"><i class="icon ion-camera buttongroup2-icon"></i></button>
+                        <button class="buttongroup2-button" ng-click="fromstorage()"><i class="icon ion-images buttongroup2-icon"></i></button>
+                        <button class="buttongroup2-button" ng-click="useimg()">Save</button>
                     </div>
                     <!--<div class="ob-form">-->
                         <!--<div class="ob-form-row">-->
                             <!--<textarea class="ob-form-textarea" ng-model="newevent.information" placeholder="Tell us what this event is about"></textarea>-->
                         <!--</div>-->
                     <!--</div>-->
-                    <button class="ob-block-button ob-blue-button"ng-click="skipImgUpload()">Skip</button>
+                    <button class="ob-block-button ob-button-blue"ng-click="skipImgUpload()">Skip</button>
                 </div>
             </ion-slide>
             <ion-slide class="ob-slide">
@@ -148,7 +150,7 @@
                             </div>
                             <div class="ob-list-col-flex">
                                 <div class="ob-list-text">{{item.username}}</div>
-                                <div class="ob-list-subtext"><span>4</span>friends</div>
+                                <!--<div class="ob-list-subtext"><span>4</span> mutual friends</div>-->
                             </div>
                             <div class="ob-list-col-small">
                                 <label class="checkbox">
