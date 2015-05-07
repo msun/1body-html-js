@@ -14,11 +14,6 @@
     height: 300px;
 }
 
-#set-location-map {
-    width: 100%;
-    height: 300px;
-}
-
 #mobile-trainer-location {
     width: 100%;
     height: 250px;
@@ -485,7 +480,7 @@ ion-popover-view.fit ion-content {
     background-color: transparent;
     border: 1px solid #7f7b73;
     border-radius: 8px;
-    margin: 12px auto 4px;
+    margin: 12px auto;
     overflow: hidden;
 }
 
@@ -499,8 +494,6 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-row:first-child {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-bottom: 1px solid #7f7b73;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
@@ -551,17 +544,10 @@ ion-popover-view.fit ion-content {
 .ob-form-prompt {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    width: 33%;
-    max-width: 100px;
     margin: auto 6px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: #3884ed;
-}
-
-.ob-form-prompt-small {
-    width: auto;
-    max-width: 100%;
 }
 
 .ob-form-text {
@@ -1038,6 +1024,32 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
+/* ob-map */
+/* ********** ********** ********** ********** ***********/
+
+.ob-block-map {
+    width: 93.75%; /* 300px / 320px */
+    min-width: 300px;
+    max-width: 500px;
+    height: 180px;
+    border: 1px solid #7f7b73;
+    border-radius: 8px;
+    margin: 12px auto;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-modal */
+/* ********** ********** ********** ********** ***********/
+
+.ob-modal {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.ob-modal-header {
+    background: rgba(0, 0, 0, 0.0);
+}
+
+/* ********** ********** ********** ********** ***********/
 /* ob-block-switch */
 /* ********** ********** ********** ********** ***********/
 
@@ -1094,24 +1106,22 @@ input.ob-form-text-input[type="search"] {
     -webkit-align-items: center;
     align-items: center;
     background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid #a1a6ae;
     border-bottom: 1px solid #a1a6ae;
     text-decoration: none;
 }
 
-.ob-list-col-flex {
-    -webkit-flex: 1 1 auto;
-    flex: 1 1 auto;
+.ob-list-row + .ob-list-row {
+    border-top: none;
 }
 
 .ob-list-col-img {
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
     width: 80px;
 }
 
 .ob-list-img {
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
     width: 60px;
     height: 60px;
     margin: 5px 10px;
@@ -1119,21 +1129,28 @@ input.ob-form-text-input[type="search"] {
     display: block;
 }
 
+.ob-list-col-flex {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
 .ob-list-text {
     font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 16.5px;
     color: white;
+    margin: 4px 8px;
 }
 
 .ob-list-subtext {
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 14px;
     color: white;
+    margin: 4px 4px;
 }
 
 .ob-list-col-small {
-    -webkit-flex: 0 1 auto;
-    flex: 0 1 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
     width: 50px;
 }
 
@@ -1148,6 +1165,88 @@ input.ob-form-text-input[type="search"] {
 .ob-list-checkbox:not(:checked):before {
     background: transparent;
     border: 1px solid white;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-scroll */
+/* ********** ********** ********** ********** ***********/
+
+.ob-scroll {
+    width: 93.75%; /* 300px / 320px */
+    min-width: 300px;
+    max-width: 500px;
+    background: transparent;
+    border: 1px solid #7f7b73;
+    border-radius: 8px;
+    margin: 12px auto;
+    overflow: hidden;
+    height: 55%;
+    min-height: 250px;
+    max-height: 500px;
+    /* this fixes the overflow:hidden in Chrome */
+    -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
+
+.ob-scroll-row {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #7f7b73;
+    overflow: hidden;
+    min-height: 44px;
+    text-decoration: none;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.ob-scroll-row:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.ob-scroll-row:last-child {
+    border-bottom: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.ob-scroll-col-img {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 60px;
+}
+
+.ob-scroll-img {
+    width: 44px;
+    height: 44px;
+    margin: 8px;
+    border-radius: 4px;
+    display: block;
+}
+
+.ob-scroll-col-flex {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 8px;
+}
+
+.ob-scroll-text-demi {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16.5px;
+    color: #3884ed;
+}
+
+.ob-scroll-text {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 14px;
+    color: white;
+}
+
+.ob-scroll-message {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 18px;
+    color: white;
+    margin: 4px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1288,14 +1387,6 @@ input.ob-form-text-input[type="search"] {
     width: 100%;
     height: 100%;
     border-radius: 4px;
-}
-
-/* ********** ********** ********** ********** ***********/
-/* list-modal.html */
-/* ********** ********** ********** ********** ***********/
-
-.list-modal-header {
-    background: rgba(0, 0, 0, 0.0);
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -3055,11 +3146,11 @@ input.ob-form-text-input[type="search"] {
     background: rgb(56, 132, 237);
 }
 
+/* ob-search-list */
+
 .ob-search-list-view-content {
     padding-top: 17px;
 }
-
-/* ob-search-list */
 
 .ob-search-list {
 
