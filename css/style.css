@@ -14,11 +14,6 @@
     height: 300px;
 }
 
-#mobile-trainer-location {
-    width: 100%;
-    height: 250px;
-}
-
 .scroll {
     height: 100%;
 }
@@ -1249,6 +1244,12 @@ input.ob-form-text-input[type="search"] {
     margin: 4px;
 }
 
+.ob-scroll-col-right {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 50px;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* locations-line */
 /* ********** ********** ********** ********** ***********/
@@ -1361,32 +1362,6 @@ input.ob-form-text-input[type="search"] {
     -webkit-transform: translate(0%, -50%);
     -moz-transform: translate(0%, -50%);
     -o-transform: translate(0%, -50%);
-}
-
-/* ********** ********** ********** ********** ***********/
-/* incoming-requests.html */
-/* ********** ********** ********** ********** ***********/
-
-.increq-scroll {
-    margin-top: 12px;
-    width: 100%;
-    height: 55vh;
-    background: transparent;
-    border-top: 2px solid #888888;
-    border-bottom: 2px solid #888888;
-}
-
-.increq-map-container {
-    width: 100%;
-    height: 30vh;
-    background: transparent;
-    border: none;
-}
-
-.increq-map {
-    width: 100%;
-    height: 100%;
-    border-radius: 4px;
 }
 
 /* ********** ********** ********** ********** ***********/
