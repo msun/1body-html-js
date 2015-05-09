@@ -32,7 +32,7 @@ classModule.controller('ClassesCtrl', function($scope, User, appFactory) {
     $scope.classes = appFactory.classes;
 });
 
-classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, $timeout, mapFactory, $stateParams, Classes, MyTransactions, Transactions) {
+classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, $timeout, mapFactory, $stateParams, Classes, MyTransactions, Transactions, Users) {
     console.log($stateParams.gymID);
     $scope.classes = appFactory.classes;
     $scope.newcomment = {};
@@ -94,22 +94,22 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
 
     var classRef = Gyms.ref().child($stateParams.gymID).child("Classes").child($stateParams.classID);
 
-    var modified = $firebaseObject(classRef.child("modified"));
-
-    modified.$loaded(function(){
-        console.log(modified);
-        if(modified.$value && appFactory.classes[$stateParams.classID] && appFactory.classes[$stateParams.classID].modified >= modified.$value){
-            $scope.selectedClass = appFactory.classes[$stateParams.classID];
-            loadSchedule();
-        } else {
+//    var modified = $firebaseObject(classRef.child("modified"));
+//
+//    modified.$loaded(function(){
+//        console.log(modified);
+//        if(modified.$value && appFactory.classes[$stateParams.classID] && appFactory.classes[$stateParams.classID].modified >= modified.$value){
+//            $scope.selectedClass = appFactory.classes[$stateParams.classID];
+//            loadSchedule();
+//        } else {
             $scope.selectedClass = $firebaseObject(classRef);
             $scope.selectedClass.$loaded(function(){
-                appFactory.classes[$scope.selectedClass.$id] = $scope.selectedClass;
-                $localstorage.setObject("Classes", appFactory.classes);
+//                appFactory.classes[$scope.selectedClass.$id] = $scope.selectedClass;
+//                $localstorage.setObject("Classes", appFactory.classes);
                 loadSchedule();
             });
-        }
-    });
+//        }
+//    });
 
     $scope.bookClass = function(schedule){
         if(schedule.slotsopen <= 0){

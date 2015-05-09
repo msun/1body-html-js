@@ -155,6 +155,13 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 
         $scope.followerMe = $firebaseObject(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id));
 
+        /**TODO: transaction rework,
+         * 1. push new transaction into MyTransactions to get new unique id for transaction
+         * 2. generate qr code with new unique id
+         * 3. scan this code and save it to transcation in Transactions
+         * 4. server monitors transcations and compares transacation with unique id from MyTranscations
+         * 5. if matches, then reduce code otherwise do not process transaction
+         **/
         $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("trainerID").equalTo($scope.selectedTrainer.$id));
 
         if($scope.selectedTrainer.gym && $scope.selectedTrainer.gym.gymID){

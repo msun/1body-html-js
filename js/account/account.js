@@ -425,7 +425,6 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
     }
 
     $scope.fromstorage = function() {
-        alert("from storage");
         // Retrieve image file location from specified source
         navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
@@ -1279,7 +1278,6 @@ account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFacto
     }
 
     $scope.fromstorage = function() {
-        alert("from storage");
         // Retrieve image file location from specified source
         navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
@@ -1321,7 +1319,6 @@ account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFacto
 
                 Images.ref().push(smallimg, function(){
                     Images.ref().push(bigimg, function(){
-                        alert($scope.newimage);
                         var imgRef = ImageUrls.ref().child($stateParams.type).child($stateParams.id).push($scope.newimage, function(){
                             imgRef.setPriority($scope.newimage.created);
                             $ionicLoading.hide();
