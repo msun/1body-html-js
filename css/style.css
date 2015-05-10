@@ -162,10 +162,6 @@
     opacity: 1;
 }
 
-.menu-font {
-    font-size: 15pt;
-}
-
 .rotate90 {
     transform: rotate(90deg);
     -webkit-transform: rotate(90deg);
@@ -1362,18 +1358,6 @@ input.ob-form-text-input[type="search"] {
     -webkit-transform: translate(0%, -50%);
     -moz-transform: translate(0%, -50%);
     -o-transform: translate(0%, -50%);
-}
-
-/* ********** ********** ********** ********** ***********/
-/* choose-trainer-modal.html */
-/* ********** ********** ********** ********** ***********/
-
-.choose-trainer-scroll {
-    height: calc(40% - 25px);
-}
-
-.choose-trainer-map-container {
-    height: calc(50% - 25px);
 }
 
 /* ********** ********** ********** ********** ***********/
