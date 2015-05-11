@@ -1,7 +1,24 @@
 <ion-view>
+    <ion-header-bar class="ob-darkpurple-bg">
+        <div class="buttons">
+            <button ng-click="toggleMenu()" class="button button-icon">
+                <i class="icon ion-navicon ob-white-color"></i>
+            </button>
+        </div>
+        <h1 class="title ob-navbar-title">My Requests</h1>
+        <div class="buttons">
+            <button ng-click="goTo('#/menu/Mobile-Trainer-Request')" class="button button-icon">
+                <i class="icon ion-plus ob-white-color"></i>
+            </button>
+        </div>
+    </ion-header-bar>
     <ion-content class="has-header menu1-content ob-search-list-view-content">
         <div class="menu1-content-div ob-sections-vertical">
             <ion-scroll class="ob-scroll ob-section" direction="y">
+                <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">
+                    You have made no requests!<br/>
+                    Tap the + at the top right to request a mobile trainer.
+                </div>
                 <a class="ob-scroll-row" ng-repeat="item in requests | orderBy: '-created'" href="#/menu/Trainers/{{item.trainerID}}">
                     <div class="ob-scroll-col-img">
                         <img class="ob-scroll-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.trainerID | htmlEncode}}/profilepic.jpg"

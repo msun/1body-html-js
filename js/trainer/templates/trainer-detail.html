@@ -1,25 +1,28 @@
 <ion-view>
     <ion-header-bar class="ob-darkpurple-bg">
         <div class="buttons">
-            <button ng-click ="toggleMenu()" class = "button button-icon button-dark">
-                <i class = "icon ion-navicon-round"></i>
-            </button>
+            <button ng-click="toggleMenu()" class="button button-icon icon ion-navicon button-dark"></button>
 <!--
             <h2 class="title" style="padding: 7px">
                 {{selectedTrainer.username}}
-                <a href="#/menu/{{$root.header}}" class = "button button-icon button-dark">
+                <a href="#/menu/{{$root.header}}" class="button button-icon button-dark">
                     <i class = "icon ion-gear-b">
                     </i>
                 </a>
             </h2>
 
-            <a href="#/menu/{{$root.header}}" style="padding: 5px" class = "button button-icon button-dark">
+            <a href="#/menu/{{$root.header}}" style="padding: 5px" class="button button-icon button-dark">
                 <i class = "icon ion-arrow-return-left">
                 </i>
             </a>
 -->
         </div>
         <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
+        <div class="buttons">
+            <button ng-click="goTo('#/menu/my-profile')"
+                    class="button button-icon icon ion-edit button-dark ob-ionicon-small">
+            </button>
+        </div>
     </ion-header-bar>
     <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
         <div class="profile-top">

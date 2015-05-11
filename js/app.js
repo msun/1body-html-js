@@ -382,20 +382,20 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.my-profile', {
+            .state('menu.my-profile', {
                 url: '/my-profile',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/myinfo.html',
                         controller: 'ProfileCtrl'
                     }
                 }
             })
 
-            .state('menu.account.set-dp', {
+            .state('menu.set-dp', {
                 url: '/set-dp',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/set-dp.html',
                         controller: 'Set-dpCtrl'
                     }
@@ -502,10 +502,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.my-requests', {
+            .state('menu.my-requests', {
                 url: '/my-requests',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/my-requests.html',
                         controller: 'MyRequestsCtrl'
                     }
@@ -708,7 +708,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //            return filtered;
         }
     })
-    .controller("MenuCtrl", function($scope,Users,Events,Gyms,GeoTrainers, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
+
+    .controller("MenuCtrl", function($scope, $window, Users, Events, Gyms, GeoTrainers, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
         $rootScope.header = "Users";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
@@ -800,9 +801,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         });
 
-
-//
-//
-
+        $scope.back = function() {
+            $window.history.back();
+        };
 
     });

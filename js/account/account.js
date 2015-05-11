@@ -321,7 +321,7 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
 //
 //});
 
-account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images) {
+account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicNavBarDelegate, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images) {
     $scope.user = appFactory.user;
     var exec = cordova.require("cordova/exec");
 
@@ -558,6 +558,10 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
     function onFail(message) {
         alert('Failed because: ' + message);
     }
+
+    $scope.back = function() {
+        $ionicNavBarDelegate.back();
+    };
 });
 
 account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $localstorage, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, appConfig) {
@@ -605,7 +609,7 @@ account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $loc
 
 
     $scope.setdp = function(){
-        $state.transitionTo("menu.account.set-dp");
+        $state.transitionTo("menu.set-dp");
     }
 
     $scope.addCertificate = function(){
@@ -1419,4 +1423,3 @@ account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, ap
         $scope.modal.remove();
     });
 });
-

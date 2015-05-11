@@ -423,6 +423,7 @@ ion-popover-view.fit ion-content {
 
 .ob-navbar-title {
     font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px !important;
     color: white;
 }
 
@@ -824,13 +825,15 @@ input.ob-form-text-input[type="search"] {
     width: 93.75%; /* 300px / 320px */
     min-width: 300px;
     max-width: 500px;
-    border-radius: 5px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 6px;
     border: none;
     margin: 12px auto 8px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: white;
-    padding: 8px 0px;
+    padding: 0px;
     text-align: center;
     text-decoration: none;
 }
@@ -893,10 +896,13 @@ input.ob-form-text-input[type="search"] {
 .buttongroup2 {
     display: -webkit-flex;
     display: flex;
-    height: 44px;
-    width: 300px;
+    width: 93.75%; /* 300px / 320px */
+    min-width: 300px;
+    max-width: 500px;
+    height: 40px;
+    line-height: 40px;
     margin: 12px auto;
-    border-radius: 8px;
+    border-radius: 6px;
     overflow: hidden;
     background-color: #2b6acf;
 }
@@ -1088,7 +1094,7 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-list {
-
+    margin: 12px auto;
 }
 
 .ob-list-row {
@@ -1176,6 +1182,15 @@ input.ob-form-text-input[type="search"] {
     max-height: 500px;
     /* this fixes the overflow:hidden in Chrome */
     -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
+
+.ob-scroll-emptytext {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: #fff;
+    text-align: center;
+    margin: 20px 12px;
 }
 
 .ob-scroll-row {
@@ -2191,7 +2206,8 @@ input.ob-form-text-input[type="search"] {
     margin: 0px 10px;
 }
 
-.ob-sidemenu-cog {
+.ob-cog {
+    background: url("../img/tmp/Cog.png") center/100% 100% no-repeat;
     width: 24px;
     height: 24px;
 }
@@ -3215,4 +3231,12 @@ input.ob-form-text-input[type="search"] {
 
 .ob-margins8 {
     margin: 8px;
+}
+
+.ob-ionicon-small {
+    
+}
+
+.ob-ionicon-small::before {
+    font-size: 24px !important;
 }

@@ -5,19 +5,26 @@
                 <i class="icon ion-navicon ob-white-color"></i>
             </button>
         </div>
-        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
+        <h1 class="title ob-navbar-title">My Events</h1>
+        <div class="buttons">
+            <button ng-click="goTo('#/menu/editevent/new')" class="button button-icon">
+                <i class="icon ion-plus ob-white-color"></i>
+            </button>
+        </div>
     </ion-header-bar>
     <ion-content class="has-header menu1-content">
-        <ion-list>
-            <a class="ob-block-button ob-button-blue ob-button-shadow" href="#/menu/editevent/new">Create Event</a>
-            <div>
-                <a ng-repeat="event in events"
-                   item="event"
-                   href="#/menu/editevent/{{event.$id}}"
-                   class="event-list-item-row">
-                    {{ event.name }}
+        <div class="menu1-content-div">
+            <div class="ob-list">
+                <a class="ob-list-row" ng-repeat="event in events" item="event"
+                   href="#/menu/editevent/{{event.$id}}">
+                    <div class="ob-list-col-img">
+                        <img class="ob-list-img" src=""/>
+                    </div>
+                    <div class="ob-list-col-flex">
+                        <div class="ob-list-text">{{event.name}}</div>
+                    </div>
                 </a>
             </div>
-        </ion-list>
+        </div>
     </ion-content>
 </ion-view>
