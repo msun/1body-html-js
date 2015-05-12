@@ -331,6 +331,7 @@
 
 ion-popover-view.fit {
     height: auto !important;
+    width: auto !important;
     padding: 8px 2px;
 }
 
@@ -914,7 +915,7 @@ input.ob-form-text-input[type="search"] {
     font-size: 16px;
     color: white;
     padding: auto 8px;
-    background-color: #2b6acf;
+    background-color: #3884ed;
     border: none;
     border-right: 1px solid #70727f;
 }
@@ -924,7 +925,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 .buttongroup2-button:active; {
-    background-color: #265db5;
+    background-color: #3172cc;
 }
 
 .buttongroup2-icon {
@@ -1097,6 +1098,15 @@ input.ob-form-text-input[type="search"] {
     margin: 12px auto;
 }
 
+.ob-list-emptytext {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: #fff;
+    text-align: center;
+    margin: 20px 12px;
+}
+
 .ob-list-row {
     display: -webkit-flex;
     display: flex;
@@ -1108,7 +1118,7 @@ input.ob-form-text-input[type="search"] {
     text-decoration: none;
 }
 
-.ob-list-row + .ob-list-row {
+.ob-list-row ~ .ob-list-row {
     border-top: none;
 }
 
@@ -1135,14 +1145,14 @@ input.ob-form-text-input[type="search"] {
     font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 16.5px;
     color: white;
-    margin: 4px 8px;
+    margin: 4px;
 }
 
 .ob-list-subtext {
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 14px;
     color: white;
-    margin: 4px 4px;
+    margin: 4px;
 }
 
 .ob-list-col-small {
@@ -1203,15 +1213,17 @@ input.ob-form-text-input[type="search"] {
     display: flex;
     -webkit-align-items: center;
     align-items: center;
-}
-
-.ob-scroll-row:first-child {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 
-.ob-scroll-row:last-child {
+.ob-scroll-row ~ .ob-scroll-row {
     border-bottom: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.ob-scroll-row:last-child {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
@@ -3211,6 +3223,14 @@ input.ob-form-text-input[type="search"] {
 /* misc */
 /* ********** ********** ********** ********** ***********/
 
+.ob-standardsize {
+    width: 93.75%; /* 300px / 320px */
+    min-width: 300px;
+    max-width: 500px;
+    border-radius: 8px;
+    margin: 12px auto;
+}
+
 .ob-divider {
     margin: 0px auto;
     width: 90%;
@@ -3234,9 +3254,17 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-ionicon-small {
-    
+
 }
 
 .ob-ionicon-small::before {
     font-size: 24px !important;
+}
+
+.ob-ionicon-medium {
+
+}
+
+.ob-ionicon-medium::before {
+    font-size: 28px !important;
 }

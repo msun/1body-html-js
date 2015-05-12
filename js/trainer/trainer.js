@@ -630,7 +630,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
 
                 if(j == $scope.checked.length -1){
                     alert("Requests sent to trainers.");
-                    window.location.href = "#/menu/map";
+                    window.location.href = "#/menu/my-requests";
                 }
 
             }
@@ -957,7 +957,7 @@ trainer.directive('scheduler', function($timeout, appFactory, $firebaseArray, $f
                 daySchedule.active = scope.active;
 
                 daySchedule.$save().then(function(){
-                    alert("Sechdule saved, thanks");
+                    alert("Schedule saved, thanks");
                     window.location.href = "#/menu/map";
                 });
 
@@ -1022,5 +1022,3 @@ trainer.filter('displayTime', function(Time) {
         }
     }
 });
-
-

@@ -452,10 +452,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                }
 //            })
 
-            .state('menu.account.my-transactions', {
+            .state('menu.my-transactions', {
                 url: '/my-transactions',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/my-transactions.html',
                         controller: 'MyTransactionsCtrl'
                     }
@@ -472,10 +472,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.scan', {
+            .state('menu.scan', {
                 url: '/scan',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/scan.html',
                         controller: 'ScanCtrl'
                     }
@@ -492,10 +492,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                }
 //            })
 
-            .state('menu.account.requested-sessions', {
+            .state('menu.requested-sessions', {
                 url: '/requested-sessions',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/incoming-requests.html',
                         controller: 'IncomingRequestsCtrl'
                     }

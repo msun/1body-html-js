@@ -24,14 +24,13 @@
         </div>
         <ion-content class="ob-sidemenu-tabs ob-darkpurple-bg" scrollbar-x="false" scrollbar-y="false">
             <ul>
-                <a ng-click="toggleMenu()" href="#/menu/map" class="item">Map</a>
+                <a ng-click="toggleMenu()" href="#/menu/map" class="item"><i class="icon ion-search ob-ionicon-small"></i>&nbsp;&nbsp;&nbsp;Map</a>
                 <a ng-click="toggleMenu()" href="#/menu/my-events" class="item">My Events</a>
-                <a ng-click="toggleMenu()" href="#/menu/images/Users/{{$root.user.$id}}/{{$root.user.$id}}" class="item">My images</a>
-                <a ng-click="toggleMenu()" href="#/menu/my-requests" class="item">My Requests</a>
-                <a ng-click="toggleMenu()" href="#/menu/account/my-transactions" class="item">My Booked Sessions</a>
-                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/account/requested-sessions" class="item">Requests Inbox</a>
+                <a ng-click="toggleMenu()" href="#/menu/my-requests" class="item">My Mobile Requests</a>
+                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/requested-sessions" class="item">Requests Inbox</a>
+                <a ng-click="toggleMenu()" href="#/menu/my-transactions" class="item">My Sessions</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/account/my-schedule" class="item">My Schedule</a>
-                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/account/scan" class="item">Scan QR Code</a>
+                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/scan" class="item">Scan QR Code</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/account/my-trainings" class="item">My Trainings</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/account/set-location" class="item">My Location</a>
                 <a ng-show="$root.user.admin == 1" ng-click="toggleMenu()" href="#/menu/editgym/new" class="item">Create Gym</a>

@@ -41,10 +41,8 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage, Modified) {
+account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage, Modified) {
     console.log(UserAuth.$getAuth());
-
-
 
     var checkUrl = function(){
         if (ionic.Platform.isAndroid()) {
@@ -154,10 +152,6 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
             });
         }
     }
-
-    $scope.back = function() {
-        $ionicNavBarDelegate.back();
-    };
 
     if(UserAuth.$getAuth()){
         $scope.signin();
@@ -321,7 +315,7 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
 //
 //});
 
-account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicNavBarDelegate, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images) {
+account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images) {
     $scope.user = appFactory.user;
     var exec = cordova.require("cordova/exec");
 
@@ -552,16 +546,11 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
 
     function onSuccess(imageURI) {
         image.src = imageURI;
-
     }
 
     function onFail(message) {
         alert('Failed because: ' + message);
     }
-
-    $scope.back = function() {
-        $ionicNavBarDelegate.back();
-    };
 });
 
 account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $localstorage, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, appConfig) {
@@ -1344,8 +1333,11 @@ account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFacto
 
 account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, MyTransactions, $window, $localstorage){
     $scope.dt = new Date();
+    $scope.showingAll = false;
 
-    $scope.$watch('dt', function () {
+    $scope.showCurrent = function(){
+        $scope.showingAll = false;
+
         console.log($scope.dt.getFullYear());
         console.log($scope.dt.getMonth());
         console.log($scope.dt.getDate());
@@ -1374,9 +1366,12 @@ account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, ap
         console.log(endDate.getTime());
 
         $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByPriority().startAt(startDate.getTime()).endAt(endDate.getTime()));
-    }, true);
+    }
+
+    $scope.$watch('dt', $scope.showCurrent, true);
 
     $scope.showAll = function(){
+        $scope.showingAll = true;
         $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id));
     }
 

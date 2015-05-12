@@ -1,7 +1,18 @@
 <ion-view>
+    <ion-header-bar class="ob-darkpurple-bg">
+        <div class="buttons">
+            <button ng-click="toggleMenu()" class="button button-icon">
+                <i class="icon ion-navicon ob-white-color"></i>
+            </button>
+        </div>
+        <h1 class="title ob-navbar-title">Requests Inbox</h1>
+    </ion-header-bar>
     <ion-content class="has-header menu1-content">
         <div class="menu1-content-div">
             <ion-scroll class="ob-scroll" direction="y">
+                <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">
+                    You have no mobile requests at the moment
+                </div>
                 <div class="ob-scroll-row" ng-repeat="item in requests | orderBy: '-created'">
                     <div class="ob-scroll-col-img">
                         <img class="ob-scroll-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.userID | htmlEncode}}/profilepic.jpg"

@@ -5,19 +5,20 @@
                 <i class="icon ion-navicon ob-white-color"></i>
             </button>
         </div>
-        <h1 class="title ob-navbar-title">My Requests</h1>
+        <h1 class="title ob-navbar-title">Mobile Trainer Requests</h1>
         <div class="buttons">
             <button ng-click="goTo('#/menu/Mobile-Trainer-Request')" class="button button-icon">
-                <i class="icon ion-plus ob-white-color"></i>
+                <i class="icon ion-plus ob-white-color ob-ionicon-medium"></i>
             </button>
         </div>
     </ion-header-bar>
-    <ion-content class="has-header menu1-content ob-search-list-view-content">
+    <ion-content class="has-header menu1-content">
         <div class="menu1-content-div ob-sections-vertical">
             <ion-scroll class="ob-scroll ob-section" direction="y">
                 <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">
-                    You have made no requests!<br/>
-                    Tap the + at the top right to request a mobile trainer.
+                    You have made no mobile requests!<br/><br/>
+                    Some trainers will come to your location for a training session.<br/><br/>
+                    Tap the + at the top right to request a mobile trainer now!
                 </div>
                 <a class="ob-scroll-row" ng-repeat="item in requests | orderBy: '-created'" href="#/menu/Trainers/{{item.trainerID}}">
                     <div class="ob-scroll-col-img">

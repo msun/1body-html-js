@@ -8,11 +8,6 @@
     <ion-content class="has-header ob-grey-bg">
         <div class="menu1-content-div">
             <div class="ob-form">
-                <div class="ob-form-row">
-                    <textarea class="ob-form-textarea ob-form-textarea-small"
-                              ng-model="newrequest.message"
-                              placeholder="Message for mobile request"></textarea>
-                </div>
                 <div class="ob-form-row ob-form-flex-row">
                     <span class="ob-form-prompt">Start Time </span>
                     <time-picker class="ob-form-timepicker"
@@ -39,11 +34,16 @@
                 <div class="ob-form-row">
                     <textarea class="ob-form-textarea ob-form-textarea-small"
                               ng-model="newrequest.commentlocation"
-                              placeholder="Comments on location"></textarea>
+                              placeholder="Location Details"></textarea>
                 </div>
                 <div class="ob-form-row ob-form-flex-row" ng-click="openSelectTrainerModal()">
                     <span class="ob-form-text-input">Select Available Trainers</span>
                     <span class="ob-form-icon ob-form-icon-rightarrow"></span>
+                </div>
+                <div class="ob-form-row">
+                    <textarea class="ob-form-textarea ob-form-textarea-small"
+                              ng-model="newrequest.message"
+                              placeholder="Message for Trainer"></textarea>
                 </div>
             </div>
             <button class="ob-block-button ob-button-blue" ng-click="confirmRequest()">Send Requests</button>
