@@ -1,8 +1,29 @@
 <ion-popover-view class="fit">
     <ion-content scroll="false">
-        <ion-toggle class="ob-toggle" ng-model="searchContainer.mobile_trainers" ng-change="searchMobileTrainers()" toggle-class="toggle-dark">Mobile Trainers</ion-toggle>
-        <ion-toggle class="ob-toggle"ng-model="searchContainer.redo_search" toggle-class="toggle-dark">Redo Search</ion-toggle>
-        <!--<button class="button button-dark" ng-click="closePopover()">close</button>-->
-        <button class="ob-block-button ob-button-blue ob-block-button-small" ng-click="searchMobileTrainers()">Search Now</button>
+        <label class="item item-input ob-popover-row ob-popover-label">
+            <div class="input-label ob-popover-prompt">Distance (km)</div>
+            <input type="text"
+                   class="ob-popover-textinput"
+                   ng-blur="searchMap()"
+                   ng-enter="searchMap()"
+                   ng-model="searchContainer.searchRadius"
+                   placeholder="(default 30km)"/>
+        </label>
+        <label class="item item-input item-select ob-popover-row ob-popover-label"
+               ng-show="header=='Events'">
+            <div class="input-label ob-popover-prompt">Category</div>
+            <select ng-model="searchContainer.selectedCategory"
+                    ng-options="category.name for category in categories">
+            </select>
+        </label>
+        <ion-toggle class="ob-popover-row ob-toggle"
+                    ng-show="header =='Users'"
+                    ng-model="searchContainer.mobile_trainers"
+                    ng-change="searchMobileTrainers()"
+                    toggle-class="toggle-positive">Mobile Trainers Only</ion-toggle>
+        <ion-toggle class="ob-popover-row ob-toggle"
+                    ng-model="searchContainer.redo_search"
+                    toggle-class="toggle-positive">Redo Search on Move</ion-toggle>
+        <!--<button class="ob-button ob-button-blue" ng-click="closePopover()">close</button>-->
     </ion-content>
 </ion-popover-view>

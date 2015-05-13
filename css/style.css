@@ -1777,6 +1777,32 @@ input.ob-form-text-input[type="search"] {
     pointer-events: none;
 }
 
+.ob-popover-row {
+    height: 50px;
+}
+
+.ob-popover-row:last-child {
+    margin-bottom: 5px;
+}
+
+.ob-popover-label {
+    max-width: 93.75%;
+    margin: 0px auto;
+    border-radius: 8px;
+}
+
+.ob-popover-prompt {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.ob-popover-textinput {
+    font-family: "Avenir Next LT Pro", sans-serif;
+    font-size: 14px;
+    max-width: 120px;
+}
+
 /* ******** ob-header ******** */
 
 .ob-header {
