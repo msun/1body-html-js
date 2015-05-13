@@ -131,10 +131,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('account.tos', {
+            .state('menu.tos', {
                 url: "/tos",
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: "js/account/templates/tos.html",
                         controller: 'AccountCtrl'
                     }
@@ -412,10 +412,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.settings', {
+            .state('menu.settings', {
                 url: '/settings',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/settings.html',
                         controller: 'AccountCtrl'
                     }
