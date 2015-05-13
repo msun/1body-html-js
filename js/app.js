@@ -402,10 +402,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.my-schedule', {
+            .state('menu.my-schedule', {
                 url: '/my-schedule',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/my-schedule.html',
                         controller: 'ProfileCtrl'
                     }
@@ -422,10 +422,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.my-trainings', {
+            .state('menu.my-trainings', {
                 url: '/my-trainings',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/my-trainings.html',
                         controller: 'MyTrainingsCtrl'
                     }
@@ -462,10 +462,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.set-location', {
+            .state('menu.set-location', {
                 url: '/set-location',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/set-location.html',
                         controller: 'SetLocationCtrl'
                     }
@@ -512,10 +512,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.buy-tokens', {
+            .state('menu.buy-tokens', {
                 url: '/buy-tokens',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/buy-tokens.html',
                         controller: 'BuyTokensCtrl'
                     }

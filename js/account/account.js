@@ -1194,8 +1194,10 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions,
 
 account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, Transactions, $window, $localstorage){
     $scope.dt = new Date();
+    $scope.showingAll = false;
 
-    $scope.$watch('dt', function () {
+    $scope.showCurrent = function(){
+        $scope.showingAll = false;
         console.log($scope.dt.getFullYear());
         console.log($scope.dt.getMonth());
         console.log($scope.dt.getDate());
@@ -1224,9 +1226,12 @@ account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFa
         console.log(endDate.getTime());
 
         $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByPriority().startAt(startDate.getTime()).endAt(endDate.getTime()));
-    }, true);
+    }
+
+    $scope.$watch('dt', $scope.showCurrent, true);
 
     $scope.showAll = function(){
+        $scope.showingAll = true;
         $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id));
 
         $scope.myTransactions.$loaded(function(){

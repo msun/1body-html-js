@@ -29,13 +29,13 @@
                 <a ng-click="toggleMenu()" href="#/menu/my-requests" class="item">My Mobile Requests</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/requested-sessions" class="item">Requests Inbox</a>
                 <a ng-click="toggleMenu()" href="#/menu/my-transactions" class="item">My Sessions</a>
-                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/account/my-schedule" class="item">My Schedule</a>
+                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/my-schedule" class="item">My Schedule</a>
                 <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/scan" class="item">Scan QR Code</a>
-                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/account/my-trainings" class="item">My Trainings</a>
-                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/account/set-location" class="item">My Location</a>
+                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/my-trainings" class="item">My Trainings</a>
+                <a ng-show="$root.user.group == 'Trainers'" ng-click="toggleMenu()" href="#/menu/set-location" class="item">My Location</a>
                 <a ng-show="$root.user.admin == 1" ng-click="toggleMenu()" href="#/menu/editgym/new" class="item">Create Gym</a>
                 <a ng-show="$root.user.admin == 1" ng-click="toggleMenu()" href="#/menu/editclass/new" class="item">Create Class</a>
-                <a ng-click="toggleMenu()" href="#/menu/account/buy-tokens" class="item">Buy Tokens</a>
+                <a ng-click="toggleMenu()" href="#/menu/buy-tokens" class="item">Buy Tokens</a>
                 <a ng-click="logout()" class="item">Logout</a>
             </ul>
         </ion-content>
