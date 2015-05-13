@@ -41,7 +41,7 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage, Modified) {
+account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage, Modified) {
     console.log(UserAuth.$getAuth());
 
     var checkUrl = function(){
@@ -156,6 +156,10 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
     if(UserAuth.$getAuth()){
         $scope.signin();
     }
+
+    $scope.back = function() {
+        $window.history.back();
+    };
 });
 
 account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject, UserAuth, $scope, Users, Trainers, $state, mapstate) {
@@ -203,7 +207,6 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
         if ($ionicSlideBoxDelegate.currentIndex() >= 1) {
             $ionicSlideBoxDelegate.previous();
         } else {
-//            $ionicNavBarDelegate.back();
             window.location.href = "#";
         }
     };
