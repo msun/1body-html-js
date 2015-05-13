@@ -537,13 +537,103 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $urlRouterProvider.otherwise('/home');
 
     })
-    .run(function($rootScope){
+    .run(function($rootScope, appFactory, appConfig, GeoTrainers, GeoEvents){
         navigator.geolocation.getCurrentPosition(function(position){
             console.log("location ready");
             $rootScope.position = position;
             console.log(position);
 
             $rootScope.$broadcast('locationReady', 'locationReady');
+
+
+            appFactory.trainerQuery = GeoTrainers.query({
+                center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+                radius: appConfig.radius
+            });
+
+            appFactory.trainerQuery.on("key_entered", function(key, location, distance) {
+                var obj = {
+                    location: location,
+                    distance: distance,
+                    key: key
+                };
+                appFactory.geoTrainers.push(obj);
+                if($rootScope.header == "Trainers" && appFactory.onKeyEnter){
+                    appFactory.onKeyEnter(obj);
+                }
+                console.log(appFactory.geoTrainers);
+            });
+
+            appFactory.trainerQuery.on("key_exited", function(key, location, distance) {
+                for(var i=0; i<appFactory.geoTrainers.length; i++){
+                    if(appFactory.geoTrainers[i].key == key){
+                        appFactory.geoTrainers.splice(i, 1);
+                        if($rootScope.header == "Trainers" && appFactory.onKeyExit){
+                            appFactory.onKeyExit(key);
+                        }
+                        break;
+                    }
+                }
+                console.log(appFactory.geoTrainers);
+            });
+
+            appFactory.trainerQuery.on("key_moved", function(key, location, distance) {
+                for(var i=0; i<appFactory.geoTrainers.length; i++){
+                    if(appFactory.geoTrainers[i].key == key){
+                        appFactory.geoTrainers[i].location = location;
+                        appFactory.geoTrainers[i].distance = distance;
+                        if($rootScope.header == "Trainers" && appFactory.onKeyMove){
+                            appFactory.onKeyMove(appFactory.geoTrainers[i]);
+                        }
+                        break;
+                    }
+                }
+                console.log(appFactory.geoTrainers);
+            });
+
+
+            appFactory.eventQuery = GeoEvents.query({
+                center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+                radius: appConfig.radius
+            });
+
+            appFactory.eventQuery.on("key_entered", function(key, location, distance) {
+                var obj = {
+                    location: location,
+                    distance: distance,
+                    key: key
+                };
+
+                appFactory.geoEvents.push(obj);
+                if($rootScope.header == "Events" && appFactory.onKeyEnter){
+                    appFactory.onKeyEnter(obj);
+                }
+            });
+
+            appFactory.eventQuery.on("key_exited", function(key, location, distance) {
+                for(var i=0; i<appFactory.geoEvents.length; i++){
+                    if(appFactory.geoEvents[i].key == key){
+                        appFactory.geoEvents.splice(i, 1);
+                        if($rootScope.header == "Events" && appFactory.onKeyExit){
+                            appFactory.onKeyExit(key);
+                        }
+                        break;
+                    }
+                }
+            });
+
+            appFactory.eventQuery.on("key_moved", function(key, location, distance) {
+                for(var i=0; i<appFactory.geoEvents.length; i++){
+                    if(appFactory.geoEvents[i].key == key){
+                        appFactory.geoEvents[i].location = location;
+                        appFactory.geoEvents[i].distance = distance;
+                        if($rootScope.header == "Events" && appFactory.onKeyMove){
+                            appFactory.onKeyMove(appFactory.geoEvents[i]);
+                        }
+                        break;
+                    }
+                }
+            });
         });
 
 
@@ -658,75 +748,12 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.showWarning = false;
 
+        $scope.$on('locationReady', function (event, data) {
+            console.log("location ready");
 
-        appFactory.trainerQuery = GeoTrainers.query({
-            center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
-            radius: appConfig.radius
-        });
-
-        appFactory.trainerQuery.on("key_entered", function(key, location, distance) {
-            var obj = {
-                location: location,
-                distance: distance,
-                key: key
-            };
-            appFactory.geoTrainers.push(obj);
-            if(appFactory.onKeyEnter){
-                appFactory.onKeyEnter(obj);
-            }
-            console.log(appFactory.geoTrainers);
-        });
-
-        appFactory.trainerQuery.on("key_exited", function(key, location, distance) {
-            for(var i=0; i<appFactory.geoTrainers.length; i++){
-                if(appFactory.geoTrainers[i].key == key){
-                    appFactory.geoTrainers.splice(i, 1);
-                    if(appFactory.onKeyExit){
-                        appFactory.onKeyExit(key);
-                    }
-                    break;
-                }
-            }
-            console.log(appFactory.geoTrainers);
-        });
-
-        appFactory.trainerQuery.on("key_moved", function(key, location, distance) {
-            for(var i=0; i<appFactory.geoTrainers.length; i++){
-                if(appFactory.geoTrainers[i].key == key){
-                    appFactory.geoTrainers[i].location = location;
-                    appFactory.geoTrainers[i].distance = distance;
-                    if(appFactory.onKeyMove){
-                        appFactory.onKeyMove(appFactory.geoTrainers[i]);
-                    }
-                    break;
-                }
-            }
-            console.log(appFactory.geoTrainers);
         });
 
 
-//        appFactory.eventQuery = GeoTrainers.query({
-//            center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
-//            radius: appConfig.radius
-//        });
-//
-//        appFactory.eventQuery.on("key_entered", function(key, location, distance) {
-//            appFactory.geoEvents[key] = {
-//                location: location,
-//                distance: distance
-//            }
-//        });
-//
-//        appFactory.eventQuery.on("key_exited", function(key, location, distance) {
-//            appFactory.geoEvents[key] = undefined;
-//        });
-//
-//        appFactory.eventQuery.on("key_moved", function(key, location, distance) {
-//            appFactory.geoEvents[key] = {
-//                location: location,
-//                distance: distance
-//            }
-//        });
 //
 //
 //        appFactory.gymQuery = GeoTrainers.query({

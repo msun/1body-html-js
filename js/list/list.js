@@ -42,6 +42,17 @@ list.directive('focusMe', function($timeout, appFactory) {
                 appFactory.onsearch = false;
                 $timeout(function() {
                     element[0].focus();
+                    if (ionic.Platform.isAndroid()) {
+                        var exec = cordova.require("cordova/exec");
+
+                        exec(function () {
+                            console.log("show keyboard");
+                        }, function (err) {
+                            console.log(err);
+                        }, 'Card_io', 'showkeyboard', [
+                            {}
+                        ]);
+                    }
                 }, 150);
             }
         }
