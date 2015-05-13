@@ -15,11 +15,11 @@
                         <div class="ob-bar-search-input-container">
                             <i class="icon ion-search ob-bar-search-input-search-icon"></i>
                             <input type="search" class="ob-bar-search-input" placeholder="ex. hot yoga, boxing" 
-                                   ng-model="searchContainer.searchTerms" ng-keypress="search_popover.show($event)"/>
+                                   ng-model="searchContainer.searchTerms" ng-focus="onSearch()"/>
                         </div>
                     </div>
                     <div class="ob-header-icon">
-                        <a class="ob-header-list-view-icon-container" ng-click="showListModal()">
+                        <a class="ob-header-list-view-icon-container" href="#/menu/list">
                             <span class="ob-header-list-view-icon"></span>
                         </a>
                     </div>

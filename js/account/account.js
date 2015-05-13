@@ -867,6 +867,8 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
             gymName: gym.name
         };
 
+        $scope.user.address = gym.address;
+
 //        if(gym.profilepic){
 //            $scope.user.gym.profilepic = gym.profilepic;
 //        }

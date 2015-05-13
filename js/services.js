@@ -612,6 +612,9 @@ angular.module('starter.services', ["firebase"])
         factory.state = "Users";
         factory.mysizes = {};
         factory.modified = {};
+        factory.geoTrainers = [];
+        factory.geoGyms = [];
+        factory.geoEvents = [];
 
         factory.getDistance = function(lat1,lon1,lat2,lon2) {
             var R = 6371; // Radius of the earth in km

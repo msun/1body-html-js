@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services', 'eventModule', 'classModule', 'gymModule', 'userModule'])
+angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services', 'eventModule', 'classModule', 'gymModule', 'userModule', 'listModule'])
 //    .value("baseUrl", "http://108.168.247.49:10355/")
     .constant('appConfig', {
         baseUrl: "http://localhost:8888/",
@@ -13,6 +13,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         mapstate: "menu.map",
         defaultItemsPerPage: 5,
         maxReviewCount: 100000,
+        radius: 15,
         maxFollowerCount: 100000,
         categories: [
             {name: "Winter", type: "sports"},
@@ -150,22 +151,32 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-//            .state('menu.list', {
-//                url: '/list',
-//                views: {
-//                    'menu': {
-//                        templateUrl: 'js/map/templates/list.html',
-//                        controller: 'ListCtrl'
-//                    }
-//                }
-//            })
+            .state('menu.list', {
+                url: '/list',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/list/templates/list.html',
+                        controller: 'ListCtrl'
+                    }
+                }
+            })
 
             .state('menu.trainer-detail', {
-                url: '/Trainers/:trainerName/:gymID',
+                url: '/Trainers/:trainerID/:gymID',
                 views: {
                     'menu': {
                         templateUrl: 'js/trainer/templates/trainer-detail.html',
                         controller: 'TrainerDetailCtrl'
+                    }
+                }
+            })
+
+            .state('menu.trainer-schedule', {
+                url: '/trainer-schedule/:trainerID/:trainerName',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/trainer/templates/trainer-schedule.html',
+                        controller: 'TrainerScheduleCtrl'
                     }
                 }
             })
@@ -534,6 +545,15 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
             $rootScope.$broadcast('locationReady', 'locationReady');
         });
+
+
+
+//        navigator.geolocation.watchPosition(function(position){
+//            console.log("new location ready");
+//            $rootScope.position = position;
+//        }, function(error){
+//
+//        }, {timeout: 30000});
     })
     .filter('htmlEncode', function(){
         return function(html) {
@@ -551,7 +571,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //            return filtered;
         }
     })
-    .controller("MenuCtrl", function($scope,Users,Events,Gyms, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
+    .controller("MenuCtrl", function($scope,Users,Events,Gyms,GeoTrainers, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
         $rootScope.header = "Trainers";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
@@ -638,10 +658,98 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.showWarning = false;
 
-        $scope.warningClick = function(){
-            $rootScope.offline = false;
-        }
+
+        appFactory.trainerQuery = GeoTrainers.query({
+            center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+            radius: appConfig.radius
+        });
+
+        appFactory.trainerQuery.on("key_entered", function(key, location, distance) {
+            var obj = {
+                location: location,
+                distance: distance,
+                key: key
+            };
+            appFactory.geoTrainers.push(obj);
+            if(appFactory.onKeyEnter){
+                appFactory.onKeyEnter(obj);
+            }
+            console.log(appFactory.geoTrainers);
+        });
+
+        appFactory.trainerQuery.on("key_exited", function(key, location, distance) {
+            for(var i=0; i<appFactory.geoTrainers.length; i++){
+                if(appFactory.geoTrainers[i].key == key){
+                    appFactory.geoTrainers.splice(i, 1);
+                    if(appFactory.onKeyExit){
+                        appFactory.onKeyExit(key);
+                    }
+                    break;
+                }
+            }
+            console.log(appFactory.geoTrainers);
+        });
+
+        appFactory.trainerQuery.on("key_moved", function(key, location, distance) {
+            for(var i=0; i<appFactory.geoTrainers.length; i++){
+                if(appFactory.geoTrainers[i].key == key){
+                    appFactory.geoTrainers[i].location = location;
+                    appFactory.geoTrainers[i].distance = distance;
+                    if(appFactory.onKeyMove){
+                        appFactory.onKeyMove(appFactory.geoTrainers[i]);
+                    }
+                    break;
+                }
+            }
+            console.log(appFactory.geoTrainers);
+        });
 
 
+//        appFactory.eventQuery = GeoTrainers.query({
+//            center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+//            radius: appConfig.radius
+//        });
+//
+//        appFactory.eventQuery.on("key_entered", function(key, location, distance) {
+//            appFactory.geoEvents[key] = {
+//                location: location,
+//                distance: distance
+//            }
+//        });
+//
+//        appFactory.eventQuery.on("key_exited", function(key, location, distance) {
+//            appFactory.geoEvents[key] = undefined;
+//        });
+//
+//        appFactory.eventQuery.on("key_moved", function(key, location, distance) {
+//            appFactory.geoEvents[key] = {
+//                location: location,
+//                distance: distance
+//            }
+//        });
+//
+//
+//        appFactory.gymQuery = GeoTrainers.query({
+//            center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+//            radius: appConfig.radius
+//        });
+//
+//        appFactory.gymQuery.on("key_entered", function(key, location, distance) {
+//            appFactory.geoGyms[key] = {
+//                location: location,
+//                distance: distance
+//            }
+//        });
+//
+//        appFactory.gymQuery.on("key_exited", function(key, location, distance) {
+//            appFactory.geoGyms[key] = undefined;
+//        });
+//
+//        appFactory.gymQuery.on("key_moved", function(key, location, distance) {
+//            appFactory.geoGyms[key] = {
+//                location: location,
+//                distance: distance
+//            }
+//        });
 
     });

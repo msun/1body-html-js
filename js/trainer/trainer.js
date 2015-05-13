@@ -86,8 +86,8 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
 
 
 trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Sizes, Review, MyReviews, Transactions, MyTransactions, Trainers, $ionicModal, $firebaseObject, $firebaseArray, $scope, Users, appFactory, $timeout, $stateParams, accountFactory, $ionicPopup, $rootScope, GeoTrainers, GeoGyms, Reviews, appConfig, Followers, Following, Notifications, Feeds) {
-    console.log($stateParams.trainerName);
-    $scope.trainerName = $stateParams.trainerName;
+    console.log($stateParams.trainerID);
+    $scope.trainerID = $stateParams.trainerID;
     $scope.max = 5;
     $scope.rate = 0;
     $scope.chosen = [];
@@ -113,12 +113,12 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         $scope.imageModal = modal;
     });
 
-    $ionicModal.fromTemplateUrl('js/trainer/templates/trainer-schedule-modal.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal){
-        $scope.scheduleModal = modal;
-    });
+//    $ionicModal.fromTemplateUrl('js/trainer/templates/trainer-schedule-modal.html', {
+//        scope: $scope,
+//        animation: 'slide-in-up'
+//    }).then(function(modal){
+//        $scope.scheduleModal = modal;
+//    });
 
     var loadMap = function(){
         $scope.map = new google.maps.Map(document.getElementById('trainer-detail-map'), {
@@ -155,6 +155,8 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 
         $scope.followerMe = $firebaseObject(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id));
 
+        appFactory.selectedTrainer = $scope.selectedTrainer;
+
         /**TODO: transaction rework,
          * 1. push new transaction into MyTransactions to get new unique id for transaction
          * 2. generate qr code with new unique id
@@ -167,7 +169,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         if($scope.selectedTrainer.gym && $scope.selectedTrainer.gym.gymID){
             $scope.selectedTrainerLocation = $firebaseObject(GeoGyms.ref().child($scope.selectedTrainer.gym.gymID));
         } else {
-            $scope.selectedTrainerLocation = $firebaseObject(GeoTrainers.ref().child($scope.trainerName));
+            $scope.selectedTrainerLocation = $firebaseObject(GeoTrainers.ref().child($scope.trainerID));
         }
 
         $scope.selectedTrainerLocation.$loaded(function () {
@@ -195,14 +197,14 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         };
     }
 
-    if(appFactory.users[$scope.trainerName] && appFactory.users[$scope.trainerName].refreshed){
-        $scope.selectedTrainer = appFactory.users[$scope.trainerName];
+    if(appFactory.users[$scope.trainerID] && appFactory.users[$scope.trainerID].refreshed){
+        $scope.selectedTrainer = appFactory.users[$scope.trainerID];
         loadData();
     } else {
-        $scope.selectedTrainer = $firebaseObject(Trainers.ref().child($scope.trainerName));
+        $scope.selectedTrainer = $firebaseObject(Trainers.ref().child($scope.trainerID));
         $scope.selectedTrainer.$loaded(function(){
-            appFactory.users[$scope.trainerName] = $scope.selectedTrainer;
-            appFactory.users[$scope.trainerName].refreshed = true;
+            appFactory.users[$scope.trainerID] = $scope.selectedTrainer;
+            appFactory.users[$scope.trainerID].refreshed = true;
             alert("loaded from firebase");
             $localstorage.setObject("Users", appFactory.users);
             loadData();
@@ -267,16 +269,16 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     $scope.$on('$destroy', function() {
         $scope.reviewModal.remove();
         $scope.imageModal.remove();
-        $scope.scheduleModal.remove();
+//        $scope.scheduleModal.remove();
     });
 
-    $scope.showScheduleModal = function(){
-        $scope.scheduleModal.show();
-    }
-
-    $scope.closeScheduleModal = function(){
-        $scope.scheduleModal.hide();
-    }
+//    $scope.showScheduleModal = function(){
+//        $scope.scheduleModal.show();
+//    }
+//
+//    $scope.closeScheduleModal = function(){
+//        $scope.scheduleModal.hide();
+//    }
 
     $scope.openImageModal = function(){
         $scope.imageModal.show();
@@ -419,6 +421,11 @@ trainer.controller('FollowingTrainerCtrl', function($scope, User, appFactory, $t
             }(i));
         }
     });
+});
+
+trainer.controller('TrainerScheduleCtrl', function($scope, User, appFactory, $timeout, $stateParams) {
+    $scope.trainerID = $stateParams.trainerID;
+    $scope.trainerName = $stateParams.trainerName;
 });
 
 trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebaseObject, eventFactory, apikey, Requests, GeoRequests, Trainers, IncomingRequests, Schedule) {
@@ -632,22 +639,11 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
     }
 });
 
-trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFactory, $ionicPopup, Schedule, $firebaseArray, Transactions, MyTransactions, Notifications, Feeds) {
+trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFactory, $ionicPopup, Schedule, $firebaseArray, Transactions, MyTransactions, Notifications, Feeds, $ionicPopup) {
     return {
         restrict: "E",
         templateUrl: "js/trainer/templates/schedulerUserView.html",
         link: function (scope, element, attr) {
-            scope.selectDate = function(){
-                var mappopup = $ionicPopup.show({
-                    template: '<datepicker ng-model="dt" min-date="minDate" class="well well-sm" show-weeks="false"></datepicker>',
-                    title: "select date",
-                    scope: scope,
-                    buttons: [
-                        { text: 'okay' }
-                    ]
-                });
-            }
-
             var slots = {
                 hour: [],
                 half: []
@@ -688,7 +684,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
             scope.$watch('dt', function (newValue, oldValue) {
                 console.log(scope.dt);
                 scope.theday = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
-                daySchedule = $firebaseObject(Schedule.ref().child(scope.trainerName).child(scope.theday));
+                daySchedule = $firebaseObject(Schedule.ref().child(scope.trainerID).child(scope.theday));
                 daySchedule.$loaded(function(){
                     if(daySchedule.active){
                         scope.active = daySchedule.active;
@@ -756,7 +752,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                 }
                 console.log(bookedReduced);
 
-                var transactions = Transactions.ref().child(scope.selectedTrainer.$id);
+                var transactions = Transactions.ref().child(scope.trainerID);
                 var myTransactions = MyTransactions.ref().child(appFactory.user.$id);
 
                 for(var i=0; i<bookedReduced.length; i++) {
@@ -770,6 +766,8 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                     } else if(time.toString().length == 4){
                         time= time.toString().substring(0,2) + ":" + time.toString().substring(2,4);
                     }
+                    console.log(time);
+                    console.log(bookedReduced[i]);
                     var curdate = scope.dt.getDate();
                     if(curdate.toString().length == 1){
                         curdate = "0" + curdate.toString();
@@ -779,13 +777,21 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
 //                    var utcstarttime = new Date(starttime.getTime() + starttime.getTimezoneOffset() * 60000);
 //                    var epoch = utcstarttime.getTime();
 //                    console.log(utcstarttime);
-                    var startTimestamp = scope.dt.getTime();
+                    var mDate = new Date();
+                    mDate.setFullYear(scope.dt.getFullYear());
+                    mDate.setMonth(scope.dt.getMonth());
+                    mDate.setDate(scope.dt.getDate());
+                    mDate.setHours(Math.floor(bookedReduced[i].starttime / 100));
+                    mDate.setMinutes(bookedReduced[i].starttime % 100);
+                    mDate.setSeconds(0);
+                    console.log(mDate)
+                    var startTimestamp = mDate.getTime();
                     console.log(startTimestamp);
 
                     var transaction = {
                         userID: appFactory.user.$id,
-                        trainerID: scope.selectedTrainer.$id,
-                        trainerName: scope.selectedTrainer.username,
+                        trainerID: scope.trainerID,
+                        trainerName: scope.trainerName,
                         tokens: 2,
                         type: "Users",
                         created: Firebase.ServerValue.TIMESTAMP,
@@ -803,16 +809,16 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                                 creatorID: appFactory.user.$id,
                                 starttime: Firebase.ServerValue.TIMESTAMP,
                                 url: "#/menu/Trainers/" + appFactory.user.$id + "/",
-                                receivers: [scope.selectedTrainer.$id],
+                                receivers: [scope.trainerID],
                                 message: "A training was booked by user: " + appFactory.user.username + " at " + starttime
                             };
                             Notifications.ref().push(notifToTrainer, function(){
                                 notifToTrainer.created = Firebase.ServerValue.TIMESTAMP;
 
                                 Feeds.push("Users",
-                                    $scope.selectedTrainer.$id,
-                                    $scope.selectedTrainer.username,
-                                    "You booked a training session with " + $scope.selectedTrainer.username + " at " + starttime,
+                                    scope.trainerID,
+                                    scope.trainerName,
+                                    "You booked a training session with " + scope.trainerName + " at " + starttime,
                                     "A training was booked by user: " + appFactory.user.username + " at " + starttime
                                 );
                             });
@@ -824,7 +830,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                                 notifyPeriod:900000,
                                 url: "#/menu/account/my-transactions",
                                 receivers: [appFactory.user.$id],
-                                message: "A training with: " + scope.selectedTrainer.username + " is starting at " + starttime
+                                message: "A training with: " + scope.trainerName + " is starting at " + starttime
                             }
                             Notifications.ref().push(notifToUser);
 
@@ -834,6 +840,51 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                             myTransactions.child(transactionRef.key()).set(newTransaction, function(){
                                 myTransactions.child(transactionRef.key()).setPriority(startTimestamp);
 
+                                if (ionic.Platform.isAndroid()) {
+                                    var myPopup = $ionicPopup.show({
+                                        template: 'Would you like to save this to your calendar?',
+                                        title: 'Save to calendar',
+                                        scope: scope,
+                                        buttons: [
+                                            { text: 'Cancel' },
+                                            {
+                                                text: '<b>Okay</b>',
+                                                type: 'button-positive',
+                                                onTap: function(e) {
+                                                    e.preventDefault();
+                                                    var jsonData = {
+                                                        'title': "Training with " + scope.trainerName,
+                                                        'location': appFactory.selectedTrainer.address,
+                                                        'starttime' : newTransaction.starttime,
+                                                        'endtime': newTransaction.starttime + newTransaction.duration*30*60*1000
+
+                                                    };
+                                                    if(appFactory.selectedTrainer.commentlocation){
+                                                        jsonData.description = appFactory.selectedTrainer.commentlocation;
+                                                    }
+                                                    console.log(jsonData);
+                                                    var exec = cordova.require("cordova/exec");
+
+                                                    exec(function (result) {
+                                                        alert("That worked :D");
+                                                        window.location.href = "#/menu/Trainers/" + scope.trainerID + "/";
+                                                    }, function (err) {
+                                                        console.log(err);
+                                                    }, 'Card_io', 'addToCalendar', [
+                                                        jsonData
+                                                    ]);
+                                                }
+                                            }
+                                        ]
+                                    });
+                                    myPopup.then(function(res) {
+                                        console.log('Tapped!', res);
+                                    });
+
+                                } else {
+                                    alert("That worked :D");
+                                    window.location.href = "#/menu/Trainers/" + scope.trainerID + "/";
+                                }
                             });
                         });
 
@@ -850,8 +901,9 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                     }
                 }
                 daySchedule.$save().then(function(){
-                    alert("That worked :D");
-                    scope.scheduleModal.hide();
+//                    alert("That worked :D");
+
+//                    scope.scheduleModal.hide();
                 });
 
             }
