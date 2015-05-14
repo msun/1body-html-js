@@ -114,6 +114,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     $scope.clickontab = function(tab, $event){
         console.log($event);
         console.log(tab);
+        $scope.array = {};
 
         $scope.header = tab;
         $rootScope.header = tab;
@@ -241,6 +242,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         var contentString;
         var infowindow;
         if(obj.type == "Users"){
+            console.log($scope.array);
             contentString = '<trainer-info-window item=\'array["' + obj.key + '"]\'></trainer-info-window>';
             infowindow = new google.maps.InfoWindow();
             $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
@@ -381,8 +383,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     }
 
     function markTrainers(){
-        $scope.array = [];
-
         for(var i=0; i<appFactory.geoTrainers.length; i++){
             console.log(appFactory.geoTrainers[i]);
             dropMapMarker(appFactory.geoTrainers[i]);
@@ -412,27 +412,25 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     };
 
     function markGyms(){
-        $scope.array = [];
-
         for(var i=0; i<appFactory.geoGyms.length; i++){
             console.log(appFactory.geoGyms[i]);
             dropMapMarker(appFactory.geoGyms[i]);
         }
 
-        appFactory.onKeyEnter = function(obj){
+        appFactory.onGymEnter = function(obj){
             console.log("onKeyEnter");
             console.log(obj);
             dropMapMarker(obj);
         };
 
-        appFactory.onKeyExit = function(key){
+        appFactory.onGymExit = function(key){
             console.log("onKeyExit");
             console.log(key);
             $scope.markers[key].marker.setMap(null);
             $scope.markers[key] = undefined;
         };
 
-        appFactory.onKeyMove = function(obj){
+        appFactory.onGymMove = function(obj){
             console.log("onKeyExit");
             console.log(obj);
             $scope.markers[obj.key].marker.setMap(null);
@@ -443,8 +441,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     };
 
     function markEvents(){
-        $scope.array = [];
-
         for(var i=0; i<appFactory.geoEvents.length; i++){
             console.log(appFactory.geoEvents[i]);
             dropMapMarker(appFactory.geoEvents[i]);
@@ -485,6 +481,10 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             panControl: false
         });
 
+        $scope.array = {};
+
+        $scope.map = map;
+
         if($rootScope.header == "Events"){
             markEvents();
         } else if ($rootScope.header == "Users"){
@@ -494,8 +494,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             markGyms();
         }
 
-
-        $scope.map = map;
         var inprogress = false;
         google.maps.event.addListener(map, 'dragend', function() {
 
