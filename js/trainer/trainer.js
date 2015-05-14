@@ -120,10 +120,10 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 //        $scope.scheduleModal = modal;
 //    });
 
-    var loadMap = function(){
+    var loadMap = function(location){
         $scope.map = new google.maps.Map(document.getElementById('trainer-detail-map'), {
             zoom: 12,
-            center: new google.maps.LatLng($scope.selectedTrainerLocation.l[0], $scope.selectedTrainerLocation.l[1]),
+            center: new google.maps.LatLng(location[0], location[1]),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
@@ -142,7 +142,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
                 fillColor: '#2861ff',
                 fillOpacity: 0.35,
                 map: $scope.map,
-                center: new google.maps.LatLng($scope.selectedTrainerLocation.l[0], $scope.selectedTrainerLocation.l[1]),
+                center: new google.maps.LatLng(location[0], location[1]),
                 radius: $scope.selectedTrainer.radius
             };
             // Add the circle for this city to the map.
@@ -167,14 +167,17 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("trainerID").equalTo($scope.selectedTrainer.$id));
 
         if($scope.selectedTrainer.gym && $scope.selectedTrainer.gym.gymID){
-            $scope.selectedTrainerLocation = $firebaseObject(GeoGyms.ref().child($scope.selectedTrainer.gym.gymID));
+            GeoGyms.get($scope.selectedTrainer.gym.gymID).then(function(location){
+                locationReady(location);
+            });
         } else {
-            $scope.selectedTrainerLocation = $firebaseObject(GeoTrainers.ref().child($scope.trainerID));
+            GeoTrainers.get($scope.trainerID).then(function(location){
+                locationReady(location);
+            });
         }
 
-        $scope.selectedTrainerLocation.$loaded(function () {
-            console.log($scope.selectedTrainerLocation);
-            loadMap();
+        function locationReady(location){
+            loadMap(location);
 
             $scope.myTransactions.$loaded(function () {
                 console.log($scope.myTransactions);
@@ -187,7 +190,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
                     }
                 }
             });
-        });
+        }
 
         var reviewRef = Reviews.ref().child($scope.selectedTrainer.$id);
         $scope.reviews = $firebaseArray(reviewRef.orderByPriority().endAt(Date.now()).limitToLast(appConfig.defaultItemsPerPage));
@@ -206,6 +209,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             appFactory.users[$scope.trainerID] = $scope.selectedTrainer;
             appFactory.users[$scope.trainerID].refreshed = true;
             alert("loaded from firebase");
+            console.log(appFactory.users);
             $localstorage.setObject("Users", appFactory.users);
             loadData();
         })

@@ -77,7 +77,15 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
                                 if (!schedule.duration) {
                                     schedule.duration = $scope.selectedClass.duration;
                                 }
-                                $scope.openClasses.push(schedule);
+                                var insert = true;
+                                for(var i=0; i<$scope.openClasses.length; i++){
+                                    if($scope.openClasses[i].classtime == schedule.classtime && $scope.openClasses[i].instructor == schedule.instructor){
+                                        insert = false;
+                                    }
+                                }
+                                if(insert){
+                                    $scope.openClasses.push(schedule);
+                                }
                             });
                         }
                     }($scope.selectedClass.repeat[i]))

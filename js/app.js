@@ -537,7 +537,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $urlRouterProvider.otherwise('/home');
 
     })
-    .run(function($rootScope, appFactory, appConfig, GeoTrainers, GeoEvents){
+    .run(function($rootScope, appFactory, appConfig, GeoTrainers, GeoEvents, GeoGyms){
         navigator.geolocation.getCurrentPosition(function(position){
             console.log("location ready");
             $rootScope.position = position;
@@ -555,10 +555,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 var obj = {
                     location: location,
                     distance: distance,
-                    key: key
+                    key: key,
+                    type: "Users"
                 };
                 appFactory.geoTrainers.push(obj);
-                if($rootScope.header == "Trainers" && appFactory.onKeyEnter){
+                if($rootScope.header == "Users" && appFactory.onKeyEnter){
                     appFactory.onKeyEnter(obj);
                 }
                 console.log(appFactory.geoTrainers);
@@ -568,7 +569,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 for(var i=0; i<appFactory.geoTrainers.length; i++){
                     if(appFactory.geoTrainers[i].key == key){
                         appFactory.geoTrainers.splice(i, 1);
-                        if($rootScope.header == "Trainers" && appFactory.onKeyExit){
+                        if($rootScope.header == "Users" && appFactory.onKeyExit){
                             appFactory.onKeyExit(key);
                         }
                         break;
@@ -582,7 +583,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     if(appFactory.geoTrainers[i].key == key){
                         appFactory.geoTrainers[i].location = location;
                         appFactory.geoTrainers[i].distance = distance;
-                        if($rootScope.header == "Trainers" && appFactory.onKeyMove){
+                        if($rootScope.header == "Users" && appFactory.onKeyMove){
                             appFactory.onKeyMove(appFactory.geoTrainers[i]);
                         }
                         break;
@@ -601,7 +602,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 var obj = {
                     location: location,
                     distance: distance,
-                    key: key
+                    key: key,
+                    type: "Events"
                 };
 
                 appFactory.geoEvents.push(obj);
@@ -629,6 +631,51 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                         appFactory.geoEvents[i].distance = distance;
                         if($rootScope.header == "Events" && appFactory.onKeyMove){
                             appFactory.onKeyMove(appFactory.geoEvents[i]);
+                        }
+                        break;
+                    }
+                }
+            });
+
+            appFactory.gymQuery = GeoGyms.query({
+                center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+                radius: appConfig.radius
+            });
+
+            appFactory.gymQuery.on("key_entered", function(key, location, distance) {
+                var obj = {
+                    location: location,
+                    distance: distance,
+                    key: key,
+                    type: "Gyms"
+                };
+                console.log(obj);
+                appFactory.geoGyms.push(obj);
+                if($rootScope.header != "Events" && appFactory.onKeyEnter){
+                    appFactory.onKeyEnter(obj);
+                }
+
+            });
+
+            appFactory.gymQuery.on("key_exited", function(key, location, distance) {
+                for(var i=0; i<appFactory.geoGyms.length; i++){
+                    if(appFactory.geoGyms[i].key == key){
+                        appFactory.geoGyms.splice(i, 1);
+                        if($rootScope.header != "Events" && appFactory.onKeyExit){
+                            appFactory.onKeyExit(key);
+                        }
+                        break;
+                    }
+                }
+            });
+
+            appFactory.gymQuery.on("key_moved", function(key, location, distance) {
+                for(var i=0; i<appFactory.geoGyms.length; i++){
+                    if(appFactory.geoGyms[i].key == key){
+                        appFactory.geoGyms[i].location = location;
+                        appFactory.geoGyms[i].distance = distance;
+                        if($rootScope.header != "Events" && appFactory.onKeyMove){
+                            appFactory.onKeyMove(appFactory.geoGyms[i]);
                         }
                         break;
                     }
@@ -662,7 +709,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         }
     })
     .controller("MenuCtrl", function($scope,Users,Events,Gyms,GeoTrainers, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
-        $rootScope.header = "Trainers";
+        $rootScope.header = "Users";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
             window.location.href = url;
@@ -756,27 +803,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
 //
 //
-//        appFactory.gymQuery = GeoTrainers.query({
-//            center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
-//            radius: appConfig.radius
-//        });
-//
-//        appFactory.gymQuery.on("key_entered", function(key, location, distance) {
-//            appFactory.geoGyms[key] = {
-//                location: location,
-//                distance: distance
-//            }
-//        });
-//
-//        appFactory.gymQuery.on("key_exited", function(key, location, distance) {
-//            appFactory.geoGyms[key] = undefined;
-//        });
-//
-//        appFactory.gymQuery.on("key_moved", function(key, location, distance) {
-//            appFactory.geoGyms[key] = {
-//                location: location,
-//                distance: distance
-//            }
-//        });
+
 
     });

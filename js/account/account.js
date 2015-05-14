@@ -123,7 +123,7 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
             appFactory.modified = $firebaseObject(Modified.ref());
             appFactory.modified.$loaded(function(){
                 var user = $localstorage.getObject("user");
-                console.log(user);
+                console.log(appFactory.modified);
                 if(user.$id && UserAuth.$getAuth().uid && user.$id === UserAuth.$getAuth().uid){
                     loadLocalUser(user);
                 } else {
@@ -139,7 +139,7 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
                 appFactory.modified = $firebaseObject(Modified.ref());
                 appFactory.modified.$loaded(function(){
                     var localuser = $localstorage.getObject("user");
-                    console.log(localuser);
+                    console.log(appFactory.modified);
                     if(localuser.$id && localuser.$id == user.uid){
                         loadLocalUser(localuser);
                     } else {
