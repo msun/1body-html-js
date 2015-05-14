@@ -1,21 +1,23 @@
 <ion-view>
-    <ion-content class="ob-grey-bg" scroll="false">
+    <ion-content class="ob-grey-bg" scroll="false" data-tap-disabled="true">
         <ion-content class="map-content">
             <div class="map-gradient"></div>
-
             <div class="ob-header ob-map-header">
                 <div class="ob-header-status-bar"></div>
                 <div class="ob-header-nav-bar">
                     <div class="ob-header-icon">
                         <button ng-click="toggleMenu()" class="button button-icon button-dark">
-                            <i class="icon ion-navicon-round"></i>
+                            <i class="icon ion-navicon"></i>
                         </button>
                     </div>
                     <div class="ob-header-flex-area">
                         <div class="ob-bar-search-input-container">
                             <i class="icon ion-search ob-bar-search-input-search-icon"></i>
-                            <input type="search" class="ob-bar-search-input" placeholder="ex. hot yoga, boxing" 
-                                   ng-model="searchContainer.searchTerms" ng-focus="onSearch()"/>
+                            <input type="search"
+                                   class="ob-bar-search-input"
+                                   ng-model="searchContainer.searchTerms"
+                                   ng-focus="onSearch()"
+                                   placeholder="ex. hot yoga, boxing"/>
                         </div>
                     </div>
                     <div class="ob-header-icon">
@@ -26,32 +28,6 @@
                 </div>
                 <div class="ob-map-header-bottom-white-line"></div>
             </div>
-
-<!--
-            <ion-header-bar class="ob-transparent-bar">
-                <div class="buttons">
-                    <button ng-click="toggleMenu()" class = "button button-icon button-dark">
-                        <i class="icon ion-navicon-round"></i>
-                    </button>
-
-                    <label class="title item-input ob-bar-search-input-container">
-                        <i class="icon ion-search placeholder-icon"></i>
-                        <input type="text" placeholder="ex. hot yoga, boxing"
-                               ng-model="searchContainer.searchTerms" ng-keypress="search_popover.show($event)"/>
-                    </label>
-
-                    //<h2 class="title" ng-click="popover.show($event)">{{header}}</h2>
-
-                    <a href="#/menu/{{header}}" class="button button-icon button-dark" style="padding: 5px">
-                        <i class="icon ion-clipboard"></i>
-                    </a>
-                </div>
-
-                //<div class="ob-white-bottom-line"></div>
-
-            </ion-header-bar>
--->
-
             <div class="ob-tabs">
                 <a class="ob-tab-item" ng-class="{'ob-tab-selected':header === 'Users'}" ng-click="clickontab('Users', $event)">
                     &nbsp;Professionals&nbsp;
@@ -75,6 +51,5 @@
             <div id="info"></div>
             <div id="dashmap" data-tap-disabled="true"></div>
         </ion-content>
-
     </ion-content>
 </ion-view>

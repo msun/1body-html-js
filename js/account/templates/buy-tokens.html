@@ -1,4 +1,12 @@
 <ion-view>
+    <ion-header-bar class="ob-darkpurple-bg">
+        <div class="buttons">
+            <button ng-click="toggleMenu()" class="button button-icon button-dark">
+                <i class="icon ion-navicon"></i>
+            </button>
+        </div>
+        <h1 class="title ob-navbar-title">Buy Tokens</h1>
+    </ion-header-bar>
     <ion-content class="has-header menu1-content">
         <div class="menu1-content-div buy-tokens-content-div">
             <div class="ob-main-instructions">Select the number of credits to purchase</div>
@@ -7,11 +15,11 @@
                 <div class="purchase-credits-row" ng-repeat="item in bundles">
                     <span class="purchase-credits-value">{{item.numberTokens}}</span>
                     <span class="purchase-credits-count">${{item.price}}</span>
-                    <span class="purchase-credits-plus-minus-container" ng-click ="addBundle(item)">
+                    <span class="purchase-credits-plus-minus-container" ng-click="addBundle(item)">
                         <span class="purchase-credits-plus-minus-white-background"></span>
                         <i class="icon ion-plus-circled purchase-credits-plus"></i>
                     </span>
-                    <span class="purchase-credits-plus-minus-container" ng-click ="removeBundle(item)">
+                    <span class="purchase-credits-plus-minus-container" ng-click="removeBundle(item)">
                         <span class="purchase-credits-plus-minus-white-background"></span>
                         <i class="icon ion-minus-circled purchase-credits-minus"></i>
                     </span>

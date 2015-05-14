@@ -353,34 +353,39 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
             };
 
             $scope.useimg = function(){
+                var pluginName = '';
                 if (ionic.Platform.isAndroid()) {
-                    exec(function (result) {
-                        var bigimg = {
-                            data: result.big,
-                            id: $scope.newevent.$id,
-                            name: "profilepic_hd.jpg",
-                            type: "Events"
-                        };
-
-                        var smallimg = {
-                            data: result.small,
-                            id: $scope.newevent.$id,
-                            name: "profilepic.jpg",
-                            type: "Events"
-                        };
-
-                        Images.ref().push(smallimg, function(){
-                            Images.ref().push(bigimg, function(){
-                                alert("Your event picture is saved");
-                                $ionicSlideBoxDelegate.next();
-                            });
-                        });
-                    }, function (err) {
-                        console.log(err);
-                    }, 'Card_io', 'useimg', [
-                        {'id': $scope.user.$id, 'uri': image.src}
-                    ]);
+                    pluginName = 'Card_io';
+                } else if (ionic.Platform.isIOS()) {
+                    pluginName = 'OBImageEditor';
                 }
+
+                exec(function (result) {
+                    var bigimg = {
+                        data: result.big,
+                        id: $scope.newevent.$id,
+                        name: "profilepic_hd.jpg",
+                        type: "Events"
+                    };
+
+                    var smallimg = {
+                        data: result.small,
+                        id: $scope.newevent.$id,
+                        name: "profilepic.jpg",
+                        type: "Events"
+                    };
+
+                    Images.ref().push(smallimg, function(){
+                        Images.ref().push(bigimg, function(){
+                            alert("Your event picture is saved");
+                            $ionicSlideBoxDelegate.next();
+                        });
+                    });
+                }, function (err) {
+                    console.log(err);
+                }, pluginName, 'useimg', [
+                    {'id': $scope.user.$id, 'uri': image.src}
+                ]);
             }
 
         } else if(index == 3){

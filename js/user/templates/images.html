@@ -1,7 +1,12 @@
 <ion-view>
+    <ion-nav-bar class="ob-darkpurple-bg">
+        <button ng-click="back()" class="button button-icon">
+            <i class="icon ion-ios7-arrow-back ob-white-color"></i>
+        </button>
+        <h1 class="title ob-navbar-title">Images</h1>
+    </ion-nav-bar>
     <ion-content class="has-header menu1-content ob-search-list-view-content">
-        <button class="button button-calm" ng-click="back()">Back</button>
-        <a class="button button-calm" ng-show="userID == myID" href="#/menu/account/add-image/{{type}}/{{id}}">Add image</a>
+        <a class="ob-block-button ob-button-blue ob-button-shadow" ng-show="userID == myID" href="#/menu/account/add-image/{{type}}/{{id}}">Add image</a>
 
         <label class="toggle toggle-assertive" ng-show="userID == myID">
             <input type="checkbox" ng-model="edit.toggle">
@@ -16,15 +21,15 @@
                 <p >{{item.message}}</p>
                 <!--<input type="text" ng-model="item.edit" ng-show="item.toggle && userID == myID" placeholder="image message"/>-->
                 <div class="button-block">
-                    <button class="button button-calm" ng-show="edit.toggle && userID == myID" ng-click="delete(item)">Delete</button>
-                    <!--<button class="button button-calm" ng-show="edit.toggle && userID == myID" ng-hide="item.toggle" ng-click="edit(item)">Edit</button>-->
-                    <!--<button class="button button-calm" ng-show="item.toggle && userID == myID" ng-click="cancel(item)">Cancel</button>-->
+                    <button class="ob-button ob-button-blue" ng-show="edit.toggle && userID == myID" ng-click="delete(item)">Delete</button>
+                    <!--<button class="ob-button ob-button-blue" ng-show="edit.toggle && userID == myID" ng-hide="item.toggle" ng-click="edit(item)">Edit</button>-->
+                    <!--<button class="ob-button ob-button-blue" ng-show="item.toggle && userID == myID" ng-click="cancel(item)">Cancel</button>-->
                 </div>
 
             </div>
 
         </div>
         <p class="profile-feed-end" ng-show="images.length < 9">No more images</p>
-        <button class="ob-block-button ob-dark-button" ng-show="images.length >= 9" class="button" ng-click="moreImages()">More Images</button>
+        <button class="ob-block-button ob-button-dark" ng-show="images.length >= 9" class="button" ng-click="moreImages()">More Images</button>
     </ion-content>
 </ion-view>

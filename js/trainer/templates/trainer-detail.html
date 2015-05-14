@@ -1,29 +1,19 @@
 <ion-view>
     <ion-header-bar class="ob-darkpurple-bg">
         <div class="buttons">
-            <button ng-click ="toggleMenu()" class = "button button-icon button-dark">
-                <i class = "icon ion-navicon-round"></i>
+            <button ng-click="toggleMenu()" class="button button-icon button-dark">
+                <i class="icon ion-navicon"></i>
             </button>
-<!--
-            <h2 class="title" style="padding: 7px">
-                {{selectedTrainer.username}}
-                <a href="#/menu/{{$root.header}}" class = "button button-icon button-dark">
-                    <i class = "icon ion-gear-b">
-                    </i>
-                </a>
-            </h2>
-
-            <a href="#/menu/{{$root.header}}" style="padding: 5px" class = "button button-icon button-dark">
-                <i class = "icon ion-arrow-return-left">
-                </i>
-            </a>
--->
         </div>
         <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
+        <div class="buttons">
+            <button ng-click="goTo('#/menu/my-profile')" class="button button-icon button-dark">
+                <i class="icon ion-edit ob-ionicon-small"></i>
+            </button>
+        </div>
     </ion-header-bar>
     <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
         <div class="profile-top">
-
             <div class="follow-button" ng-show="!followerMe.username" ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
             <div class="following-button" ng-show="followerMe.username" ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
 

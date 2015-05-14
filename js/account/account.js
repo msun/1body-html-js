@@ -41,10 +41,8 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, $ionicNavBarDelegate, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage, Modified) {
+account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage, Modified) {
     console.log(UserAuth.$getAuth());
-
-
 
     var checkUrl = function(){
         if (ionic.Platform.isAndroid()) {
@@ -155,13 +153,13 @@ account.controller('LoginCtrl', function(GeoTrainers, GcmID, $firebaseObject, $f
         }
     }
 
-    $scope.back = function() {
-        $ionicNavBarDelegate.back();
-    };
-
     if(UserAuth.$getAuth()){
         $scope.signin();
     }
+
+    $scope.back = function() {
+        $window.history.back();
+    };
 });
 
 account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject, UserAuth, $scope, Users, Trainers, $state, mapstate) {
@@ -209,7 +207,6 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
         if ($ionicSlideBoxDelegate.currentIndex() >= 1) {
             $ionicSlideBoxDelegate.previous();
         } else {
-//            $ionicNavBarDelegate.back();
             window.location.href = "#";
         }
     };
@@ -552,7 +549,6 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
 
     function onSuccess(imageURI) {
         image.src = imageURI;
-
     }
 
     function onFail(message) {
@@ -605,7 +601,7 @@ account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $loc
 
 
     $scope.setdp = function(){
-        $state.transitionTo("menu.account.set-dp");
+        $state.transitionTo("menu.set-dp");
     }
 
     $scope.addCertificate = function(){
@@ -1201,8 +1197,10 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions,
 
 account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, Transactions, $window, $localstorage){
     $scope.dt = new Date();
+    $scope.showingAll = false;
 
-    $scope.$watch('dt', function () {
+    $scope.showCurrent = function(){
+        $scope.showingAll = false;
         console.log($scope.dt.getFullYear());
         console.log($scope.dt.getMonth());
         console.log($scope.dt.getDate());
@@ -1231,9 +1229,12 @@ account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFa
         console.log(endDate.getTime());
 
         $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByPriority().startAt(startDate.getTime()).endAt(endDate.getTime()));
-    }, true);
+    }
+
+    $scope.$watch('dt', $scope.showCurrent, true);
 
     $scope.showAll = function(){
+        $scope.showingAll = true;
         $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id));
 
         $scope.myTransactions.$loaded(function(){
@@ -1340,8 +1341,11 @@ account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFacto
 
 account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, MyTransactions, $window, $localstorage){
     $scope.dt = new Date();
+    $scope.showingAll = false;
 
-    $scope.$watch('dt', function () {
+    $scope.showCurrent = function(){
+        $scope.showingAll = false;
+
         console.log($scope.dt.getFullYear());
         console.log($scope.dt.getMonth());
         console.log($scope.dt.getDate());
@@ -1370,9 +1374,12 @@ account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, ap
         console.log(endDate.getTime());
 
         $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByPriority().startAt(startDate.getTime()).endAt(endDate.getTime()));
-    }, true);
+    }
+
+    $scope.$watch('dt', $scope.showCurrent, true);
 
     $scope.showAll = function(){
+        $scope.showingAll = true;
         $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id));
     }
 
@@ -1419,4 +1426,3 @@ account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, ap
         $scope.modal.remove();
     });
 });
-

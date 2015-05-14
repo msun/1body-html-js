@@ -1,4 +1,10 @@
 <ion-view>
+    <ion-nav-bar class="ob-darkpurple-bg">
+        <button ng-click="back()" class="button button-icon">
+            <i class="icon ion-ios7-arrow-back ob-white-color"></i>
+        </button>
+        <h1 class="title ob-navbar-title">Edit Profile</h1>
+    </ion-nav-bar>
     <ion-content class="has-header ob-grey-bg">
         <div class="menu1-content-div">
             <div class="ob-form">
@@ -28,7 +34,7 @@
                 Add Certificate
             </div>
             <div class="ob-block-button ob-button-blue" ng-click="save()">Save</div>
-            <ion-list>
+            <ion-list stlye="display: none">
                 <ion-item ng-repeat="cert in user.certs">
                     <img src="{{cert}}" style="width: 80%; margin-right: 10%; margin-left: 10%" />
                 </ion-item>

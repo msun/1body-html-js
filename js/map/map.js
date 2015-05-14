@@ -119,7 +119,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         $rootScope.header = tab;
         appFactory.state = tab;
         $scope.searchContainer.searchTerms = "";
-        $scope.searchContainer.searchRadius = "";
+        $scope.searchContainer.searchRadius = 30;
         clearpins();
         if(tab == "Events"){
             markEvents();
@@ -187,7 +187,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
     $scope.cancelSearch = function(){
         $scope.searchContainer.searchTerms = "";
-        $scope.searchContainer.searchRadius = "";
+        $scope.searchContainer.searchRadius = 30;
         $scope.popover.hide();
     }
 
@@ -1043,3 +1043,25 @@ map.filter('toArray', function () {
         }
     };
 });
+
+//map.controller('ListCtrl', function($scope, appFactory, $timeout, $stateParams, $firebase, Events) {
+//    $scope.clickontab = function(tab, $event){
+//        console.log($event);
+//        console.log(tab);
+//        $scope.header = tab;
+//        $rootScope.header = tab;
+//        appFactory.state = tab;
+//        $scope.searchContainer.searchTerms = "";
+//        $scope.searchContainer.searchRadius = 30;
+//        clearpins();
+//        dropPins(tab);
+//    }
+//
+//    for(var key in $scope.array) {
+//        if (!$scope.array.hasOwnProperty(key)) {
+//            continue;
+//        }
+//
+//    }
+//});
+>>>>>>> ui17e

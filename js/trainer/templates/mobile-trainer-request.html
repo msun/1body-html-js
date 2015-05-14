@@ -1,28 +1,26 @@
 <ion-view>
-    <ion-header-bar class="ob-darkpurple-bg">
-        <div class="buttons">
-            <button ng-click="toggleMenu()" class="button button-icon">
-                <i class="icon ion-navicon ob-white-color"></i>
-            </button>
-        </div>
-        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
-    </ion-header-bar>
+    <ion-nav-bar class="ob-darkpurple-bg">
+        <button ng-click="back()" class="button button-icon">
+            <i class="icon ion-ios7-arrow-back ob-white-color"></i>
+        </button>
+        <h1 class="title ob-navbar-title">Mobile Trainer Request</h1>
+    </ion-nav-bar>
     <ion-content class="has-header ob-grey-bg">
         <div class="menu1-content-div">
             <div class="ob-form">
-                <div class="ob-form-row">
-                    <textarea class="ob-form-textarea ob-form-textarea-small"
-                              ng-model="newrequest.message"
-                              placeholder="Message for mobile request"></textarea>
-                </div>
                 <div class="ob-form-row ob-form-flex-row">
                     <span class="ob-form-prompt">Start Time </span>
-                    <time-picker class="ob-form-timepicker" minute-step="30" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                    <time-picker class="ob-form-timepicker"
+                                 minute-step="30"
+                                 data-inc-icon-class="ion ion-chevron-up"
+                                 data-dec-icon-class="ion ion-chevron-down">
+                    </time-picker>
                 </div>
                 <div class="ob-form-row ob-form-flex-row">
                     <span class="ob-form-prompt">Duration</span>
                     <span class="ob-form-text">{{newrequest.minutes}}min</span>
-                    <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newrequest.minutes">
+                    <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30"
+                           ng-model="newrequest.minutes"/>
                 </div>
                 <div class="ob-form-row ob-form-flex-row" ng-click="openMap()">
                     <span class="ob-form-text">Select Location from Map</span>
@@ -36,11 +34,16 @@
                 <div class="ob-form-row">
                     <textarea class="ob-form-textarea ob-form-textarea-small"
                               ng-model="newrequest.commentlocation"
-                              placeholder="Comments on location"></textarea>
+                              placeholder="Location Details"></textarea>
                 </div>
                 <div class="ob-form-row ob-form-flex-row" ng-click="openSelectTrainerModal()">
                     <span class="ob-form-text-input">Select Available Trainers</span>
                     <span class="ob-form-icon ob-form-icon-rightarrow"></span>
+                </div>
+                <div class="ob-form-row">
+                    <textarea class="ob-form-textarea ob-form-textarea-small"
+                              ng-model="newrequest.message"
+                              placeholder="Message for Trainer"></textarea>
                 </div>
             </div>
             <button class="ob-block-button ob-button-blue" ng-click="confirmRequest()">Send Requests</button>

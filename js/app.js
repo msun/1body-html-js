@@ -131,10 +131,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('account.tos', {
+            .state('menu.tos', {
                 url: "/tos",
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: "js/account/templates/tos.html",
                         controller: 'AccountCtrl'
                     }
@@ -382,50 +382,50 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.my-profile', {
+            .state('menu.my-profile', {
                 url: '/my-profile',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/myinfo.html',
                         controller: 'ProfileCtrl'
                     }
                 }
             })
 
-            .state('menu.account.set-dp', {
+            .state('menu.set-dp', {
                 url: '/set-dp',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/set-dp.html',
                         controller: 'Set-dpCtrl'
                     }
                 }
             })
 
-            .state('menu.account.my-schedule', {
+            .state('menu.my-schedule', {
                 url: '/my-schedule',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/my-schedule.html',
                         controller: 'ProfileCtrl'
                     }
                 }
             })
 
-            .state('menu.account.settings', {
+            .state('menu.settings', {
                 url: '/settings',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/settings.html',
                         controller: 'AccountCtrl'
                     }
                 }
             })
 
-            .state('menu.account.my-trainings', {
+            .state('menu.my-trainings', {
                 url: '/my-trainings',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/my-trainings.html',
                         controller: 'MyTrainingsCtrl'
                     }
@@ -452,30 +452,30 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                }
 //            })
 
-            .state('menu.account.my-transactions', {
+            .state('menu.my-transactions', {
                 url: '/my-transactions',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/my-transactions.html',
                         controller: 'MyTransactionsCtrl'
                     }
                 }
             })
 
-            .state('menu.account.set-location', {
+            .state('menu.set-location', {
                 url: '/set-location',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/set-location.html',
                         controller: 'SetLocationCtrl'
                     }
                 }
             })
 
-            .state('menu.account.scan', {
+            .state('menu.scan', {
                 url: '/scan',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/scan.html',
                         controller: 'ScanCtrl'
                     }
@@ -492,30 +492,30 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                }
 //            })
 
-            .state('menu.account.requested-sessions', {
+            .state('menu.requested-sessions', {
                 url: '/requested-sessions',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/incoming-requests.html',
                         controller: 'IncomingRequestsCtrl'
                     }
                 }
             })
 
-            .state('menu.account.my-requests', {
+            .state('menu.my-requests', {
                 url: '/my-requests',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/my-requests.html',
                         controller: 'MyRequestsCtrl'
                     }
                 }
             })
 
-            .state('menu.account.buy-tokens', {
+            .state('menu.buy-tokens', {
                 url: '/buy-tokens',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/buy-tokens.html',
                         controller: 'BuyTokensCtrl'
                     }
@@ -708,7 +708,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //            return filtered;
         }
     })
-    .controller("MenuCtrl", function($scope,Users,Events,Gyms,GeoTrainers, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
+
+    .controller("MenuCtrl", function($scope, $window, Users, Events, Gyms, GeoTrainers, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
         $rootScope.header = "Users";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
@@ -800,9 +801,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         });
 
-
-//
-//
-
+        $scope.back = function() {
+            $window.history.back();
+        };
 
     });

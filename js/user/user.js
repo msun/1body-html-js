@@ -119,7 +119,7 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
     };
 });
 
-userModule.controller("ImagesCtrl", function($scope, $ionicModal, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Images, ImageUrls, $window, appConfig){
+userModule.controller("ImagesCtrl", function($scope, $ionicModal, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Images, ImageUrls, appConfig){
     console.log($stateParams.id);
     console.log($stateParams.type);
     $scope.id = $stateParams.id;
@@ -159,10 +159,6 @@ userModule.controller("ImagesCtrl", function($scope, $ionicModal, Following, app
     $scope.cancel = function(item){
         console.log(item);
         item.toggle = false;
-    }
-
-    $scope.back = function(){
-        $window.history.back();
     }
 
     $scope.opendImageModal = function(item){
