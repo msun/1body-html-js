@@ -200,7 +200,8 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         };
     }
 
-    if(appFactory.users[$scope.trainerID] && appFactory.users[$scope.trainerID].refreshed){
+    var savedModifiedTimestamp = appFactory.users[$scope.trainerID]['modified'];
+    if(appFactory.users[$scope.trainerID] && appFactory.users[$scope.trainerID].modified >= savedModifiedTimestamp){
         $scope.selectedTrainer = appFactory.users[$scope.trainerID];
         loadData();
     } else {
