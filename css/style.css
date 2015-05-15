@@ -2684,30 +2684,8 @@ input.ob-form-text-input[type="search"] {
     height: 25px;
 }
 
-#profile-tab-1 {
-}
-
-#profile-tab-2 {
-
-}
-
-#profile-tab-3 {
-}
-
-#profile-tab-4 {
-
-}
-
-#profile-tab-icon-1 {
-}
-
-#profile-tab-icon-2 {
-}
-
-#profile-tab-icon-3 {
-}
-
-#profile-tab-icon-4 {
+.profile-bottom-content {
+    background: rgb(225,225,225);
 }
 
 .profile-map-container {
@@ -2720,114 +2698,8 @@ input.ob-form-text-input[type="search"] {
     background-color: #ccc;
 }
 
-.profile-photos {
-    position: relative;
-    width: 320px;
-    height: 105px;
-    margin: 0px auto;
-}
-
-.profile-photo {
-    width: 33.33333%;
-    border-right: 1px solid #b7b7b7;
-}
-
-.profile-photo:last-child {
-    border-right: none;
-}
-
-.profile-photos-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translate(0%, -50%);
-    -webkit-transform: translate(0%, -50%);
-    -moz-transform: translate(0%, -50%);
-    -o-transform: translate(0%, -50%);
-    right: 4px;
-    width: 21px;
-    height: 21px;
-}
-
-.profile-feed {
-    width: 100%;
-    border-bottom: 1px solid rgb(159, 159, 159);
-}
-
-.profile-feed-item {
-    border-top: 1px solid #b7b7b7;
-    background-color: #e5e5e5;
-    width: 100%;
-    height: 54px;
-}
-
-.profile-feed-thumbnail {
-    float: left;
-    width: 36px;
-    height: 36px;
-    margin: 9px;
-}
-
-.profile-feed-text {
-    margin-top: 9px;
-    line-height: 1em;
-}
-
-.profile-feed-message {
-    color: #4e4e4e;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 1.1em;
-}
-
-.profile-feed-timestamp {
-    color: #898989;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 1.1em;
-}
-
-.activity-feed {
-
-}
-
-.activity-row {
-    display: table;
-    text-align: left;
-    height: 50px;
-    width: 100%;
-    border-bottom: 1px solid #c2c2c2;
-}
-
-.activity-image {
-    float: left;
-    width: 36px;
-    height: 36px;
-    margin: 7px 10px;
-}
-
-.activity-text {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 8px 10px 8px 3px;
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 15px;
-    line-height: 18px;
-}
-
-.activity-row-end {
-    clear: both;
-}
-
-.linked-text {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    color: #3884ed;
-}
-
-.activity-time {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    color: #898989;
-}
-
 .profile-feed-review-list {
-
+    padding-bottom: 8px;
 }
 
 .profile-feed-review-list-row {
@@ -2905,7 +2777,7 @@ input.ob-form-text-input[type="search"] {
 .profile-feed-end {
     font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 15px;
-    color: #4e4e4e;
+    color: #444;
     text-align: center;
     padding: 8px;
 }
