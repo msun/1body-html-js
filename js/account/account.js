@@ -552,7 +552,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
     }
 
     function onFail(message) {
-        alert('Failed because: ' + message);
+        console.log('Failed because: ' + message);
     }
 });
 

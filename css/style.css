@@ -2582,6 +2582,8 @@ input.ob-form-text-input[type="search"] {
     text-overflow: ellipsis;
     font-size: 1.1em;
     padding: 0.85em 0.5em;
+    text-decoration: none;
+    text-align: center;
 }
 
 .profile-main-action-button:active {
@@ -2711,12 +2713,11 @@ input.ob-form-text-input[type="search"] {
 .profile-map-container {
     width: 100%;
     height: 88px;
-    background-color: #383838;
 }
 
 .profile-map {
-    width: 100%;
     height: 100%;
+    background-color: #ccc;
 }
 
 .profile-photos {
@@ -2831,40 +2832,31 @@ input.ob-form-text-input[type="search"] {
 
 .profile-feed-review-list-row {
     width: 100%;
-    height: 54px;
     display: -webkit-flex;
     display: flex;
     background: white;
     border-bottom: 1px solid #c2c2c2;
     padding: 0px;
+    text-decoration: none;
 }
 
 .profile-feed-review-list-row-left {
-    -webkit-flex: 0 0 46px;
-    flex: 0 0 46px;
-    position: relative;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
     width: 46px;
-    height: 100%;
 }
 
 .profile-feed-review-list-img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
     width: 36px;
     height: 36px;
+    margin: 5px;
     border-radius: 6px;
 }
 
 .profile-feed-review-list-row-right {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
-    padding: 10px;
-    padding-left: 4px;
+    padding: 4px;
 }
 
 .profile-feed-review-text {
@@ -2876,7 +2868,6 @@ input.ob-form-text-input[type="search"] {
 
 .profile-feed-review-creation {
     color: #898989;
-    margin-left: 4px;
 }
 
 .profile-feed-review-stars {
@@ -2888,6 +2879,7 @@ input.ob-form-text-input[type="search"] {
     background: url("../img/professional-profile/blue-small-star-single.png") center/100% 100% no-repeat;
     width: 12px;
     height: 12px;
+    display: inline-block;
 }
 
 #profile-feed-review-star-1 {
@@ -2907,7 +2899,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 #profile-feed-review-star-5 {
-    visibility: hidden;
+
 }
 
 .profile-feed-end {

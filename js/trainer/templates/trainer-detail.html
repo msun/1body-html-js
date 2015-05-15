@@ -7,20 +7,28 @@
         </div>
         <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
         <div class="buttons">
-            <button ng-click="goTo('#/menu/my-profile')" class="button button-icon button-dark">
+            <button ng-click="goTo('#/menu/my-profile')"
+                    class="button button-icon button-dark"
+                    ng-show="selectedTrainer.$id == $root.user.$id">
                 <i class="icon ion-edit ob-ionicon-small"></i>
             </button>
         </div>
     </ion-header-bar>
     <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
         <div class="profile-top">
-            <div class="follow-button" ng-show="!followerMe.username" ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
-            <div class="following-button" ng-show="followerMe.username" ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
+            <div class="follow-button"
+                 ng-show="!followerMe.username"
+                 ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
+            <div class="following-button"
+                 ng-show="followerMe.username"
+                 ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
 
             <div class="profile-top-padding-div"></div>
 
             <div class="profile-picture-div">
-                <img class="profile-picture" ng-click="openImageModal()" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic.jpg"/>
+                <img class="profile-picture"
+                     ng-click="openImageModal()"
+                     src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic.jpg"/>
                 <img class="profile-picture-tag" src="img/badge-professional.png"/>
             </div>
 
@@ -92,25 +100,27 @@
                 <div class="profile-map-container">
                     <div class="item profile-map" id="trainer-detail-map" data-tap-disabled="true"></div>
                 </div>
-                <ion-list class="profile-feed-review-list">
-                    <ion-item class="profile-feed-review-list-row" ng-repeat="review in reviews" ng-href="#/menu/Users/{{review.userID}}">
+                <div class="profile-feed-review-list">
+                    <a class="profile-feed-review-list-row" ng-repeat="review in reviews" ng-href="#/menu/Users/{{review.userID}}">
                         <span class="profile-feed-review-list-row-left">
                             <img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{review.userID | htmlEncode}}/profilepic.jpg"/>
                         </span>
                         <span class="profile-feed-review-list-row-right">
-                            <p class="profile-feed-review-text">{{review.text}}<span class="profile-feed-review-creation">{{review.created | date:'yyyy-MM-dd HH:mm:ss'}}</span></p>
-                            <p class="profile-feed-review-stars">
+                            <div class="profile-feed-review-text">{{review.text}}</div>
+                            <div class="profile-feed-review-creation">{{review.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+
+                            <div class="profile-feed-review-stars">
                                 <span class="profile-feed-review-star" ng-show="review.rating > 0" id="profile-feed-review-star-1"></span>
                                 <span class="profile-feed-review-star" ng-show="review.rating > 1" id="profile-feed-review-star-2"></span>
                                 <span class="profile-feed-review-star" ng-show="review.rating > 2" id="profile-feed-review-star-3"></span>
                                 <span class="profile-feed-review-star" ng-show="review.rating > 3" id="profile-feed-review-star-4"></span>
                                 <span class="profile-feed-review-star" ng-show="review.rating > 4" id="profile-feed-review-star-5"></span>
-                            </p>
+                            </div>
                         </span>
-                    </ion-item>
-                    <p class="profile-feed-end" ng-show="reviews.length < 5">No more reviews</p>
-                    <button class="ob-block-button ob-button-dark" ng-show="reviews.length == 5" class="button" ng-click="moreReviews()">More reviews</button>
-                </ion-list>
+                    </a>
+                    <div class="profile-feed-end" ng-show="reviews.length < 5">End of Review Feed</div>
+                    <button class="ob-block-button ob-button-blue" ng-show="reviews.length == 5" ng-click="moreReviews()">More Reviews</button>
+                </div>
                 <!--
                 <ion-list>
                     <ion-item ng-repeat="review in reviews" ng-click="replyto()">

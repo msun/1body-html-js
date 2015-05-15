@@ -7,15 +7,21 @@
         </div>
         <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
         <div class="buttons">
-            <button ng-click="goTo('#/menu/my-profile')" class="button button-icon button-dark">
+            <button ng-click="goTo('#/menu/my-profile')"
+                    class="button button-icon button-dark"
+                    ng-show="selectedUser.$id == $root.user.$id">
                 <i class="icon ion-edit ob-ionicon-small"></i>
             </button>
         </div>
     </ion-header-bar>
     <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
         <div class="profile-top">
-            <div class="follow-button" ng-show="!followerMe.username" ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
-            <div class="following-button" ng-show="followerMe.username" ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
+            <div class="follow-button"
+                 ng-show="!followerMe.username"
+                 ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
+            <div class="following-button"
+                 ng-show="followerMe.username"
+                 ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
 
             <div class="profile-top-padding-div"></div>
 
@@ -27,6 +33,7 @@
             <div class="full-name-container">
                 <span class="full-name-left"></span>
                 <span class="full-name">{{selectedUser.username}}</span>
+                <span class="full-name-right"></span>
             </div>
             <p class="profession">{{selectedUser.profession}}</p>
             <p class="personal-quote">{{selectedUser.information}}</p>
@@ -85,22 +92,19 @@
                     </span>
             </div>
             <div class="profile-bottom-content">
-                <div class="profile-map-container">
-                    <div class="item profile-map" id="trainer-detail-map" data-tap-disabled="true"></div>
-                </div>
-                <ion-list class="profile-feed-review-list">
-                    <ion-item class="profile-feed-review-list-row" ng-repeat="item in feeds | orderBy:'-created' " ng-click="replyto()">
+                <div class="profile-feed-review-list">
+                    <a class="profile-feed-review-list-row" ng-repeat="item in feeds | orderBy:'-created'" ng-click="replyto()">
                         <span class="profile-feed-review-list-row-left">
                             <img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.id | htmlEncode}}/profilepic.jpg"/>
                         </span>
                         <span class="profile-feed-review-list-row-right">
-                            <span class="profile-feed-review-creation">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                            <p class="profile-feed-review-text">{{item.message}}</p>
+                            <div class="profile-feed-review-text">{{item.message}}</div>
+                            <div class="profile-feed-review-creation">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                         </span>
-                    </ion-item>
-                    <p class="profile-feed-end" ng-show="feeds.length < 5">No more feeds</p>
-                    <button class="ob-block-button ob-dark-button" ng-show="feeds.length >= 5" class="button" ng-click="moreFeeds()">More Feeds</button>
-                </ion-list>
+                    </a>
+                    <div class="profile-feed-end" ng-show="feeds.length < 5">End of Activity Feed</div>
+                    <button class="ob-block-button ob-button-blue" ng-show="feeds.length >= 5" ng-click="moreFeeds()">More Feeds</button>
+                </div>
             </div>
         </div>
     </ion-content>
