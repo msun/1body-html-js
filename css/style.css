@@ -830,7 +830,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 40px;
     border-radius: 6px;
     border: none;
-    margin: 12px auto 8px;
+    margin: 12px auto 6px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: white;
@@ -900,6 +900,17 @@ input.ob-form-text-input[type="search"] {
     width: 93.75%; /* 300px / 320px */
     min-width: 300px;
     max-width: 500px;
+    height: 40px;
+    line-height: 40px;
+    margin: 12px auto;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #2b6acf;
+}
+
+.buttongroup2-basic {
+    display: -webkit-flex;
+    display: flex;
     height: 40px;
     line-height: 40px;
     margin: 12px auto;
@@ -2586,6 +2597,19 @@ input.ob-form-text-input[type="search"] {
     text-align: center;
 }
 
+.profile-main-action-item {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    z-index: 100;
+    min-width: 264px;
+    max-width: 80%;
+}
+
 .profile-main-action-button:active {
     background-color: #2b6acf;
     color: #e6e6e6;
@@ -2686,6 +2710,7 @@ input.ob-form-text-input[type="search"] {
 
 .profile-bottom-content {
     background: rgb(225,225,225);
+    padding-bottom: 12px;
 }
 
 .profile-map-container {
