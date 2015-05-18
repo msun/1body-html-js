@@ -17,7 +17,7 @@
             <ion-scroll class="ob-scroll ob-section" direction="y">
                 <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">
                     You have made no mobile requests!<br/><br/>
-                    Some trainers will come to your location for a training session.<br/><br/>
+                    Some trainers can travel to your location for training sessions.<br/><br/>
                     Tap the + at the top right to request a mobile trainer now!
                 </div>
                 <a class="ob-scroll-row" ng-repeat="item in requests | orderBy: '-created'" href="#/menu/Trainers/{{item.trainerID}}">

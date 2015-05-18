@@ -1,84 +1,157 @@
 
 <ion-view>
-    <ion-header-bar class="bar-dark">
+    <ion-header-bar class="ob-darkpurple-bg">
         <div class="buttons">
-            <a ng-click="toggleMenu()" class="button button-icon">
-                <i class = "icon ion-arrow-left-c">
-                </i> Back
-            </a>
-            <h2 class="title">{{selectedEvent.name}}</h2>
+            <button ng-click="toggleMenu()" class="button button-icon button-dark">
+                <i class="icon ion-navicon"></i>
+            </button>
+        </div>
+        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
+        <div class="buttons">
+            <!--
+            <button ng-click="goTo('#/menu/my-profile')"
+                    class="button button-icon button-dark"
+                    ng-show="selectedUser.$id == $root.user.$id">
+                <i class="icon ion-edit ob-ionicon-small"></i>
+            </button>
+            -->
         </div>
     </ion-header-bar>
-
-    <ion-content has-header="true">
-        <div class="list card">
-
-            <div class="item item-avatar">
-                <a href="#/menu/{{item.group}}/{{item.$id}}">
-                    <img src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedEvent.userID | htmlEncode}}/profilepic.jpg">
-                </a>
-                <h2>{{selectedEvent.user.username}}</h2>
-                <p>{{selectedEvent.user.group}}</p>
+    <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
+        <div class="profile-top">
+            <div class="follow-button"
+                 ng-show="!followerMe.username"
+                 ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
+            <div class="following-button"
+                 ng-show="followerMe.username"
+                 ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
+            <div class="profile-top-padding-div"></div>
+            <div class="profile-picture-div" ng-click="goTo('#/menu/{{item.group}}/{{item.$id}}')">
+                <!-- href="#/menu/{{item.group}}/{{item.$id}}" -->
+                <!-- ng-click="openImageModal()" -->
+                <img class="profile-picture"
+                     ng-click="openImageModal()"
+                     src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedEvent.userID | htmlEncode}}/profilepic.jpg"/>
+                <img class="profile-picture-tag" src="img/badge-event.png"/>
             </div>
-
-            <div class="item item-body">
-                <h2>{{selectedEvent.name}}</h2>
-                <h2>{{selectedEvent.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</h2>
-                <p>
-                    {{selectedEvent.information}}
-                </p>
-                <p>
-                    {{selectedEvent.location}}
-                </p>
-                <div id="event-detail-map" data-tap-disabled="true" style="width: 100%; height: 200px"></div>
-
+            <div class="full-name-container">
+                <span class="full-name-left"></span>
+                <span class="full-name">{{selectedEvent.name}}</span>
+                <span class="full-name-right">
+                    <img ng-show="true" class="full-name-icon profile-verified-icon" src="img/professional-profile/green-checkmark.png">
+                </span>
             </div>
+            <div class="personal-quote">{{selectedEvent.information}}</div>
+            <div class="ob-icon-clock"></div>
+            <div class="time-text">Starts {{selectedEvent.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
 
-            <div class="item button-bar">
-                <button ng-show="inEvent == -1" class="button button-dark" ng-click="joinEvent()">
-                    Join Event
-                </button>
-                <button ng-show="inEvent > -1" class="button button-dark" ng-click="leaveEvent()">
-                    Leave Event
-                </button>
-                <button class="button button-dark" ng-click="whosGoing()">
-                    Who's going?
-                </button>
-                <a class="button button-dark" href="#/menu/images/Events/{{selectedEvent.$id}}/{{selectedEvent.userID}}">Event Images</a>
+            <div class="profile-stats-container">
+                <span class="profile-stats-container-empty-item"></span>
+                    <span class="followers-item">
+                        <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
+                        <div>Followers</div>
+                    </span>
+                    <span class="profile-reviews-item">
+                        <div class="profile-review-stars">
+                            <img class="profile-review-star" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/blue-star-single.png"/>
+                        </div>
+                        <div>(<span class="profile-reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
+                    </span>
+                    <span class="following-item">
+                        <div class="following-count">{{sizes.numOfFollowing || 0}}</div>
+                        <div>Following</div>
+                    </span>
+                <span class="profile-stats-container-empty-item"></span>
+            </div>
+            <div class="profile-main-action-item">
+                <div class="buttongroup2-basic">
+                    <button class="buttongroup2-button"
+                            ng-show="inEvent == -1"
+                            ng-click="joinEvent()">Join</button>
+                    <button class="buttongroup2-button"
+                            ng-show="inEvent > -1"
+                            ng-click="leaveEvent()">Leave</button>
+                    <button class="buttongroup2-button"
+                            ng-click="whosGoing()"><i class="icon ion-person-stalker buttongroup2-icon"></i></button>
+                </div>
             </div>
         </div>
-
-        <div>
-            <ion-list>
-                <ion-item ng-repeat="comment in comments" ng-click="replyto(comment)">
-                    <img src="https://s3.amazonaws.com/com.onebody.profile/Users/{{comment.userID | htmlEncode}}/profilepic.jpg" />
-                    <p>{{comment.text}}</p>
-                    <p ng-hide="comment.replyUserID" style="font-size: 10px">{{comment.username}} left at: {{comment.creation}}</p>
-                    <p ng-show="comment.replyUserID" style="font-size: 10px">{{comment.username}} @{{comment.replyUserName}} left at: {{comment.creation}}</p>
-                </ion-item>
-            </ion-list>
+        <div class="profile-bottom">
+            <div class="profile-tab-bar-container">
+                    <span class="button-bar profile-tab-bar">
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-1" href="">
+                            <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>-->
+                        </a>
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-2" href="#/menu/images/Events/{{selectedEvent.$id}}/{{selectedEvent.userID}}">
+                            <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>-->
+                        </a>
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-3" href="">
+                            <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
+                        </a>
+                        <a class="button profile-tab" id="profile-tab-4" href="">
+                            <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>-->
+                        </a>
+                    </span>
+            </div>
+            <div class="profile-bottom-content">
+                <div class="profile-map-container">
+                    <div class="item profile-map" id="event-detail-map" data-tap-disabled="true"></div>
+                </div>
+                <div class="profile-feed-review-list">
+                    <div class="profile-feed-review-list-row" ng-repeat="comment in comments" ng-click="replyto(comment)">
+                        <span class="profile-feed-review-list-row-left">
+                            <img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{comment.userID | htmlEncode}}/profilepic.jpg"/>
+                        </span>
+                        <span class="profile-feed-review-list-row-right">
+                            <div class="profile-feed-review-text">{{comment.text}}</div>
+                            <!-- {{review.created | date:'yyyy-MM-dd HH:mm:ss'}} -->
+                            <div ng-hide="comment.replyUserID"
+                                 class="profile-feed-review-creation">{{comment.username}} left at {{comment.creation}}</div>
+                            <div ng-show="comment.replyUserID"
+                                 class="profile-feed-review-creation">{{comment.username}} @{{comment.replyUserName}} left at {{comment.creation}}</div>
+                            <!--
+                            <div class="profile-feed-review-stars">
+                                <span class="profile-feed-review-star" ng-show="review.rating > 0" id="profile-feed-review-star-1"></span>
+                                <span class="profile-feed-review-star" ng-show="review.rating > 1" id="profile-feed-review-star-2"></span>
+                                <span class="profile-feed-review-star" ng-show="review.rating > 2" id="profile-feed-review-star-3"></span>
+                                <span class="profile-feed-review-star" ng-show="review.rating > 3" id="profile-feed-review-star-4"></span>
+                                <span class="profile-feed-review-star" ng-show="review.rating > 4" id="profile-feed-review-star-5"></span>
+                            </div>
+                            -->
+                        </span>
+                    </div>
+                    <!--<div class="profile-feed-end" ng-show="reviews.length < 5">End of Review Feed</div>-->
+                    <!--<button class="ob-block-button ob-button-blue" ng-show="reviews.length == 5" ng-click="moreReviews()">More Reviews</button>-->
+                </div>
+                <div class="ob-form">
+                    <div class="ob-form-row ob-form-flex-row">
+                        <input class="ob-form-text-input" ng-model="newcomment.text"
+                               type="text" placeholder="Enter a comment"/>
+                    </div>
+                </div>
+                <div class="buttongroup2">
+                    <button class="buttongroup2-button" ng-click="addcomment()">Submit Comment</button>
+                    <!--<button class="buttongroup2-button" ng-click="clear()">Clear</button>-->
+                </div>
+            </div>
         </div>
-        <label class="item item-input item-stacked-label">
-            <span>{{commentTitle}}</span>
-            <input type="text" ng-model="newcomment.text" placeholder="Comment">
-        </label>
-        <button class="button button-dark" ng-click="addcomment()">Enter</button>
-        <button class="button button-dark" ng-click="clear()">Clear</button>
-            <!--<div class="item tabs tabs-secondary tabs-icon-left">-->
-                <!--<a class="tab-item" href="#">-->
-                    <!--<i class="icon ion-thumbsup"></i>-->
-                    <!--Like-->
-                <!--</a>-->
-                <!--<a class="tab-item" href="#">-->
-                    <!--<i class="icon ion-chatbox"></i>-->
-                    <!--Comment-->
-                <!--</a>-->
-                <!--<a class="tab-item" href="#">-->
-                    <!--<i class="icon ion-share"></i>-->
-                    <!--Share-->
-                <!--</a>-->
-            <!--</div>-->
-
-
     </ion-content>
+    <!--
+    <p>selectedEvent.user.username = {{selectedEvent.user.username}}</p>
+    <p>selectedEvent.user.group = {{selectedEvent.user.group}}</p>
+    <p>selectedEvent.location = {{selectedEvent.location}}</p>
+    <span>commentTitle = {{commentTitle}}</span>
+    -->
 </ion-view>

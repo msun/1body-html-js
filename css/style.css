@@ -197,18 +197,6 @@
     margin-right: auto;
 }
 
-#warningMsg {
-    width: 80%;
-    /*height: 3em;*/
-    /*padding: 1em;*/
-    margin-left: 10%;
-    margin-right: 10%;
-    position: fixed;
-    z-index: 100;
-    top: 2em;
-    background: lightgray;
-}
-
 .infowindow-list {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -217,8 +205,6 @@
     height: auto;
     padding: 0px;
 }
-
-
 
 .ng-invalid {
     border-color: #f00 !important;
@@ -830,7 +816,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 40px;
     border-radius: 6px;
     border: none;
-    margin: 12px auto 8px;
+    margin: 12px auto 6px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: white;
@@ -900,6 +886,17 @@ input.ob-form-text-input[type="search"] {
     width: 93.75%; /* 300px / 320px */
     min-width: 300px;
     max-width: 500px;
+    height: 40px;
+    line-height: 40px;
+    margin: 12px auto;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #3884ed;
+}
+
+.buttongroup2-basic {
+    display: -webkit-flex;
+    display: flex;
     height: 40px;
     line-height: 40px;
     margin: 12px auto;
@@ -2318,7 +2315,7 @@ input.ob-form-text-input[type="search"] {
     width: 100%;
     height: auto;
     background: #383838 url("../img/professional-profile/Image2-shade-cropped.jpg") center/cover no-repeat;
-    padding-bottom: 2em;
+    padding-bottom: 30px;
 }
 
 .follow-button, .following-button {
@@ -2331,7 +2328,7 @@ input.ob-form-text-input[type="search"] {
     border-radius: 5px;
     border: 1px solid white;
     text-align: center;
-    font-size: 1em;
+    font-size: 13.5px;
 }
 
 .follow-button {
@@ -2423,6 +2420,7 @@ input.ob-form-text-input[type="search"] {
     display: flex;
     -web-kit-align-items: center;
     align-items: center;
+    margin: 5px auto 10px;
 }
 
 .full-name-left, .full-name-right {
@@ -2435,9 +2433,9 @@ input.ob-form-text-input[type="search"] {
 }
 
 .full-name {
-    -webkit-flex: 1 1 auto;
-    flex: 1 1 auto;
-    font-size: 1.5em;
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+    font-size: 20px;
     font-family: 'Lato', sans-serif;
     color: white;
 }
@@ -2454,19 +2452,18 @@ input.ob-form-text-input[type="search"] {
 }
 
 .profession {
-    margin: 0.2em auto 0em;
+    margin: 5px auto 10px;
     font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 1.2em;
+    font-size: 18px;
     text-align: center;
     color: white;
 }
 
 .personal-quote {
-    margin: 0.5em auto 0.1em auto;
+    margin: 10px auto;
     width: 78%;
-    font-size: 1.2em;
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-style: italic;
+    font-size: 15.5px;
+    font-family: 'AvenirNextLTPro-It', sans-serif;
     text-align: center;
     color: white;
 }
@@ -2475,20 +2472,21 @@ input.ob-form-text-input[type="search"] {
 
 }
 
-.clock-icon {
-    width: 14.5px;
-    height: 14.5px;
-    display: block;
-    margin: 26px auto 0px;
-}
-
 .time-text {
     text-align: center;
-    margin: 5px auto 17px;
-    width: 184px;
+    margin: 5px auto 15px;
+    width: 50%;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.5px;
     color: white;
+}
+
+.ob-icon-clock {
+    background: url("../img/event-profile/clock-icon.png") center/100% 100% no-repeat;
+    width: 15px;
+    height: 15px;
+    display: block;
+    margin: 26px auto 6px;
 }
 
 .profile-stats-container {
@@ -2501,7 +2499,7 @@ input.ob-form-text-input[type="search"] {
     flex: 99 99 0px;
 }
 
-.followers-item, .following-item, .achieved-item, .profile-reviews-item  {
+.profile-reviews-item  {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     font-family: 'Avenir Next LT Pro', sans-serif;
@@ -2510,9 +2508,12 @@ input.ob-form-text-input[type="search"] {
 }
 
 .followers-item, .following-item, .achieved-item {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 1em;
-    line-height: 1.2em;
+    color: white;
+    text-align: center;
+    font-size: 15px;
     padding-top: 8px;
 }
 
@@ -2531,7 +2532,7 @@ input.ob-form-text-input[type="search"] {
 
 .following-count, .followers-count, .achieved-count {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    font-size: 1.2em;
+    font-size: 16.5px;
 }
 
 .profile-reviews-item {
@@ -2573,15 +2574,30 @@ input.ob-form-text-input[type="search"] {
     min-width: 264px;
     max-width: 80%;
     border: none;
-    border-radius: 10px;
-    background-color: #3177e8;
+    border-radius: 6px;
+    background-color: #3884ed;
     font-family: 'Avenir Next LT Pro', sans-serif;
     color: white;
-    white-space: nowrap;
+    white-space: 8
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 1.1em;
-    padding: 0.85em 0.5em;
+    font-size: 15.5px;
+    padding: 12px 8px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.profile-main-action-item {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    z-index: 100;
+    min-width: 264px;
+    max-width: 80%;
 }
 
 .profile-main-action-button:active {
@@ -2650,6 +2666,7 @@ input.ob-form-text-input[type="search"] {
 
 .profile-tab-bar-container {
     background: rgb(225,225,225) url("../img/professional-profile/menu-separator.png") center 100%/100% 1px no-repeat;
+    border-bottom: 1px solid #c2c2c2;
 }
 
 .profile-tab-bar {
@@ -2682,189 +2699,57 @@ input.ob-form-text-input[type="search"] {
     height: 25px;
 }
 
-#profile-tab-1 {
-}
-
-#profile-tab-2 {
-
-}
-
-#profile-tab-3 {
-}
-
-#profile-tab-4 {
-
-}
-
-#profile-tab-icon-1 {
-}
-
-#profile-tab-icon-2 {
-}
-
-#profile-tab-icon-3 {
-}
-
-#profile-tab-icon-4 {
+.profile-bottom-content {
+    background: rgb(225,225,225);
+    padding-bottom: 12px;
 }
 
 .profile-map-container {
     width: 100%;
     height: 88px;
-    background-color: #383838;
 }
 
 .profile-map {
-    width: 100%;
     height: 100%;
-}
-
-.profile-photos {
-    position: relative;
-    width: 320px;
-    height: 105px;
-    margin: 0px auto;
-}
-
-.profile-photo {
-    width: 33.33333%;
-    border-right: 1px solid #b7b7b7;
-}
-
-.profile-photo:last-child {
-    border-right: none;
-}
-
-.profile-photos-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translate(0%, -50%);
-    -webkit-transform: translate(0%, -50%);
-    -moz-transform: translate(0%, -50%);
-    -o-transform: translate(0%, -50%);
-    right: 4px;
-    width: 21px;
-    height: 21px;
-}
-
-.profile-feed {
-    width: 100%;
-    border-bottom: 1px solid rgb(159, 159, 159);
-}
-
-.profile-feed-item {
-    border-top: 1px solid #b7b7b7;
-    background-color: #e5e5e5;
-    width: 100%;
-    height: 54px;
-}
-
-.profile-feed-thumbnail {
-    float: left;
-    width: 36px;
-    height: 36px;
-    margin: 9px;
-}
-
-.profile-feed-text {
-    margin-top: 9px;
-    line-height: 1em;
-}
-
-.profile-feed-message {
-    color: #4e4e4e;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 1.1em;
-}
-
-.profile-feed-timestamp {
-    color: #898989;
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 1.1em;
-}
-
-.activity-feed {
-
-}
-
-.activity-row {
-    display: table;
-    text-align: left;
-    height: 50px;
-    width: 100%;
-    border-bottom: 1px solid #c2c2c2;
-}
-
-.activity-image {
-    float: left;
-    width: 36px;
-    height: 36px;
-    margin: 7px 10px;
-}
-
-.activity-text {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 8px 10px 8px 3px;
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 15px;
-    line-height: 18px;
-}
-
-.activity-row-end {
-    clear: both;
-}
-
-.linked-text {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    color: #3884ed;
-}
-
-.activity-time {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    color: #898989;
+    background-color: #ccc;
 }
 
 .profile-feed-review-list {
-
+    padding-bottom: 8px;
 }
 
 .profile-feed-review-list-row {
     width: 100%;
-    height: 54px;
     display: -webkit-flex;
     display: flex;
     background: white;
+    border-top: 1px solid #c2c2c2;
     border-bottom: 1px solid #c2c2c2;
     padding: 0px;
+    text-decoration: none;
+}
+
+.profile-feed-review-list-row + .profile-feed-review-list-row {
+    border-top: none;
 }
 
 .profile-feed-review-list-row-left {
-    -webkit-flex: 0 0 46px;
-    flex: 0 0 46px;
-    position: relative;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
     width: 46px;
-    height: 100%;
 }
 
 .profile-feed-review-list-img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
     width: 36px;
     height: 36px;
+    margin: 5px;
     border-radius: 6px;
 }
 
 .profile-feed-review-list-row-right {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
-    padding: 10px;
-    padding-left: 4px;
+    padding: 4px;
 }
 
 .profile-feed-review-text {
@@ -2876,7 +2761,6 @@ input.ob-form-text-input[type="search"] {
 
 .profile-feed-review-creation {
     color: #898989;
-    margin-left: 4px;
 }
 
 .profile-feed-review-stars {
@@ -2888,6 +2772,7 @@ input.ob-form-text-input[type="search"] {
     background: url("../img/professional-profile/blue-small-star-single.png") center/100% 100% no-repeat;
     width: 12px;
     height: 12px;
+    display: inline-block;
 }
 
 #profile-feed-review-star-1 {
@@ -2907,13 +2792,13 @@ input.ob-form-text-input[type="search"] {
 }
 
 #profile-feed-review-star-5 {
-    visibility: hidden;
+
 }
 
 .profile-feed-end {
     font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 15px;
-    color: #4e4e4e;
+    color: #444;
     text-align: center;
     padding: 8px;
 }
