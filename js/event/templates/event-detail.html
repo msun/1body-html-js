@@ -41,8 +41,9 @@
                     <img ng-show="true" class="full-name-icon profile-verified-icon" src="img/professional-profile/green-checkmark.png">
                 </span>
             </div>
-            <p class="profession">{{selectedEvent.information}}</p>
-            <p class="personal-quote">Starts {{selectedEvent.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+            <div class="personal-quote">{{selectedEvent.information}}</div>
+            <div class="ob-icon-clock"></div>
+            <div class="time-text">Starts {{selectedEvent.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
 
             <div class="profile-stats-container">
                 <span class="profile-stats-container-empty-item"></span>
@@ -117,9 +118,9 @@
                             <div class="profile-feed-review-text">{{comment.text}}</div>
                             <!-- {{review.created | date:'yyyy-MM-dd HH:mm:ss'}} -->
                             <div ng-hide="comment.replyUserID"
-                                 class="profile-feed-review-creation">{{comment.username}} left at: {{comment.creation}}</div>
+                                 class="profile-feed-review-creation">{{comment.username}} left at {{comment.creation}}</div>
                             <div ng-show="comment.replyUserID"
-                                 class="profile-feed-review-creation">{{comment.username}} @{{comment.replyUserName}} left at: {{comment.creation}}</div>
+                                 class="profile-feed-review-creation">{{comment.username}} @{{comment.replyUserName}} left at {{comment.creation}}</div>
                             <!--
                             <div class="profile-feed-review-stars">
                                 <span class="profile-feed-review-star" ng-show="review.rating > 0" id="profile-feed-review-star-1"></span>
