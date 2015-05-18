@@ -101,7 +101,7 @@ map.directive('gymInfoWindow', function($rootScope){
     }
 });
 
-map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $firebase, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Trainers, Users, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray, $ionicModal) {
+map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $firebase, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Trainers, Users, Sizes, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray, $ionicModal) {
     $scope.header = $rootScope.header;
     var searchKeys = ["firstname", "lastname", "info", "group", "gym", "username", "email", "name"];
     $scope.categories = Categories;
@@ -111,6 +111,18 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     $scope.trainerCircles = [];
     $scope.searchContainer = {};
     $scope.searchContainer.redo_search = true;
+
+    appFactory.trainerQuery.updateCriteria({
+        radius: 15
+    });
+
+    appFactory.gymQuery.updateCriteria({
+        radius: 15
+    });
+
+    appFactory.eventQuery.updateCriteria({
+        radius: 15
+    });
 
     $scope.clickontab = function (tab, $event) {
         console.log($event);
@@ -305,7 +317,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         } else if (obj.type == "Events") {
             var keys = obj.key.split(",");
             if (appFactory.events[keys[0]]) {
-                savedModified = appFactory.events[obj.key]['modified'];
+                savedModified = appFactory.events[keys[0]]['modified'];
                 loadFromFirebase = false;
             }
         }
@@ -346,6 +358,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                     fobj.distance = obj.distance;
                     $scope.array[obj.key] = fobj;
                     appFactory.users[obj.key] = fobj;
+                    $scope.array[obj.key].sizes = $firebaseObject(Sizes.ref().child(obj.key));
                     console.log(appFactory.users);
                     $localstorage.setObject("Users", appFactory.users);
                     compileDropMarker(obj);
@@ -355,7 +368,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         } else {
             if (obj.type == "Events") {
                 var keys = obj.key.split(",");
-                console.log(appFactory.events[keys[0]]);
+                console.log(appFactory.events);
                 console.log(keys);
                 $scope.array[obj.key] = appFactory.events[keys[0]];
                 $scope.array[obj.key].distance = obj.distance;
@@ -369,6 +382,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 console.log(obj);
                 console.log(appFactory.users[obj.key]);
                 $scope.array[obj.key] = appFactory.users[obj.key];
+                $scope.array[obj.key].sizes = $firebaseObject(Sizes.ref().child(obj.key));
                 $scope.array[obj.key].distance = obj.distance;
                 compileDropMarker(obj);
             }
@@ -459,20 +473,20 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             dropMapMarker(appFactory.geoGyms[i]);
         }
 
-        appFactory.onKeyEnter = function (obj) {
+        appFactory.onGymEnter = function (obj) {
             console.log("onKeyEnter");
             console.log(obj);
             dropMapMarker(obj);
         };
 
-        appFactory.onKeyExit = function (key) {
+        appFactory.onGymExit = function (key) {
             console.log("onKeyExit");
             console.log(key);
             $scope.markers[key].marker.setMap(null);
             $scope.markers[key] = undefined;
         };
 
-        appFactory.onKeyMove = function (obj) {
+        appFactory.onGymMove = function (obj) {
             console.log("onKeyExit");
             console.log(obj);
             $scope.markers[obj.key].marker.setMap(null);
@@ -559,6 +573,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
         google.maps.event.addListener(map, 'zoom_changed', function () {
             var newRadius = calculateRadius();
+            appFactory.radius = newRadius;
             appFactory.trainerQuery.updateCriteria({
                 center: [map.getCenter().lat(), map.getCenter().lng()],
                 radius: newRadius
@@ -587,6 +602,8 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     };
 
     $scope.$on('$destroy', function() {
+        console.log("scope destroy, clear on key events");
+
         appFactory.onKeyEnter = undefined;
 
         appFactory.onKeyExit = undefined;

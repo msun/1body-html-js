@@ -11,11 +11,13 @@
                 <div class="map-bubble-title">{{item.username}}</div>
                 <div class="map-bubble-subtitle">Trainer</div>
                 <div class="map-bubble-review-stars">
-                    <span class="map-bubble-review-star" id="map-bubble-review-star-1"></span>
-                    <span class="map-bubble-review-star" id="map-bubble-review-star-2"></span>
-                    <span class="map-bubble-review-star" id="map-bubble-review-star-3"></span>
-                    <span class="map-bubble-review-star" id="map-bubble-review-star-4"></span>
-                    <span class="map-bubble-review-star" id="map-bubble-review-star-5"></span>
+                    <span ng-show="item.sizes.numOfReviews == undefined || item.sizes.numOfReviews == 0">No Ratings Yet</span>
+                    <span class="map-bubble-review-star" ng-show="item.sizes.numOfReviews > 0" id="map-bubble-review-star-1"></span>
+                    <span class="map-bubble-review-star" ng-show="item.sizes.rating/item.sizes.numOfReviews > 1.4" id="map-bubble-review-star-2"></span>
+                    <span class="map-bubble-review-star" ng-show="item.sizes.rating/item.sizes.numOfReviews > 2.4" id="map-bubble-review-star-3"></span>
+                    <span class="map-bubble-review-star" ng-show="item.sizes.rating/item.sizes.numOfReviews > 3.4" id="map-bubble-review-star-4"></span>
+                    <span class="map-bubble-review-star" ng-show="item.sizes.rating/item.sizes.numOfReviews > 4.4" id="map-bubble-review-star-5"></span>
+
                 </div>
                 <div class="map-bubble-distance">{{item.distance | number:1}} km</div>
             </div>

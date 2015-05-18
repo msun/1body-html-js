@@ -651,8 +651,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 };
                 console.log(obj);
                 appFactory.geoGyms.push(obj);
-                if($rootScope.header != "Events" && appFactory.onKeyEnter){
-                    appFactory.onKeyEnter(obj);
+                if($rootScope.header != "Events" && appFactory.onGymEnter){
+                    appFactory.onGymEnter(obj);
                 }
 
             });
@@ -661,8 +661,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 for(var i=0; i<appFactory.geoGyms.length; i++){
                     if(appFactory.geoGyms[i].key == key){
                         appFactory.geoGyms.splice(i, 1);
-                        if($rootScope.header != "Events" && appFactory.onKeyExit){
-                            appFactory.onKeyExit(key);
+                        if($rootScope.header != "Events" && appFactory.onGymExit){
+                            appFactory.onGymExit(key);
                         }
                         break;
                     }
@@ -674,8 +674,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     if(appFactory.geoGyms[i].key == key){
                         appFactory.geoGyms[i].location = location;
                         appFactory.geoGyms[i].distance = distance;
-                        if($rootScope.header != "Events" && appFactory.onKeyMove){
-                            appFactory.onKeyMove(appFactory.geoGyms[i]);
+                        if($rootScope.header != "Events" && appFactory.onGymMove){
+                            appFactory.onGymMove(appFactory.geoGyms[i]);
                         }
                         break;
                     }

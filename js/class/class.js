@@ -282,7 +282,7 @@ classModule.controller('CreateClassCtrl', function($firebaseObject, $ionicModal,
     $scope.setGym = function(gym){
         $scope.gym = gym;
         $scope.newclass.gym = {};
-        $scope.newclass.gym.name = gym.name;
+        $scope.newclass.gym.gymName = gym.name;
         $scope.newclass.gym.gymID = gym.$id;
         $scope.newclass.location = gym.location;
         $scope.hideGymSelectionModal();
