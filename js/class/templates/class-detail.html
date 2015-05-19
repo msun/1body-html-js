@@ -16,42 +16,131 @@
             -->
         </div>
     </ion-header-bar>
-    <ion-content has-header="true" >
-        <div class="list card">
-            <div class="item item-avatar">
-                <a href="#/menu/{{item.group}}/{{item.$id}}">
-                    <img src="{{selectedClass.user.profilepic}}">
-                </a>
-                <h2>user.username = {{selectedClass.user.username}}</h2>
-                <p>user.group = {{selectedClass.user.group}}</p>
+    <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
+        <div class="profile-top">
+            <!--
+            <div class="follow-button"
+                 ng-show="!followerMe.username"
+                 ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
+            <div class="following-button"
+                 ng-show="followerMe.username"
+                 ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
+             -->
+            <div class="profile-top-padding-div"></div>
+            <div class="profile-picture-div" ng-click="goTo('#/menu/{{item.group}}/{{item.$id}}')">
+                <!-- href="#/menu/{{item.group}}/{{item.$id}}" -->
+                <!-- ng-click="openImageModal()" -->
+                <img class="profile-picture"
+                     ng-click="openImageModal()"
+                     src=""/>
+                <img class="profile-picture-tag" src="img/badge-class.png"/>
             </div>
-
-            <div class="item item-body ob-grey-bg" >
-                <h2>selectedClass.name = {{selectedClass.name}}</h2>
-                <p>selectedClass.information = {{selectedClass.information}}</p>
-                <p>selectedClass.location = {{selectedClass.location}}</p>
-
-                <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
-                <ul class="list ob-grey-bg">
-                    <a class="item" ng-repeat="item in openClasses">
-                        <p>Starttime: {{item.classtime}}</p>
-                        <p>openslots: {{item.slotsopen}}</p>
-                        <button class="button button-calm" ng-click="bookClass(item)">Book</button>
-                    </a>
-                </ul>
+            <div class="full-name-container">
+                <span class="full-name-left"></span>
+                <span class="full-name">{{selectedClass.name}}</span>
+                <span class="full-name-right">
+                    <img ng-show="true" class="full-name-icon profile-verified-icon" src="img/professional-profile/green-checkmark.png">
+                </span>
+            </div>
+            <div class="personal-quote">{{selectedClass.information}}</div>
+            <div class="profile-stats-container">
+                <span class="profile-stats-container-empty-item"></span>
+                    <span class="followers-item">
+                        <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
+                        <div>Followers</div>
+                    </span>
+                    <span class="profile-reviews-item">
+                        <div class="profile-review-stars">
+                            <img class="profile-review-star" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/blue-star-single.png"/>
+                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/white-star-single.png"/>
+                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/blue-star-single.png"/>
+                        </div>
+                        <div>(<span class="profile-reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
+                    </span>
+                    <span class="following-item">
+                        <div class="following-count">{{sizes.numOfFollowing || 0}}</div>
+                        <div>Following</div>
+                    </span>
+                <span class="profile-stats-container-empty-item"></span>
+            </div>
+            <a class="profile-main-action-button" href="">
+                Book this Class!
+            </a>
+        </div>
+        <div class="profile-bottom">
+            <div class="profile-tab-bar-container">
+                    <span class="button-bar profile-tab-bar">
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-1" href="">
+                            <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>-->
+                        </a>
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-2" href="#/menu/images/Events/{{selectedEvent.$id}}/{{selectedEvent.userID}}">
+                            <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>-->
+                        </a>
+                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-3" href="">
+                            <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
+                        </a>
+                        <a class="button profile-tab" id="profile-tab-4" href="">
+                            <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
+                            <!--<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>-->
+                        </a>
+                    </span>
+            </div>
+            <div class="profile-bottom-content">
+                <div class="profile-feed-review-list">
+                    <div class="profile-feed-review-list-row" ng-repeat="comment in selectedClass.comments" ng-click="replyto()">
+                        <span class="profile-feed-review-list-row-left">
+                            <img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{comment.userID | htmlEncode}}/profilepic.jpg"/>
+                        </span>
+                        <span class="profile-feed-review-list-row-right">
+                            <div class="profile-feed-review-text">{{comment.text}}</div>
+                            <!-- {{review.created | date:'yyyy-MM-dd HH:mm:ss'}} -->
+                            <div ng-hide="comment.replyUserID"
+                                 class="profile-feed-review-creation">{{comment.username}} left at: {{comment.creation}}</div>
+                            <!--
+                            <div class="profile-feed-review-stars">
+                                <span class="profile-feed-review-star" ng-show="review.rating > 0" id="profile-feed-review-star-1"></span>
+                                <span class="profile-feed-review-star" ng-show="review.rating > 1" id="profile-feed-review-star-2"></span>
+                                <span class="profile-feed-review-star" ng-show="review.rating > 2" id="profile-feed-review-star-3"></span>
+                                <span class="profile-feed-review-star" ng-show="review.rating > 3" id="profile-feed-review-star-4"></span>
+                                <span class="profile-feed-review-star" ng-show="review.rating > 4" id="profile-feed-review-star-5"></span>
+                            </div>
+                            -->
+                        </span>
+                    </div>
+                    <!--<div class="profile-feed-end" ng-show="reviews.length < 5">End of Review Feed</div>-->
+                    <!--<button class="ob-block-button ob-button-blue" ng-show="reviews.length == 5" ng-click="moreReviews()">More Reviews</button>-->
+                </div>
+                <div class="ob-form ob-form-light">
+                    <div class="ob-form-row ob-form-flex-row">
+                        <input class="ob-form-text-input" ng-model="newcomment.text"
+                               type="text" placeholder="Enter a comment"/>
+                        <div class="ob-form-button ob-button-blue" ng-click="addcomment()">Send</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div>
-            <ion-list>
-                <ion-item ng-repeat="comment in selectedClass.comments" ng-click="replyto()">
-                    <p>{{comment.text}}</p>
-                    <p style="font-size: 10px">{{comment.username}} left at: {{comment.creation}}</p>
-                </ion-item>
-            </ion-list>
-        </div>
-        <label class="item item-input item-stacked-label">
-            <input type="text" ng-model="newcomment.text" placeholder="Comment">
-        </label>
-        <button class="button button-dark" ng-click="addcomment()">Enter</button>
     </ion-content>
 </ion-view>
+
+<!--
+<p>user.username = {{selectedClass.user.username}}</p>
+<p>user.group = {{selectedClass.user.group}}</p>
+<p>selectedClass.location = {{selectedClass.location}}</p>
+<time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+<ul class="list ob-grey-bg">
+    <a class="item" ng-repeat="item in openClasses">
+        <p>Starttime: {{item.classtime}}</p>
+        <p>openslots: {{item.slotsopen}}</p>
+        <button class="button button-calm" ng-click="bookClass(item)">Book</button>
+    </a>
+</ul>
+-->
