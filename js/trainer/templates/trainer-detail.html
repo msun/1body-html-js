@@ -22,16 +22,13 @@
             <div class="following-button"
                  ng-show="followerMe.username"
                  ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
-
             <div class="profile-top-padding-div"></div>
-
             <div class="profile-picture-div">
                 <img class="profile-picture"
                      ng-click="openImageModal()"
                      src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic.jpg"/>
                 <img class="profile-picture-tag" src="img/badge-professional.png"/>
             </div>
-
             <div class="full-name-container">
                 <span class="full-name-left"></span>
                 <span class="full-name">{{selectedTrainer.username}}</span>
@@ -42,7 +39,6 @@
             </div>
             <p class="profession">{{selectedTrainer.profession}}</p>
             <p class="personal-quote">{{selectedTrainer.information}}</p>
-
             <div class="profile-stats-container">
                 <span class="profile-stats-container-empty-item"></span>
                     <span class="followers-item">
@@ -69,11 +65,9 @@
                     </span>
                 <span class="profile-stats-container-empty-item"></span>
             </div>
-
             <a class="profile-main-action-button" href="#/menu/trainer-schedule/{{selectedTrainer.$id}}/{{selectedTrainer.username}}">
-                <span class="first-word">Book</span> a class with {{selectedTrainer.username}}!
+                <span class="first-word">Book</span> a session with {{selectedTrainer.username}}!
             </a>
-
         </div>
         <div class="profile-bottom">
             <div class="profile-tab-bar-container">
@@ -139,7 +133,6 @@
         </div>
     </ion-content>
 </ion-view>
-
 
     <!--<ion-content has-header="true">-->
         <!--<div class="detail-page-top">-->

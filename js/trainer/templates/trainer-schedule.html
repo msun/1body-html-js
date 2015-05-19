@@ -1,26 +1,10 @@
 <ion-view>
-    <ion-header-bar class="ob-darkpurple-bg">
-        <div class="buttons">
-            <a href="#/menu/Trainers/{{trainerID}}/" class = "button button-icon button-dark">
-                <i class = "icon ion-arrow-return-left"></i>
-            </a>
-            <!--
-                        <h2 class="title" style="padding: 7px">
-                            {{selectedTrainer.username}}
-                            <a href="#/menu/{{$root.header}}" class = "button button-icon button-dark">
-                                <i class = "icon ion-gear-b">
-                                </i>
-                            </a>
-                        </h2>
-
-                        <a href="#/menu/{{$root.header}}" style="padding: 5px" class = "button button-icon button-dark">
-                            <i class = "icon ion-arrow-return-left">
-                            </i>
-                        </a>
-            -->
-        </div>
-        <!--<h1 class="title"><span class="ob-nav-bar-logo">{{trainerName}}'s schedule</span></h1>-->
-    </ion-header-bar>
+    <ion-nav-bar class="ob-darkpurple-bg">
+        <button class="button button-icon" ng-click="goTo('#/menu/Trainers/{{trainerID}}/')">
+            <i class="icon ion-ios7-arrow-back ob-white-color"></i>
+        </button>
+        <h1 class="title ob-navbar-title">Book a Session</h1>
+    </ion-nav-bar>
     <ion-content class="has-header ob-grey-bg">
         <div class="menu1-content-div">
             <scheduler-user-view></scheduler-user-view>

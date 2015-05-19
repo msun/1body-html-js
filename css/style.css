@@ -549,6 +549,10 @@ ion-popover-view.fit ion-content {
     text-decoration: none;
 }
 
+.ob-form-button:last-child {
+    margin-right: 0px;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* ob-form-text-input */
 /* to be used inside ob-form-flex-row */
@@ -2910,11 +2914,15 @@ input.ob-form-text-input[type="search"] {
 
 .timeslot-row {
     height: 30px;
+    border-bottom: 1px solid #7f7b73;
+}
+
+.timeslot-row:last-child {
+    border-bottom: none;
 }
 
 .timeslot-time-column {
     width: 50%;
-    border-bottom: 1px solid white;
     vertical-align: middle;
     text-align: center;
     font-family: "AvenirNextLTPro-Demi", sans-serif;
@@ -2924,7 +2932,6 @@ input.ob-form-text-input[type="search"] {
 
 .timeslot-status-column {
     width: 35%;
-    border-bottom: 1px solid white;
     height: 30px;
     vertical-align: middle;
     color: white;
@@ -2942,7 +2949,6 @@ input.ob-form-text-input[type="search"] {
 
 .timeslot-button-column {
     width: 15%;
-    border-bottom: 1px solid white;
     height: 30px;
     background: none;
 }
