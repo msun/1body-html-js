@@ -135,15 +135,12 @@
                     <!--<div class="profile-feed-end" ng-show="reviews.length < 5">End of Review Feed</div>-->
                     <!--<button class="ob-block-button ob-button-blue" ng-show="reviews.length == 5" ng-click="moreReviews()">More Reviews</button>-->
                 </div>
-                <div class="ob-form">
+                <div class="ob-form ob-form-light">
                     <div class="ob-form-row ob-form-flex-row">
                         <input class="ob-form-text-input" ng-model="newcomment.text"
                                type="text" placeholder="Enter a comment"/>
+                        <div class="ob-form-button ob-button-blue" ng-click="addcomment()">Send</div>
                     </div>
-                </div>
-                <div class="buttongroup2">
-                    <button class="buttongroup2-button" ng-click="addcomment()">Submit Comment</button>
-                    <!--<button class="buttongroup2-button" ng-click="clear()">Clear</button>-->
                 </div>
             </div>
         </div>
@@ -153,5 +150,6 @@
     <p>selectedEvent.user.group = {{selectedEvent.user.group}}</p>
     <p>selectedEvent.location = {{selectedEvent.location}}</p>
     <span>commentTitle = {{commentTitle}}</span>
+    <button class="buttongroup2-button" ng-click="clear()">Clear</button>
     -->
 </ion-view>
