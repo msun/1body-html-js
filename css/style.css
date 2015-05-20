@@ -2725,7 +2725,7 @@ input.ob-form-text-input[type="search"] {
     border: none;
     border-radius: 6px;
     background-color: #3884ed;
-    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
     color: white;
     white-space: 8
     overflow: hidden;
@@ -2734,6 +2734,11 @@ input.ob-form-text-input[type="search"] {
     padding: 12px 8px;
     text-decoration: none;
     text-align: center;
+}
+
+.profile-main-action-button:active {
+    background-color: #2b6acf;
+    color: #e6e6e6;
 }
 
 .profile-main-action-item {
@@ -2747,16 +2752,6 @@ input.ob-form-text-input[type="search"] {
     z-index: 100;
     min-width: 264px;
     max-width: 80%;
-}
-
-.profile-main-action-button:active {
-    background-color: #2b6acf;
-    color: #e6e6e6;
-}
-
-.profile-main-action-button .first-word {
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    font-weight: bold;
 }
 
 .profile-main-action-bar {
