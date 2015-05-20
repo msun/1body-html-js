@@ -372,10 +372,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.account.add-image', {
+            .state('menu.add-image', {
                 url: '/add-image/:type/:id',
                 views: {
-                    'account': {
+                    'menu': {
                         templateUrl: 'js/account/templates/add-image.html',
                         controller: 'AddImageCtrl'
                     }
