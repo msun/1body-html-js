@@ -765,12 +765,16 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-light {
-    border: 1px solid #555;
+    border: 1px solid #c2c2c2;
 }
 
 .ob-form-light .ob-form-row {
     background-color: rgba(0, 0, 0, 0.48);
     border-bottom: 1px solid #555;
+}
+
+.ob-form-light .ob-form-row:last-child {
+    border-bottom: none;
 }
 
 .ob-form-light .ob-form-text-input {
@@ -1209,7 +1213,7 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-list {
-    margin: 12px auto;
+    margin: 4px auto;
 }
 
 .ob-list-emptytext {
@@ -1259,14 +1263,18 @@ input.ob-form-text-input[type="search"] {
     font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 16.5px;
     color: white;
-    margin: 4px;
+}
+
+.ob-list-text-soft {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: #959595;
 }
 
 .ob-list-subtext {
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 14px;
     color: white;
-    margin: 4px;
 }
 
 .ob-list-col-small {
@@ -1286,6 +1294,17 @@ input.ob-form-text-input[type="search"] {
 .ob-list-checkbox:not(:checked):before {
     background: transparent;
     border: 1px solid white;
+}
+
+.ob-list-stars {
+
+}
+
+.ob-list-star {
+    display: inline-block;
+    background: url("../img/map/tmp/search_list_star.png") center/100% 100% no-repeat;
+    width: 13.5px;
+    height: 13.5px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1876,6 +1895,19 @@ input.ob-form-text-input[type="search"] {
 /* tab-map.html */
 /* ********** ********** ********** ********** ***********/
 
+.ob-map-list {
+    padding-top: 116px;
+}
+
+.ob-map-radiusinput {
+    border-top: 1px solid #a1a6ae;
+    border-bottom: 1px solid #a1a6ae;
+}
+
+.ob-map-list-row {
+    border-top: none;
+}
+
 .map-content {
     position: relative;
 }
@@ -2008,7 +2040,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 28px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
-    color: #a4a2a3;
+    color: #c2c2c2;
 }
 
 .ob-bar-search-input:-moz-placeholder {
@@ -2016,7 +2048,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 28px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
-    color: #a4a2a3;
+    color: #c2c2c2;
 }
 
 .ob-bar-search-input::-moz-placeholder {
@@ -2024,7 +2056,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 28px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
-    color: #a4a2a3;
+    color: #c2c2c2;
 }
 
 .ob-bar-search-input:-ms-input-placeholder {
@@ -2032,7 +2064,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 28px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
-    color: #a4a2a3;
+    color: #c2c2c2;
 }
 
 .ob-map-header-bottom-white-line {
@@ -2070,7 +2102,7 @@ input.ob-form-text-input[type="search"] {
     white-space: nowrap;
     height: auto;
     width: auto;
-    top: 92px;
+    top: 82px;
     left: 50%;
     transform: translate(-50%, 0%);
     -webkit-transform: translate(-50%, 0%);
@@ -2693,7 +2725,7 @@ input.ob-form-text-input[type="search"] {
     border: none;
     border-radius: 6px;
     background-color: #3884ed;
-    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
     color: white;
     white-space: 8
     overflow: hidden;
@@ -2702,6 +2734,11 @@ input.ob-form-text-input[type="search"] {
     padding: 12px 8px;
     text-decoration: none;
     text-align: center;
+}
+
+.profile-main-action-button:active {
+    background-color: #2b6acf;
+    color: #e6e6e6;
 }
 
 .profile-main-action-item {
@@ -2715,16 +2752,6 @@ input.ob-form-text-input[type="search"] {
     z-index: 100;
     min-width: 264px;
     max-width: 80%;
-}
-
-.profile-main-action-button:active {
-    background-color: #2b6acf;
-    color: #e6e6e6;
-}
-
-.profile-main-action-button .first-word {
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    font-weight: bold;
 }
 
 .profile-main-action-bar {
@@ -2783,7 +2810,6 @@ input.ob-form-text-input[type="search"] {
 
 .profile-tab-bar-container {
     background: rgb(225,225,225) url("../img/professional-profile/menu-separator.png") center 100%/100% 1px no-repeat;
-    border-bottom: 1px solid #c2c2c2;
 }
 
 .profile-tab-bar {
@@ -3120,136 +3146,6 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* trainer.css */
-/* incoming-requests.html , my-requests.html , list-modal.html , choose-trainer-modal.html , trainer.html */
-/* ********** ********** ********** ********** ***********/
-
-.ob-trainer-bar-container {
-    margin-top: 17px;
-    padding: 0px;
-    height: 44px;
-    z-index: 50;
-    background: transparent;
-}
-
-.ob-trainer-bar {
-    display: -webkit-flex;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-}
-
-.ob-trainer-bar-button {
-    -webkit-flex: 1 1 0px;
-    flex: 1 1 0px;
-    background: rgb(53, 127, 230);
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 14px;
-    border: 1px solid white;
-    border-right: none;
-    border-top: none;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    line-height: 44px;
-}
-
-.ob-trainer-bar-button:first-child {
-    border-left: none;
-}
-
-.ob-trainer-bar-button-selected {
-    background: rgb(56, 132, 237);
-}
-
-/* ob-search-list */
-
-.ob-search-list-view-content {
-    padding-top: 17px;
-}
-
-.ob-search-list {
-
-}
-
-.ob-search-list-row {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    background: transparent;
-    border-bottom: 1px solid #a2a1a0;
-    text-decoration: none;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.ob-search-list-row:first-child {
-    border-top: 1px solid #a2a1a0;
-}
-
-.ob-search-list-row-left {
-    -webkit-flex: 0 0 calc(7px + 38px + 7px);
-    flex: 0 0 calc(7px + 38px + 7px);
-}
-
-.ob-search-list-img {
-    display: block;
-    margin: auto;
-    width: 38px;
-    height: 38px;
-    border-radius: 4px;
-}
-
-.ob-search-list-row-right {
-    -webkit-flex: 1 1 auto;
-    flex: 1 1 auto;
-    padding: 10px 7px 10px 4px;
-}
-
-.ob-search-list-text {
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 15px;
-    color: white;
-}
-
-.ob-search-list-text-demi {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 15px;
-    color: white;
-}
-
-.ob-search-list-text-title {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 15px;
-    color: #3884ed;
-}
-
-.ob-search-list-profession {
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 15px;
-    color: white;
-}
-
-.ob-search-list-distance {
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 15px;
-    color: #959595;
-
-}
-
-.ob-search-list-stars {
-
-}
-
-.ob-search-list-star {
-    display: inline-block;
-    background: url("../img/map/tmp/search_list_star.png") center/100% 100% no-repeat;
-    width: 13.5px;
-    height: 13.5px;
-}
-
-/* ********** ********** ********** ********** ***********/
 /* misc */
 /* ********** ********** ********** ********** ***********/
 
@@ -3279,10 +3175,6 @@ input.ob-form-text-input[type="search"] {
     margin: 0px;
 }
 
-.ob-margins8 {
-    margin: 8px;
-}
-
 .ob-ionicon-small {
 
 }
@@ -3297,4 +3189,12 @@ input.ob-form-text-input[type="search"] {
 
 .ob-ionicon-medium::before {
     font-size: 28px !important;
+}
+
+.ob-feed-end-dark {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    padding: 8px;
 }

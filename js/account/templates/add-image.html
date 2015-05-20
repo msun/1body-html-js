@@ -1,19 +1,30 @@
 <ion-view>
-    <ion-content class="has-header menu1-content ob-search-list-view-content">
-        <div class="ob-form">
-            <div class="ob-form-row ob-row-picture-upload-top-section">
-                            <span class="picture-upload-placeholder">
-                                <img id="displayPic" style="max-width: 300px"  />
-                            </span>
-                <span class="picture-upload-plus-icon"></span>
-                <span class="picture-upload-e-tag"></span>
+    <ion-nav-bar class="ob-darkpurple-bg">
+        <button ng-click="back()" class="button button-icon">
+            <i class="icon ion-ios7-arrow-back ob-white-color"></i>
+        </button>
+        <h1 class="title ob-navbar-title">Add Image</h1>
+    </ion-nav-bar>
+    <ion-content class="has-header menu1-content">
+        <div class="menu1-content-div">
+            <div class="ob-form">
+                <div class="ob-form-row ob-row-picture-upload-top-section">
+                    <span class="picture-upload-placeholder">
+                        <img id="displayPic" style="max-width: 300px"/>
+                    </span>
+                    <span class="picture-upload-plus-icon"></span>
+                    <span class="picture-upload-e-tag"></span>
+                </div>
+                <div class="ob-form-row ob-form-flex-row">
+                    <input class="ob-form-text-input" type="text"
+                           ng-model="newimage.message" placeholder="Description"/>
+               </div>
             </div>
-            <input class="ob-form-text-input" type="text"
-                   ng-model="newimage.message" placeholder="Image Message"/>
-
-            <button ng-click="fromstorage()">From Storage</button>
-            <button ng-click="fromcamera()">Take a picture</button>
-            <button ng-click="useimg()">Use Image</button>
+            <div class="buttongroup2">
+                <button class="buttongroup2-button" ng-click="fromcamera()"><i class="icon ion-camera buttongroup2-icon"></i></button>
+                <button class="buttongroup2-button" ng-click="fromstorage()"><i class="icon ion-images buttongroup2-icon"></i></button>
+                <button class="buttongroup2-button" ng-click="useimg()">Save</button>
+            </div>
         </div>
     </ion-content>
 </ion-view>
