@@ -2012,7 +2012,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 28px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
-    color: #a4a2a3;
+    color: #c2c2c2;
 }
 
 .ob-bar-search-input:-moz-placeholder {
@@ -2020,7 +2020,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 28px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
-    color: #a4a2a3;
+    color: #c2c2c2;
 }
 
 .ob-bar-search-input::-moz-placeholder {
@@ -2028,7 +2028,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 28px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
-    color: #a4a2a3;
+    color: #c2c2c2;
 }
 
 .ob-bar-search-input:-ms-input-placeholder {
@@ -2036,7 +2036,7 @@ input.ob-form-text-input[type="search"] {
     line-height: 28px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
-    color: #a4a2a3;
+    color: #c2c2c2;
 }
 
 .ob-map-header-bottom-white-line {
@@ -3124,49 +3124,7 @@ input.ob-form-text-input[type="search"] {
 
 /* ********** ********** ********** ********** ***********/
 /* trainer.css */
-/* incoming-requests.html , my-requests.html , list-modal.html , choose-trainer-modal.html , trainer.html */
 /* ********** ********** ********** ********** ***********/
-
-.ob-trainer-bar-container {
-    margin-top: 17px;
-    padding: 0px;
-    height: 44px;
-    z-index: 50;
-    background: transparent;
-}
-
-.ob-trainer-bar {
-    display: -webkit-flex;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-}
-
-.ob-trainer-bar-button {
-    -webkit-flex: 1 1 0px;
-    flex: 1 1 0px;
-    background: rgb(53, 127, 230);
-    font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 14px;
-    border: 1px solid white;
-    border-right: none;
-    border-top: none;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    line-height: 44px;
-}
-
-.ob-trainer-bar-button:first-child {
-    border-left: none;
-}
-
-.ob-trainer-bar-button-selected {
-    background: rgb(56, 132, 237);
-}
-
-/* ob-search-list */
 
 .ob-search-list-view-content {
     padding-top: 17px;
