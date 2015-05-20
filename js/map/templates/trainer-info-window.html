@@ -10,8 +10,9 @@
             <div class="map-bubble-text-column map-bubble-text-column-trainer">
                 <div class="map-bubble-title">{{item.username}}</div>
                 <div class="map-bubble-subtitle">Trainer</div>
-                <div class="map-bubble-review-stars">
-                    <span ng-show="item.sizes.numOfReviews == undefined || item.sizes.numOfReviews == 0">No Ratings Yet</span>
+                <span ng-show="item.sizes.numOfReviews == undefined || item.sizes.numOfReviews == 0"
+                      class="map-bubble-subtitle">No Ratings Yet</span>
+                <div class="map-bubble-review-stars" ng-show="item.sizes.numOfReviews > 0">
                     <span class="map-bubble-review-star" ng-show="item.sizes.numOfReviews > 0" id="map-bubble-review-star-1"></span>
                     <span class="map-bubble-review-star" ng-show="item.sizes.rating/item.sizes.numOfReviews > 1.4" id="map-bubble-review-star-2"></span>
                     <span class="map-bubble-review-star" ng-show="item.sizes.rating/item.sizes.numOfReviews > 2.4" id="map-bubble-review-star-3"></span>

@@ -1292,50 +1292,55 @@ account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFacto
     };
 
     $scope.useimg = function(){
+        var pluginName = '';
         if (ionic.Platform.isAndroid()) {
-            $ionicLoading.show({
-                content: '<i class="icon ion-looping"></i> Saving image to server...',
-                animation: 'fade-in',
-                showBackdrop: true,
-                maxWidth: 200,
-                showDelay: 0
-            });
+            pluginName = 'Card_io';
+        } else if (ionic.Platform.isIOS()) {
+            pluginName = 'OBImageEditor';
+        }
 
-            exec(function (result) {
-                var bigimg = {
-                    data: result.big,
-                    id: $stateParams.id,
-                    name: $stateParams.id + "_" + Date.now() + "_hd.jpg",
-                    type: $stateParams.type
-                };
+        $ionicLoading.show({
+            content: '<i class="icon ion-looping"></i> Saving image to server...',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
 
-                var smallimg = {
-                    data: result.small,
-                    id: $stateParams.id,
-                    name: $stateParams.id + "_" + Date.now() + ".jpg",
-                    type: $stateParams.type
-                };
+        exec(function (result) {
+            var bigimg = {
+                data: result.big,
+                id: $stateParams.id,
+                name: $stateParams.id + "_" + Date.now() + "_hd.jpg",
+                type: $stateParams.type
+            };
 
-                $scope.newimage.hdurl = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + "/" + $stateParams.id + "/" + bigimg.name;
-                $scope.newimage.url = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + "/" + $stateParams.id + "/" + smallimg.name;
-                $scope.newimage.created = Firebase.ServerValue.TIMESTAMP;
+            var smallimg = {
+                data: result.small,
+                id: $stateParams.id,
+                name: $stateParams.id + "_" + Date.now() + ".jpg",
+                type: $stateParams.type
+            };
 
-                Images.ref().push(smallimg, function(){
-                    Images.ref().push(bigimg, function(){
-                        var imgRef = ImageUrls.ref().child($stateParams.type).child($stateParams.id).push($scope.newimage, function(){
-                            imgRef.setPriority($scope.newimage.created);
-                            $ionicLoading.hide();
-                            alert("Your event picture is saved");
-                            $window.history.back();
-                        });
+            $scope.newimage.hdurl = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + "/" + $stateParams.id + "/" + bigimg.name;
+            $scope.newimage.url = "https://s3.amazonaws.com/com.onebody.profile/" + $stateParams.type + "/" + $stateParams.id + "/" + smallimg.name;
+            $scope.newimage.created = Firebase.ServerValue.TIMESTAMP;
+
+            Images.ref().push(smallimg, function(){
+                Images.ref().push(bigimg, function(){
+                    var imgRef = ImageUrls.ref().child($stateParams.type).child($stateParams.id).push($scope.newimage, function(){
+                        imgRef.setPriority($scope.newimage.created);
+                        $ionicLoading.hide();
+                        alert("Your event picture is saved");
+                        $window.history.back();
                     });
                 });
-            }, function (err) {
-                console.log(err);
-            }, 'Card_io', 'useimg', [
-                {'id': $scope.user.$id, 'uri': image.src}
-            ]);
-        }
+            });
+        }, function (err) {
+            console.log(err);
+        }, pluginName, 'useimg', [
+            {'id': $scope.user.$id, 'uri': image.src}
+        ]);
     }
 });
 
