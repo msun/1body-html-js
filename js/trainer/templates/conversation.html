@@ -4,24 +4,28 @@
             <button ng-click="toggleMenu()" class="button button-icon button-dark">
                 <i class="icon ion-navicon"></i>
             </button>
-
+            <!--<h1 class="title"><span class="ob-nav-bar-logo"></span></h1>-->
         </div>
         <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
     </ion-header-bar>
     <ion-content class="ob-grey-bg">
-        <ul class="list">
-            <a class="item" ng-repeat="message in messages | orderBy:'-created'">
-
-                <img src="https://s3.amazonaws.com/com.onebody.profile/Users/{{message.userID | htmlEncode}}/profilepic.jpg" width="40px" height="40px">
-                <p>{{message.text}}</p>
-
-                <p>{{users[message.userID].username}} {{message.created}}</p>
-            </a>
-        </ul>
-
+        <div class="ob-list">
+            <div class="ob-list-row" ng-repeat="message in messages | orderBy:'-created'">
+                <div class="ob-list-col-img">
+                    <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{message.userID | htmlEncode}}/profilepic.jpg"/>
+                </div>
+                <div class="ob-list-col-flex">
+                    <div class="ob-list-text">{{users[message.userID].username}} <span class="ob-list-subtext">{{message.created | date:'yyyy-MM-dd HH:mm:ss'}}</span></div>
+                    <div class="ob-list-subtext">{{message.text}}</div>
+                </div>
+            </div>
+        </div>
     </ion-content>
-    <ion-footer-bar>
-        <input ng-model="newmessage.text" type="text" />
-        <button class="button button-calm" ng-click="addNewMessage()">Send</button>
+    <ion-footer-bar class="ob-footer-input-bar">
+        <div class="ob-footer-input-container">
+            <input class="ob-footer-input" ng-model="newmessage.text"
+                   type="text" placeholder="Enter a comment"/>
+        </div>
+        <div class="ob-footer-input-sendbutton ob-button-blue" ng-click="addNewMessage()">Send</div>
     </ion-footer-bar>
 </ion-view>

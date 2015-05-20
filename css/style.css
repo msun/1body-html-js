@@ -782,15 +782,15 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-form-light .ob-form-text-input:-moz-placeholder {
-    color: rgb(0.5, 0.5, 0.5);
+    color: #d8d8d8;
 }
 
 .ob-form-light .ob-form-text-input::-moz-placeholder {
-    color: rgb(0.5, 0.5, 0.5);
+    color: #d8d8d8;
 }
 
 .ob-form-light .ob-form-text-input:-ms-input-placeholder {
-    color: rgb(0.5, 0.5, 0.5);
+    color: #d8d8d8;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -983,30 +983,6 @@ input.ob-form-text-input[type="search"] {
     color: white;
 }
 
-/* ob-footer-button */
-
-.ob-footer-button {
-    width: 100%;
-    height: 44px;
-    background: #3884ed;
-    z-index: 9999;
-    font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 16px;
-    color: white;
-    padding: 0px;
-}
-
-.ob-footer-button:active {
-    background: #3172cc;
-}
-
-.ob-footer-button-contents {
-    width: 100%;
-    height: 100%;
-    line-height: 44px;
-    text-align: center;
-}
-
 /* button additions */
 
 .ob-button-dark {
@@ -1060,6 +1036,103 @@ input.ob-form-text-input[type="search"] {
 
 .ob-footer-buttonbar-button:last-child {
     border-right: none;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-footer-button */
+/* ********** ********** ********** ********** ***********/
+
+.ob-footer-button {
+    width: 100%;
+    height: 44px;
+    background: #3884ed;
+    z-index: 9999;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    color: white;
+    padding: 0px;
+}
+
+.ob-footer-button:active {
+    background: #3172cc;
+}
+
+.ob-footer-button-contents {
+    width: 100%;
+    height: 100%;
+    line-height: 44px;
+    text-align: center;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-footer-input */
+/* ********** ********** ********** ********** ***********/
+
+.ob-footer-input-bar {
+    width: 100%;
+    height: 44px;
+    z-index: 9999;
+    padding: 0px;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.ob-footer-input-container {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.48);
+    border: 1px solid #555;
+    border-radius: 8px;
+    margin: 4px;
+    overflow: hidden;
+}
+
+.ob-footer-input {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 4px 8px !important;
+    overflow: hidden;
+    background: transparent;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px !important;
+    color: white !important;
+}
+
+.ob-footer-input::-webkit-input-placeholder {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px !important;
+    color: #d8d8d8;
+}
+
+.ob-footer-input:-moz-placeholder {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #d8d8d8;
+}
+
+.ob-footer-input::-moz-placeholder {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #d8d8d8;
+}
+
+.ob-footer-input:-ms-input-placeholder {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: #d8d8d8;
+}
+
+.ob-footer-input-sendbutton {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    border-radius: 8px;
+    border: none;
+    margin: 4px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16.5px;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
 }
 
 /* ********** ********** ********** ********** ***********/
