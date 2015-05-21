@@ -49,6 +49,7 @@ event.controller('MyEventsCtrl', function($scope, Events, appFactory, $firebaseA
 event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal, $firebaseArray, $firebaseObject, EventGoers, User, appFactory, $timeout, mapFactory, $stateParams, Events, Following, Notifications, EventComments, MyTransactions, Feeds, $rootScope, $ionicPopup) {
     console.log(appFactory.events);
     console.log($stateParams.userID);
+    $scope.eventID = $stateParams.eventID;
     console.log($stateParams.eventID);
     $ionicModal.fromTemplateUrl('js/event/templates/whos-going.html', {
         scope: $scope,
