@@ -111,11 +111,12 @@
                     <div class="ob-sub-instructions">Upload a picture for your event!</div>
                     <div class="ob-form">
                         <div class="ob-form-row ob-row-picture-upload-top-section">
-                            <span class="picture-upload-placeholder">
-                                <img id="displayPic" style="max-width: 300px" src="https://s3.amazonaws.com/com.onebody.profile/Events/{{newevent.$id | htmlEncode}}/profilepic_hd.jpg" />
-                            </span>
+                            <span class="picture-upload-placeholder"></span>
                             <span class="picture-upload-plus-icon"></span>
                             <span class="picture-upload-e-tag"></span>
+                            <img id="displayPic"
+                                 class="picture-upload-picture"
+                                 src="https://s3.amazonaws.com/com.onebody.profile/Events/{{newevent.$id | htmlEncode}}/profilepic_hd.jpg" />
                         </div>
                     </div>
                     <div class="buttongroup2">

@@ -1743,6 +1743,8 @@ input.ob-form-text-input[type="search"] {
 .ob-row-picture-upload-top-section {
     position: relative;
     height: 150px;
+    overflow: none;
+    padding: 0px !important;
 }
 
 .picture-upload-placeholder {
@@ -1752,6 +1754,18 @@ input.ob-form-text-input[type="search"] {
     bottom: 0px;
     width: 100%;
     height: 117px;
+}
+
+.picture-upload-picture {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    margin: 0px !important;
 }
 
 .picture-upload-plus-icon {
