@@ -4,11 +4,11 @@ list.factory('listFactory', function($http, $compile){
 
 });
 
-list.controller('ListCtrl', function($rootScope, $scope, $compile, $timeout, $stateParams, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Users, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray, $ionicModal, Sizes) {
+list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $timeout, $stateParams, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Users, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray, $ionicModal, Sizes) {
     $scope.array = [];
     var clone = [];
     $scope.searchContainer = {};
-    $scope.searchContainer.radius = appFactory.radius || 15;
+    $scope.searchContainer.radius = appFactory.radius || 8;
 
     var searchKeys = ["firstname", "lastname", "info", "group", "gym", "username", "email", "name"];
 
@@ -124,34 +124,36 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, $timeout, $st
     };
 
     function findUser(obj, callback){
-        var lastModified = appFactory.modified["Users"][obj.key];
-        var savedModified = 0;
-        var loadFromFirebase = true;
-        if(appFactory.users[obj.key]){
-            savedModified = appFactory.users[obj.key]['modified'];
-            loadFromFirebase = false;
-        }
-        if(lastModified <= savedModified){
-            loadFromFirebase = false;
-        }
-
-        if(loadFromFirebase){
+        var loadFromFirebase = function(){
             var fobj = $firebaseObject(Users.ref().child(obj.key));
             fobj.$loaded(function(){
                 fobj.distance = obj.distance;
                 appFactory.users[obj.key] = fobj;
-                appFactory.users[obj.key].sizes = $firebaseObject(Sizes.ref().child(obj.key));
+
                 $localstorage.setObject("Users", appFactory.users);
-                appFactory.users[obj.key].href = "#/menu/Trainers/" + fobj.$id + "/";
+                fobj.sizes = $firebaseObject(Sizes.ref().child(obj.key));
+                fobj.href = "#/menu/Trainers/" + fobj.$id + "/";
                 callback(fobj);
             });
-        } else {
-            console.log(appFactory.users[obj.key]);
-            console.log(obj);
+        };
+
+        if (appFactory.users[obj.key]) {
             appFactory.users[obj.key].distance = obj.distance;
             appFactory.users[obj.key].sizes = $firebaseObject(Sizes.ref().child(obj.key));
             appFactory.users[obj.key].href = "#/menu/Trainers/" + appFactory.users[obj.key].$id + "/";
-            callback(appFactory.users[obj.key]);
+
+            var lastModified = $firebaseObject(Users.ref().child(obj.key).child("modified"));
+            var savedModified = appFactory.users[obj.key]['modified'];
+            lastModified.$loaded(function(){
+                if (lastModified.$value > savedModified) {
+                    loadFromFirebase(false);
+                } else {
+                    callback(appFactory.users[obj.key]);
+                }
+            });
+
+        } else {
+            loadFromFirebase();
         }
     }
 
@@ -218,19 +220,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, $timeout, $st
 
     function findEvent(obj, callback){
         var keys = obj.key.split(",");
-        console.log(keys);
-        var lastModified = appFactory.modified["Events"][keys[0]];
-        var savedModified = 0;
-        var loadFromFirebase = true;
-        if(appFactory.events[keys[0]]){
-            savedModified = appFactory.events[keys[0]].modified;
-            loadFromFirebase = false;
-        }
-        if(lastModified <= savedModified){
-            loadFromFirebase = false;
-        }
-
-        if(loadFromFirebase){
+        var loadFromFirebase = function(){
             var fobj = $firebaseObject(Events.ref().child(keys[1]).child(keys[0]));
             fobj.$loaded(function(){
                 console.log(fobj);
@@ -238,15 +228,27 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, $timeout, $st
                 appFactory.events[keys[0]] = fobj;
 
                 $localstorage.setObject("Events", appFactory.events);
-                appFactory.events[keys[0]].href = "#/menu/Events/" + keys[1] + "/" + keys[0];
+                fobj.href = "#/menu/Events/" + keys[1] + "/" + keys[0];
                 callback(fobj);
             });
-        } else {
-            console.log(appFactory.events[keys[0]]);
-            console.log(obj);
+        };
+
+        if(appFactory.events[keys[0]]){
             appFactory.events[keys[0]].distance = obj.distance;
             appFactory.events[keys[0]].href = "#/menu/Events/" + keys[1] + "/" + keys[0];
-            callback(appFactory.events[keys[0]]);
+
+            var lastModified = $firebaseObject(Events.ref().child(keys[1]).child(keys[0]).child("modified"));
+            var savedModified = appFactory.events[keys[0]]['modified'];
+            lastModified.$loaded(function(){
+                if (lastModified.$value > savedModified) {
+                    loadFromFirebase(false);
+                } else {
+                    callback(appFactory.events[keys[0]]);
+                }
+            })
+
+        } else {
+            loadFromFirebase();
         }
     }
 
@@ -354,20 +356,6 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, $timeout, $st
     };
 
     function findGym(obj){
-        var lastModified = appFactory.modified["Gyms"][obj.key];
-        var savedModified = 0;
-        var loadFromFirebase = true;
-
-        if (appFactory.gyms[obj.key]) {
-            savedModified = appFactory.gyms[obj.key]['modified'];
-            loadFromFirebase = false;
-        }
-
-        if (lastModified <= savedModified) {
-            loadFromFirebase = false;
-        }
-
-        if(loadFromFirebase){
             var fobj = $firebaseObject(Gyms.ref().child(obj.key));
             fobj.$loaded(function(){
                 fobj.distance = obj.distance;
@@ -381,14 +369,6 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, $timeout, $st
                 }
 
             });
-        } else {
-            appFactory.gyms[obj.key].distance = obj.distance;
-            if($scope.header == "Users"){
-                addUsers(appFactory.gyms[obj.key], obj);
-            } else if ($scope.header == "Classes"){
-                addClasses(appFactory.gyms[obj.key], obj);
-            }
-        }
     };
 
     function listGyms(){

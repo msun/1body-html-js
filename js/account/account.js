@@ -41,7 +41,7 @@ account.controller('HomeCtrl', function($scope){
     };
 });
 
-account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage, Modified) {
+account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage) {
     console.log(UserAuth.$getAuth());
 
     var checkUrl = function(){
@@ -118,33 +118,25 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
 
         if(UserAuth.$getAuth() && !$scope.user.email){
             appFactory.mysizes = $firebaseObject(Sizes.ref().child(UserAuth.$getAuth().uid));
-            appFactory.modified = $firebaseObject(Modified.ref());
-            appFactory.modified.$loaded(function(){
-                var user = $localstorage.getObject("user");
-                console.log(appFactory.modified);
-                if(user.$id && UserAuth.$getAuth().uid && user.$id === UserAuth.$getAuth().uid){
-                    loadLocalUser(user);
-                } else {
-                    loadUserFromFirebase(UserAuth.$getAuth());
-                }
-            });
+            var user = $localstorage.getObject("user");
+            if(user.$id && UserAuth.$getAuth().uid && user.$id === UserAuth.$getAuth().uid){
+                loadLocalUser(user);
+            } else {
+                loadUserFromFirebase(UserAuth.$getAuth());
+            }
         } else {
             UserAuth.$authWithPassword({
                 email: $scope.user.email,
                 password: $scope.user.password
             }).then(function (user) {
                 appFactory.mysizes = $firebaseObject(Sizes.ref().child(user.uid));
-                appFactory.modified = $firebaseObject(Modified.ref());
-                appFactory.modified.$loaded(function(){
-                    var localuser = $localstorage.getObject("user");
-                    console.log(appFactory.modified);
-                    if(localuser.$id && localuser.$id == user.uid){
-                        loadLocalUser(localuser);
-                    } else {
-                        loadUserFromFirebase(user);
-                    }
+                var localuser = $localstorage.getObject("user");
+                if(localuser.$id && localuser.$id == user.uid){
+                    loadLocalUser(localuser);
+                } else {
+                    loadUserFromFirebase(user);
+                }
 
-                })
             }, function (error) {
                 console.error("Login failed: ", error);
                 alert("login failed, please try again");
@@ -766,13 +758,8 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
                     $scope.user.location = [$scope.marker.getPosition().lat(), $scope.marker.getPosition().lng()];
                     if($scope.user.gym && $scope.user.gym.gymID) {
                         Gyms.ref().child($scope.user.gym.gymID).child("Trainers").child($scope.user.$id).remove(function () {
-                            var modified = $firebaseObject(Gyms.ref().child($scope.user.gym.gymID).child("modified"));
-                            console.log(modified);
                             $scope.user.gym = {};
-                            modified.$value = Firebase.ServerValue.TIMESTAMP;
-                            modified.$save().then(function(){
-                                saveCustomer();
-                            });
+                            saveCustomer();
                         });
                     } else {
                         saveCustomer();
@@ -821,7 +808,7 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
 
     $scope.setGym = function(gym){
         console.log(gym);
-        var allReady = 4;
+        var allReady = 2;
         var checkReady = function(){
             allReady--;
             if(allReady == 0){
@@ -836,14 +823,8 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
 
         if($scope.user.gym && $scope.user.gym.gymID){
             console.log($scope.user.gym.gymID);
-            allReady += 2;
+            allReady ++;
             Gyms.ref().child($scope.user.gym.gymID).child("Trainers").child($scope.user.$id).remove(function(){
-                checkReady();
-            });
-
-            var modified2 = $firebaseObject(Gyms.ref().child($scope.user.gym.gymID).child("modified"));
-            modified2.$value = Firebase.ServerValue.TIMESTAMP;
-            modified2.$save().then(function(){
                 checkReady();
             });
         }
@@ -880,20 +861,12 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
         });
 
         Gyms.ref().child(gym.$id).child('Trainers').child($scope.user.$id).set(gymTrainer, function(){
-            checkReady();
-            var modified1 = $firebaseObject(Gyms.ref().child(gym.$id).child("modified"));
-//            modified.$loaded(function(){
-                modified1.$value = Firebase.ServerValue.TIMESTAMP;
-                modified1.$save().then(function(){
-                    checkReady();
-                });
-                GeoTrainers.remove($scope.user.$id).then(function(){
-                    checkReady();
-                });
-//            })
+            GeoTrainers.remove($scope.user.$id).then(function(){
+                checkReady();
+            });
 
         });
-    }
+    };
 
     setTimeout(function() {
         appFactory.getLocation(function (position) {

@@ -53,7 +53,6 @@ map.directive('trainerInfoWindow', function(){
         templateUrl: 'js/map/templates/trainer-info-window.html',
         scope: {item: '='},
         link: function(scope, element, attrs) {
-            console.log(scope.item);
         }
     }
 });
@@ -64,7 +63,6 @@ map.directive('eventInfoWindow', function(){
         templateUrl: 'js/map/templates/event-info-window.html',
         scope: {item: '='},
         link: function(scope, element, attrs) {
-            console.log(scope.item);
         }
     }
 });
@@ -86,17 +84,17 @@ map.directive('gymInfoWindow', function($rootScope){
         scope: {gym: '='},
         link: function(scope, element, attrs) {
             if($rootScope.header == "Users"){
-                scope.items = scope.gym["Trainers"];
+                console.log(scope.gym);
+                scope.items = scope.gym.items;
                 scope.gym.tab = "Trainers";
-                console.log(scope.items);
             } else {
                 scope.gym.tab = "Classes";
                 scope.items = scope.gym["Classes"];
             }
 
 
+
             scope.gym.type = $rootScope.header;
-            console.log(scope.gym);
         }
     }
 });
@@ -112,17 +110,23 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     $scope.searchContainer = {};
     $scope.searchContainer.redo_search = true;
 
-    appFactory.trainerQuery.updateCriteria({
-        radius: 15
-    });
+    if(appFactory.trainerQuery){
+        appFactory.trainerQuery.updateCriteria({
+            radius: 8
+        });
+    }
 
-    appFactory.gymQuery.updateCriteria({
-        radius: 15
-    });
+    if(appFactory.gymQuery) {
+        appFactory.gymQuery.updateCriteria({
+            radius: 8
+        });
+    }
 
-    appFactory.eventQuery.updateCriteria({
-        radius: 15
-    });
+    if(appFactory.eventQuery) {
+        appFactory.eventQuery.updateCriteria({
+            radius: 8
+        });
+    }
 
     $scope.clickontab = function (tab, $event) {
         console.log($event);
@@ -213,12 +217,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         }
     }
 
-    $scope.redoSearch = function () {
-        console.log("redo search");
-        clearpins();
-        dropPins($scope.header, $scope.map.getCenter());
-    }
-
     console.log("map ctrl");
     $ionicLoading.show({
         content: '<i class="icon ion-looping"></i> Loading location data',
@@ -245,14 +243,26 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         }
     }, 5000);
 
-    var compileDropMarker = function (obj, mobile) {
-        var newmarker = new google.maps.Marker({
-            position: new google.maps.LatLng(obj.location[0], obj.location[1]),
-            optimized: true,
-            map: $scope.map
-        });
+    var compileDropMarker = function (obj, loaded) {
+        if($rootScope.header == "Users") {
+            var radius = 0;
+            if (obj.type == "Users") {
+                if (loaded.radius) {
+                    radius = loaded.radius;
+                }
 
-        if (mobile) {
+            }
+            if (obj.type == "Gyms") {
+                angular.forEach(loaded.items, function (aobj, key) {
+                    if (aobj.radius > radius) radius = aobj.radius;
+                });
+            }
+            console.log(radius);
+            if ($scope.searchContainer.mobile_trainers && radius <= 0) {
+                return;
+            }
+
+            if ($scope.searchContainer.mobile_trainers && radius > 0) {
                 var populationOptions = {
                     strokeColor: '#2861ff',
                     strokeOpacity: 0.8,
@@ -261,12 +271,18 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                     fillOpacity: 0.35,
                     map: $scope.map,
                     center: new google.maps.LatLng(obj.location[0], obj.location[1]),
-                    radius: obj.radius
+                    radius: radius
                 };
                 // Add the circle for this city to the map.
                 var trainerCircle = new google.maps.Circle(populationOptions);
                 $scope.trainerCircles.push(trainerCircle);
+            }
         }
+        var newmarker = new google.maps.Marker({
+            position: new google.maps.LatLng(obj.location[0], obj.location[1]),
+            optimized: true,
+            map: $scope.map
+        });
 
         var contentString;
         var infowindow;
@@ -299,93 +315,138 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         })(newmarker, compiled[0], infowindow));
     }
 
+    function addTrainerToGym(gym, obj){
+        angular.forEach(gym['Trainers'], function(trainer, key){
+            var trainerObj = {
+                location: obj.location,
+                distance: obj.distance,
+                key: trainer.userID,
+                type: "Gyms"
+            };
+            console.log(trainerObj);
+            loadUser(trainerObj, function(foundItem){
+                if(!$scope.array[obj.key].items){
+                    $scope.array[obj.key].items = [];
+                }
+                console.log(foundItem);
+                var shouldPush = true;
+                for(var i=0; i<$scope.array[obj.key].items.length; i++){
+                    console.log($scope.array[obj.key].items[i]);
+                    if($scope.array[obj.key].items[i].$id == foundItem.$id){
+                        shouldPush = false;
+                        break;
+                    }
+                }
+                if(shouldPush){
+                    $scope.array[obj.key].items.push(foundItem);
+                }
+            });
+        });
+    }
 
-    var dropMapMarker = function (obj) {
-        var lastModified = appFactory.modified[obj.type][obj.key];
-        var savedModified = 0;
-        var loadFromFirebase = true;
-        if (obj.type == "Users") {
-            if (appFactory.users[obj.key]) {
-                savedModified = appFactory.users[obj.key]['modified'];
-                loadFromFirebase = false;
-            }
-        } else if (obj.type == "Gyms") {
-            if (appFactory.gyms[obj.key]) {
-                savedModified = appFactory.gyms[obj.key]['modified'];
-                loadFromFirebase = false;
-            }
-        } else if (obj.type == "Events") {
-            var keys = obj.key.split(",");
-            if (appFactory.events[keys[0]]) {
-                savedModified = appFactory.events[keys[0]]['modified'];
-                loadFromFirebase = false;
-            }
-        }
-
-        if (lastModified <= savedModified) {
-            loadFromFirebase = false;
-        }
-
-        if (loadFromFirebase) {
-            if (obj.type == "Events") {
-                var keys = obj.key.split(",");
-                var fobj = $firebaseObject(Events.ref().child(keys[1]).child(keys[0]));
-                fobj.$loaded(function () {
-                    console.log(fobj);
-                    fobj.distance = obj.distance;
-                    appFactory.events[keys[0]] = fobj;
-                    $localstorage.setObject("Events", appFactory.events);
-                    $scope.array[obj.key] = fobj;
-                    compileDropMarker(obj);
-                });
-            } else if (obj.type == "Gyms") {
-                var fobj = $firebaseObject(Gyms.ref().child(obj.key));
-                fobj.$loaded(function () {
-                    console.log(fobj);
-                    fobj.distance = obj.distance;
-                    $scope.array[obj.key] = fobj;
-
-                    appFactory.gyms[obj.key] = fobj;
-                    $localstorage.setObject("Gyms", appFactory.gyms);
-
-                    $scope.array[obj.key].tab = $rootScope.header;
-                    compileDropMarker(obj);
-                });
-
-            } else {
-                var fobj = $firebaseObject(Users.ref().child(obj.key));
-                fobj.$loaded(function () {
-                    fobj.distance = obj.distance;
-                    $scope.array[obj.key] = fobj;
-                    appFactory.users[obj.key] = fobj;
-                    $scope.array[obj.key].sizes = $firebaseObject(Sizes.ref().child(obj.key));
-                    console.log(appFactory.users);
-                    $localstorage.setObject("Users", appFactory.users);
-                    compileDropMarker(obj);
-                });
-            }
-
-        } else {
-            if (obj.type == "Events") {
-                var keys = obj.key.split(",");
-                console.log(appFactory.events);
-                console.log(keys);
-                $scope.array[obj.key] = appFactory.events[keys[0]];
-                $scope.array[obj.key].distance = obj.distance;
-                compileDropMarker(obj);
-            } else if (obj.type == "Gyms") {
-                $scope.array[obj.key] = appFactory.gyms[obj.key];
-                $scope.array[obj.key].distance = obj.distance;
-                compileDropMarker(obj);
-            } else {
+    function loadGym(obj, callback){
+        var loadFromFirebase = function(makeCall){
+            var fobj = $firebaseObject(Gyms.ref().child(obj.key));
+            fobj.$loaded(function () {
+                fobj.distance = obj.distance;
+                appFactory.gyms[obj.key] = fobj;
                 console.log($scope.array);
-                console.log(obj);
-                console.log(appFactory.users[obj.key]);
-                $scope.array[obj.key] = appFactory.users[obj.key];
-                $scope.array[obj.key].sizes = $firebaseObject(Sizes.ref().child(obj.key));
-                $scope.array[obj.key].distance = obj.distance;
-                compileDropMarker(obj);
+                $localstorage.setObject("Gyms", appFactory.gyms);
+
+                $scope.array[obj.key] = fobj;
+
+                if($scope.header == "Users"){
+                    addTrainerToGym(fobj, obj);
+                }
+                if(makeCall) callback(fobj);
+            });
+        };
+
+        if (appFactory.gyms[obj.key]) {
+            $scope.array[obj.key] = appFactory.gyms[obj.key];
+            $scope.array[obj.key].distance = obj.distance;
+            if($scope.header == "Users"){
+                addTrainerToGym($scope.array[obj.key], obj);
             }
+            callback($scope.array[obj.key]);
+
+            var lastModified = $firebaseObject(Gyms.ref().child(obj.key).child("modified"));
+            var savedModified = appFactory.gyms[obj.key]['modified'];
+            lastModified.$loaded(function(){
+                if (lastModified.$value > savedModified) {
+                    loadFromFirebase(false);
+                }
+            })
+        } else {
+            loadFromFirebase(true);
+        }
+
+    };
+
+
+    function loadUser(obj, callback){
+        var loadFromFirebase = function(makeCall){
+            var fobj = $firebaseObject(Users.ref().child(obj.key));
+            fobj.$loaded(function () {
+                fobj.distance = obj.distance;
+                appFactory.users[obj.key] = fobj;
+                $localstorage.setObject("Users", appFactory.users);
+
+                fobj.sizes = $firebaseObject(Sizes.ref().child(obj.key));
+                $scope.array[obj.key] = fobj;
+                console.log(appFactory.users);
+                if(makeCall) callback(fobj);
+            });
+        };
+
+        if (appFactory.users[obj.key]) {
+            $scope.array[obj.key] = appFactory.users[obj.key];
+            $scope.array[obj.key].sizes = $firebaseObject(Sizes.ref().child(obj.key));
+            $scope.array[obj.key].distance = obj.distance;
+            callback($scope.array[obj.key]);
+
+            var lastModified = $firebaseObject(Users.ref().child(obj.key).child("modified"));
+            var savedModified = appFactory.users[obj.key]['modified'];
+            lastModified.$loaded(function(){
+                if (lastModified.$value > savedModified) {
+                    loadFromFirebase(false);
+                }
+            })
+        } else {
+            loadFromFirebase(true);
+        }
+    }
+
+
+    var loadEvent = function (obj, callback) {
+        var keys = obj.key.split(",");
+
+        var loadFromFirebase = function(makeCall){
+            var fobj = $firebaseObject(Events.ref().child(keys[1]).child(keys[0]));
+            fobj.$loaded(function () {
+                console.log(fobj);
+                fobj.distance = obj.distance;
+                appFactory.events[keys[0]] = fobj;
+                $localstorage.setObject("Events", appFactory.events);
+                $scope.array[obj.key] = fobj;
+                if(makeCall) callback(fobj);
+            });
+        };
+
+        if (appFactory.events[keys[0]]) {
+            $scope.array[obj.key] = appFactory.events[keys[0]];
+            $scope.array[obj.key].distance = obj.distance;
+            callback($scope.array[obj.key]);
+
+            var lastModified = $firebaseObject(Events.ref().child(keys[1]).child(keys[0]).child("modified"));
+            var savedModified = appFactory.events[keys[0]]['modified'];
+            lastModified.$loaded(function(){
+                if (lastModified.$value > savedModified) {
+                    loadFromFirebase(false);
+                }
+            })
+        } else {
+            loadFromFirebase(true);
         }
     };
 
@@ -435,77 +496,106 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
 // distance = circle radius from center to Northeast corner of bounds
         return r * Math.acos(Math.sin(lat1) * Math.sin(lat2) +
-            Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1));
+            Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) + 3;
     }
 
     function markTrainers() {
-        for (var i = 0; i < appFactory.geoTrainers.length; i++) {
-            console.log(appFactory.geoTrainers[i]);
-            dropMapMarker(appFactory.geoTrainers[i]);
-        }
+        angular.forEach(appFactory.geoTrainers, function(obj, key){
+            loadUser(obj, function(foundItem){
+                console.log(foundItem);
+                compileDropMarker(obj, foundItem);
+            });
+        });
 
         appFactory.onKeyEnter = function (obj) {
             console.log("onKeyEnter");
             console.log(obj);
-            dropMapMarker(obj);
+            loadUser(obj, function(foundItem){
+                console.log(foundItem);
+                compileDropMarker(obj, foundItem);
+            });
         };
 
         appFactory.onKeyExit = function (key) {
             console.log("onKeyExit");
             console.log(key);
-            $scope.markers[key].marker.setMap(null);
-            $scope.markers[key] = undefined;
+            if($scope.markers[key]) {
+                $scope.markers[key].marker.setMap(null);
+                $scope.markers[key] = undefined;
+            }
         };
 
         appFactory.onKeyMove = function (obj) {
             console.log("onKeyExit");
             console.log(obj);
-            $scope.markers[obj.key].marker.setMap(null);
-            $scope.markers[obj.key] = undefined;
+            if($scope.markers[key]) {
+                $scope.markers[obj.key].marker.setMap(null);
+                $scope.markers[obj.key] = undefined;
+            }
 
-            dropMapMarker(obj);
+            loadUser(obj, function(foundItem){
+                console.log(foundItem);
+                compileDropMarker(obj, foundItem);
+            });
         };
     };
 
     function markGyms() {
-        for (var i = 0; i < appFactory.geoGyms.length; i++) {
-            console.log(appFactory.geoGyms[i]);
-            dropMapMarker(appFactory.geoGyms[i]);
-        }
+        angular.forEach(appFactory.geoGyms, function(obj, key){
+            loadGym(obj, function(foundItem){
+                compileDropMarker(obj, foundItem);
+            })
+        });
 
         appFactory.onGymEnter = function (obj) {
             console.log("onKeyEnter");
             console.log(obj);
-            dropMapMarker(obj);
+//            dropMapMarker(obj);
+            loadGym(obj, function(foundItem){
+                compileDropMarker(obj, foundItem);
+            })
         };
 
         appFactory.onGymExit = function (key) {
             console.log("onKeyExit");
             console.log(key);
-            $scope.markers[key].marker.setMap(null);
-            $scope.markers[key] = undefined;
+
+            if($scope.markers[key]){
+                $scope.markers[key].marker.setMap(null);
+                $scope.markers[key] = undefined;
+            }
         };
 
         appFactory.onGymMove = function (obj) {
             console.log("onKeyExit");
             console.log(obj);
-            $scope.markers[obj.key].marker.setMap(null);
-            $scope.markers[obj.key] = undefined;
+            if($scope.markers[key]) {
+                $scope.markers[obj.key].marker.setMap(null);
+                $scope.markers[obj.key] = undefined;
+            }
 
-            dropMapMarker(obj);
+//            dropMapMarker(obj);
+            loadGym(obj, function(foundItem){
+                compileDropMarker(obj, foundItem);
+            })
         };
     };
 
     function markEvents() {
-        for (var i = 0; i < appFactory.geoEvents.length; i++) {
-            console.log(appFactory.geoEvents[i]);
-            dropMapMarker(appFactory.geoEvents[i]);
-        }
+        angular.forEach(appFactory.geoEvents, function(obj, key) {
+            loadEvent(obj, function (foundItem) {
+                console.log(foundItem);
+                compileDropMarker(obj, foundItem);
+            });
+        });
 
         appFactory.onKeyEnter = function (obj) {
             console.log("onKeyEnter");
             console.log(obj);
-            dropMapMarker(obj);
+            loadEvent(obj, function (foundItem) {
+                console.log(foundItem);
+                compileDropMarker(obj, foundItem);
+            });
         };
 
         appFactory.onKeyExit = function (key) {
@@ -521,7 +611,10 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             $scope.markers[obj.key].marker.setMap(null);
             $scope.markers[obj.key] = undefined;
 
-            dropMapMarker(obj);
+            loadEvent(obj, function (foundItem) {
+                console.log(foundItem);
+                compileDropMarker(obj, foundItem);
+            });
         };
     };
 
@@ -552,18 +645,22 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
         var inprogress = false;
         google.maps.event.addListener(map, 'dragend', function () {
-
+            var newRadius = calculateRadius();
+            appFactory.radius = newRadius;
 //                if($scope.searchContainer.redo_search){
             appFactory.trainerQuery.updateCriteria({
-                center: [map.getCenter().lat(), map.getCenter().lng()]
+                center: [map.getCenter().lat(), map.getCenter().lng()],
+                radius: newRadius
             });
 
             appFactory.eventQuery.updateCriteria({
-                center: [map.getCenter().lat(), map.getCenter().lng()]
+                center: [map.getCenter().lat(), map.getCenter().lng()],
+                radius: newRadius
             });
 
             appFactory.gymQuery.updateCriteria({
-                center: [map.getCenter().lat(), map.getCenter().lng()]
+                center: [map.getCenter().lat(), map.getCenter().lng()],
+                radius: newRadius
             });
 //                    clearpins();
 //                    dropPins($scope.header, undefined, undefined, [map.getCenter().lat(), map.getCenter().lng()], false, $scope.searchContainer.mobile_trainers, false);

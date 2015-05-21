@@ -13,7 +13,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         mapstate: "menu.map",
         defaultItemsPerPage: 5,
         maxReviewCount: 100000,
-        radius: 15,
+        radius: 8,
         maxFollowerCount: 100000,
         categories: [
             {name: "Winter", type: "sports"},
@@ -709,7 +709,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         }
     })
 
-    .controller("MenuCtrl", function($scope, $window, Users, Events, Gyms, GeoTrainers, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications, Modified){
+    .controller("MenuCtrl", function($scope, $window, Users, Events, Gyms, GeoTrainers, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications){
         $rootScope.header = "Users";
         $rootScope.goTo = function(url){
             console.log("goto " + url);

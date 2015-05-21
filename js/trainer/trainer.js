@@ -127,9 +127,11 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-        var marker;
+        if($scope.marker){
+            $scope.marker.setMap(null);
+        }
 
-        marker = new google.maps.Marker({
+        $scope.marker = new google.maps.Marker({
             position: $scope.map.getCenter(),
             map: $scope.map
         });
@@ -151,9 +153,9 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     }
 
     var loadData = function() {
-        $scope.sizes = $firebaseObject(Sizes.ref().child($scope.selectedTrainer.$id));
+        $scope.sizes = $firebaseObject(Sizes.ref().child($stateParams.trainerID));
 
-        $scope.followerMe = $firebaseObject(Followers.ref().child($scope.selectedTrainer.$id).child(appFactory.user.$id));
+        $scope.followerMe = $firebaseObject(Followers.ref().child($stateParams.trainerID).child(appFactory.user.$id));
 
         appFactory.selectedTrainer = $scope.selectedTrainer;
 
@@ -192,7 +194,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             });
         }
 
-        var reviewRef = Reviews.ref().child($scope.selectedTrainer.$id);
+        var reviewRef = Reviews.ref().child($stateParams.trainerID);
         $scope.reviews = $firebaseArray(reviewRef.orderByPriority().endAt(Date.now()).limitToLast(appConfig.defaultItemsPerPage));
 
         $scope.moreReviews = function(){
@@ -200,15 +202,11 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         };
     }
 
-    var savedModifiedTimestamp = appFactory.users[$scope.trainerID]['modified'];
-    if(appFactory.users[$scope.trainerID] && appFactory.users[$scope.trainerID].modified >= savedModifiedTimestamp){
-        $scope.selectedTrainer = appFactory.users[$scope.trainerID];
-        loadData();
-    } else {
-        $scope.selectedTrainer = $firebaseObject(Trainers.ref().child($scope.trainerID));
-        $scope.selectedTrainer.$loaded(function(){
+    var loadFromFirebase = function(){
+        var firebaseObj = $firebaseObject(Trainers.ref().child($scope.trainerID));
+        firebaseObj.$loaded(function(){
+            $scope.selectedTrainer = firebaseObj;
             appFactory.users[$scope.trainerID] = $scope.selectedTrainer;
-            appFactory.users[$scope.trainerID].refreshed = true;
             alert("loaded from firebase");
             console.log(appFactory.users);
             $localstorage.setObject("Users", appFactory.users);
@@ -216,10 +214,25 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         })
     }
 
+    if(appFactory.users[$scope.trainerID]) {
+        $scope.selectedTrainer = appFactory.users[$scope.trainerID];
+        loadData();
+
+        var lastModified = $firebaseObject(Users.ref().child($scope.trainerID).child("modified"));
+        var savedModified = appFactory.users[$scope.trainerID]['modified'];
+        lastModified.$loaded(function () {
+            if (lastModified.$value > savedModified) {
+                loadFromFirebase();
+            }
+        });
+    } else {
+        loadFromFirebase();
+    }
+
     $scope.addReview = function(){
         var newReview = {
             userID: appFactory.user.$id,
-            trainerID: $scope.selectedTrainer.$id,
+            trainerID: $stateParams.trainerID,
             text: $scope.newreview.text,
             rating: $scope.newreview.rating,
             created: Firebase.ServerValue.TIMESTAMP,
@@ -247,7 +260,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             });
             var myreview = $firebaseObject(MyReviews.ref().child(appFactory.user.$id).child(ref.key()));
             myreview.userID = appFactory.user.$id;
-            myreview.trainerID = $scope.selectedTrainer.$id;
+            myreview.trainerID = $stateParams.trainerID;
             myreview.text = $scope.newreview.text;
             myreview.rating = $scope.newreview.rating;
             myreview.created = Firebase.ServerValue.TIMESTAMP;
@@ -255,7 +268,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             myreview.$save();
 
             Feeds.push("Users",
-                $scope.selectedTrainer.$id,
+                $stateParams.trainerID,
                 $scope.selectedTrainer.username,
                 "You left a review for " + $scope.selectedTrainer.username,
                 appFactory.user.username + " left you a review"

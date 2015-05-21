@@ -26,21 +26,26 @@ angular.module('starter.services', ["firebase"])
                     return;
                 }
                 var cache = [];
-                $window.localStorage[key] = JSON.stringify(value, function(a, b) {
+                try {
+                    $window.localStorage[key] = JSON.stringify(value, function (a, b) {
 //                    console.log(a);
-                    if(a == "$$conf"){
-                        return;
-                    }
-                    if (typeof b === 'object' && b !== null) {
-                        if (cache.indexOf(b) !== -1) {
+                        if (a == "$$conf") {
                             return;
-                            // Circular reference found, discard key
                         }
-                        // Store value in our collection
-                        cache.push(b);
-                    }
-                    return b;
-                });
+                        if (typeof b === 'object' && b !== null) {
+                            if (cache.indexOf(b) !== -1) {
+                                return;
+                                // Circular reference found, discard key
+                            }
+                            // Store value in our collection
+                            cache.push(b);
+                        }
+                        return b;
+                    });
+                } catch (err){
+                    console.log(err);
+                    window.localStorage.clear();
+                }
                 cache = null;
             },
             getObject: function(key) {
