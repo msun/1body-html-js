@@ -1214,7 +1214,7 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-list {
-    margin: 4px auto;
+    margin: 0px auto;
 }
 
 .ob-list-emptytext {
