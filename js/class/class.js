@@ -32,7 +32,7 @@ classModule.controller('ClassesCtrl', function($scope, User, appFactory) {
     $scope.classes = appFactory.classes;
 });
 
-classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, $timeout, mapFactory, $stateParams, Classes, MyTransactions, Transactions, Users) {
+classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, $timeout, mapFactory, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
     console.log($stateParams.gymID);
     $scope.classes = appFactory.classes;
     $scope.newcomment = {};
@@ -101,6 +101,7 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
     });
 
     var classRef = Gyms.ref().child($stateParams.gymID).child("Classes").child($stateParams.classID);
+    $scope.gym = $firebaseObject(Gyms.ref().child($stateParams.gymID));
 
 //    var modified = $firebaseObject(classRef.child("modified"));
 //
@@ -118,6 +119,10 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
             });
 //        }
 //    });
+
+    $scope.openBookClassModal = function(){
+        
+    }
 
     $scope.bookClass = function(schedule){
         if(schedule.slotsopen <= 0){
@@ -137,7 +142,8 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
             userID: appFactory.user.$id,
             created: Firebase.ServerValue.TIMESTAMP,
             tokens: schedule.tokens,
-            duration: schedule.duration
+            duration: schedule.duration,
+            location: appFactory.selectedTrainer.location
         };
 
         schedule.attending[appFactory.user.$id] = obj;
@@ -182,7 +188,48 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
                             message: "Your class is starting: " + obj.className
                         };
                         Notifications.ref().push(notif, function(){
-                            alert("Class booked");
+                            if (ionic.Platform.isAndroid()) {
+                                var myPopup = $ionicPopup.show({
+                                    template: 'Would you like to save this event to your calendar?',
+                                    title: 'Save to calendar',
+                                    scope: $scope,
+                                    buttons: [
+                                        { text: 'Cancel' },
+                                        {
+                                            text: '<b>Okay</b>',
+                                            type: 'button-positive',
+                                            onTap: function (e) {
+                                                e.preventDefault();
+                                                var jsonData = {
+                                                    'title': "Class " + obj.className,
+                                                    'location': $scope.gym.address,
+                                                    'starttime': obj.starttime,
+                                                    'endtime': obj.starttime + obj.duration * 30 * 60 * 1000
+
+                                                };
+                                                if ($scope.gym.commentlocation) {
+                                                    jsonData.description = $scope.gym.commentlocation;
+                                                }
+                                                console.log(jsonData);
+                                                var exec = cordova.require("cordova/exec");
+
+                                                exec(function (result) {
+                                                    alert("You have booked this class");
+                                                }, function (err) {
+                                                    console.log(err);
+                                                }, 'Card_io', 'addToCalendar', [
+                                                    jsonData
+                                                ]);
+                                            }
+                                        }
+                                    ]
+                                });
+                                myPopup.then(function (res) {
+                                    console.log('Tapped!', res);
+                                });
+                            } else {
+                                alert("You have booked this class");
+                            }
                         });
 
 

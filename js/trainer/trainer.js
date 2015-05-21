@@ -179,6 +179,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         }
 
         function locationReady(location){
+            appFactory.selectedTrainer.location = location;
             loadMap(location);
 
             $scope.myTransactions.$loaded(function () {
@@ -812,6 +813,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         trainerName: scope.trainerName,
                         tokens: 2,
                         type: "Users",
+                        location: appFactory.selectedTrainer.location,
                         created: Firebase.ServerValue.TIMESTAMP,
                         duration: bookedReduced[i].period,
                         starttime: startTimestamp

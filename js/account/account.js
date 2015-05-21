@@ -1368,7 +1368,30 @@ account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, ap
         $scope.modal = modal;
     });
 
+
+
     $scope.showQRcode = function(transaction){
+        $timeout(function(){
+            $scope.map = new google.maps.Map(document.getElementById('modal-detail-map'), {
+                zoom: 12,
+                center: new google.maps.LatLng(transaction.location[0], transaction.location[1]),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+//        $scope.map.setCenter(new google.maps.LatLng(transaction.location[0], transaction.location[1]));
+
+            if($scope.marker){
+                $scope.marker.setMap(null);
+            }
+
+            $scope.marker = new google.maps.Marker({
+                position: $scope.map.getCenter(),
+                map: $scope.map
+            });
+        }, 500);
+
+
+
 //        MyTransactions.ref().child(appFactory.user.$id).child(transaction.$id).on("child_changed", function(childSnapshot){
         var unwatch = $scope.myTransactions.$watch(function(event) {
             console.log(event);

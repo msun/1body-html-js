@@ -46,7 +46,7 @@ event.controller('MyEventsCtrl', function($scope, Events, appFactory, $firebaseA
     })
 });
 
-event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal, $firebaseArray, $firebaseObject, EventGoers, User, appFactory, $timeout, mapFactory, $stateParams, Events, Following, Notifications, EventComments, MyTransactions, Feeds, $rootScope) {
+event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal, $firebaseArray, $firebaseObject, EventGoers, User, appFactory, $timeout, mapFactory, $stateParams, Events, Following, Notifications, EventComments, MyTransactions, Feeds, $rootScope, $ionicPopup) {
     console.log(appFactory.events);
     console.log($stateParams.userID);
     console.log($stateParams.eventID);
@@ -144,8 +144,48 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
                         appFactory.user.username + " joined this event."
                     );
 
+                    if (ionic.Platform.isAndroid()) {
+                        var myPopup = $ionicPopup.show({
+                            template: 'Would you like to save this event to your calendar?',
+                            title: 'Save to calendar',
+                            scope: $scope,
+                            buttons: [
+                                { text: 'Cancel' },
+                                {
+                                    text: '<b>Okay</b>',
+                                    type: 'button-positive',
+                                    onTap: function (e) {
+                                        e.preventDefault();
+                                        var jsonData = {
+                                            'title': "1Body Event: " + $scope.selectedEvent.name,
+                                            'location': $scope.selectedEvent.address,
+                                            'starttime': $scope.selectedEvent.starttime,
+                                            'endtime': $scope.selectedEvent.starttime + $scope.selectedEvent.duration * 30 * 60 * 1000
 
-                    alert("You have joined this event");
+                                        };
+                                        if ($scope.selectedEvent.commentlocation) {
+                                            jsonData.description = $scope.selectedEvent.commentlocation;
+                                        }
+                                        console.log(jsonData);
+                                        var exec = cordova.require("cordova/exec");
+
+                                        exec(function (result) {
+                                            alert("You have joined this event");
+                                        }, function (err) {
+                                            console.log(err);
+                                        }, 'Card_io', 'addToCalendar', [
+                                            jsonData
+                                        ]);
+                                    }
+                                }
+                            ]
+                        });
+                        myPopup.then(function (res) {
+                            console.log('Tapped!', res);
+                        });
+                    } else {
+                        alert("You have joined this event");
+                    }
                 });
             });
         });
