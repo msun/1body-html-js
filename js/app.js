@@ -301,6 +301,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.class-schedule', {
+                url: '/class-schedule/:classID/:gymID',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/class/templates/class-schedule.html',
+                        controller: 'ClassScheduleCtrl'
+                    }
+                }
+            })
+
             .state('menu.add-class', {
                 url: '/editclass/:classID',
                 views: {

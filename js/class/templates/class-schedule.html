@@ -1,0 +1,30 @@
+<ion-view>
+    <ion-header-bar class="ob-darkpurple-bg">
+        <div class="buttons">
+            <button ng-click="toggleMenu()" class="button button-icon button-dark">
+                <i class="icon ion-navicon"></i>
+            </button>
+        </div>
+        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
+        <div class="buttons">
+            <!--
+            <button ng-click="goTo('#/menu/my-profile')"
+                    class="button button-icon button-dark"
+                    ng-show="selectedUser.$id == $root.user.$id">
+                <i class="icon ion-edit ob-ionicon-small"></i>
+            </button>
+            -->
+        </div>
+    </ion-header-bar>
+    <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
+        <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+        <ul class="list ob-grey-bg">
+            <a class="item" ng-repeat="item in openClasses">
+                <p>Starttime: {{item.classtime}}</p>
+                <p>openslots: {{item.slotsopen}}</p>
+                <button class="button button-calm" ng-click="bookClass(item)">Book</button>
+            </a>
+        </ul>
+
+    </ion-content>
+</ion-view>

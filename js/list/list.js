@@ -345,7 +345,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
                 }
                 if (gym.Classes[key]) {
                     gym.Classes[key].distance = obj.distance;
-                    gym.Classes[key].href = "#/menu/Classes/" + obj.key + "/" + gym.Classes[key].classID;
+                    gym.Classes[key].href = "#/menu/Classes/" + gym.Classes[key].classID + "/" + obj.key;
                     if(searchItem(gym.Classes[key])) {
                         $scope.array.push(gym.Classes[key]);
                     }

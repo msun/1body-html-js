@@ -32,21 +32,21 @@ classModule.controller('ClassesCtrl', function($scope, User, appFactory) {
     $scope.classes = appFactory.classes;
 });
 
-classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, $timeout, mapFactory, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
-    console.log($stateParams.gymID);
-    $scope.classes = appFactory.classes;
-    $scope.newcomment = {};
-
+classModule.controller('ClassScheduleCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, $timeout, Sizes, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
     $scope.classID = $stateParams.classID;
-
+    $scope.gymID = $stateParams.gymID;
+    console.log($scope.classID);
+    console.log($scope.gymID);
     $scope.dt = new Date();
 
-//    $ionicModal.fromTemplateUrl('js/class/templates/class-schedule-modal.html', {
-//        scope: $scope,
-//        animation: 'slide-in-up'
-//    }).then(function(modal){
-//        $scope.modal = modal;
-//    });
+    var classRef = Gyms.ref().child($stateParams.gymID).child("Classes").child($stateParams.classID);
+    $scope.selectedClass = $firebaseObject(classRef);
+    $scope.selectedClass.$loaded(function(){
+        loadSchedule();
+        console.log($scope.selectedClass);
+    });
+    $scope.gym = $firebaseObject(Gyms.ref().child($stateParams.gymID));
+    $scope.sizes = $firebaseObject(Sizes.ref().child($scope.classID));
 
     var loadSchedule = function() {
         $scope.openClasses = [];
@@ -94,35 +94,6 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
         }, true);
     };
 
-    $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
-    $scope.user.$loaded(function(){
-        appFactory.user = $scope.user;
-        $localstorage.setObject("user", $scope.user);
-    });
-
-    var classRef = Gyms.ref().child($stateParams.gymID).child("Classes").child($stateParams.classID);
-    $scope.gym = $firebaseObject(Gyms.ref().child($stateParams.gymID));
-
-//    var modified = $firebaseObject(classRef.child("modified"));
-//
-//    modified.$loaded(function(){
-//        console.log(modified);
-//        if(modified.$value && appFactory.classes[$stateParams.classID] && appFactory.classes[$stateParams.classID].modified >= modified.$value){
-//            $scope.selectedClass = appFactory.classes[$stateParams.classID];
-//            loadSchedule();
-//        } else {
-            $scope.selectedClass = $firebaseObject(classRef);
-            $scope.selectedClass.$loaded(function(){
-//                appFactory.classes[$scope.selectedClass.$id] = $scope.selectedClass;
-//                $localstorage.setObject("Classes", appFactory.classes);
-                loadSchedule();
-            });
-//        }
-//    });
-
-    $scope.openBookClassModal = function(){
-        
-    }
 
     $scope.bookClass = function(schedule){
         if(schedule.slotsopen <= 0){
@@ -143,19 +114,19 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
             created: Firebase.ServerValue.TIMESTAMP,
             tokens: schedule.tokens,
             duration: schedule.duration,
-            location: appFactory.selectedTrainer.location
+            location: $scope.gym.location
         };
+
+        if($scope.gym.commentlocation){
+            obj.commentlocation = $scope.gym.commentlocation;
+        }
+
+        if($scope.selectedClass.commentlocation){
+            obj.commentlocation = obj.commentlocation + " " + $scope.selectedClass.commentlocation;
+        }
 
         schedule.attending[appFactory.user.$id] = obj;
         console.log(schedule);
-
-//        if(appFactory.user.tokens - schedule.tokens < 0){
-//            alert("Not enough tokens");
-//        } else {
-//            appFactory.user.tokens -= schedule.tokens;
-//            appFactory.user.$save().then(function(){
-//            })
-//        }
 
         schedule.$save().then(function(){
             obj.classID = $stateParams.classID;
@@ -163,13 +134,14 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
             obj.schedule = schedule.$id;
             console.log($scope.dt);
             var starttime = new Date($scope.dt.getTime());
-            var splits = schedule.classtime.split("-");
+            var splits = schedule.classtime.split(":");
             starttime.setHours(splits[0]);
             starttime.setMinutes(splits[1]);
             console.log(starttime);
             obj.starttime = starttime.getTime();
             obj.type = "Classes";
-            var transactionRef = Transactions.ref().child("simplelogin:37").push(obj, function(){
+            console.log(obj);
+            var transactionRef = Transactions.ref().child(appFactory.user.$id).push(obj, function(){
                 obj.scanned = false;
                 obj.reviewed = false;
                 obj.gymID = $stateParams.gymID;
@@ -207,9 +179,10 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
                                                     'endtime': obj.starttime + obj.duration * 30 * 60 * 1000
 
                                                 };
-                                                if ($scope.gym.commentlocation) {
-                                                    jsonData.description = $scope.gym.commentlocation;
+                                                if (obj.commentlocation) {
+                                                    jsonData.description = obj.commentlocation;
                                                 }
+
                                                 console.log(jsonData);
                                                 var exec = cordova.require("cordova/exec");
 
@@ -238,6 +211,40 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
             });
         });
     };
+});
+
+classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, $timeout, mapFactory, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
+    console.log($stateParams.gymID);
+    $scope.newcomment = {};
+    $scope.gymID = $stateParams.gymID;
+
+    $scope.classID = $stateParams.classID;
+
+
+
+    $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
+    $scope.user.$loaded(function(){
+        appFactory.user = $scope.user;
+        $localstorage.setObject("user", $scope.user);
+    });
+
+    var classRef = Gyms.ref().child($stateParams.gymID).child("Classes").child($stateParams.classID);
+    $scope.selectedClass = $firebaseObject(classRef);
+    $scope.gym = $firebaseObject(Gyms.ref().child($stateParams.gymID));
+
+//    var modified = $firebaseObject(classRef.child("modified"));
+//
+//    modified.$loaded(function(){
+//        console.log(modified);
+//        if(modified.$value && appFactory.classes[$stateParams.classID] && appFactory.classes[$stateParams.classID].modified >= modified.$value){
+//            $scope.selectedClass = appFactory.classes[$stateParams.classID];
+//            loadSchedule();
+//        } else {
+
+
+//        }
+//    });
+
 
 //    appFactory.classes.forEach(function(item){
 //        if(item.$id == $scope.classID){
@@ -263,17 +270,48 @@ classModule.controller('ClassDetailCtrl', function($scope, Notifications, $local
 //        }
 //    });
 
+    $scope.replyto = function(comment){
+        $scope.replyUserID = comment.userID;
+        $scope.replyUserName = comment.username;
+        $timeout(function() {
+            $scope.commentTitle = "Leave a comment @" + comment.username + ":";
+        });
+    }
+
+    $scope.clear = function(){
+        $scope.replyUserID = undefined;
+        $scope.commentTitle = "Leave a comment:";
+    }
+
     $scope.addcomment = function(){
         if(!$scope.newcomment.text || $scope.newcomment.text.length <=0){
             alert("comment cannot be empty");
         } else {
+            var notif = {
+                creatorID: appFactory.user.$id,
+                starttime: new Date().getTime(),
+                url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
+                receivers: [$stateParams.userID],
+                email: true,
+                message: "You have received a new message in event: " + $scope.selectedEvent.name
+            }
+            if($scope.replyUserID){
+                notif.receivers.push($scope.replyUserID);
+                $scope.newcomment.replyUserID = $scope.replyUserID;
+                $scope.newcomment.replyUserName = $scope.replyUserName;
+            }
+
             $scope.newcomment.creation = Date.now();
             $scope.newcomment.username = appFactory.user.username;
             $scope.newcomment.userID = appFactory.user.$id;
-            $scope.comments.$push($scope.newcomment).then(function(){
-                $scope.newcomment.text = "";
+            $scope.comments.$add($scope.newcomment).then(function(){
+                Notifications.ref().push(notif, function(){
+                    $timeout(function(){
+                        $scope.newcomment.text = "";
+                        alert("comment added");
+                    });
+                });
             });
-
         }
     }
 });
