@@ -385,6 +385,10 @@ ion-popover-view.fit ion-content {
     background: #383838;
 }
 
+.ob-darktranslucent-bg {
+    background: rgba(0, 0, 0, 0.6);
+}
+
 .ob-white-color {
     color: white;
 }
@@ -1155,18 +1159,6 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* ob-modal */
-/* ********** ********** ********** ********** ***********/
-
-.ob-modal {
-    background: rgba(0, 0, 0, 0.6);
-}
-
-.ob-modal-header {
-    background: rgba(0, 0, 0, 0.0);
-}
-
-/* ********** ********** ********** ********** ***********/
 /* ob-block-switch */
 /* ********** ********** ********** ********** ***********/
 
@@ -1524,22 +1516,29 @@ input.ob-form-text-input[type="search"] {
 /* qrcode.html */
 /* ********** ********** ********** ********** ***********/
 
-.qr-transaction-id-text {
-    font-family: "Avenir Next LT Pro";
+.ob-qr-text {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 18px;
     color: white;
     text-align: center;
-    margin: 16px 0px;
-}
-.qr-qrcode-container {
-    display: table;
-    background: white;
-    width: 320px;
-    height: 320px;
-    margin: 0px auto;
+    margin: 12px;
+    padding: 8px;
+    max-width: 500px;
+    border-radius: 8px;
+    border: 1px solid #7f7b73;
 }
 
-.qr-qrcode {
+.ob-qr-container {
+    border: 1px solid #7f7b73;
+    background: white;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #7f7b73;
+    margin: 12px auto;
+    display: table;
+}
+
+.ob-qr-code {
     display: table-cell;
     vertical-align: middle;
     text-align: center;

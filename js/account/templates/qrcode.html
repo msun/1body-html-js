@@ -1,37 +1,20 @@
-<!--<ion-view>-->
-    <!--<ion-content class="has-header menu1-content">-->
-        <!--<div class="menu1-content-div">-->
-            <!--<div class="ob-main-instructions">Select a session</div>-->
-            <!--<div class="ob-sub-instructions"></div>-->
-            <!--<div class="ob-form">-->
-                <!--<div class="ob-form-row ob-form-flex-row">-->
-                    <!--<span class="ob-form-prompt">Session</span>-->
-                    <!--<div class="ob-form-select-container ob-form-select-container-xlarge">-->
-                        <!--<select class="ob-form-select ob-form-select-xlarge"-->
-                                <!--ng-model="transaction"-->
-                                <!--ng-options="transaction.starttime for transaction in transactions"-->
-                                <!--ng-change="update(transaction.$id)">-->
-                        <!--</select>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="qr-transaction-id-text">{{transactionID}}</div>-->
-            <!--<div class="qr-qrcode-container">-->
-                <!--<div id="qrcode" class="qr-qrcode"></div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</ion-content>-->
-<!--</ion-view>-->
-
-
-<ion-modal-view>
-    <ion-content class="ob-grey-bg">
-        <div style="width: 100%; height: 150px" id="modal-detail-map" data-tap-disabled="true"></div>
-
-        <div class="qr-transaction-id-text">{{transactionID}}</div>
-        <div class="qr-qrcode-container">
-            <div id="qrcode" class="qr-qrcode"></div>
+<ion-modal-view class="ob-darktranslucent-bg">
+    <ion-header-bar class="ob-darkpurple-bg">
+        <h1 class="title ob-navbar-title">QR Code</h1>
+        <div class="buttons">
+            <button ng-click="closeQRcodeModal()" class="button button-icon">
+                <i class="icon ion-close ob-white-color"></i>
+            </button>
         </div>
-        <button class="ob-block-button ob-button-blue" ng-click="closeQRcodeModal()">Done</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="menu1-content-div">
+            <div class="ob-instructions">Present this QR Code to your trainer</div>
+            <div class="ob-qr-text">{{transactionID}}</div>
+            <div class="ob-qr-container">
+                <div class="ob-qr-code" id="qrcode"></div>
+            </div>
+            <!--<div style="width: 100%; height: 150px" id="modal-detail-map" data-tap-disabled="true"></div>-->
+        </div>
     </ion-content>
 </ion-modal-view>
