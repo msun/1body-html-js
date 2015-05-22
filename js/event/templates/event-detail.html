@@ -8,19 +8,17 @@
         </div>
         <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
         <div class="buttons">
-            <!--
-            <button ng-click="goTo('#/menu/my-profile')"
+            <button ng-click="goTo('#/menu/editevent/{{eventID}}')"
                     class="button button-icon button-dark"
-                    ng-show="selectedUser.$id == $root.user.$id">
+                    ng-show="selectedEvent.userID == $root.user.$id">
                 <i class="icon ion-edit ob-ionicon-small"></i>
             </button>
-            -->
         </div>
     </ion-header-bar>
     <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
         <div class="profile-top">
             <!--
-            <div class="follow-button"
+            <div class="follow-button"selectedEvent
                  ng-show="!followerMe.username"
                  ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
             <div class="following-button"

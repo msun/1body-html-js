@@ -24,7 +24,7 @@
                     Tap the + icon at the top right to create your own event!<br/>
                 </div>
                 <a class="ob-list-row" ng-repeat="event in events" item="event"
-                   href="#/menu/editevent/{{event.$id}}">
+                   href="#/menu/Events/{{$root.user.$id}}/{{event.$id}}">
                     <div class="ob-list-col-img">
                         <img class="ob-list-img" src=""/>
                     </div>
