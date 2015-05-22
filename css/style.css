@@ -822,7 +822,7 @@ input.ob-form-text-input[type="search"] {
 .ob-button {
     border-radius: 5px;
     border: none;
-    margin: 15px 8px 11px;
+    margin: 12px 8px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.69px;
     color: white;
@@ -1178,7 +1178,7 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-list {
-    margin: 0px auto;
+    margin: 8px auto;
 }
 
 .ob-list-emptytext {
@@ -1222,6 +1222,7 @@ input.ob-form-text-input[type="search"] {
 .ob-list-col-flex {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
+    padding: 8px;
 }
 
 .ob-list-text {
@@ -1240,12 +1241,6 @@ input.ob-form-text-input[type="search"] {
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 14px;
     color: white;
-}
-
-.ob-list-col-small {
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: 50px;
 }
 
 .ob-list-checkbox {
@@ -1270,6 +1265,14 @@ input.ob-form-text-input[type="search"] {
     background: url("../img/map/tmp/search_list_star.png") center/100% 100% no-repeat;
     width: 13.5px;
     height: 13.5px;
+}
+
+.ob-list-col-auto {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    padding: 4px;
+    -webkit-align-self: center;
+    align-self: center;
 }
 
 /* ********** ********** ********** ********** ***********/

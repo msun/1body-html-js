@@ -1,30 +1,28 @@
 <ion-view>
-    <ion-header-bar class="ob-darkpurple-bg">
-        <div class="buttons">
-            <button ng-click="toggleMenu()" class="button button-icon button-dark">
-                <i class="icon ion-navicon"></i>
-            </button>
-        </div>
-        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
-        <div class="buttons">
-            <!--
-            <button ng-click="goTo('#/menu/my-profile')"
-                    class="button button-icon button-dark"
-                    ng-show="selectedUser.$id == $root.user.$id">
-                <i class="icon ion-edit ob-ionicon-small"></i>
-            </button>
-            -->
-        </div>
-    </ion-header-bar>
+    <ion-nav-bar class="ob-darkpurple-bg">
+        <button ng-click="back()" class="button button-icon">
+            <i class="icon ion-ios7-arrow-back ob-white-color"></i>
+        </button>
+        <h1 class="title ob-navbar-title">Book a Class</h1>
+    </ion-nav-bar>
     <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
-        <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
-        <ul class="list ob-grey-bg">
-            <a class="item" ng-repeat="item in openClasses">
-                <p>Starttime: {{item.classtime}}</p>
-                <p>openslots: {{item.slotsopen}}</p>
-                <button class="button button-calm" ng-click="bookClass(item)">Book</button>
-            </a>
-        </ul>
-
+        <div class="menu1-content-div">
+            <time-picker class="ob-form-timepicker"
+                         show-time-picker="false"
+                         data-inc-icon-class="ion ion-chevron-up"
+                         data-dec-icon-class="ion ion-chevron-down"></time-picker>
+            <div class="ob-list">
+                <div class="ob-list-emptytext" ng-show="openClasses.length <= 0">No Classes on this Day</div>
+                <div class="ob-list-row" ng-repeat="item in openClasses">
+                    <div class="ob-list-col-flex">
+                        <div class="ob-list-text">Starts: {{item.classtime}}</div>
+                        <div class="ob-list-text">Open Slots: {{item.slotsopen}}</div>
+                    </div>
+                    <div class="ob-list-col-auto">
+                        <div class="ob-button ob-button-blue" ng-click="bookClass(item)">Book</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-view>
