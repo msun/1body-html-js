@@ -374,34 +374,6 @@ ion-popover-view.fit ion-content {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* colors */
-/* ********** ********** ********** ********** ***********/
-
-.ob-darkpurple-bg {
-    background-color: #1f101c;
-}
-
-.ob-grey-bg {
-    background: #383838;
-}
-
-.ob-darktranslucent-bg {
-    background: rgba(0, 0, 0, 0.6);
-}
-
-.ob-white-color {
-    color: white;
-}
-
-.ob-blue-color {
-    color: #3884ed;
-}
-
-.ob-strong-blue-color {
-    color: #2b6acf;
-}
-
-/* ********** ********** ********** ********** ***********/
 /* nav-bar */
 /* ********** ********** ********** ********** ***********/
 
@@ -414,7 +386,7 @@ ion-popover-view.fit ion-content {
 
 .ob-navbar-title {
     font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 16px !important;
+    font-size: 18px !important;
     color: white;
 }
 
@@ -1909,7 +1881,7 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-map-list {
-    padding-top: 116px;
+    padding-top: 120px;
 }
 
 .ob-map-radiusinput {
@@ -2429,22 +2401,26 @@ input.ob-form-text-input[type="search"] {
     padding-bottom: 30px;
 }
 
-.ob-sidemenu-tabs ul a {
+.ob-sidemenu-tab {
     background: #1f101c;
     font-family: 'Lato', sans-serif;
     font-size: 20px;
-    color: white;
+    color: white !important;
     border: none;
     border-top: 1px solid #422a3d;
     padding-left: 40px;
 }
 
-.ob-sidemenu-tabs ul a:first-child {
+.ob-sidemenu-tab:first-child {
     border-top: none;
     margin-top: 10px;
 }
 
-.ob-sidemenu-tabs ul a.ob-sidemenu-tab-selected {
+.ob-sidemenu-tab:last-child {
+    border-bottom: 1px solid #422a3d;
+}
+
+.ob-sidemenu-tab:active {
     color: #3884ed;
 }
 
@@ -3158,6 +3134,42 @@ input.ob-form-text-input[type="search"] {
 
 .tos a {
     color: rgb(255, 78, 84);
+}
+
+/* ********** ********** ********** ********** ***********/
+/* colors */
+/* ********** ********** ********** ********** ***********/
+
+.ob-darkpurple-bg {
+    background-color: #1f101c;
+}
+
+.ob-mediumpurple-bg {
+    background-color: #2e1829;
+}
+
+.ob-lightpurple-bg {
+    background-color: #381d33;
+}
+
+.ob-grey-bg {
+    background: #383838;
+}
+
+.ob-darktranslucent-bg {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.ob-white-color {
+    color: white;
+}
+
+.ob-blue-color {
+    color: #3884ed;
+}
+
+.ob-strong-blue-color {
+    color: #2b6acf;
 }
 
 /* ********** ********** ********** ********** ***********/
