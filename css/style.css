@@ -2389,15 +2389,17 @@ input.ob-form-text-input[type="search"] {
 .ob-sidemenu-usericon-container {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    width: 60px;
-    height: 60px;
+    width: 62px;
+    height: 62px;
     margin: 0px 10px;
+    border: 2px solid #381d33;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 .ob-sidemenu-usericon {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
 }
 
 .ob-sidemenu-title {
@@ -2406,6 +2408,7 @@ input.ob-form-text-input[type="search"] {
     font-family: 'Lato', sans-serif;
     font-size: 15px;
     color: white;
+    text-shadow: 2px 2px #381d33;
     height: 44px;
     line-height: 44px;
     margin: 0px 3px;
@@ -2422,9 +2425,11 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-cog {
-    background: url("../img/tmp/Cog.png") center/100% 100% no-repeat;
+    background: #381d33 url("../img/tmp/Cog.png") center/100% 100% no-repeat;
     width: 24px;
     height: 24px;
+    border: 2px solid #381d33;
+    border-radius: 50%;
 }
 
 .ob-sidemenu-header-bottom-divider {
