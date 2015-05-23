@@ -112,7 +112,11 @@
                             </div>
                         </span>
                     </a>
-                    <div class="profile-feed-end" ng-show="reviews.length < 5">End of Review Feed</div>
+                    <div class="ob-feedend-container" ng-show="reviews.length < 5">
+                        <span class="ob-feedend-line"></span>
+                        <span class="ob-feedend-ornament"></span>
+                        <span class="ob-feedend-line"></span>
+                    </div>
                     <button class="ob-block-button ob-button-blue" ng-show="reviews.length == 5" ng-click="moreReviews()">More Reviews</button>
                 </div>
                 <!--

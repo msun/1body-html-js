@@ -30,7 +30,11 @@
                     </div>
                 </div>
             </div>
-            <p class="ob-feed-end-dark" ng-show="images.length < 9">No more images</p>
+            <div class="ob-feedend-container" ng-show="images.length < 9">
+                <span class="ob-feedend-line"></span>
+                <span class="ob-feedend-ornament"></span>
+                <span class="ob-feedend-line"></span>
+            </div>
             <button class="ob-block-button ob-button-dark"
                     ng-show="images.length >= 9"
                     class="button"

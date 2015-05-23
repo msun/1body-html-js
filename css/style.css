@@ -1193,8 +1193,8 @@ input.ob-form-text-input[type="search"] {
 .ob-list-row {
     display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
-    align-items: center;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
     background: rgba(0, 0, 0, 0.3);
     border-top: 1px solid #a1a6ae;
     border-bottom: 1px solid #a1a6ae;
@@ -1271,8 +1271,6 @@ input.ob-form-text-input[type="search"] {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     padding: 4px;
-    -webkit-align-self: center;
-    align-self: center;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1371,6 +1369,49 @@ input.ob-form-text-input[type="search"] {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 50px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-feedend */
+/* ********** ********** ********** ********** ***********/
+
+.ob-feedend-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin: 12px auto 8px;
+}
+
+.ob-feedend-line {
+    -webkit-flex: 100 1 auto;
+    flex: 100 1 auto;
+    height: 2px;
+    max-width: 200px;
+    background: #989898;
+    border-radius: 100px;
+    margin: 0px;
+}
+
+.ob-feedend-line:first-child {
+    margin-left: 50px;
+    margin-right: 10px;
+}
+
+.ob-feedend-line:last-child {
+    margin-left: 10px;
+    margin-right: 50px;
+}
+
+.ob-feedend-ornament {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    background: url("../img/logo-simple-lightgrey2.png") center/100% 100% no-repeat;
+    width: 16.17647px !important;
+    height: 19.70588px !important;
+    overflow: hidden;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -3219,12 +3260,4 @@ input.ob-form-text-input[type="search"] {
 
 .ob-ionicon-medium::before {
     font-size: 28px !important;
-}
-
-.ob-feed-end-dark {
-    font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 15px;
-    color: white;
-    text-align: center;
-    padding: 8px;
 }
