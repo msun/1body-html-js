@@ -7,10 +7,14 @@
     </ion-nav-bar>
     <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
         <div class="menu1-content-div">
-            <time-picker class="ob-form-timepicker"
-                         show-time-picker="false"
-                         data-inc-icon-class="ion ion-chevron-up"
-                         data-dec-icon-class="ion ion-chevron-down"></time-picker>
+            <div class="ob-form">
+                <div class="ob-form-row">
+                    <time-picker class="ob-form-timepicker"
+                                 show-time-picker="false"
+                                 data-inc-icon-class="ion ion-chevron-up"
+                                 data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                </div>
+            </div>
             <div class="ob-list">
                 <div class="ob-list-emptytext" ng-show="openClasses.length <= 0">No classes on this day</div>
                 <div class="ob-list-row" ng-repeat="item in openClasses">

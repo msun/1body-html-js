@@ -17,12 +17,15 @@
             <button class="buttongroup2-button" ng-click="showCurrent()">Show by Date</button>
             <button class="buttongroup2-button" ng-click="showAll()">Show All</i></button>
         </div>
-        <time-picker class="ob-form-timepicker"
-                     ng-show="showingAll == false"
-                     allow-time-before-now="true"
-                     show-time-picker="false"
-                     data-inc-icon-class="ion ion-chevron-up"
-                     data-dec-icon-class="ion ion-chevron-down">
+        <div class="ob-form" ng-show="showingAll == false">
+            <div class="ob-form-row">
+                <time-picker class="ob-form-timepicker"
+                             allow-time-before-now="true"
+                             show-time-picker="false"
+                             data-inc-icon-class="ion ion-chevron-up"
+                             data-dec-icon-class="ion ion-chevron-down">
+            </div>
+        </div>
         </time-picker>
         <div class="ob-list">
             <div ng-show="myTransactions.length <= 0" class="ob-list-emptytext">No sessions to display</div>
