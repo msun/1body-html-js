@@ -822,7 +822,7 @@ input.ob-form-text-input[type="search"] {
 .ob-button {
     border-radius: 5px;
     border: none;
-    margin: 15px 8px 11px;
+    margin: 12px 8px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.69px;
     color: white;
@@ -1178,7 +1178,7 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-list {
-    margin: 0px auto;
+    margin: 8px auto;
 }
 
 .ob-list-emptytext {
@@ -1193,8 +1193,8 @@ input.ob-form-text-input[type="search"] {
 .ob-list-row {
     display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
-    align-items: center;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
     background: rgba(0, 0, 0, 0.3);
     border-top: 1px solid #a1a6ae;
     border-bottom: 1px solid #a1a6ae;
@@ -1222,6 +1222,7 @@ input.ob-form-text-input[type="search"] {
 .ob-list-col-flex {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
+    padding: 8px;
 }
 
 .ob-list-text {
@@ -1240,12 +1241,6 @@ input.ob-form-text-input[type="search"] {
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 14px;
     color: white;
-}
-
-.ob-list-col-small {
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: 50px;
 }
 
 .ob-list-checkbox {
@@ -1270,6 +1265,12 @@ input.ob-form-text-input[type="search"] {
     background: url("../img/map/tmp/search_list_star.png") center/100% 100% no-repeat;
     width: 13.5px;
     height: 13.5px;
+}
+
+.ob-list-col-auto {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    padding: 8px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1368,6 +1369,49 @@ input.ob-form-text-input[type="search"] {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 50px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-feedend */
+/* ********** ********** ********** ********** ***********/
+
+.ob-feedend-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin: 12px auto 8px;
+}
+
+.ob-feedend-line {
+    -webkit-flex: 100 1 auto;
+    flex: 100 1 auto;
+    height: 2px;
+    max-width: 200px;
+    background: #989898;
+    border-radius: 100px;
+    margin: 0px;
+}
+
+.ob-feedend-line:first-child {
+    margin-left: 50px;
+    margin-right: 10px;
+}
+
+.ob-feedend-line:last-child {
+    margin-left: 10px;
+    margin-right: 50px;
+}
+
+.ob-feedend-ornament {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    background: url("../img/logo-simple-lightgrey2.png") center/100% 100% no-repeat;
+    width: 16.17647px !important;
+    height: 19.70588px !important;
+    overflow: hidden;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -2800,7 +2844,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 .profile-tab-bar-container {
-    background: rgb(225,225,225) url("../img/professional-profile/menu-separator.png") center 100%/100% 1px no-repeat;
+    border-bottom: 2px solid #c2c2c2;
 }
 
 .profile-tab-bar {
@@ -2817,8 +2861,9 @@ input.ob-form-text-input[type="search"] {
     border: none;
 }
 
-.profile-tab-with-divider {
-    background: transparent url("/img/professional-profile/menu-button-separator.png") 100% 1.9em/1px calc(100% - 1.9em - 0.5em) no-repeat;
+.profile-tab + .profile-tab {
+    background: transparent url("/img/professional-profile/menu-button-separator.png")
+                100% 1.9em/1px calc(100% - 1.9em - 0.5em) no-repeat;
 }
 
 .profile-tab-icon {
@@ -3216,12 +3261,4 @@ input.ob-form-text-input[type="search"] {
 
 .ob-ionicon-medium::before {
     font-size: 28px !important;
-}
-
-.ob-feed-end-dark {
-    font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 15px;
-    color: white;
-    text-align: center;
-    padding: 8px;
 }

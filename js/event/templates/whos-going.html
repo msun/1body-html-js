@@ -9,6 +9,8 @@
     </ion-header-bar>
     <ion-content>
         <div class="ob-list">
+            <div class="ob-list-emptytext"
+                 ng-show="goers.length <= 0">No participants yet</div>
             <a class="ob-list-row" ng-repeat="goer in goers" href="#/menu/Users/{{goer.userID}}">
                 <div class="ob-list-col-img">
                     <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{goer.userID | htmlEncode}}/profilepic.jpg"/>

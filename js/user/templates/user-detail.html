@@ -73,15 +73,15 @@
         <div class="profile-bottom">
             <div class="profile-tab-bar-container">
                     <span class="button-bar profile-tab-bar">
-                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-1">
+                        <a class="button profile-tab" id="profile-tab-1">
                             <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
                             <!--<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>-->
                         </a>
-                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-2" href="#/menu/images/Users/{{selectedUser.$id}}/{{selectedUser.$id}}">
+                        <a class="button profile-tab" id="profile-tab-2" href="#/menu/images/Users/{{selectedUser.$id}}/{{selectedUser.$id}}">
                             <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
                             <!--<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>-->
                         </a>
-                        <a class="button profile-tab profile-tab-with-divider" id="profile-tab-3">
+                        <a class="button profile-tab" id="profile-tab-3">
                             <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
                             <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
                         </a>
@@ -102,7 +102,11 @@
                             <div class="profile-feed-review-creation">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                         </span>
                     </a>
-                    <div class="profile-feed-end" ng-show="feeds.length < 5">End of Activity Feed</div>
+                    <div class="ob-feedend-container" ng-show="feeds.length < 5">
+                        <span class="ob-feedend-line"></span>
+                        <span class="ob-feedend-ornament"></span>
+                        <span class="ob-feedend-line"></span>
+                    </div>
                     <button class="ob-block-button ob-button-blue" ng-show="feeds.length >= 5" ng-click="moreFeeds()">More Feeds</button>
                 </div>
             </div>

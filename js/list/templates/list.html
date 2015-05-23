@@ -42,7 +42,7 @@
                     <input class="ob-form-range" type="range" name="volume" min="0" max="50"
                            ng-change="radiusChange()" ng-model="searchContainer.radius">
                 </div>
-                <div ng-show="array.length <= 0" class="ob-list-emptytext">
+                <div class="ob-list-emptytext" ng-show="array.length <= 0">
                     No <span ng-show="header === 'Users'">professionals</span>
                        <span ng-show="header === 'Classes'">classes</span>
                        <span ng-show="header === 'Events'">events</span>
