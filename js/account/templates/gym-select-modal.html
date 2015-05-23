@@ -9,6 +9,8 @@
     </ion-header-bar>
     <ion-content>
         <div class="ob-list">
+            <div class="ob-list-emptytext"
+                 ng-show="gyms.length <= 0">No gyms found</div>
             <div class="ob-list-row" ng-click="setGym(gym)" ng-repeat="gym in gyms">
                 <div class="ob-list-col-img">
                     <img class="ob-list-img" src="{{gym.profilepic}}"/>

@@ -143,6 +143,8 @@
                         </div>
                     </div>
                     <div class="ob-list">
+                        <div class="ob-list-emptytext"
+                             ng-show="following.length <= 0">No friends found :(</div>
                         <div class="ob-list-row" ng-repeat="item in following">
                             <div class="ob-list-col-img">
                                 <img class="ob-list-img" src="{{item.profilepic}}"/>
