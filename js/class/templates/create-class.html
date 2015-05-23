@@ -5,17 +5,9 @@
                 <i class = "icon ion-navicon">
                 </i>
             </button>
-
             <h2 class="title">{{header}}</h2>
-
-            <a href="#/menu/{{header}}" class="button button-icon">
-                <i class = "icon ion-ios7-paper-outline">
-                </i>Listview
-            </a>
-
         </div>
     </ion-header-bar>
-
     <ion-content>
         <ul class="list">
             <label class="item item-input item-stacked-label">
@@ -42,7 +34,8 @@
 
             <div class="item range range-positive">
                 <span class="input-label">Duration {{newclass.duration}}min</span>
-                <input class="ob-form-range" type="range" name="volume" min="0" max="120" step="30" ng-model="newclass.duration">
+                <input class="ob-form-range" type="range" name="volume"
+                       min="0" max="120" step="30" ng-model="newclass.duration">
             </div>
 
             <div class="item range range-positive">
@@ -60,19 +53,26 @@
                 <input type="text" ng-model="newclass.instructor">
             </div>
 
-            <div class="item ob-form-row ob-form-flex-row">
-                <time-picker class="ob-form-timepicker" show-date-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+            <div class="ob-form">
+                <div class="item ob-form-row">
+                    <time-picker class="ob-form-timepicker"
+                                 show-date-picker="false"
+                                 data-inc-icon-class="ion ion-chevron-up"
+                                 data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                </div>
             </div>
 
             <label class="item item-input item-select">
                 <div class="input-label">
                     Repeat
                 </div>
-                <select ng-model="newclass.repeat[0]" ng-options="repeat.interval for repeat in repeatIntervals">
+                <select ng-model="newclass.repeat[0]"
+                        ng-options="repeat.interval for repeat in repeatIntervals">
                 </select>
             </label>
 
-            <div class="item item-input item-select" ng-show="newclass.repeat[0] && newclass.repeat[0].interval == 'Weekly'">
+            <div class="item item-input item-select"
+                 ng-show="newclass.repeat[0] && newclass.repeat[0].interval == 'Weekly'">
                 <span class="input-label">Select day</span>
                 <select ng-model="newclass.repeat[0].day">
                     <option value="1">Monday</option>
@@ -85,7 +85,8 @@
                 </select>
             </div>
 
-            <div class="item item-input item-select" ng-show="newclass.repeat[0] && newclass.repeat[0].interval == 'Monthly'">
+            <div class="item item-input item-select"
+                 ng-show="newclass.repeat[0] && newclass.repeat[0].interval == 'Monthly'">
                 <span class="input-label">Select day</span>
                 <select ng-model="newclass.repeat.day">
                     <option value="1">1</option>

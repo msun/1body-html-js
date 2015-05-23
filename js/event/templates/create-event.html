@@ -11,7 +11,7 @@
                 <div class="menu1-content-div">
                     <div class="ob-main-instructions">Create an Event</div>
                     <div class="ob-sub-instructions">Let's get started</div>
-                    <div class="ob-form create-event-ob-form">
+                    <div class="ob-form">
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Event Name</span>
                             <input ng-model="newevent.name" type="text"
@@ -39,7 +39,9 @@
                         -->
                         <div ng-show="eventID == 'new'" class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
                             <span class="ob-form-prompt">Start Time</span>
-                            <time-picker class="ob-form-timepicker" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                            <time-picker class="ob-form-timepicker"
+                                         data-inc-icon-class="ion ion-chevron-up"
+                                         data-dec-icon-class="ion ion-chevron-down"></time-picker>
                         </div>
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Duration</span>
