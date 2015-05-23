@@ -1270,7 +1270,7 @@ input.ob-form-text-input[type="search"] {
 .ob-list-col-auto {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    padding: 4px;
+    padding: 8px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -2844,7 +2844,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 .profile-tab-bar-container {
-    background: rgb(225,225,225) url("../img/professional-profile/menu-separator.png") center 100%/100% 1px no-repeat;
+    border-bottom: 2px solid #c2c2c2;
 }
 
 .profile-tab-bar {
@@ -2861,8 +2861,9 @@ input.ob-form-text-input[type="search"] {
     border: none;
 }
 
-.profile-tab-with-divider {
-    background: transparent url("/img/professional-profile/menu-button-separator.png") 100% 1.9em/1px calc(100% - 1.9em - 0.5em) no-repeat;
+.profile-tab + .profile-tab {
+    background: transparent url("/img/professional-profile/menu-button-separator.png")
+                100% 1.9em/1px calc(100% - 1.9em - 0.5em) no-repeat;
 }
 
 .profile-tab-icon {
