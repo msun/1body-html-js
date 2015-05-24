@@ -10,16 +10,23 @@
             <a class="ob-block-button ob-button-blue ob-button-shadow"
                ng-show="userID == myID"
                href="#/menu/add-image/{{type}}/{{id}}">Add image</a>
-            <label class="toggle toggle-assertive" ng-show="userID == myID">
-                <input type="checkbox" ng-model="edit.toggle">
-                <div class="track">
-                    <div class="handle"></div>
+            <div class="ob-form" ng-show="userID == myID">
+                <div class="ob-form-row">
+                    <div class="item item-toggle ob-form-toggle-container">
+                        Delete Mode
+                        <label class="toggle toggle-positive ob-form-toggle">
+                            <input type="checkbox" ng-model="edit.toggle"/>
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </div>
                 </div>
-            </label>
+            </div>
             <div class="row">
                 <div class="col col-33" ng-repeat="item in images | orderBy:'-created'">
                     <img src="{{item.hdurl}}" width="100%" ng-click="openImageModal(item)"/>
-                    <p >{{item.message}}</p>
+                    <div class="ob-image-message">{{item.message}}</div>
                     <!--<input type="text" ng-model="item.edit" ng-show="item.toggle && userID == myID" placeholder="image message"/>-->
                     <div class="button-block">
                         <button class="ob-button ob-button-blue"
