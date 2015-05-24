@@ -3212,35 +3212,35 @@ input.ob-form-text-input[type="search"] {
 /* tos.html */
 /* ********** ********** ********** ********** ***********/
 
-.tos {
-    padding: 0.5em;
+.ob-tos {
+    padding: 7px;
     background-color: rgb(244, 244, 244);
     color: rgb(80, 80, 80);
 }
 
-.tos h1 {
-    font-size: 2.0em;
-    padding-bottom: 0.3em;
+.ob-tos h1 {
+    font-size: 28px;
+    padding-bottom: 4px;
 }
 
-.tos h2 {
-    font-size: 1.2em;
+.ob-tos h2 {
+    font-size: 16px;
     text-decoration: underline;
 }
 
-.tos h3 {
-    font-size: 1.2em;
+.ob-tos h3 {
+    font-size: 16px;
 }
 
-.tos p {
-    font-size: 1.0em;
+.ob-tos p {
+    font-size: 14px;
 }
 
-.tos .strong {
+.ob-tos .strong {
     font-weight: bold;
 }
 
-.tos a {
+.ob-tos a {
     color: rgb(255, 78, 84);
 }
 
