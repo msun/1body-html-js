@@ -722,6 +722,22 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
+/* ob-form-toggle */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-toggle-container {
+    background: transparent;
+    border: none;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+.ob-form-toggle {
+    margin-top: -3px;
+}
+
+/* ********** ********** ********** ********** ***********/
 /* ob-form-timepicker */
 /* ********** ********** ********** ********** ***********/
 
@@ -2901,7 +2917,7 @@ input.ob-form-text-input[type="search"] {
 
 .profile-tab + .profile-tab {
     background: transparent url("/img/professional-profile/menu-button-separator.png")
-                100% 1.9em/1px calc(100% - 1.9em - 0.5em) no-repeat;
+                0px 28px/1px 28px no-repeat;
 }
 
 .profile-tab-icon {
@@ -3196,35 +3212,35 @@ input.ob-form-text-input[type="search"] {
 /* tos.html */
 /* ********** ********** ********** ********** ***********/
 
-.tos {
-    padding: 0.5em;
+.ob-tos {
+    padding: 7px;
     background-color: rgb(244, 244, 244);
     color: rgb(80, 80, 80);
 }
 
-.tos h1 {
-    font-size: 2.0em;
-    padding-bottom: 0.3em;
+.ob-tos h1 {
+    font-size: 28px;
+    padding-bottom: 4px;
 }
 
-.tos h2 {
-    font-size: 1.2em;
+.ob-tos h2 {
+    font-size: 16px;
     text-decoration: underline;
 }
 
-.tos h3 {
-    font-size: 1.2em;
+.ob-tos h3 {
+    font-size: 16px;
 }
 
-.tos p {
-    font-size: 1.0em;
+.ob-tos p {
+    font-size: 14px;
 }
 
-.tos .strong {
+.ob-tos .strong {
     font-weight: bold;
 }
 
-.tos a {
+.ob-tos a {
     color: rgb(255, 78, 84);
 }
 
@@ -3308,4 +3324,10 @@ input.ob-form-text-input[type="search"] {
 
 .ob-ionicon-medium::before {
     font-size: 28px !important;
+}
+
+.ob-image-message {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 16px;
+    color: white;
 }
