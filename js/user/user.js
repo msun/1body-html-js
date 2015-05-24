@@ -161,7 +161,7 @@ userModule.controller("ImagesCtrl", function($scope, $ionicModal, Following, app
         item.toggle = false;
     }
 
-    $scope.opendImageModal = function(item){
+    $scope.openImageModal = function(item){
         $scope.image = item;
         $scope.modal.show();
     }

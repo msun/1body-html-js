@@ -18,7 +18,7 @@
             </label>
             <div class="row">
                 <div class="col col-33" ng-repeat="item in images | orderBy:'-created'">
-                    <img src="{{item.hdurl}}" width="100%" ng-click="opendImageModal(item)"/>
+                    <img src="{{item.hdurl}}" width="100%" ng-click="openImageModal(item)"/>
                     <p >{{item.message}}</p>
                     <!--<input type="text" ng-model="item.edit" ng-show="item.toggle && userID == myID" placeholder="image message"/>-->
                     <div class="button-block">

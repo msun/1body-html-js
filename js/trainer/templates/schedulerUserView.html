@@ -7,6 +7,7 @@
     </div>
     <div class="ob-form-row">
         <table class="timeslot-table">
+            <tr><td  class="timeslot-emptytext" ng-show="timeslots.length <= 0">No sessions found</td></tr>
             <tr class="timeslot-row" ng-repeat="time in timeslots track by $index">
                 <td class="timeslot-time-column">
                     {{time | displayTime}}

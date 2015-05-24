@@ -1,9 +1,17 @@
-<ion-modal-view>
-    <ion-header-bar>
-        <h1 class="title">{{image.message}}</h1>
+<ion-modal-view class="ob-darktranslucent-bg">
+    <ion-header-bar class="ob-darkpurple-bg">
+        <h1 class="title ob-navbar-title">Image</h1>
+        <!--{{image.message}}-->
+        <div class="buttons">
+            <button ng-click="closeImageModal()" class="button button-icon">
+                <i class="icon ion-close ob-white-color"></i>
+            </button>
+        </div>
     </ion-header-bar>
     <ion-content>
-        <img src="{{image.hdurl}}" width="100%">
-        <button class="button button-calm" ng-click="closeImageModal()">Close</button>
+        <div class="menu1-content-div">
+            <img class="ob-standardsize"
+                 src="{{image.hdurl}}">
+        </div>
     </ion-content>
 </ion-modal-view>

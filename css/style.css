@@ -1178,7 +1178,19 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-list {
+    position: relative;
+    left: -1px;
+    width: calc(100% + 2px);
+    min-width: 302px;
+    max-width: 498px;
     margin: 8px auto;
+    display: block;
+}
+
+@media (min-width: 500px) {
+    .ob-list {
+        left: 0px;
+    }
 }
 
 .ob-list-emptytext {
@@ -1199,6 +1211,7 @@ input.ob-form-text-input[type="search"] {
     border-top: 1px solid #a1a6ae;
     border-bottom: 1px solid #a1a6ae;
     text-decoration: none;
+    box-shadow: -1px 0 0 #a1a6ae, 1px 0 0 #a1a6ae;
 }
 
 .ob-list-row ~ .ob-list-row {
@@ -1514,18 +1527,38 @@ input.ob-form-text-input[type="search"] {
 /* ob-vertical-center */
 /* ********** ********** ********** ********** ***********/
 
-.ob-vertical-center-parent {
+.ob-center-parent {
     position: relative;
 }
 
-.ob-vertical-center-child {
+.ob-center-vert-child {
     width: 100%;
     position: absolute;
     top: 50%;
-    transform: translate(0%, -50%);
-    -webkit-transform: translate(0%, -50%);
-    -moz-transform: translate(0%, -50%);
-    -o-transform: translate(0%, -50%);
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.ob-center-horiz-child {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+}
+
+.ob-center-both-child {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -3052,6 +3085,15 @@ input.ob-form-text-input[type="search"] {
     width: 100%;
 }
 
+.timeslot-emptytext {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: #fff;
+    text-align: center;
+    padding: 20px 12px;
+}
+
 .timeslot-row {
     height: 30px;
     border-bottom: 1px solid #7f7b73;
@@ -3230,8 +3272,8 @@ input.ob-form-text-input[type="search"] {
     width: 93.75%; /* 300px / 320px */
     min-width: 300px;
     max-width: 500px;
-    border-radius: 8px;
     margin: 12px auto;
+    display: block;
 }
 
 .ob-divider {
