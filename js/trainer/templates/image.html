@@ -1,9 +1,17 @@
-<ion-modal-view>
-    <ion-header-bar>
-        <h1 class="title">{{selectedTrainer.username}}</h1>
+<ion-modal-view class="ob-darktranslucent-bg">
+    <ion-header-bar class="ob-darkpurple-bg">
+        <h1 class="title ob-navbar-title">Image</h1>
+        <!--{{selectedTrainer.username}}-->
+        <div class="buttons">
+            <button ng-click="closeImageModal()" class="button button-icon">
+                <i class="icon ion-close ob-white-color"></i>
+            </button>
+        </div>
     </ion-header-bar>
     <ion-content>
-        <img src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic_hd.jpg" width="100%">
-        <button class="button button-calm" ng-click="closeImageModal()">Close</button>
+        <div class="menu1-content-div">
+            <img class="ob-standardsize"
+                 src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic_hd.jpg">
+        </div>
     </ion-content>
 </ion-modal-view>
