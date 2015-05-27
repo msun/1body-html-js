@@ -15,6 +15,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         maxReviewCount: 100000,
         radius: 8,
         maxFollowerCount: 100000,
+        searchKeys: ["firstname", "lastname", "info", "group", "gym", "username", "email", "name"],
         categories: [
             {name: "Winter", type: "sports"},
             {name: "Workout", type: "sports"},
@@ -550,14 +551,14 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
     .run(function($rootScope, appFactory, appConfig, GeoTrainers, GeoEvents, GeoGyms){
         navigator.geolocation.getCurrentPosition(function(position){
             console.log("location ready");
-            $rootScope.position = position;
+            $rootScope.position = [position.coords.latitude, position.coords.longitude];
             console.log(position);
 
             $rootScope.$broadcast('locationReady', 'locationReady');
 
 
             appFactory.trainerQuery = GeoTrainers.query({
-                center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+                center: [$rootScope.position[0], $rootScope.position[1]],
                 radius: appConfig.radius
             });
 
@@ -604,7 +605,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
 
             appFactory.eventQuery = GeoEvents.query({
-                center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+                center: [$rootScope.position[0], $rootScope.position[1]],
                 radius: appConfig.radius
             });
 
@@ -648,7 +649,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             });
 
             appFactory.gymQuery = GeoGyms.query({
-                center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+                center: [$rootScope.position[0], $rootScope.position[1]],
                 radius: appConfig.radius
             });
 

@@ -105,28 +105,111 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     $scope.categories = Categories;
     var pinSource = GeoTrainers;
     var firebaseSource = Trainers;
+    var clone = [];
     $scope.markers = {};
     $scope.trainerCircles = [];
     $scope.searchContainer = {};
     $scope.searchContainer.redo_search = true;
 
-    if(appFactory.trainerQuery){
+    if(appFactory.searchTerms && appFactory.searchTerms.length > 0){
+//        appFactory.onsearch = false;
+        console.log(appFactory.searchTerms);
+        $scope.searchContainer.searchTerms = appFactory.searchTerms;
+        $timeout(function(){
+            $scope.searchContainer.searchTerms = appFactory.searchTerms;
+        });
+    }
+
+    function searchItem(t){
+        console.log(t);
+        console.log($scope.searchContainer.searchTerms);
+        if(!$scope.searchContainer.searchTerms){
+            return true;
+        }
+        if($scope.searchContainer.searchTerms.length <= 0){
+            return true;
+        }
+        var searchTerms = $scope.searchContainer.searchTerms.split(" ");
+        console.log(searchTerms);
+
+        var foundTerms = {};
+        for(var i=0; i<searchKeys.length; i++){
+            if (!t.hasOwnProperty(searchKeys[i])) {
+                console.log(t[searchKeys[i]]);
+                continue;
+            }
+
+
+            for(var k=0; k<searchTerms.length; k++){
+                console.log(searchTerms[k]);
+                console.log(t[searchKeys[i]]);
+                if(searchKeys[i] == "gym"){
+                    if(t.gym && t.gym.gymName.indexOf(searchTerms[k]) >= 0){
+                        if(!foundTerms[searchTerms[k]]){
+                            foundTerms[searchTerms[k]] = 1;
+                        } else {
+                            foundTerms[searchTerms[k]]++;
+                        }
+                    }
+                    continue;
+                }
+                if(t[searchKeys[i]] && t[searchKeys[i]].indexOf(searchTerms[k]) >= 0){
+                    if(!foundTerms[searchTerms[k]]){
+                        foundTerms[searchTerms[k]] = 1;
+                    } else {
+                        foundTerms[searchTerms[k]]++;
+                    }
+                    console.log(foundTerms);
+                }
+            }
+        }
+
+        console.log(foundTerms);
+        for(var i=0; i<searchTerms.length; i++) {
+            console.log(searchTerms[i]);
+            console.log(foundTerms[i]);
+            if (!foundTerms.hasOwnProperty(searchTerms[i])) {
+                return false;
+            }
+        }
+        console.log("found " + t.username);
+        return true;
+    };
+
+    if (appFactory.trainerQuery) {
         appFactory.trainerQuery.updateCriteria({
             radius: 8
         });
     }
 
-    if(appFactory.gymQuery) {
+    if (appFactory.gymQuery) {
         appFactory.gymQuery.updateCriteria({
             radius: 8
         });
     }
 
-    if(appFactory.eventQuery) {
+    if (appFactory.eventQuery) {
         appFactory.eventQuery.updateCriteria({
             radius: 8
         });
     }
+
+    $timeout(function () {
+        console.log("timeout");
+        if (appFactory.users.length <= 0) {
+            $ionicLoading.hide();
+            var alertPopup = $ionicPopup.alert({
+                title: 'Network Error',
+                template: 'Cannot retrieve information from server, please try again in a moment'
+            });
+            alertPopup.then(function (res) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    $rootScope.position [position.coords.latitude, position.coords.longitude];
+                    $rootScope.$broadcast('locationReady', 'locationReady');
+                });
+            });
+        }
+    }, 5000);
 
     $scope.clickontab = function (tab, $event) {
         console.log($event);
@@ -136,7 +219,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         $scope.header = tab;
         $rootScope.header = tab;
         appFactory.state = tab;
-        $scope.searchContainer.searchTerms = "";
         $scope.searchContainer.searchRadius = 30;
         clearpins();
         if (tab == "Events") {
@@ -187,20 +269,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         $scope.mobile_popover.remove();
     });
 
-    $scope.searchMap = function () {
-        if ($scope.searchContainer.selectedCategory && $scope.searchContainer.selectedCategory.name) {
-            $scope.searchContainer.searchTerms = $scope.searchContainer.searchTerms + " $cate" + $scope.searchContainer.selectedCategory.name;
-        }
-        if (!$scope.searchContainer.searchRadius) {
-            $scope.searchContainer.searchRadius = 30;
-        }
-        console.log($scope.searchContainer.selectedCategory);
-        console.log($scope.searchContainer.searchTerms);
-        console.log($scope.searchContainer.searchRadius);
-        clearpins();
-//        dropPins($scope.header, $scope.searchContainer.searchRadius, $scope.searchContainer.searchTerms);
-    }
-
     $scope.cancelSearch = function () {
         $scope.searchContainer.searchTerms = "";
         $scope.searchContainer.searchRadius = 30;
@@ -213,35 +281,18 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             clearpins();
             markTrainers();
             markGyms();
-//            dropPins($scope.header, $scope.searchContainer.searchRadius, $scope.searchContainer.searchTerms, undefined, true, $scope.searchContainer.mobile_trainers);
         }
     }
 
-    console.log("map ctrl");
-    $ionicLoading.show({
-        content: '<i class="icon ion-looping"></i> Loading location data',
-        animation: 'fade-in',
-        showBackdrop: true,
-        maxWidth: 200,
-        showDelay: 0
-    });
+//    console.log("map ctrl");
+//    $ionicLoading.show({
+//        content: '<i class="icon ion-looping"></i> Loading location data',
+//        animation: 'fade-in',
+//        showBackdrop: true,
+//        maxWidth: 200,
+//        showDelay: 0
+//    });
 
-    $timeout(function () {
-        console.log("timeout");
-        if (appFactory.users.length <= 0) {
-            $ionicLoading.hide();
-            var alertPopup = $ionicPopup.alert({
-                title: 'Network Error',
-                template: 'Cannot retrieve information from server, please try again in a moment'
-            });
-            alertPopup.then(function (res) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    $rootScope.position = position;
-                    $rootScope.$broadcast('locationReady', 'locationReady');
-                });
-            });
-        }
-    }, 5000);
 
     var compileDropMarker = function (obj, loaded) {
         if($rootScope.header == "Users") {
@@ -503,7 +554,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         angular.forEach(appFactory.geoTrainers, function(obj, key){
             loadUser(obj, function(foundItem){
                 console.log(foundItem);
-                compileDropMarker(obj, foundItem);
+                if(searchItem(foundItem)) {
+                    compileDropMarker(obj, foundItem);
+                }
             });
         });
 
@@ -511,8 +564,10 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             console.log("onKeyEnter");
             console.log(obj);
             loadUser(obj, function(foundItem){
-                console.log(foundItem);
-                compileDropMarker(obj, foundItem);
+                if(searchItem(foundItem)) {
+                    console.log(foundItem);
+                    compileDropMarker(obj, foundItem);
+                }
             });
         };
 
@@ -535,7 +590,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
             loadUser(obj, function(foundItem){
                 console.log(foundItem);
-                compileDropMarker(obj, foundItem);
+                if(searchItem(foundItem)) {
+                    compileDropMarker(obj, foundItem);
+                }
             });
         };
     };
@@ -543,7 +600,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     function markGyms() {
         angular.forEach(appFactory.geoGyms, function(obj, key){
             loadGym(obj, function(foundItem){
-                compileDropMarker(obj, foundItem);
+                if(searchItem(foundItem)) {
+                    compileDropMarker(obj, foundItem);
+                }
             })
         });
 
@@ -552,7 +611,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             console.log(obj);
 //            dropMapMarker(obj);
             loadGym(obj, function(foundItem){
-                compileDropMarker(obj, foundItem);
+                if(searchItem(foundItem)) {
+                    compileDropMarker(obj, foundItem);
+                }
             })
         };
 
@@ -576,7 +637,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
 //            dropMapMarker(obj);
             loadGym(obj, function(foundItem){
-                compileDropMarker(obj, foundItem);
+                if(searchItem(foundItem)) {
+                    compileDropMarker(obj, foundItem);
+                }
             })
         };
     };
@@ -585,7 +648,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         angular.forEach(appFactory.geoEvents, function(obj, key) {
             loadEvent(obj, function (foundItem) {
                 console.log(foundItem);
-                compileDropMarker(obj, foundItem);
+                if(searchItem(foundItem)) {
+                    compileDropMarker(obj, foundItem);
+                }
             });
         });
 
@@ -594,26 +659,33 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             console.log(obj);
             loadEvent(obj, function (foundItem) {
                 console.log(foundItem);
-                compileDropMarker(obj, foundItem);
+                if(searchItem(foundItem)) {
+                    compileDropMarker(obj, foundItem);
+                }
             });
         };
 
         appFactory.onKeyExit = function (key) {
             console.log("onKeyExit");
             console.log(key);
-            $scope.markers[key].marker.setMap(null);
-            $scope.markers[key] = undefined;
+            if($scope.markers[key]){
+                $scope.markers[key].marker.setMap(null);
+                $scope.markers[key] = undefined;
+            }
         };
 
         appFactory.onKeyMove = function (obj) {
             console.log("onKeyExit");
             console.log(obj);
-            $scope.markers[obj.key].marker.setMap(null);
-            $scope.markers[obj.key] = undefined;
-
+            if($scope.markers[key]) {
+                $scope.markers[obj.key].marker.setMap(null);
+                $scope.markers[obj.key] = undefined;
+            }
             loadEvent(obj, function (foundItem) {
                 console.log(foundItem);
-                compileDropMarker(obj, foundItem);
+                if(searchItem(foundItem)) {
+                    compileDropMarker(obj, foundItem);
+                }
             });
         };
     };
@@ -622,7 +694,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     function setmap() {
         var map = new google.maps.Map(document.getElementById('dashmap'), {
             zoom: 12,
-            center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+            center: new google.maps.LatLng(position[0], position[1]),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
             streetViewControl: false,
@@ -645,6 +717,8 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
         var inprogress = false;
         google.maps.event.addListener(map, 'dragend', function () {
+            $rootScope.position = [map.getCenter().lat(), map.getCenter().lng()];
+
             var newRadius = calculateRadius();
             appFactory.radius = newRadius;
 //                if($scope.searchContainer.redo_search){
@@ -662,10 +736,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 center: [map.getCenter().lat(), map.getCenter().lng()],
                 radius: newRadius
             });
-//                    clearpins();
-//                    dropPins($scope.header, undefined, undefined, [map.getCenter().lat(), map.getCenter().lng()], false, $scope.searchContainer.mobile_trainers, false);
-//                    dropGymPins($scope.header, undefined, undefined, [map.getCenter().lat(), map.getCenter().lng()], false, $scope.searchContainer.mobile_trainers, false);
-//                }
         });
 
         google.maps.event.addListener(map, 'zoom_changed', function () {

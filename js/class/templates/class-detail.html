@@ -94,16 +94,18 @@
             </div>
             <div class="profile-bottom-content">
                 <div class="profile-feed-review-list">
-                    <div class="profile-feed-review-list-row" ng-repeat="comment in selectedClass.comments" ng-click="replyto()">
+                    <div class="profile-map-container">
+                        <div class="item profile-map" id="class-detail-map" data-tap-disabled="true"></div>
+                    </div>
+                    <div class="profile-feed-review-list">
+                        <a class="profile-feed-review-list-row" ng-repeat="review in reviews" ng-href="#/menu/Users/{{review.userID}}">
                         <span class="profile-feed-review-list-row-left">
-                            <img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{comment.userID | htmlEncode}}/profilepic.jpg"/>
+                            <img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{review.userID | htmlEncode}}/profilepic.jpg"/>
                         </span>
                         <span class="profile-feed-review-list-row-right">
-                            <div class="profile-feed-review-text">{{comment.text}}</div>
-                            <!-- {{review.created | date:'yyyy-MM-dd HH:mm:ss'}} -->
-                            <div ng-hide="comment.replyUserID"
-                                 class="profile-feed-review-creation">{{comment.username}} left at: {{comment.creation}}</div>
-                            <!--
+                            <div class="profile-feed-review-text">{{review.text}}</div>
+                            <div class="profile-feed-review-creation">{{review.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+
                             <div class="profile-feed-review-stars">
                                 <span class="profile-feed-review-star" ng-show="review.rating > 0" id="profile-feed-review-star-1"></span>
                                 <span class="profile-feed-review-star" ng-show="review.rating > 1" id="profile-feed-review-star-2"></span>
@@ -111,8 +113,10 @@
                                 <span class="profile-feed-review-star" ng-show="review.rating > 3" id="profile-feed-review-star-4"></span>
                                 <span class="profile-feed-review-star" ng-show="review.rating > 4" id="profile-feed-review-star-5"></span>
                             </div>
-                            -->
                         </span>
+                        </a>
+                        <div class="profile-feed-end" ng-show="reviews.length < 5">End of Review Feed</div>
+                        <button class="ob-block-button ob-button-blue" ng-show="reviews.length == 5" ng-click="moreReviews()">More Reviews</button>
                     </div>
                     <!--
                     <div class="ob-feedend-container" ng-show="reviews.length < 5">
@@ -122,13 +126,6 @@
                     </div>
                     -->
                     <!--<button class="ob-block-button ob-button-blue" ng-show="reviews.length == 5" ng-click="moreReviews()">More Reviews</button>-->
-                </div>
-                <div class="ob-form ob-form-light">
-                    <div class="ob-form-row ob-form-flex-row">
-                        <input class="ob-form-text-input" ng-model="newcomment.text"
-                               type="text" placeholder="Enter a comment"/>
-                        <div class="ob-form-button ob-button-blue" ng-click="addcomment()">Send</div>
-                    </div>
                 </div>
             </div>
         </div>

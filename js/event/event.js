@@ -119,6 +119,7 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
 
         var transaction = {
             eventID: $scope.selectedEvent.$id,
+            sessionID: $scope.selectedEvent.$id,
             eventName: $scope.selectedEvent.name,
             type: "Events",
             eventUserID: $scope.selectedEvent.userID,
@@ -341,7 +342,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
 
             var map = new google.maps.Map(document.getElementById('create-eventmap'), {
                 zoom: 11,
-                center: new google.maps.LatLng($rootScope.position.coords.latitude, $rootScope.position.coords.longitude),
+                center: new google.maps.LatLng($rootScope.position[0], $rootScope.position[1]),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             });
 

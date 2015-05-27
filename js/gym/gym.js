@@ -104,7 +104,7 @@ gymModule.controller('CreateGymCtrl', function($firebaseObject, baseUrl, RepeatI
 //            $scope.map = mapFactory.initialize([], "create-gymModule", appFactory.user, []);
             var map = new google.maps.Map(document.getElementById('create-gymMap'), {
                 zoom: 11,
-                center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                center: new google.maps.LatLng(position[0], position[1]),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             });
 

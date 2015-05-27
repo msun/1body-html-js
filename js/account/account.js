@@ -787,7 +787,7 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
     $scope.showGymSelectionModal = function(){
         $scope.gyms = [];
         $scope.geoQuery = GeoGyms.query({
-            center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+            center: [$rootScope.position[0], $rootScope.position[1]],
             radius: 30
         });
 
