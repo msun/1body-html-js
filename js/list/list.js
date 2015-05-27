@@ -10,7 +10,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
     $scope.searchContainer = {};
     $scope.searchContainer.radius = appFactory.radius || 8;
 
-    var searchKeys = ["firstname", "lastname", "info", "group", "gym", "username", "email", "name"];
+    var searchKeys = appConfig.searchKeys;
 
     $scope.header = $rootScope.header;
 
@@ -21,6 +21,15 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
         listEvents();
     } else {
         listGyms();
+    }
+
+    if(appFactory.searchTerms && appFactory.searchTerms.length > 0){
+//        appFactory.onsearch = false;
+        console.log(appFactory.searchTerms);
+        $scope.searchContainer.searchTerms = appFactory.searchTerms;
+        $timeout(function(){
+            $scope.searchContainer.searchTerms = appFactory.searchTerms;
+        });
     }
 
     $scope.clickontab = function (tab, $event) {
@@ -110,9 +119,15 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
         return true;
     };
 
+    $scope.searchOnMap = function(){
+        appFactory.onsearch = true;
+        appFactory.searchTerms = $scope.searchContainer.searchTerms;
+        window.location.href = "#/menu/map";
+    };
+
     $scope.searchTrainers = function(event){
         $scope.array = clone.slice(0);
-
+        appFactory.searchTerms = $scope.searchContainer.searchTerms;
         var i = $scope.array.length;
         console.log($scope.array);
         while(i--){
@@ -164,7 +179,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
             findUser(obj, function(foundItem){
                 if(searchItem(foundItem)){
                     $scope.array.push(foundItem);
-                };
+                }
 
                 clone.push(foundItem);
             });

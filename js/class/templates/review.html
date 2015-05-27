@@ -1,0 +1,38 @@
+<ion-modal-view>
+    <ion-header-bar align-title="center" class="ob-darkpurple-bg">
+        <h1 class="title ob-navbar-title">Add Review</h1>
+        <div class="buttons">
+            <button ng-click="closeReviewModal()()" class="button button-icon">
+                <i class="icon ion-close ob-white-color"></i>
+            </button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header ob-grey-bg">
+        <div class="ob-instructions">Session Time: {{transaction.creation}}</div>
+        <span class="profile-reviews-item">
+            <div class="profile-review-stars">
+                <span ng-class="{'profile-review-star-clickable-white':newreview.rating <= 0,
+                                 'profile-review-star-clickable-blue':newreview.rating > 0}"
+                      ng-click="newreview.rating=1"></span>
+                <span ng-class="{'profile-review-star-clickable-white':newreview.rating <= 1,
+                                 'profile-review-star-clickable-blue':newreview.rating > 1}"
+                      ng-click="newreview.rating=2"></span>
+                <span ng-class="{'profile-review-star-clickable-white':newreview.rating <= 2,
+                               'profile-review-star-clickable-blue':newreview.rating > 2}"
+                      ng-click="newreview.rating=3"></span>
+                <span ng-class="{'profile-review-star-clickable-white':newreview.rating <= 3,
+                                 'profile-review-star-clickable-blue':newreview.rating > 3}"
+                      ng-click="newreview.rating=4"></span>
+                <span ng-class="{'profile-review-star-clickable-white':newreview.rating <= 4,
+                               'profile-review-star-clickable-blue':newreview.rating > 4}"
+                      ng-click="newreview.rating=5"></span>
+            </div>
+        </span>
+        <div class="ob-form">
+            <div class="ob-form-row">
+                <textarea class="ob-form-textarea ob-form-textarea-small" ng-model="newreview.text" placeholder="Leave a review">{{user.info}}</textarea>
+            </div>
+        </div>
+        <button class="ob-block-button ob-button-blue" ng-click="addReview()">Confirm </button>
+    </ion-content>
+</ion-modal-view>

@@ -130,6 +130,7 @@ classModule.controller('ClassScheduleCtrl', function($scope, Notifications, $loc
 
         schedule.$save().then(function(){
             obj.classID = $stateParams.classID;
+            obj.sessionID = $stateParams.classID;
             obj.className = $scope.selectedClass.name;
             obj.schedule = schedule.$id;
             console.log($scope.dt);
@@ -213,107 +214,68 @@ classModule.controller('ClassScheduleCtrl', function($scope, Notifications, $loc
     };
 });
 
-classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, $timeout, mapFactory, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
+classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, Reviews, $timeout, $firebaseArray, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
     console.log($stateParams.gymID);
     $scope.newcomment = {};
     $scope.gymID = $stateParams.gymID;
 
     $scope.classID = $stateParams.classID;
 
-
-
-    $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
-    $scope.user.$loaded(function(){
-        appFactory.user = $scope.user;
-        $localstorage.setObject("user", $scope.user);
+    $ionicModal.fromTemplateUrl('js/class/templates/review.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.reviewModal = modal;
     });
 
     var classRef = Gyms.ref().child($stateParams.gymID).child("Classes").child($stateParams.classID);
     $scope.selectedClass = $firebaseObject(classRef);
     $scope.gym = $firebaseObject(Gyms.ref().child($stateParams.gymID));
+    $scope.gym.$loaded(function(){
+        showMap();
+    });
 
-//    var modified = $firebaseObject(classRef.child("modified"));
-//
-//    modified.$loaded(function(){
-//        console.log(modified);
-//        if(modified.$value && appFactory.classes[$stateParams.classID] && appFactory.classes[$stateParams.classID].modified >= modified.$value){
-//            $scope.selectedClass = appFactory.classes[$stateParams.classID];
-//            loadSchedule();
-//        } else {
+    $scope.reviews = $firebaseArray(Reviews.ref().child($stateParams.eventID));
 
+    function showMap(){
+        $scope.map = new google.maps.Map(document.getElementById('class-detail-map'), {
+            zoom: 12,
+            center: new google.maps.LatLng($scope.gym.location[0], $scope.gym.location[1]),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
 
-//        }
-//    });
+        if($scope.marker){
+            $scope.marker.setMap(null);
+        }
 
-
-//    appFactory.classes.forEach(function(item){
-//        if(item.$id == $scope.classID){
-//            $timeout(function(){
-//                $scope.selectedClass = item;
-//
-//                var myRef = Classes.ref().child($scope.selectedClass.$id).child("comments");
-//                $scope.comments = $firebase(myRef);
-////                $scope.comments = sync.$asArray();
-//                console.log(myRef);
-////                console.log(sync);
-//                console.log($scope.comments);
-//
-//                console.log(item);
-//                $scope.map = mapFactory.initialize([], "class-detail-map", $scope.selectedClass, []);
-//                var marker;
-//
-//                marker = new google.maps.Marker({
-//                    position: $scope.map.getCenter(),
-//                    map: $scope.map
-//                });
-//            })
-//        }
-//    });
-
-    $scope.replyto = function(comment){
-        $scope.replyUserID = comment.userID;
-        $scope.replyUserName = comment.username;
-        $timeout(function() {
-            $scope.commentTitle = "Leave a comment @" + comment.username + ":";
+        $scope.marker = new google.maps.Marker({
+            position: $scope.map.getCenter(),
+            map: $scope.map
         });
     }
 
-    $scope.clear = function(){
-        $scope.replyUserID = undefined;
-        $scope.commentTitle = "Leave a comment:";
-    }
+    $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("sessionID").equalTo($stateParams.classID));
 
-    $scope.addcomment = function(){
-        if(!$scope.newcomment.text || $scope.newcomment.text.length <=0){
-            alert("comment cannot be empty");
-        } else {
-            var notif = {
-                creatorID: appFactory.user.$id,
-                starttime: new Date().getTime(),
-                url: "#/menu/Events/" + $stateParams.userID + "/" + $stateParams.eventID,
-                receivers: [$stateParams.userID],
-                email: true,
-                message: "You have received a new message in event: " + $scope.selectedEvent.name
+    $scope.myTransactions.$loaded(function () {
+        console.log($scope.myTransactions);
+        for (var i = 0; i < $scope.myTransactions.length; i++) {
+            if ($scope.myTransactions[i].scanned && $scope.myTransactions[i].reviewed == false) {
+                alert("Please leave a review");
+                $scope.showReviewModal();
+                $scope.transaction = $scope.myTransactions[i];
+                break;
             }
-            if($scope.replyUserID){
-                notif.receivers.push($scope.replyUserID);
-                $scope.newcomment.replyUserID = $scope.replyUserID;
-                $scope.newcomment.replyUserName = $scope.replyUserName;
-            }
-
-            $scope.newcomment.creation = Date.now();
-            $scope.newcomment.username = appFactory.user.username;
-            $scope.newcomment.userID = appFactory.user.$id;
-            $scope.comments.$add($scope.newcomment).then(function(){
-                Notifications.ref().push(notif, function(){
-                    $timeout(function(){
-                        $scope.newcomment.text = "";
-                        alert("comment added");
-                    });
-                });
-            });
         }
-    }
+    });
+
+    $scope.showReviewModal = function(){
+        $scope.reviewModal.show();
+    };
+
+    $scope.closeReviewModal = function(){
+        $scope.reviewModal.hide();
+    };
+
 });
 
 classModule.controller('CreateClassCtrl', function($firebaseObject, $ionicModal, $rootScope, appConfig, $scope, $timeout, $stateParams, $ionicPopup, Trainers, appFactory, Classes, Gyms, GeoGyms) {
@@ -345,7 +307,7 @@ classModule.controller('CreateClassCtrl', function($firebaseObject, $ionicModal,
     $scope.showGymSelectionModal = function(){
         $scope.gyms = [];
         $scope.geoQuery = GeoGyms.query({
-            center: [$rootScope.position.coords.latitude, $rootScope.position.coords.longitude],
+            center: [$rootScope.position[0], $rootScope.position[1]],
             radius: 30
         });
 
