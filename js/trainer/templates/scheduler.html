@@ -1,6 +1,9 @@
 
         <div class="menu1-content-div">
             <button class="ob-block-button ob-button-blue ob-button-shadow" ng-click="confirm()">Confirm</button>
+            <input type="text" ng-model="user.normalRate" placeholder="off hour rate">
+            <input type="text" ng-model="user.primeRate" placeholder="prime hour rate">
+            <button ng-click="setRate()">Set</button>
             <!--<button class="ob-block-button ob-button-blue ob-button-shadow" ng-click="printTime()">Check Time</button>-->
             <div class="ob-instructions">Set your availabile time slots as a professional</div>
             <div class="ob-form">
@@ -12,7 +15,12 @@
                 </div>
                 <div class="ob-form-row">
                     <table class="timeslot-table">
-                        <tr class="timeslot-row" ng-repeat="time in timeslots track by $index">
+                        <tr class="timeslot-row" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">
+                            <td>
+                                <button class="timeslot-button" ng-click="removeTimeSlot($index)">
+                                    <i class="icon ion-minus-round timeslot-button-icon"></i>
+                                </button>
+                            </td>
                             <td class="timeslot-time-column">
                                 {{time | displayTime}}
                             </td>

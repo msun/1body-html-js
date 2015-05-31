@@ -193,6 +193,16 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
+    .factory("MyTokens", function(FirebaseRef) {
+        var ref = FirebaseRef.child("userTokens");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
     .factory("ImageUrls", function(FirebaseRef) {
         var ref = FirebaseRef.child("imageUrl");
 
@@ -255,6 +265,16 @@ angular.module('starter.services', ["firebase"])
 
     .factory("Gyms", function(FirebaseRef) {
         var ref = FirebaseRef.child("gyms");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
+    .factory("Payments", function(FirebaseRef) {
+        var ref = FirebaseRef.child("payments");
 
         return {
             ref: function(){

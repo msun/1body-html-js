@@ -681,7 +681,9 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
             scope.dt = now;
 
             scope.selectTime = function(i){
-                scope.chosen[i] = 1 - scope.chosen[i];
+                scope.chosen[i].status = 1 - scope.chosen[i].status;
+
+
 //                console.log(scope.chosen);
 //
 //                var count = 0;
@@ -705,6 +707,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                 scope.theday = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
                 daySchedule = $firebaseObject(Schedule.ref().child(scope.trainerID).child(scope.theday));
                 daySchedule.$loaded(function(){
+                    console.log(daySchedule);
                     if(daySchedule.active){
                         scope.active = daySchedule.active;
                     } else {
@@ -715,9 +718,9 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                     scope.timeslots = [];
                     scope.chosen = [];
                     for(var i=0; i<scope.active.length; i++){
-                        if(scope.active[i] == 0){
+                        if(scope.active[i].status == 0){
                             scope.timeslots.push(slots.half[i]);
-                            scope.chosen.push(0);
+                            scope.chosen.push(scope.active[i]);
                         }
                     }
                     console.log(scope.chosen);
@@ -729,9 +732,10 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                 var starttime = 0;
 
                 for(var i=0; i < scope.chosen.length; i++) {
-                    if (scope.chosen[i]) {
+                    if (scope.chosen[i].status == 1) {
                         booked.push({
-                            starttime: scope.timeslots[i]
+                            starttime: scope.timeslots[i],
+                            rate: scope.chosen[i].rate
                         });
                     }
                 }
@@ -742,7 +746,8 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                     var connected = 0;
                     bookedReduced.push({
                         starttime: starttime,
-                        period: 1
+                        period: 1,
+                        rate: parseInt(booked[0].rate)
                     })
                     for (var i = 1; i < booked.length; i++) {
                         var found = false;
@@ -757,6 +762,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                                 console.log(endtime);
                                 if (booked[i].starttime == endtime) {
                                     bookedReduced[a].period = bookedReduced[a].period+1;
+                                    bookedReduced[a].rate += parseInt(booked[i].rate);
                                     found = true;
                                 }
                             }
@@ -764,7 +770,8 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         if(!found){
                             bookedReduced.push({
                                 starttime: booked[i].starttime,
-                                period: 1
+                                period: 1,
+                                rate: parseInt(booked[i].rate)
                             })
                         }
                     }
@@ -813,7 +820,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         trainerID: scope.trainerID,
                         sessionID: scope.trainerID,
                         trainerName: scope.trainerName,
-                        tokens: 2,
+                        tokens: bookedReduced[i].rate,
                         type: "Users",
                         location: appFactory.selectedTrainer.location,
                         created: Firebase.ServerValue.TIMESTAMP,
@@ -822,7 +829,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         starttime: startTimestamp,
                         timezone: timezone.name()
                     };
-
+                    alert(bookedReduced[i].rate + " tokens");
 
                     (function(newTransaction){
                         console.log(newTransaction);
@@ -960,7 +967,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
     }
 });
 
-trainer.directive('scheduler', function($timeout, appFactory, $firebaseArray, $firebaseObject, Schedule){
+trainer.directive('scheduler', function($timeout, appFactory, $firebaseArray, $firebaseObject, Schedule, appConfig){
     return {
         restrict: "E",
         transclude: 'true',
@@ -981,22 +988,54 @@ trainer.directive('scheduler', function($timeout, appFactory, $firebaseArray, $f
                 half: []
             }
 
+            scope.user = appFactory.user;
+            if(!scope.user.normalRate){
+                scope.user.normalRate = 3;
+            }
+            if(!scope.user.primeRate){
+                scope.user.primeRate = 5;
+            }
+
+            scope.setRate = function(){
+                if(scope.user.normalRate < 3 || scope.user.primeRate < 5){
+                    alert("Minimum rate for off hour rate is 3, minimum rate for prime hour rate is 5")
+                } else {
+                    scope.user.$save().then(function(){
+                        alert("Rate set");
+                    });
+
+                }
+            };
+
             scope.active = [];
-            slots.hour = _.range(0, 2300, 100);
+            slots.hour = _.range(0, 2400, 100);
             slots.hour.forEach(function (hr) {
                 slots.half.push(hr);
                 slots.half.push(hr + 30);
-                scope.active.push(-1);
-                scope.active.push(-1);
+                scope.active.push({
+                    status: -1,
+                    prime: false
+                });
+                scope.active.push({
+                    status: -1,
+                    prime: false
+                });
             });
+            console.log(scope.active);
 
             scope.timeslots = slots.half;
 
             scope.selectTime = function(i){
-                scope.active[i] = -1 - scope.active[i];
-            }
+                scope.active[i].status = -1 - scope.active[i].status;
+            };
 
             scope.confirm = function () {
+                for(var i=0; i<scope.active.length; i++){
+                    scope.active[i].rate = appFactory.user.normalRate;
+                    if(scope.active[i].prime){
+                        scope.active[i].rate = appFactory.user.primeRate;
+                    }
+                }
                 var name = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
                 var daySchedule = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child(name));
                 daySchedule.active = scope.active;
@@ -1006,10 +1045,20 @@ trainer.directive('scheduler', function($timeout, appFactory, $firebaseArray, $f
                     window.location.href = "#/menu/map";
                 });
 
-            }
+            };
+
             scope.printTime = function(){
                 console.log(scope.dt);
-            }
+            };
+
+            scope.showTableRow = function(index){
+                return !appConfig.removedTimeSlot[index];
+            };
+
+            scope.removeTimeSlot = function(index){
+
+                appConfig.removedTimeSlot[index] = true;
+            };
 
             scope.collapse = true;
             scope.$watch('dt', function () {
@@ -1021,7 +1070,10 @@ trainer.directive('scheduler', function($timeout, appFactory, $firebaseArray, $f
                         scope.active = daySchedule.active;
                     } else {
                         for(var i=0; i<scope.active.length; i++){
-                            scope.active[i] = -1;
+                            scope.active[i] = {
+                                status: -1,
+                                prime: false
+                            };
                         }
                     }
                 })

@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services', 'eventModule', 'classModule', 'gymModule', 'userModule', 'listModule'])
 //    .value("baseUrl", "http://108.168.247.49:10355/")
-    .constant('appConfig', {
+    .value('appConfig', {
         baseUrl: "http://localhost:8888/",
         apikey: "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc",
         mapstate: "menu.map",
@@ -29,7 +29,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             {interval: "Weekly"},
 //            {interval: "Monthly"},
             {interval: "Once"}
-        ]
+        ],
+        removedTimeSlot: {}
     })
     .value("baseUrl", "http://localhost:8888/")
     .value("apikey", "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc")
@@ -552,6 +553,9 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         navigator.geolocation.getCurrentPosition(function(position){
             console.log("location ready");
             $rootScope.position = [position.coords.latitude, position.coords.longitude];
+            if(appFactory.user){
+                appFactory.user.location = $rootScope.position;
+            }
             console.log(position);
 
             $rootScope.$broadcast('locationReady', 'locationReady');
@@ -565,7 +569,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             appFactory.trainerQuery.on("key_entered", function(key, location, distance) {
                 var obj = {
                     location: location,
-                    distance: distance,
+                    distance: GeoFire.distance(location, appFactory.user.location),
                     key: key,
                     type: "Users"
                 };
@@ -593,7 +597,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 for(var i=0; i<appFactory.geoTrainers.length; i++){
                     if(appFactory.geoTrainers[i].key == key){
                         appFactory.geoTrainers[i].location = location;
-                        appFactory.geoTrainers[i].distance = distance;
+                        appFactory.geoTrainers[i].distance = GeoFire.distance(location, appFactory.user.location);
                         if($rootScope.header == "Users" && appFactory.onKeyMove){
                             appFactory.onKeyMove(appFactory.geoTrainers[i]);
                         }
@@ -612,7 +616,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             appFactory.eventQuery.on("key_entered", function(key, location, distance) {
                 var obj = {
                     location: location,
-                    distance: distance,
+                    distance: GeoFire.distance(location, appFactory.user.location),
                     key: key,
                     type: "Events"
                 };
@@ -639,7 +643,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 for(var i=0; i<appFactory.geoEvents.length; i++){
                     if(appFactory.geoEvents[i].key == key){
                         appFactory.geoEvents[i].location = location;
-                        appFactory.geoEvents[i].distance = distance;
+                        appFactory.geoEvents[i].distance = GeoFire.distance(location, appFactory.user.location);
                         if($rootScope.header == "Events" && appFactory.onKeyMove){
                             appFactory.onKeyMove(appFactory.geoEvents[i]);
                         }
@@ -656,7 +660,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             appFactory.gymQuery.on("key_entered", function(key, location, distance) {
                 var obj = {
                     location: location,
-                    distance: distance,
+                    distance: GeoFire.distance(location, appFactory.user.location),
                     key: key,
                     type: "Gyms"
                 };
@@ -684,7 +688,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 for(var i=0; i<appFactory.geoGyms.length; i++){
                     if(appFactory.geoGyms[i].key == key){
                         appFactory.geoGyms[i].location = location;
-                        appFactory.geoGyms[i].distance = distance;
+                        appFactory.geoGyms[i].distance = GeoFire.distance(location, appFactory.user.location);
                         if($rootScope.header != "Events" && appFactory.onGymMove){
                             appFactory.onGymMove(appFactory.geoGyms[i]);
                         }

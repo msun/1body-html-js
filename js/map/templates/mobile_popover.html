@@ -12,7 +12,8 @@
         <label class="item item-input item-select ob-popover-row ob-popover-label"
                ng-show="header=='Events' || header=='Classes'">
             <div class="input-label ob-popover-prompt">Category</div>
-            <select ng-model="searchContainer.selectedCategory"
+            <select ng-change="searchCategory()"
+                    ng-model="searchContainer.selectedCategory"
                     ng-options="category.name for category in categories">
             </select>
         </label>

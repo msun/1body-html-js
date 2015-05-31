@@ -293,6 +293,16 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 //        showDelay: 0
 //    });
 
+    $scope.searchCategory = function(){
+        console.log($scope.searchContainer.selectedCategory);
+        $scope.searchContainer.searchTerms = $scope.searchContainer.selectedCategory.name + $scope.searchContainer.searchTerms;
+        clearpins();
+        if ($rootScope.header == "Events") {
+            markEvents();
+        } else {
+            markGyms();
+        }
+    };
 
     var compileDropMarker = function (obj, loaded) {
         if($rootScope.header == "Users") {

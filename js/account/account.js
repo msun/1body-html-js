@@ -84,10 +84,20 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
     var loadLocalUser = function(user){
         console.log(user);
         appFactory.user = $firebaseObject(Users.ref().child(user.$id));
-        appFactory.user.position = user.position;
-        $rootScope.user = appFactory.user;
-        $ionicLoading.hide();
-        checkUrl();
+        appFactory.user.$loaded(function(){
+            if(appFactory.user.username){
+                if($rootScope.position){
+                    appFactory.user.location = $rootScope.position;
+                }
+                $rootScope.user = appFactory.user;
+                $ionicLoading.hide();
+                checkUrl();
+            } else {
+                alert("Login failed, please try again");
+                $ionicLoading.hide();
+            }
+        });
+
     }
 
     var loadUserFromFirebase = function(user){
@@ -95,6 +105,10 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
         appFactory.user.$loaded(function(){
             if(appFactory.user.username){
                 $rootScope.user = appFactory.user;
+                if($rootScope.position){
+                    appFactory.user.location = $rootScope.position;
+                }
+
                 console.log(appFactory.user);
                 $localstorage.setObject("user", appFactory.user);
                 $ionicLoading.hide();
@@ -517,7 +531,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
                                 alert("Your profile picture is saved");
                                 window.location.href = "#/menu/account/my-profile";
                             });
-                        })
+                        });
 
 //                        appFactory.user.profilepic = image.src;
 //                        appFactory.user.$save().then(function(){
@@ -550,6 +564,8 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
 
 account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $localstorage, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, appConfig) {
     console.log("ProfileCtrl");
+
+    $("#profileuserimg").attr("src", "https://s3.amazonaws.com/com.onebody.profile/Users/" + appFactory.user.$id + "/profilepic.jpg");
 
     $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
     $scope.user.$loaded(function(){
@@ -919,20 +935,21 @@ account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl
     });
 });
 
-account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebase, Requests, Trainers, $window, $localstorage){
+account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseObject, Requests, Trainers, $window, $localstorage, MyTokens, Payments){
     $scope.bundles = [
-        {numberTokens: 20, price: 400},
-        {numberTokens: 10, price: 220},
-        {numberTokens: 5, price: 120}
+        {numberTokens: 20, price: 100},
+        {numberTokens: 10, price: 50},
+        {numberTokens: 5, price: 25}
     ];
-
-    if(!appFactory.user.tokens){
-        appFactory.user.tokens = 0;
-    }
-    $scope.currentTokens = appFactory.user.tokens;
 
     $scope.amount = 0;
     $scope.totalTokens = 0;
+
+    $scope.mytokens = $firebaseObject(MyTokens.ref().child(appFactory.user.$id));
+    $scope.mytokens.$loaded(function(){
+        $scope.currentTokens = $scope.mytokens.tokens;
+    });
+
 
     $scope.addBundle = function(item) {
         $scope.amount = 0;
@@ -975,14 +992,35 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
                 if (result["Result"] == "Cancelled") {
                     alert("Token purchase failed");
                 } else {
-                    alert($scope.totalTokens + " tokens purchased.");
-                    appFactory.user.tokens += $scope.totalTokens;
-                    $scope.totalTokens = 0;
-                    $scope.amount = 0;
-                    $localstorage.setObject("user", appFactory.user);
-                    appFactory.user.$save().then(function () {
-                        $window.history.back();
-                    });
+                    var json = JSON.parse(result.json);
+                    var payment = JSON.parse(result.payment);
+                    if(json.response.state == "approved"){
+                        Payments.ref().push({
+                            payID: json.response.id,
+                            paymentMade: json.response.create_time,
+                            created: Date.now(),
+                            userID: appFactory.user.$id,
+                            totalTokens: $scope.totalTokens,
+                            processed: false
+                        });
+
+                        var unwatch = $scope.mytokens.$watch(function(){
+                            var delta = $scope.mytokens.tokens - $scope.currentTokens;
+                            alert(delta + " tokens purchased");
+                            unwatch();
+                        });
+                    }
+
+
+
+//                    alert($scope.totalTokens + " tokens purchased.");
+//                    appFactory.user.tokens += $scope.totalTokens;
+//                    $scope.totalTokens = 0;
+//                    $scope.amount = 0;
+//                    $localstorage.setObject("user", appFactory.user);
+//                    appFactory.user.$save().then(function () {
+//                        $window.history.back();
+//                    });
 
                 }
             }
