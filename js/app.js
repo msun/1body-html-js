@@ -764,27 +764,27 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         };
 
         $scope.registerGcm = function(){
-//            var exec = cordova.require("cordova/exec");
-//            exec(function(result){
-//                if(result["regid"] && result["regid"].length > 0){
-//                    var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id));
-//                    gcmID.$value = result["regid"];
-//                    gcmID.$save().then(function(){
-//                        alert(result["regid"]);
-//                    })
-//                }
-//            }, function(err){
-//                console.log(err);
-//            }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
+            var exec = cordova.require("cordova/exec");
+            exec(function(result){
+                if(result["regid"] && result["regid"].length > 0){
+                    var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id));
+                    gcmID.$value = result["regid"];
+                    gcmID.$save().then(function(){
+                        alert(result["regid"]);
+                    })
+                }
+            }, function(err){
+                console.log(err);
+            }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
 
-            if (ionic.Platform.isAndroid()){
-                var exec = cordova.require("cordova/exec");
-                exec(function(result){
-                    console.log(result);
-                }, function(err){
-                    console.log(err);
-                }, 'Card_io', 'gcmpush', [{id: appFactory.user.$id}]);
-            }
+//            if (ionic.Platform.isAndroid()){
+//                var exec = cordova.require("cordova/exec");
+//                exec(function(result){
+//                    console.log(result);
+//                }, function(err){
+//                    console.log(err);
+//                }, 'Card_io', 'gcmpush', [{id: appFactory.user.$id}]);
+//            }
         };
 
         $rootScope.user = appFactory.user;

@@ -14,7 +14,7 @@
                 </div>
                 <div class="ob-form-row ob-form-flex-row">
                     <span class="ob-form-prompt">Profile Picture</span>
-                    <img id="profileuserimg" class="ob-form-icon ob-roundedcorners4 ob-whiteborder" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{user.$id}}/profilepic.jpg"  ng-click="setdp()">
+                    <img id="profileuserimg" class="ob-form-icon ob-roundedcorners4 ob-whiteborder" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{user.$id}}/profilepic.jpg?{{user.modified}}"  ng-click="setdp()">
                 </div>
                 <div class="ob-form-row ob-form-flex-row">
                     <span class="ob-form-prompt">First Name</span>

@@ -827,7 +827,9 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         duration: bookedReduced[i].period,
                         starttimeString: starttime,
                         starttime: startTimestamp,
-                        timezone: timezone.name()
+                        timezone: timezone.name(),
+                        scanned: false,
+                        reviewed: false
                     };
                     alert(bookedReduced[i].rate + " tokens");
 
@@ -835,6 +837,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         console.log(newTransaction);
                         var transactionRef = TransactionQueue.ref().push(newTransaction, function(){
                             transactionRef.setPriority(startTimestamp);
+                        });
 
                             var notifToTrainer = {
                                 creatorID: appFactory.user.$id,
@@ -858,78 +861,76 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                                 // all records after the last continue to invoke this function
                                 console.log(snapshot.key(), snapshot.val());
                                 var addedTransaction = snapshot.val();
-                                if(addedTransaction.starttime != newTransaction.starttime){
-                                    return;
-                                } else {
+                                if(addedTransaction.starttime == newTransaction.starttime) {
                                     addedTransactionRef.off();
-                                }
 
 
 //                            });
 //
 //                            var addedTransaction = $firebaseObject(Transactions.ref().child(transactionRef.key()));
 //                            var unwatch = addedTransaction.$watch(function() {
-                                if(addedTransaction.valid){
-                                    Notifications.ref().push(notifToTrainer, function(){
-                                        notifToTrainer.created = Firebase.ServerValue.TIMESTAMP;
+                                    if (addedTransaction.valid) {
+                                        Notifications.ref().push(notifToTrainer, function () {
+                                            notifToTrainer.created = Firebase.ServerValue.TIMESTAMP;
 
-                                        Feeds.push("Users",
-                                            scope.trainerID,
-                                            scope.trainerName,
-                                                "You booked a training session with " + scope.trainerName + " at " + starttime,
-                                                "A training was booked by user: " + appFactory.user.username + " at " + starttime
-                                        );
+                                            Feeds.push("Users",
+                                                scope.trainerID,
+                                                scope.trainerName,
+                                                    "You booked a training session with " + scope.trainerName + " at " + starttime,
+                                                    "A training was booked by user: " + appFactory.user.username + " at " + starttime
+                                            );
 
-                                        Notifications.ref().push(notifToUser);
+                                            Notifications.ref().push(notifToUser);
 
-                                        if (ionic.Platform.isAndroid()) {
-                                            var myPopup = $ionicPopup.show({
-                                                template: 'Would you like to save this to your calendar?',
-                                                title: 'Save to calendar',
-                                                scope: scope,
-                                                buttons: [
-                                                    { text: 'Cancel' },
-                                                    {
-                                                        text: '<b>Okay</b>',
-                                                        type: 'button-positive',
-                                                        onTap: function(e) {
-                                                            e.preventDefault();
-                                                            var jsonData = {
-                                                                'title': "Training with " + scope.trainerName,
-                                                                'location': appFactory.selectedTrainer.address,
-                                                                'starttime' : newTransaction.starttime,
-                                                                'endtime': newTransaction.starttime + newTransaction.duration*30*60*1000
+                                            if (ionic.Platform.isAndroid()) {
+                                                var myPopup = $ionicPopup.show({
+                                                    template: 'Would you like to save this to your calendar?',
+                                                    title: 'Save to calendar',
+                                                    scope: scope,
+                                                    buttons: [
+                                                        { text: 'Cancel' },
+                                                        {
+                                                            text: '<b>Okay</b>',
+                                                            type: 'button-positive',
+                                                            onTap: function (e) {
+                                                                e.preventDefault();
+                                                                var jsonData = {
+                                                                    'title': "Training with " + scope.trainerName,
+                                                                    'location': appFactory.selectedTrainer.address,
+                                                                    'starttime': newTransaction.starttime,
+                                                                    'endtime': newTransaction.starttime + newTransaction.duration * 30 * 60 * 1000
 
-                                                            };
-                                                            if(appFactory.selectedTrainer.commentlocation){
-                                                                jsonData.description = appFactory.selectedTrainer.commentlocation;
+                                                                };
+                                                                if (appFactory.selectedTrainer.commentlocation) {
+                                                                    jsonData.description = appFactory.selectedTrainer.commentlocation;
+                                                                }
+                                                                console.log(jsonData);
+                                                                var exec = cordova.require("cordova/exec");
+
+                                                                exec(function (result) {
+                                                                    alert("That worked :D");
+                                                                    window.location.href = "#/menu/Trainers/" + scope.trainerID + "/";
+                                                                }, function (err) {
+                                                                    console.log(err);
+                                                                }, 'Card_io', 'addToCalendar', [
+                                                                    jsonData
+                                                                ]);
                                                             }
-                                                            console.log(jsonData);
-                                                            var exec = cordova.require("cordova/exec");
-
-                                                            exec(function (result) {
-                                                                alert("That worked :D");
-                                                                window.location.href = "#/menu/Trainers/" + scope.trainerID + "/";
-                                                            }, function (err) {
-                                                                console.log(err);
-                                                            }, 'Card_io', 'addToCalendar', [
-                                                                jsonData
-                                                            ]);
                                                         }
-                                                    }
-                                                ]
-                                            });
-                                            myPopup.then(function(res) {
-                                                console.log('Tapped!', res);
-                                            });
+                                                    ]
+                                                });
+                                                myPopup.then(function (res) {
+                                                    console.log('Tapped!', res);
+                                                });
 
-                                        } else {
-                                            alert("That worked :D");
-                                            window.location.href = "#/menu/Trainers/" + scope.trainerID + "/";
-                                        }
-                                    });
-                                } else {
-                                    alert(addedTransaction.error);
+                                            } else {
+                                                alert("That worked :D");
+                                                window.location.href = "#/menu/Trainers/" + scope.trainerID + "/";
+                                            }
+                                        });
+                                    } else {
+                                        alert(addedTransaction.error);
+                                    }
                                 }
                             });
 
@@ -942,7 +943,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
 
 
 //                            });
-                        });
+
 
                     }(transaction));
                 }

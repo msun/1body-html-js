@@ -57,7 +57,7 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
         } else {
             $state.transitionTo(mapstate);
         }
-        document.addEventListener("deviceready", function(){
+//        document.addEventListener("deviceready", function(){
 //            alert(device.uuid);
             var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id).child(device.uuid));
             gcmID.$loaded(function(){
@@ -78,7 +78,7 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
                     }
                 }
             })
-        }, false);
+//        }, false);
     }
 
     var loadLocalUser = function(user){
@@ -237,41 +237,73 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
 
 });
 
-account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $firebaseObject, Transactions, MyTransactions, Notifications){
+account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, ScanQueue, $firebaseObject, Transactions, MyTransactions, Notifications){
     $scope.clientCode = {};
 
     var processTransaction = function(text){
-        var transcation = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child(text));
-        transcation.$loaded(function () {
-            console.log(transcation);
-            if(transcation.trainerID == appFactory.user.$id || transcation.type == 'class' && appFactory.user.admin){
-                var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child(text));
-                myTransaction.$loaded(function(){
-                    myTransaction.scanned = true;
-                    myTransaction.scanTime = Firebase.ServerValue.TIMESTAMP;
-                    myTransaction.$save().then(function(){
-                        var notif = {
-                            creatorID: appFactory.user.$id,
-                            starttime: Date.now() + transcation.duration * 30 * 1000 * 60,
-                            url: "#/menu/Trainers/" + appFactory.user.$id,
-                            receivers: [transcation.userID],
-                            message: "Please leave a review for " + appFactory.user.username
-                        };
-                        Notifications.ref().push(notif, function(){
-                            alert("Transaction processed");
-                        });
-                    });
-                })
-            } else {
-                alert("This is not your training");
+        var list = text.split(":::");
+        console.log(list);
+        ScanQueue.ref().child(list[1]).set({
+            userTransactionID: list[1],
+            scannerID: appFactory.user.$id,
+            userID: list[0],
+            scanTime: Firebase.ServerValue.TIMESTAMP,
+            processed: false
+        });
+
+        console.log();
+        var scanObj = $firebaseObject(ScanQueue.ref().child(list[1]));
+        var unwatch = scanObj.$watch(function(){
+            if(scanObj.processed){
+                if(!scanObj.error){
+                    alert("transaction processed");
+                } else {
+                    alert(scanObj.error);
+                }
+                unwatch();
             }
-        })
-    }
+        });
+
+//        var transcationRef = Transactions.ref().child(appFactory.user.$id);
+//        transcationRef.on("child_changed", function(childSnapshot, prevChild){
+//            if(childSnapshot.val().processed){
+//                alert("Transaction processed");
+//                transcationRef.off();
+//            }
+//        });
+//
+//        var transcation = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child(text));
+//        transcation.$loaded(function () {
+//            console.log(transcation);
+//            if(transcation.trainerID == appFactory.user.$id || transcation.type == 'class' && appFactory.user.admin){
+//                var myTransaction = $firebaseObject(MyTransactions.ref().child(transcation.userID).child(text));
+//                myTransaction.$loaded(function(){
+//                    myTransaction.scanned = true;
+//                    myTransaction.scanTime = Firebase.ServerValue.TIMESTAMP;
+//                    myTransaction.$save().then(function(){
+//                        var notif = {
+//                            creatorID: appFactory.user.$id,
+//                            starttime: Date.now() + transcation.duration * 30 * 1000 * 60,
+//                            url: "#/menu/Trainers/" + appFactory.user.$id,
+//                            receivers: [transcation.userID],
+//                            message: "Please leave a review for " + appFactory.user.username
+//                        };
+//                        Notifications.ref().push(notif, function(){
+//                            alert("Transaction processed");
+//                        });
+//                    });
+//                })
+//            } else {
+//                alert("This is not your training");
+//            }
+//        })
+    };
 
     $scope.scanClient = function() {
-        document.addEventListener("deviceready", onDeviceReady, false);
-        function onDeviceReady() {
-            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+//        document.addEventListener("deviceready", onDeviceReady, false);
+//        function onDeviceReady() {
+            var scanner = cordova.require("com.phonegap.plugins.barcodescanner.BarcodeScanner");
+//            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
             scanner.scan(function (result) {
 
                 alert("We got a barcode\n" +
@@ -288,7 +320,7 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, $fir
             }, function (error) {
                 console.log("Scanning failed: ", error);
             });
-        }
+//        }
     }
 
     $scope.enterCode = function(){
@@ -528,8 +560,11 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
 
                         Images.ref().push(smallimg, function(){
                             Images.ref().push(bigimg, function(){
-                                alert("Your profile picture is saved");
-                                window.location.href = "#/menu/account/my-profile";
+                                $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
+                                $scope.user.$save().then(function(){
+                                    alert("Your profile picture is saved");
+                                    window.location.href = "#/menu/account/my-profile";
+                                });
                             });
                         });
 
@@ -564,8 +599,6 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
 
 account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $localstorage, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, appConfig) {
     console.log("ProfileCtrl");
-
-    $("#profileuserimg").attr("src", "https://s3.amazonaws.com/com.onebody.profile/Users/" + appFactory.user.$id + "/profilepic.jpg");
 
     $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
     $scope.user.$loaded(function(){
@@ -1355,7 +1388,7 @@ account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFacto
     }
 });
 
-account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, MyTransactions, $window, $localstorage){
+account.controller('MyTransactionsCtrl', function($scope,$firebaseObject, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, MyTransactions, $window, $localstorage){
     $scope.dt = new Date();
     $scope.showingAll = false;
 
@@ -1428,14 +1461,11 @@ account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, ap
             });
         }, 500);
 
-
-
 //        MyTransactions.ref().child(appFactory.user.$id).child(transaction.$id).on("child_changed", function(childSnapshot){
-        var unwatch = $scope.myTransactions.$watch(function(event) {
-            console.log(event);
+        var obj = $firebaseObject(MyTransactions.ref().child(appFactory.user.$id).child(transaction.$id));
+        var unwatch = obj.$watch(function(){
             console.log($scope.myTransactions);
-            console.log(transaction);
-            if(transaction.scanned == true){
+            if(obj.scanned == true){
                 alert("successfully scanned");
                 unwatch();
                 $scope.modal.hide();
@@ -1444,9 +1474,10 @@ account.controller('MyTransactionsCtrl', function($scope, $ionicModal, Users, ap
 
         if(transaction.scanned == true){
             alert("Transaction is already scanned");
+            $scope.modal.hide();
         }
         $scope.modal.show().then(function(){
-            $scope.transactionID = transaction.$id;
+            $scope.transactionID = appFactory.user.$id + ":::" + transaction.$id;
             var element = document.getElementById("qrcode");
 
             if(element.lastChild)
