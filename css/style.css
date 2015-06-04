@@ -341,6 +341,10 @@ ion-popover-view.fit ion-content {
     text-decoration: underline;
 }
 
+.ob-text-center {
+    text-align: center;
+}
+
 .text-avnltp-demi {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
 }
@@ -445,6 +449,7 @@ ion-popover-view.fit ion-content {
     overflow: hidden;
     min-height: 44px;
     text-decoration: none;
+    padding: 0px 4px;
 }
 
 .ob-form-row:last-child {
@@ -457,6 +462,14 @@ ion-popover-view.fit ion-content {
 
 .ob-form-subrow {
 
+}
+
+.ob-form-subrow:first-child {
+    padding-top: 2px;
+}
+
+.ob-form-subrow:last-child {
+    padding-bottom: 2px;
 }
 
 /*
@@ -550,10 +563,6 @@ ion-popover-view.fit ion-content {
     color: white;
     text-align: center;
     text-decoration: none;
-}
-
-.ob-form-button:last-child {
-    margin-right: 0px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -3139,76 +3148,6 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* scheduler.css */
-/* ********** ********** ********** ********** ***********/
-
-.timeslot-table {
-    width: 100%;
-}
-
-.timeslot-emptytext {
-    font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    color: #fff;
-    text-align: center;
-    padding: 20px 12px;
-}
-
-.timeslot-row {
-    height: 30px;
-    border-bottom: 1px solid #7f7b73;
-}
-
-.timeslot-row:last-child {
-    border-bottom: none;
-}
-
-.timeslot-time-column {
-    width: 50%;
-    vertical-align: middle;
-    text-align: center;
-    font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 16px;
-    color: #3884ed;
-}
-
-.timeslot-status-column {
-    width: 35%;
-    height: 30px;
-    vertical-align: middle;
-    color: white;
-}
-
-.timeslot-status {
-    width: 100%;
-    border-radius: 5px;
-    vertical-align: middle;
-    text-align: center;
-    font-family: "AvenirNextLTPro-Demi", sans-serif;
-    font-size: 16px;
-    color: white;
-}
-
-.timeslot-button-column {
-    width: 15%;
-    height: 30px;
-    background: none;
-}
-
-.timeslot-button-icon {
-    color: #3884ed;
-}
-
-.timeslot-button {
-    width: 44px;
-    height: 44px;
-    background: transparent;
-    border: none;
-    color: white;
-}
-
-/* ********** ********** ********** ********** ***********/
 /* timepicker.html */
 /* ********** ********** ********** ********** ***********/
 
@@ -3290,58 +3229,6 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* misc */
-/* ********** ********** ********** ********** ***********/
-
-.ob-standardsize {
-    width: 93.75%; /* 300px / 320px */
-    min-width: 300px;
-    max-width: 500px;
-    margin: 12px auto;
-    display: block;
-}
-
-.ob-divider {
-    margin: 0px auto;
-    width: 90%;
-    border: 1px solid #999999;
-}
-
-.ob-roundedcorners4 {
-    border-radius: 4px;
-}
-
-.ob-whiteborder {
-    border: 1px solid white;
-}
-
-.ob-margins0 {
-    margin: 0px;
-}
-
-.ob-ionicon-small {
-
-}
-
-.ob-ionicon-small::before {
-    font-size: 24px !important;
-}
-
-.ob-ionicon-medium {
-
-}
-
-.ob-ionicon-medium::before {
-    font-size: 28px !important;
-}
-
-.ob-image-message {
-    font-family: 'Avenir Next LT Pro', sans-serif;
-    font-size: 16px;
-    color: white;
-}
-
-/* ********** ********** ********** ********** ***********/
 /* colors */
 /* ********** ********** ********** ********** ***********/
 
@@ -3391,4 +3278,56 @@ input.ob-form-text-input[type="search"] {
 
 .ob-color-transparent {
 
+}
+
+/* ********** ********** ********** ********** ***********/
+/* misc */
+/* ********** ********** ********** ********** ***********/
+
+.ob-standardsize {
+    width: 93.75%; /* 300px / 320px */
+    min-width: 300px;
+    max-width: 500px;
+    margin: 12px auto;
+    display: block;
+}
+
+.ob-divider {
+    margin: 0px auto;
+    width: 90%;
+    border: 1px solid #999999;
+}
+
+.ob-roundedcorners4 {
+    border-radius: 4px;
+}
+
+.ob-whiteborder {
+    border: 1px solid white;
+}
+
+.ob-margins0 {
+    margin: 0px;
+}
+
+.ob-ionicon-small {
+
+}
+
+.ob-ionicon-small::before {
+    font-size: 24px !important;
+}
+
+.ob-ionicon-medium {
+
+}
+
+.ob-ionicon-medium::before {
+    font-size: 28px !important;
+}
+
+.ob-image-message {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 16px;
+    color: white;
 }

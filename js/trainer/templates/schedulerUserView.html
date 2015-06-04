@@ -1,55 +1,23 @@
-<div class="ob-form">
-    <div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
-        <time-picker class="ob-form-timepicker"
-                     show-time-picker="false"
-                     data-inc-icon-class="ion ion-chevron-up"
-                     data-dec-icon-class="ion ion-chevron-down"></time-picker>
+<div class="menu1-content-div">
+    <div class="ob-form">
+        <div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
+            <time-picker class="ob-form-timepicker"
+                         show-time-picker="false"
+                         data-inc-icon-class="ion ion-chevron-up"
+                         data-dec-icon-class="ion ion-chevron-down"></time-picker>
+        </div>
+        <div class="ob-form-row" ng-show="timeslots.length <= 0">
+            <div class="ob-form-text ob-text-center">No sessions found</div>
+        </div>
+        <div class="ob-form-row" ng-repeat="time in timeslots track by $index">
+            <div class="ob-form-text ob-text-center ob-blue-color">{{time | displayTime}}</div>
+            <div class="ob-form-subrow ob-form-flex-row">
+                <div class="ob-form-text">{{chosen[$index].rate}} Tokens</div> <!--ng-show="chosen[$index].prime"-->
+                <div ng-show="chosen[$index].status == 1" class="ob-form-button" ng-click="selectTime($index)">Selected</div>
+                <div ng-show="chosen[$index].status == 0" class="ob-form-button" ng-click="selectTime($index)">Available</div>
+            </div>
+        </div>
     </div>
-    <div class="ob-form-row">
-        <table class="timeslot-table">
-            <tr><td  class="timeslot-emptytext" ng-show="timeslots.length <= 0">No sessions found</td></tr>
-            <tr class="timeslot-row" ng-repeat="time in timeslots track by $index">
-                <td class="timeslot-time-column">
-                    {{time | displayTime}}
-                </td>
-                <td class="timeslot-status-column">
-                    <div class="timeslot-status" ng-show="chosen[$index].status == 0">Available</div>
-                    <div class="timeslot-status" ng-show="chosen[$index].status == 1">Selected</div>
-                    <div class="timeslot-status" ng-show="chosen[$index].prime">{{chosen[$index].rate}} Tokens</div>
-                    <div class="timeslot-status" ng-show="!chosen[$index].prime">{{chosen[$index].rate}} Tokens</div>
-                </td>
-                <td class="timeslot-button-column">
-                    <button ng-show="chosen[$index].status == 0" class="timeslot-button" ng-click="selectTime($index)">
-                        <i class="icon ion-plus timeslot-button-icon"></i>
-                    </button>
-                    <button ng-show="chosen[$index].status == 1" class="timeslot-button" ng-click="selectTime($index)">
-                        <i class="icon ion-checkmark timeslot-button-icon"></i>
-                    </button>
-                </td>
-            </tr>
-        </table>
-    </div>
+    <button class="ob-block-button ob-button-blue" ng-click="charge()">Confirm</button>
+    <!--<button class="ob-block-button ob-button-dark" ng-click="printTime()">Check Time</button>-->
 </div>
-<!--
-<table style="width: 100%;">
-    <tr ng-repeat="time in timeslots track by $index" style="height: 30px">
-        <td style="width: 50%; border-bottom: 1px solid white; vertical-align: middle; text-align: center;">
-            {{time | displayTime}}
-        </td>
-        <td style="width: 35%; border-bottom: 1px solid white; height: 30px; vertical-align: middle;">
-            <div ng-show="chosen[$index] == 0" style="width: 100%; border-radius: 5px; vertical-align: middle; text-align: center;">Available</div>
-            <div ng-show="chosen[$index] == 1" style="width: 100%; border-radius: 5px; vertical-align: middle; text-align: center;">Selected</div>
-        </td>
-        <td style="width: 15%; border-bottom: 1px solid white; height: 30px">
-            <button ng-show="chosen[$index] == 0" class="button button-dark" ng-click="selectTime($index)">
-                <i class="icon ion-plus"></i>
-            </button>
-            <button ng-show="chosen[$index] == 1" class="button button-dark" ng-click="selectTime($index)">
-                <i class="icon ion-checkmark"></i>
-            </button>
-        </td>
-    </tr>
-</table>
--->
-<button class="ob-block-button ob-button-blue" ng-click="charge()">Confirm</button>
-<!--<button class="ob-block-button ob-button-dark" ng-click="printTime()">Check Time</button>-->

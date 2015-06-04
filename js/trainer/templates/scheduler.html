@@ -23,31 +23,27 @@
                          data-inc-icon-class="ion ion-chevron-up"
                          data-dec-icon-class="ion ion-chevron-down"></time-picker>
         </div>
-        <div class="ob-form-row">
-            <div class="ob-form-row" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">
-                <div class="ob-form-subrow ob-form-flex-row">
-                    <span class="ob-form-ionicon-container">
-                        <i class="icon ion-minus-round ob-form-ionicon ob-color-red"
-                           ng-click="removeTimeSlot($index)"></i>
-                    </span>
-                    <span class="ob-form-text ob-blue-color">{{time | displayTime}}</span>
-                    <span class="" ng-click="selectTime($index)">
-                        <div ng-show="active[$index].status == -1" class="ob-form-button">Not Available</div>
-                        <div ng-show="active[$index].status == 0" class="ob-form-button">Available</div>
-                        <div ng-show="active[$index].status == 1" class="ob-form-button">Booked</div>
-                    </span>
-                </div>
-                <div class="ob-form-subrow">
-                    <div class="item item-toggle ob-form-toggle-container">
-                        <span ng-show="active[$index].prime">Prime Time</span>
-                        <span ng-hide="active[$index].prime">Off Time</span>
-                        <label class="toggle toggle-positive ob-form-toggle">
-                            <input type="checkbox" ng-model="active[$index].prime"/>
-                            <div class="track">
-                                <div class="handle"></div>
-                            </div>
-                        </label>
-                    </div>
+        <div class="ob-form-row" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">
+            <div class="ob-form-subrow ob-form-flex-row">
+                <span class="ob-form-ionicon-container">
+                    <i class="icon ion-minus-round ob-form-ionicon ob-color-red"
+                       ng-click="removeTimeSlot($index)"></i>
+                </span>
+                <span class="ob-form-text ob-blue-color">{{time | displayTime}}</span>
+                <div ng-show="active[$index].status == -1" class="ob-form-button" ng-click="selectTime($index)">Not Available</div>
+                <div ng-show="active[$index].status == 0" class="ob-form-button" ng-click="selectTime($index)">Available</div>
+                <div ng-show="active[$index].status == 1" class="ob-form-button" ng-click="selectTime($index)">Booked</div>
+            </div>
+            <div class="ob-form-subrow">
+                <div class="item item-toggle ob-form-toggle-container">
+                    <span ng-show="active[$index].prime">Prime Time</span>
+                    <span ng-hide="active[$index].prime">Off Time</span>
+                    <label class="toggle toggle-positive ob-form-toggle">
+                        <input type="checkbox" ng-model="active[$index].prime"/>
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
                 </div>
             </div>
         </div>
