@@ -11,16 +11,16 @@
                     </div>
                     <div class="ob-header-flex-area">
                         <div class="ob-bar-search-input-container">
-                            <i class="icon ion-search ob-bar-search-input-search-icon"></i>
+                            <i class="icon ion-search ob-bar-search-input-icon-left"></i>
                             <input type="search" class="ob-bar-search-input" placeholder="ex. hot yoga, boxing"
                                    ng-model="searchContainer.searchTerms" ng-keyup="searchTrainers($event)" focus-me/>
-                            <button ng-click="searchOnMap()">Search</button>
+                            <i class="icon ion-ios7-close-outline ob-bar-search-input-icon-right" ng-click="clearSearch()"></i>
                         </div>
                     </div>
                     <div class="ob-header-icon">
-                        <a class="ob-header-list-view-icon-container" href="#/menu/map">
+                        <div class="ob-header-list-view-icon-container" ng-click="searchOnMap()">
                             <span class="ob-header-list-view-icon"></span>
-                        </a>
+                        </div>
                     </div>
                 </div>
                 <div class="ob-map-header-bottom-white-line"></div>

@@ -1,47 +1,55 @@
-
-        <div class="menu1-content-div">
-            <button class="ob-block-button ob-button-blue ob-button-shadow" ng-click="confirm()">Confirm</button>
-            <input type="text" ng-model="user.normalRate" placeholder="off hour rate">
-            <input type="text" ng-model="user.primeRate" placeholder="prime hour rate">
-            <button ng-click="setRate()">Set</button>
-            <!--<button class="ob-block-button ob-button-blue ob-button-shadow" ng-click="printTime()">Check Time</button>-->
-            <div class="ob-instructions">Set your availabile time slots as a professional</div>
-            <div class="ob-form">
-                <div class="ob-form-row ob-form-flex-row">
-                    <span class="ob-form-prompt">Date</span>
-                <!--<div class="ob-form-row ob-form-timepicker-row">-->
-                    <!--<span class="ob-form-timepicker-prompt ob-blue-text">Date</span>-->
-                    <time-picker class="ob-form-timepicker" show-time-picker="false" data-inc-icon-class="ion ion-chevron-up" data-dec-icon-class="ion ion-chevron-down"></time-picker>
+<div class="menu1-content-div">
+    <div class="ob-instructions">Set your hourly rate</div>
+    <div class="ob-form ob-button-shadow">
+        <div class="ob-form-row ob-form-row-button ob-button-blue" ng-click="setRate()">Confirm</div>
+       <div class="ob-form-row ob-form-flex-row">
+           <div class="ob-form-prompt">Prime Time Rate</div>
+           <input class="ob-form-text-input" type="text"
+                  ng-model="user.primeRate" placeholder="Minimum 5 Tokens"/>
+       </div>
+       <div class="ob-form-row ob-form-flex-row">
+           <div class="ob-form-prompt">Off Time Rate</div>
+           <input class="ob-form-text-input" type="text"
+                  ng-model="user.normalRate" placeholder="Minimum 3 Tokens"/>
+       </div>
+   </div>
+    <!--<button class="ob-block-button ob-button-blue ob-button-shadow" ng-click="printTime()">Check Time</button>-->
+    <div class="ob-instructions">Set your available training times</div>
+    <div class="ob-form ob-button-shadow">
+        <div class="ob-form-row ob-form-row-button ob-button-blue" ng-click="confirm()">Confirm</div>
+        <div class="ob-form-row ob-form-flex-row">
+            <time-picker class="ob-form-timepicker"
+                         show-time-picker="false"
+                         data-inc-icon-class="ion ion-chevron-up"
+                         data-dec-icon-class="ion ion-chevron-down"></time-picker>
+        </div>
+        <div class="ob-form-row">
+            <div class="ob-form-row" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">
+                <div class="ob-form-subrow ob-form-flex-row">
+                    <span class="ob-form-ionicon-container">
+                        <i class="icon ion-minus-round ob-form-ionicon ob-color-red"
+                           ng-click="removeTimeSlot($index)"></i>
+                    </span>
+                    <span class="ob-form-text ob-blue-color">{{time | displayTime}}</span>
+                    <span class="" ng-click="selectTime($index)">
+                        <div ng-show="active[$index].status == -1" class="ob-form-button">Not Available</div>
+                        <div ng-show="active[$index].status == 0" class="ob-form-button">Available</div>
+                        <div ng-show="active[$index].status == 1" class="ob-form-button">Booked</div>
+                    </span>
                 </div>
-                <div class="ob-form-row">
-                    <table class="timeslot-table">
-                        <tr class="timeslot-row" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">
-                            <td>
-                                <button class="timeslot-button" ng-click="removeTimeSlot($index)">
-                                    <i class="icon ion-minus-round timeslot-button-icon"></i>
-                                </button>
-                            </td>
-                            <td class="timeslot-time-column">
-                                {{time | displayTime}}
-                            </td>
-                            <td class="timeslot-status-column">
-                                <div ng-show="active[$index].status == -1" class="timeslot-status">Open</div>
-                                <div ng-show="active[$index].status == 0" class="timeslot-status">Set</div>
-                                <div ng-show="active[$index].status == 1" class="timeslot-status">Booked</div>
-                                <ion-toggle class="ob-popover-row ob-toggle"
-                                            ng-model="active[$index].prime"
-                                            toggle-class="toggle-positive">Prime Time</ion-toggle>
-                            </td>
-                            <td class="timeslot-button-column">
-                                <button ng-show="active[$index].status == -1" class="timeslot-button" ng-click="selectTime($index)">
-                                    <i class="icon ion-plus timeslot-button-icon"></i>
-                                </button>
-                                <button ng-show="active[$index].status == 0" class="timeslot-button" ng-click="selectTime($index)">
-                                    <i class="icon ion-checkmark timeslot-button-icon"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
+                <div class="ob-form-subrow">
+                    <div class="item item-toggle ob-form-toggle-container">
+                        <span ng-show="active[$index].prime">Prime Time</span>
+                        <span ng-hide="active[$index].prime">Off Time</span>
+                        <label class="toggle toggle-positive ob-form-toggle">
+                            <input type="checkbox" ng-model="active[$index].prime"/>
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>

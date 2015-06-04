@@ -445,12 +445,30 @@ ion-popover-view.fit ion-content {
     overflow: hidden;
     min-height: 44px;
     text-decoration: none;
-    padding: 0px 4px;
 }
 
 .ob-form-row:last-child {
     border-bottom: none;
 }
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-subrow */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-subrow {
+
+}
+
+/*
+.ob-form-subrow + .ob-form-subrow:before {
+    height: 1px;
+    background: #333;
+    width: 70%;
+    display: block;
+    margin: 0px auto;
+    content: "";
+}
+*/
 
 /* ********** ********** ********** ********** ***********/
 /* ob-form-flex-row */
@@ -461,6 +479,15 @@ ion-popover-view.fit ion-content {
     display: flex;
     -webkit-align-items: center;
     align-items: center;
+}
+
+.ob-form-ionicon-container {
+    margin: auto 6px;
+}
+
+.ob-form-ionicon {
+    font-size: 18px;
+    color: white;
 }
 
 .ob-form-icon {
@@ -750,6 +777,19 @@ input.ob-form-text-input[type="search"] {
 
 .ob-form-timepicker .timepicker-arrow-container {
     color: #3884ed;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-button */
+/* to be used as an ob-form-row */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-row-button {
+    text-align: center;
+    line-height: 44px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: white;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -2073,7 +2113,6 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-bar-search-input-container {
-    width: 90%;
     height: 32px;
     border-radius: 5px;
     padding: 0px;
@@ -2085,10 +2124,16 @@ input.ob-form-text-input[type="search"] {
     align-items: center;
 }
 
-.ob-bar-search-input-search-icon {
+.ob-bar-search-input-icon-left {
     font-size: 18px;
     color: white;
     margin: auto 4px auto 8px;
+}
+
+.ob-bar-search-input-icon-right {
+    font-size: 18px;
+    color: white;
+    margin: auto 12px auto 4px;
 }
 
 .ob-bar-search-input {
@@ -3245,42 +3290,6 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* colors */
-/* ********** ********** ********** ********** ***********/
-
-.ob-darkpurple-bg {
-    background-color: #1f101c;
-}
-
-.ob-mediumpurple-bg {
-    background-color: #2e1829;
-}
-
-.ob-lightpurple-bg {
-    background-color: #381d33;
-}
-
-.ob-grey-bg {
-    background: #383838;
-}
-
-.ob-darktranslucent-bg {
-    background: rgba(0, 0, 0, 0.6);
-}
-
-.ob-white-color {
-    color: white;
-}
-
-.ob-blue-color {
-    color: #3884ed;
-}
-
-.ob-strong-blue-color {
-    color: #2b6acf;
-}
-
-/* ********** ********** ********** ********** ***********/
 /* misc */
 /* ********** ********** ********** ********** ***********/
 
@@ -3330,4 +3339,56 @@ input.ob-form-text-input[type="search"] {
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 16px;
     color: white;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* colors */
+/* ********** ********** ********** ********** ***********/
+
+.ob-darkpurple-bg {
+    background-color: #1f101c;
+}
+
+.ob-mediumpurple-bg {
+    background-color: #2e1829;
+}
+
+.ob-lightpurple-bg {
+    background-color: #381d33;
+}
+
+.ob-grey-bg {
+    background: #383838;
+}
+
+.ob-darktranslucent-bg {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.ob-white-color {
+    color: white;
+}
+
+.ob-color-red {
+    color: rgb(150, 0 ,0);
+}
+
+.ob-blue-color {
+    color: #3884ed;
+}
+
+.ob-blue-color-active {
+    color: #3884ed;
+}
+
+.ob-blue-color-active:active {
+    color: #3172cc;
+}
+
+.ob-strong-blue-color {
+    color: #2b6acf;
+}
+
+.ob-color-transparent {
+
 }
