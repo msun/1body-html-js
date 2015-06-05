@@ -58,16 +58,21 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
             $state.transitionTo(mapstate);
         }
 //        document.addEventListener("deviceready", function(){
-//            alert(device.uuid);
-            var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id).child(device.uuid));
+            console.log(device.uuid);
+            var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
             gcmID.$loaded(function(){
-                if(!gcmID.$value){
+                console.log(gcmID);
+                if(!gcmID.gcmID){
                     if (ionic.Platform.isAndroid()) {
+                        console.log("platform is android");
                         var exec = cordova.require("cordova/exec");
                         exec(function(result){
                             alert(result["regid"]);
                             if(result["regid"] && result["regid"].length > 0){
-                                gcmID.$value = result["regid"];
+                                gcmID.gcmID = result["regid"];
+                                gcmID.userID = appFactory.user.$id;
+                                gcmID.deviceID = device.uuid;
+                                gcmID.$priority = appFactory.user.$id;
                                 gcmID.$save().then(function(){
                                     alert(result["regid"] + " saved to db");
                                 })

@@ -550,16 +550,50 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
     })
     .run(function($rootScope, appFactory, appConfig, GeoTrainers, GeoEvents, GeoGyms){
-        navigator.geolocation.getCurrentPosition(function(position){
+        navigator.geolocation.getCurrentPosition(function(position) {
             console.log("location ready");
             $rootScope.position = [position.coords.latitude, position.coords.longitude];
-            if(appFactory.user){
+            if (appFactory.user) {
                 appFactory.user.location = $rootScope.position;
             }
             console.log(position);
 
             $rootScope.$broadcast('locationReady', 'locationReady');
 
+            loadLocation();
+        }, function(error){
+            console.log(error);
+            alert("Cannot get location, please restart");
+        });
+
+        navigator.geolocation.watchPosition(function(position) {
+            console.log("location ready");
+            $rootScope.position = [position.coords.latitude, position.coords.longitude];
+            if (appFactory.user) {
+                appFactory.user.location = $rootScope.position;
+            }
+            console.log(position);
+//            $rootScope.$broadcast('locationReady', 'locationReady');
+//            updateLocation();
+        }, function(error){
+            console.log(error);
+        });
+
+        function updateLocation(){
+            appFactory.trainerQuery.updateCriteria({
+                center: [$rootScope.position[0], $rootScope.position[1]]
+            });
+
+            appFactory.eventQuery.updateCriteria({
+                center: [$rootScope.position[0], $rootScope.position[1]]
+            });
+
+            appFactory.gymQuery.updateCriteria({
+                center: [$rootScope.position[0], $rootScope.position[1]]
+            });
+        }
+
+        function loadLocation(){
 
             appFactory.trainerQuery = GeoTrainers.query({
                 center: [$rootScope.position[0], $rootScope.position[1]],
@@ -696,7 +730,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     }
                 }
             });
-        });
+        };
 
 
 
@@ -750,12 +784,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             UserAuth.$unauth();
             $localstorage.clear();
             if(ionic.Platform.isAndroid()){
-                var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id).child(device.uuid));
-                gcmID.$remove().then(function() {
-                    $scope.toggleMenu();
-                    alert("logged out");
-                    window.location.href = "#";
-                });
+                var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
+                gcmID.$remove();
+                alert("logged out");
+                window.location.href = "#";
             } else {
                 $scope.toggleMenu();
                 alert("logged out");
@@ -767,10 +799,14 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             var exec = cordova.require("cordova/exec");
             exec(function(result){
                 if(result["regid"] && result["regid"].length > 0){
-                    var gcmID = $firebaseObject(GcmID.ref().child(appFactory.user.$id));
-                    gcmID.$value = result["regid"];
+                    var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
+
+                    gcmID.gcmID = result["regid"];
+                    gcmID.userID = appFactory.user.$id;
+                    gcmID.deviceID = device.uuid;
+                    gcmID.$priority = appFactory.user.$id;
                     gcmID.$save().then(function(){
-                        alert(result["regid"]);
+                        alert(result["regid"] + " saved to db");
                     })
                 }
             }, function(err){

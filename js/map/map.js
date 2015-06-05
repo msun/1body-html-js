@@ -120,6 +120,23 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         });
     }
 
+    $scope.clearSearch = function(){
+        $timeout(function(){
+            $scope.searchContainer.searchTerms = "";
+            appFactory.searchTerms = "";
+            clearpins();
+            if ($rootScope.header == "Events") {
+                markEvents();
+            } else if ($rootScope.header == "Users") {
+                markTrainers();
+                markGyms();
+            } else {
+                markGyms();
+            }
+        })
+
+    }
+
     function searchItem(t){
         console.log(t);
         console.log($scope.searchContainer.searchTerms);
@@ -138,7 +155,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 console.log(t[searchKeys[i]]);
                 continue;
             }
-
 
             for(var k=0; k<searchTerms.length; k++){
                 console.log(searchTerms[k]);
@@ -196,11 +212,11 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
     $timeout(function () {
         console.log("timeout");
-        if (appFactory.users.length <= 0) {
+        if (!$rootScope.position) {
             $ionicLoading.hide();
             var alertPopup = $ionicPopup.alert({
                 title: 'Network Error',
-                template: 'Cannot retrieve information from server, please try again in a moment'
+                template: 'Cannot retrieve location, please try again in a moment'
             });
             alertPopup.then(function (res) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -285,13 +301,13 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     }
 
 //    console.log("map ctrl");
-//    $ionicLoading.show({
-//        content: '<i class="icon ion-looping"></i> Loading location data',
-//        animation: 'fade-in',
-//        showBackdrop: true,
-//        maxWidth: 200,
-//        showDelay: 0
-//    });
+    $ionicLoading.show({
+        content: '<i class="icon ion-looping"></i> Loading location data',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
 
     $scope.searchCategory = function(){
         console.log($scope.searchContainer.selectedCategory);
@@ -523,19 +539,19 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         $localstorage.setObject("user", appFactory.user);
     } else {
         $ionicLoading.hide();
-        if (appFactory.user.position) {
-            position = appFactory.user.position;
+        if (appFactory.user.location) {
+            position = appFactory.user.location;
             setmap();
 //            dropPins(appFactory.state);
 //            dropGymPins(appFactory.state);
         }
         $scope.$on('locationReady', function (event, data) {
             position = $rootScope.position;
-            console.log(appFactory.user.position);
+            console.log(appFactory.user.location);
             setmap();
 //            dropPins(appFactory.state);
 //            dropGymPins(appFactory.state);
-            appFactory.user.position = $rootScope.position;
+            appFactory.user.location = $rootScope.position;
             $localstorage.setObject("user", appFactory.user);
         });
     }
