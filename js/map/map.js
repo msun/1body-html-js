@@ -160,7 +160,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 console.log(searchTerms[k]);
                 console.log(t[searchKeys[i]]);
                 if(searchKeys[i] == "gym"){
-                    if(t.gym && t.gym.gymName.indexOf(searchTerms[k]) >= 0){
+                    if(t.gym && t.gym.gymName.toLowerCase().indexOf(searchTerms[k].toLowerCase()) >= 0){
                         if(!foundTerms[searchTerms[k]]){
                             foundTerms[searchTerms[k]] = 1;
                         } else {
@@ -169,7 +169,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                     }
                     continue;
                 }
-                if(t[searchKeys[i]] && t[searchKeys[i]].indexOf(searchTerms[k]) >= 0){
+                if(t[searchKeys[i]] && t[searchKeys[i]].toLowerCase().indexOf(searchTerms[k].toLowerCase()) >= 0){
                     if(!foundTerms[searchTerms[k]]){
                         foundTerms[searchTerms[k]] = 1;
                     } else {

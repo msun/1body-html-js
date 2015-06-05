@@ -32,6 +32,23 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
         });
     }
 
+    $scope.clearSearch = function(){
+        $scope.searchContainer.searchTerms = "";
+        appFactory.searchTerms = "";
+        $scope.array = [];
+        clone = [];
+
+        if ($rootScope.header == "Events") {
+            listEvents();
+        } else if ($rootScope.header == "Users") {
+            listUsers();
+            listGyms();
+
+        } else {
+            listGyms();
+        }
+    };
+
     $scope.clickontab = function (tab, $event) {
         console.log($event);
         console.log(tab);
@@ -87,7 +104,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
                 console.log(searchTerms[k]);
                 console.log(t[searchKeys[i]]);
                 if(searchKeys[i] == "gym"){
-                    if(t.gym && t.gym.gymName.indexOf(searchTerms[k]) >= 0){
+                    if(t.gym && t.gym.gymName.toLowerCase().indexOf(searchTerms[k].toLowerCase()) >= 0){
                         if(!foundTerms[searchTerms[k]]){
                             foundTerms[searchTerms[k]] = 1;
                         } else {
@@ -96,7 +113,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
                     }
                     continue;
                 }
-                if(t[searchKeys[i]] && t[searchKeys[i]].indexOf(searchTerms[k]) >= 0){
+                if(t[searchKeys[i]] && t[searchKeys[i]].toLowerCase().indexOf(searchTerms[k].toLowerCase()) >= 0){
                     if(!foundTerms[searchTerms[k]]){
                         foundTerms[searchTerms[k]] = 1;
                     } else {
