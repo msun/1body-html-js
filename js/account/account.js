@@ -1057,6 +1057,9 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
                         var unwatch = $scope.mytokens.$watch(function(){
                             var delta = $scope.mytokens.tokens - $scope.currentTokens;
                             alert(delta + " tokens purchased");
+                            $timeout(function(){
+                                $scope.currentTokens = $scope.mytokens.tokens;
+                            });
                             unwatch();
                         });
                     }
