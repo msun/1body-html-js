@@ -646,7 +646,7 @@ angular.module('starter.services', ["firebase"])
         return Event;
     })
 
-    .factory('appFactory', function($http, baseUrl, User, Event, Gyms, GeoTrainers, Trainers, Users, GeoEvents, Events, GeoGyms, Classes, $firebaseObject, $firebaseArray, $localstorage, Sizes) {
+    .factory('appFactory', function($http, baseUrl, User, Event, Gyms, GeoTrainers, Trainers, Users, GeoEvents, Events, GeoGyms, Classes, $firebaseObject, $firebaseArray, $localstorage, Sizes, appConfig, $rootScope) {
         var factory = {};
         factory.user = {};
         factory.userRef = undefined;
@@ -741,7 +741,162 @@ angular.module('starter.services', ["firebase"])
                 });
             });
 
-        }
+        };
+
+        factory.updateLocation = function(){
+            this.trainerQuery.updateCriteria({
+                center: [$rootScope.position[0], $rootScope.position[1]]
+            });
+
+            this.eventQuery.updateCriteria({
+                center: [$rootScope.position[0], $rootScope.position[1]]
+            });
+
+            this.gymQuery.updateCriteria({
+                center: [$rootScope.position[0], $rootScope.position[1]]
+            });
+        };
+
+        factory.loadLocation = function(){
+            var user = this.user;
+
+            console.log(user);
+            factory.trainerQuery = GeoTrainers.query({
+                center: [$rootScope.position[0], $rootScope.position[1]],
+                radius: appConfig.radius
+            });
+
+            factory.trainerQuery.on("key_entered", function(key, location, distance) {
+                var obj = {
+                    location: location,
+                    distance: GeoFire.distance(location, user.curlocation),
+                    key: key,
+                    type: "Users"
+                };
+                factory.geoTrainers.push(obj);
+                if($rootScope.header == "Users" && factory.onKeyEnter){
+                    factory.onKeyEnter(obj);
+                }
+                console.log(factory.geoTrainers);
+            });
+
+            factory.trainerQuery.on("key_exited", function(key, location, distance) {
+                for(var i=0; i<factory.geoTrainers.length; i++){
+                    if(factory.geoTrainers[i].key == key){
+                        factory.geoTrainers.splice(i, 1);
+                        if($rootScope.header == "Users" && factory.onKeyExit){
+                            factory.onKeyExit(key);
+                        }
+                        break;
+                    }
+                }
+                console.log(factory.geoTrainers);
+            });
+
+            factory.trainerQuery.on("key_moved", function(key, location, distance) {
+                for(var i=0; i<factory.geoTrainers.length; i++){
+                    if(factory.geoTrainers[i].key == key){
+                        factory.geoTrainers[i].location = location;
+                        factory.geoTrainers[i].distance = GeoFire.distance(location, user.curlocation);
+                        if($rootScope.header == "Users" && factory.onKeyMove){
+                            factory.onKeyMove(factory.geoTrainers[i]);
+                        }
+                        break;
+                    }
+                }
+                console.log(factory.geoTrainers);
+            });
+
+
+            factory.eventQuery = GeoEvents.query({
+                center: [$rootScope.position[0], $rootScope.position[1]],
+                radius: appConfig.radius
+            });
+
+            factory.eventQuery.on("key_entered", function(key, location, distance) {
+                var obj = {
+                    location: location,
+                    distance: GeoFire.distance(location, user.curlocation),
+                    key: key,
+                    type: "Events"
+                };
+
+                factory.geoEvents.push(obj);
+                if($rootScope.header == "Events" && factory.onKeyEnter){
+                    factory.onKeyEnter(obj);
+                }
+            });
+
+            factory.eventQuery.on("key_exited", function(key, location, distance) {
+                for(var i=0; i<factory.geoEvents.length; i++){
+                    if(factory.geoEvents[i].key == key){
+                        factory.geoEvents.splice(i, 1);
+                        if($rootScope.header == "Events" && factory.onKeyExit){
+                            factory.onKeyExit(key);
+                        }
+                        break;
+                    }
+                }
+            });
+
+            factory.eventQuery.on("key_moved", function(key, location, distance) {
+                for(var i=0; i<factory.geoEvents.length; i++){
+                    if(factory.geoEvents[i].key == key){
+                        factory.geoEvents[i].location = location;
+                        factory.geoEvents[i].distance = GeoFire.distance(location, user.curlocation);
+                        if($rootScope.header == "Events" && factory.onKeyMove){
+                            factory.onKeyMove(factory.geoEvents[i]);
+                        }
+                        break;
+                    }
+                }
+            });
+
+            factory.gymQuery = GeoGyms.query({
+                center: [$rootScope.position[0], $rootScope.position[1]],
+                radius: appConfig.radius
+            });
+
+            factory.gymQuery.on("key_entered", function(key, location, distance) {
+                var obj = {
+                    location: location,
+                    distance: GeoFire.distance(location, user.curlocation),
+                    key: key,
+                    type: "Gyms"
+                };
+                console.log(obj);
+                factory.geoGyms.push(obj);
+                if($rootScope.header != "Events" && factory.onGymEnter){
+                    factory.onGymEnter(obj);
+                }
+
+            });
+
+            factory.gymQuery.on("key_exited", function(key, location, distance) {
+                for(var i=0; i<factory.geoGyms.length; i++){
+                    if(factory.geoGyms[i].key == key){
+                        factory.geoGyms.splice(i, 1);
+                        if($rootScope.header != "Events" && factory.onGymExit){
+                            factory.onGymExit(key);
+                        }
+                        break;
+                    }
+                }
+            });
+
+            factory.gymQuery.on("key_moved", function(key, location, distance) {
+                for(var i=0; i<factory.geoGyms.length; i++){
+                    if(factory.geoGyms[i].key == key){
+                        factory.geoGyms[i].location = location;
+                        factory.geoGyms[i].distance = GeoFire.distance(location, user.curlocation);
+                        if($rootScope.header != "Events" && factory.onGymMove){
+                            factory.onGymMove(factory.geoGyms[i]);
+                        }
+                        break;
+                    }
+                }
+            });
+        };
 
         return factory;
     })

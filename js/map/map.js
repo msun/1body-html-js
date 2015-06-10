@@ -539,19 +539,24 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         $localstorage.setObject("user", appFactory.user);
     } else {
         $ionicLoading.hide();
-        if (appFactory.user.location) {
-            position = appFactory.user.location;
+        if (appFactory.user.curlocation) {
+            console.log("appFactory.user.curlocation");
+            position = appFactory.user.curlocation;
+            $rootScope.position = position;
+            appFactory.loadLocation();
+
             setmap();
 //            dropPins(appFactory.state);
 //            dropGymPins(appFactory.state);
         }
         $scope.$on('locationReady', function (event, data) {
             position = $rootScope.position;
-            console.log(appFactory.user.location);
+            console.log(appFactory.user.curlocation);
             setmap();
 //            dropPins(appFactory.state);
 //            dropGymPins(appFactory.state);
-            appFactory.user.location = $rootScope.position;
+            appFactory.user.curlocation = $rootScope.position;
+
             $localstorage.setObject("user", appFactory.user);
         });
     }

@@ -31,9 +31,18 @@ account.factory('accountFactory', function($http, baseUrl) {
     return factory;
 });
 
-account.controller('HomeCtrl', function($scope){
+account.controller('HomeCtrl', function($scope, FirebaseRef, UserAuth){
+    if(UserAuth.$getAuth()){
+        console.log(UserAuth.$getAuth());
+        window.location.href = "#/login/login-main";
+    }
     $scope.googleLogin = function(){
-
+        console.log("google login");
+        UserAuth.$authWithOAuthRedirect("google").then(function(authData) {
+            console.log("Authenticated successfully with payload:", authData);
+        }).catch(function(error) {
+            console.error("Authentication failed:", error);
+        });
     };
 
     $scope.passwordLogin = function(){
@@ -92,7 +101,9 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
         appFactory.user.$loaded(function(){
             if(appFactory.user.username){
                 if($rootScope.position){
-                    appFactory.user.location = $rootScope.position;
+                    appFactory.user.curlocation = $rootScope.position;
+                    appFactory.loadLocation();
+                    console.log(appFactory.user);
                 }
                 $rootScope.user = appFactory.user;
                 $ionicLoading.hide();
@@ -111,7 +122,8 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
             if(appFactory.user.username){
                 $rootScope.user = appFactory.user;
                 if($rootScope.position){
-                    appFactory.user.location = $rootScope.position;
+                    appFactory.user.curlocation = $rootScope.position;
+                    appFactory.loadLocation();
                 }
 
                 console.log(appFactory.user);
@@ -886,7 +898,7 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
         var gymTrainer = {
             username: $scope.user.username,
             userID: $scope.user.$id,
-            information: $scope.user.info
+            information: $scope.user.info | ""
         };
 //
 //        if($scope.user.profilepic){

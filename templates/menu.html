@@ -1,11 +1,47 @@
 <ion-side-menus>
     <ion-pane ion-side-menu-content drag-content="false">
-        <ion-view>
-            <ion-content>
+        <!--<ion-view>-->
+        <!--</ion-view>-->
+        <ion-nav-view name="menu" style="bottom: 40px">
+            <!--<ion-footer-bar class="ob-darkpurple-bg bar bar-header disable-user-behavior">-->
+                <!--<div class="profile-bottom-content">-->
+                    <!--<div class="profile-feed-review-list">-->
+                        <!--<a class="profile-feed-review-list-row" ng-repeat="item in feeds | orderBy:'-created'" ng-click="replyto()">-->
+                            <!--<span class="profile-feed-review-list-row-left">-->
+                                <!--<img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.id | htmlEncode}}/profilepic.jpg"/>-->
+                            <!--</span>-->
+                            <!--<span class="profile-feed-review-list-row-right">-->
+                                <!--<div class="profile-feed-review-text">{{item.message}}</div>-->
+                                <!--<div class="profile-feed-review-creation">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>-->
+                            <!--</span>-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</ion-footer-bar>-->
+        </ion-nav-view>
+        <div id="notificationAndFeeds" style="z-index: 1000; width: 50px; position: absolute; top: 200px; right: 0px; height: 50px; overflow: hidden">
+            <div on-drag="onDrag($event)" on-release="onRelease($event)" style="z-index: 1001; width: 100%; height: 50px; background-color: white">
+                <span button button-icon style="width: 50px; height: 50px; float: left;" ng-click="expendNotificationAndFeeds()">
+                    <i class="icon ion-ios-arrow-back"></i>
+                </span>
+                <span button button-icon style="width: 50px; height: 50px; float: right; background-color: #ffff00" ng-click="closeNotificationAndFeeds()">
+                    <i class="icon ion-ios-arrow-back"></i>
+                </span>
+            </div>
 
-            </ion-content>
-        </ion-view>
-        <ion-nav-view name="menu"></ion-nav-view>
+            <div style="width: 100%; height: 300px; overflow: scroll">
+                <a class="profile-feed-review-list-row" ng-repeat="item in feeds | orderBy:'-created'" ng-click="replyto()">
+                <span class="profile-feed-review-list-row-left">
+                    <img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.id | htmlEncode}}/profilepic.jpg"/>
+                </span>
+                <span class="profile-feed-review-list-row-right">
+                    <div class="profile-feed-review-text">{{item.message}}</div>
+                    <div class="profile-feed-review-creation">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                </span>
+                </a>
+            </div>
+            <a class="button button-full" style="width: 100%; height: 50px;" href="#/menu/Users/{{$root.user.$id}}" ng-click="closeNotificationAndFeeds()">See more</a>
+        </div>
     </ion-pane>
     <ion-side-menu side="left" class="ob-sidemenu">
         <div class="ob-darkpurple-bg ob-sidemenu-header" ng-click="goTo('#/menu/Users/' + $root.user.$id); toggleMenu()">

@@ -75,7 +75,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             .state('home', {
                 url: "/home",
                 templateUrl: "js/account/templates/home.html",
-                controller: 'LoginCtrl'
+                controller: 'HomeCtrl'
             })
 
             .state('login', {
@@ -553,14 +553,14 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         navigator.geolocation.getCurrentPosition(function(position) {
             console.log("location ready");
             $rootScope.position = [position.coords.latitude, position.coords.longitude];
-            if (appFactory.user) {
-                appFactory.user.location = $rootScope.position;
+            if (appFactory.user.username) {
+                appFactory.user.curlocation = $rootScope.position;
+                appFactory.user.$save();
             }
             console.log(position);
 
             $rootScope.$broadcast('locationReady', 'locationReady');
 
-            loadLocation();
         }, function(error){
             console.log(error);
             alert("Cannot get location, please restart");
@@ -569,8 +569,9 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         navigator.geolocation.watchPosition(function(position) {
             console.log("location ready");
             $rootScope.position = [position.coords.latitude, position.coords.longitude];
-            if (appFactory.user) {
-                appFactory.user.location = $rootScope.position;
+            if (appFactory.user.username) {
+                appFactory.user.curlocation = $rootScope.position;
+                appFactory.user.$save();
             }
             console.log(position);
 //            $rootScope.$broadcast('locationReady', 'locationReady');
@@ -578,159 +579,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         }, function(error){
             console.log(error);
         });
-
-        function updateLocation(){
-            appFactory.trainerQuery.updateCriteria({
-                center: [$rootScope.position[0], $rootScope.position[1]]
-            });
-
-            appFactory.eventQuery.updateCriteria({
-                center: [$rootScope.position[0], $rootScope.position[1]]
-            });
-
-            appFactory.gymQuery.updateCriteria({
-                center: [$rootScope.position[0], $rootScope.position[1]]
-            });
-        }
-
-        function loadLocation(){
-
-            appFactory.trainerQuery = GeoTrainers.query({
-                center: [$rootScope.position[0], $rootScope.position[1]],
-                radius: appConfig.radius
-            });
-
-            appFactory.trainerQuery.on("key_entered", function(key, location, distance) {
-                var obj = {
-                    location: location,
-                    distance: GeoFire.distance(location, appFactory.user.location),
-                    key: key,
-                    type: "Users"
-                };
-                appFactory.geoTrainers.push(obj);
-                if($rootScope.header == "Users" && appFactory.onKeyEnter){
-                    appFactory.onKeyEnter(obj);
-                }
-                console.log(appFactory.geoTrainers);
-            });
-
-            appFactory.trainerQuery.on("key_exited", function(key, location, distance) {
-                for(var i=0; i<appFactory.geoTrainers.length; i++){
-                    if(appFactory.geoTrainers[i].key == key){
-                        appFactory.geoTrainers.splice(i, 1);
-                        if($rootScope.header == "Users" && appFactory.onKeyExit){
-                            appFactory.onKeyExit(key);
-                        }
-                        break;
-                    }
-                }
-                console.log(appFactory.geoTrainers);
-            });
-
-            appFactory.trainerQuery.on("key_moved", function(key, location, distance) {
-                for(var i=0; i<appFactory.geoTrainers.length; i++){
-                    if(appFactory.geoTrainers[i].key == key){
-                        appFactory.geoTrainers[i].location = location;
-                        appFactory.geoTrainers[i].distance = GeoFire.distance(location, appFactory.user.location);
-                        if($rootScope.header == "Users" && appFactory.onKeyMove){
-                            appFactory.onKeyMove(appFactory.geoTrainers[i]);
-                        }
-                        break;
-                    }
-                }
-                console.log(appFactory.geoTrainers);
-            });
-
-
-            appFactory.eventQuery = GeoEvents.query({
-                center: [$rootScope.position[0], $rootScope.position[1]],
-                radius: appConfig.radius
-            });
-
-            appFactory.eventQuery.on("key_entered", function(key, location, distance) {
-                var obj = {
-                    location: location,
-                    distance: GeoFire.distance(location, appFactory.user.location),
-                    key: key,
-                    type: "Events"
-                };
-
-                appFactory.geoEvents.push(obj);
-                if($rootScope.header == "Events" && appFactory.onKeyEnter){
-                    appFactory.onKeyEnter(obj);
-                }
-            });
-
-            appFactory.eventQuery.on("key_exited", function(key, location, distance) {
-                for(var i=0; i<appFactory.geoEvents.length; i++){
-                    if(appFactory.geoEvents[i].key == key){
-                        appFactory.geoEvents.splice(i, 1);
-                        if($rootScope.header == "Events" && appFactory.onKeyExit){
-                            appFactory.onKeyExit(key);
-                        }
-                        break;
-                    }
-                }
-            });
-
-            appFactory.eventQuery.on("key_moved", function(key, location, distance) {
-                for(var i=0; i<appFactory.geoEvents.length; i++){
-                    if(appFactory.geoEvents[i].key == key){
-                        appFactory.geoEvents[i].location = location;
-                        appFactory.geoEvents[i].distance = GeoFire.distance(location, appFactory.user.location);
-                        if($rootScope.header == "Events" && appFactory.onKeyMove){
-                            appFactory.onKeyMove(appFactory.geoEvents[i]);
-                        }
-                        break;
-                    }
-                }
-            });
-
-            appFactory.gymQuery = GeoGyms.query({
-                center: [$rootScope.position[0], $rootScope.position[1]],
-                radius: appConfig.radius
-            });
-
-            appFactory.gymQuery.on("key_entered", function(key, location, distance) {
-                var obj = {
-                    location: location,
-                    distance: GeoFire.distance(location, appFactory.user.location),
-                    key: key,
-                    type: "Gyms"
-                };
-                console.log(obj);
-                appFactory.geoGyms.push(obj);
-                if($rootScope.header != "Events" && appFactory.onGymEnter){
-                    appFactory.onGymEnter(obj);
-                }
-
-            });
-
-            appFactory.gymQuery.on("key_exited", function(key, location, distance) {
-                for(var i=0; i<appFactory.geoGyms.length; i++){
-                    if(appFactory.geoGyms[i].key == key){
-                        appFactory.geoGyms.splice(i, 1);
-                        if($rootScope.header != "Events" && appFactory.onGymExit){
-                            appFactory.onGymExit(key);
-                        }
-                        break;
-                    }
-                }
-            });
-
-            appFactory.gymQuery.on("key_moved", function(key, location, distance) {
-                for(var i=0; i<appFactory.geoGyms.length; i++){
-                    if(appFactory.geoGyms[i].key == key){
-                        appFactory.geoGyms[i].location = location;
-                        appFactory.geoGyms[i].distance = GeoFire.distance(location, appFactory.user.location);
-                        if($rootScope.header != "Events" && appFactory.onGymMove){
-                            appFactory.onGymMove(appFactory.geoGyms[i]);
-                        }
-                        break;
-                    }
-                }
-            });
-        };
 
 
 
@@ -758,16 +606,15 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         }
     })
 
-    .controller("MenuCtrl", function($scope, $window, Users, Events, Gyms, GeoTrainers, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications){
+    .controller("MenuCtrl", function($scope, $window, Users, $ionicPopup, Events, Feeds, Gyms, GeoTrainers, GeoEvents, GeoGyms, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications){
+
+
+
         $rootScope.header = "Users";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
             window.location.href = url;
         };
-
-//            appFactory.getObjsWithinRadius("trainers", [position.coords.latitude, position.coords.longitude], 30);
-//            appFactory.getObjsWithinRadius("events", [position.coords.latitude, position.coords.longitude], 30);
-//            appFactory.getObjsWithinRadius("classes", [position.coords.latitude, position.coords.longitude], 30);
 
         $scope.sendNotification = function(){
             var notifToTrainer = {
@@ -793,6 +640,107 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 alert("logged out");
                 window.location.href = "#";
             }
+        };
+        var element = document.getElementById("notificationAndFeeds");
+        var initY = parseInt(element.style.top, 10);
+        $scope.feeds = [];
+
+        var userFeedsRef = Feeds.ref().child("Users").child(appFactory.user.$id);
+        var feedRef = userFeedsRef.orderByPriority().limitToLast(appConfig.defaultItemsPerPage);
+        feedRef.on("child_added", function(feedSnapshot){
+            console.log(feedSnapshot);
+            $scope.feeds.push(feedSnapshot.val());
+            if($scope.feeds.length > 5){
+                $scope.feeds.splice(0, 1);
+            }
+
+            if(feedSnapshot.val().attention){
+                if (ionic.Platform.isAndroid()) {
+                    var myPopup = $ionicPopup.show({
+                        template: 'Would you like to save this to your calendar?',
+                        title: feedSnapshot.val().message,
+                        scope: $scope,
+                        buttons: [
+                            { text: 'Cancel' },
+                            {
+                                text: '<b>Okay</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+                                    e.preventDefault();
+                                    var jsonData = {
+                                        'title': "Training with " + feedSnapshot.val().userName,
+                                        'location': feedSnapshot.val().address,
+                                        'starttime': feedSnapshot.val().starttime,
+                                        'endtime': feedSnapshot.val().starttime + feedSnapshot.val().duration * 30 * 60 * 1000
+
+                                    };
+                                    if (feedSnapshot.val().commentlocation) {
+                                        jsonData.description = feedSnapshot.val().commentlocation;
+                                    }
+                                    console.log(jsonData);
+                                    var exec = cordova.require("cordova/exec");
+
+                                    exec(function (result) {
+                                        console.log(result);
+                                    }, function (err) {
+                                        console.log(err);
+                                    }, 'Card_io', 'addToCalendar', [
+                                        jsonData
+                                    ]);
+                                }
+                            }
+                        ]
+                    });
+                    myPopup.then(function (res) {
+                        console.log('Tapped!', res);
+                    });
+                } else {
+                    alert(feedSnapshot.val().message);
+                }
+                userFeedsRef.child(feedSnapshot.key()).child("attention").set(false);
+            } else {
+                if (parseInt(element.style.height, 10) == 50) {
+                    if(Math.abs(feedSnapshot.val().created - Date.now()) < 60000){
+                        $scope.partialExpendNotificationAndFeeds();
+                    }
+                }
+            }
+        });
+
+        $scope.partialExpendNotificationAndFeeds = function(){
+            element.style.height = "200px";
+            element.style.width = "250px";
+            $timeout(function(){
+                if(parseInt(element.style.height, 10) == 200) {
+                    $scope.closeNotificationAndFeeds();
+                }
+            }, 3000);
+        };
+
+        $scope.expendNotificationAndFeeds = function(){
+            element.style.height = "400px";
+            element.style.width = "60%";
+//            element.style.overflow = "scroll";
+        };
+
+        $scope.closeNotificationAndFeeds = function(){
+            element.style.height = "50px";
+            element.style.width = "50px";
+//            element.style.overflow = "hidden";
+        };
+
+        $scope.onDrag = function(e){
+            console.log(e);
+
+            var destinationY = initY + e.gesture.deltaY;
+
+            console.log(destinationY);
+            element.style.top = destinationY + "px";
+        };
+
+        $scope.onRelease = function(event)  {
+            console.log(event);
+            initY = parseInt(element.style.top, 10);
         };
 
         $scope.registerGcm = function(){
