@@ -985,7 +985,7 @@ account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl
     });
 });
 
-account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseObject, Requests, Trainers, $window, $localstorage, MyTokens, Payments){
+account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseObject, Requests, Trainers, $window, $localstorage, MyTokens, Payments, $ionicPlatform){
     $scope.bundles = [
         {numberTokens: 20, price: 100},
         {numberTokens: 10, price: 50},
@@ -1000,6 +1000,115 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
         $scope.currentTokens = $scope.mytokens.tokens;
     });
 
+    var paypalApp = {
+        // Application Constructor
+        initialize: function() {
+            this.bindEvents();
+        },
+        // Bind Event Listeners
+        //
+        // Bind any events that are required on startup. Common events are:
+        // 'load', 'deviceready', 'offline', and 'online'.
+        bindEvents: function() {
+            $ionicPlatform.ready(function() {
+                paypalApp.onDeviceReady();
+            });
+            //document.addEventListener('deviceready', this.onDeviceReady, false);
+        },
+        // deviceready Event Handler
+        //
+        // The scope of 'this' is the event. In order to call the 'receivedEvent'
+        // function, we must explicity call 'paypalApp.receivedEvent(...);'
+        onDeviceReady: function() {
+            paypalApp.receivedEvent('deviceready');
+        },
+        // Update DOM on a Received Event
+        receivedEvent: function(id) {
+            paypalApp.initPaymentUI();
+        },
+        initPaymentUI: function() {
+            var clientIDs = {
+              "PayPalEnvironmentProduction": "YOUR_PRODUCTION_CLIENT_ID",
+              "PayPalEnvironmentSandbox": "AU5_WbaNzFJpWSJoeYWNhIpzDjMU-q-uxAgDImQ0AI8uF5ahQ32dS-PNjxjh-AIP71nuWfpRipZfuzOr"
+            };
+            var ppm = PayPalMobile;
+            var ppmi = PayPalMobile.init;
+            PayPalMobile.init(clientIDs, paypalApp.onPayPalMobileInit);
+        },
+        onSuccessfulPayment: function(payment) {
+            alert("payment success");
+            console.log("payment success: " + JSON.stringify(payment, null, 4));
+
+            var response = payment.response;
+            if(response.state == "approved") {
+                Payments.ref().push({
+                    payID: response.id,
+                    paymentMade: response.create_time,
+                    created: Date.now(),
+                    userID: appFactory.user.$id,
+                    totalTokens: $scope.totalTokens,
+                    processed: false
+                });
+
+                var unwatch = $scope.mytokens.$watch(function(){
+                    var delta = $scope.mytokens.tokens - $scope.currentTokens;
+                    alert(delta + " tokens purchased");
+                    unwatch();
+                });
+            }
+        },
+        onAuthorizationCallback: function(authorization) {
+            alert("payment authorized");
+            console.log("authorization: " + JSON.stringify(authorization, null, 4));
+        },
+        onUserCanceled: function(result) {
+            alert("payment cancelled");
+            console.log(result);
+        },
+        createPayment: function(amount, description) {
+            var paymentDetails = new PayPalPaymentDetails(amount, "0.00", "0.00");
+            var payment = new PayPalPayment(amount, "USD", description, "Sale", paymentDetails);
+            return payment;
+        },
+        configuration: function() {
+            // for more options see `paypal-mobile-js-helper.js`
+            var config = new PayPalConfiguration({
+              merchantName: "1Body",
+              merchantPrivacyPolicyURL: "",
+              merchantUserAgreementURL: ""
+            });
+            return config;
+        },
+        onPrepareRender: function() {
+            /*
+            buyNowBtn.onclick = function(e) {
+              // single payment
+              PayPalMobile.renderSinglePaymentUI(paypalApp.createPayment(),
+                                                 paypalApp.onSuccessfulPayment,
+                                                 paypalApp.onUserCanceled);
+            };
+
+            buyInFutureBtn.onclick = function(e) {
+              // future payment
+              PayPalMobile.renderFuturePaymentUI(paypalApp.onAuthorizationCallback,
+                                                 paypalApp.onUserCanceled);
+            };
+
+            profileSharingBtn.onclick = function(e) {
+              // profile sharing
+              PayPalMobile.renderProfileSharingUI(["profile", "email", "phone",
+                "address", "futurepayments", "paypalattributes"
+              ], paypalApp.onAuthorizationCallback, paypalApp.onUserCanceled);
+            };
+            */
+        },
+        onPayPalMobileInit: function() {
+            PayPalMobile.prepareToRender("PayPalEnvironmentSandbox",
+                                         paypalApp.configuration(),
+                                         paypalApp.onPrepareRender);
+        }
+    };
+    paypalApp.initialize();
 
     $scope.addBundle = function(item) {
         $scope.amount = 0;
@@ -1030,11 +1139,13 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
         $window.history.back();
     }
 
-    $scope.confirm = function(){
-        if(ionic.Platform.isIOS()){
-            alert("ios paypal plugin here");
-
-        } else {
+    $scope.confirm = function() {
+        if(ionic.Platform.isIOS()) {
+            var payment = paypalApp.createPayment($scope.amount, $scope.totalTokens + " Tokens");
+            PayPalMobile.renderSinglePaymentUI(payment,
+                                               paypalApp.onSuccessfulPayment,
+                                               paypalApp.onUserCanceled);
+        } else if(ionic.Platform.isAndroid()) {
             var exec = cordova.require("cordova/exec");
 
             var successCallback = function (result) {
