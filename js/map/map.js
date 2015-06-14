@@ -237,6 +237,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         appFactory.state = tab;
         $scope.searchContainer.searchRadius = 30;
         clearpins();
+        console.log("pins cleared");
         if (tab == "Events") {
             markEvents();
         } else if (tab == "Users") {
@@ -816,9 +817,12 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             }
 
             (function (id) {
-                console.log(id);
+                console.log($scope.markers[id]);
                 if ($scope.markers[id]) {
+                    $scope.markers[id].marker.setVisible(false);
                     $scope.markers[id].marker.setMap(null);
+                    $scope.markers[id].marker = null;
+
                 }
             }(key));
 

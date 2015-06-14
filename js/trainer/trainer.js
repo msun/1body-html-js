@@ -442,11 +442,6 @@ trainer.controller('FollowingTrainerCtrl', function($scope, User, appFactory, $t
     });
 });
 
-trainer.controller('TrainerScheduleCtrl', function($scope, User, appFactory, $timeout, $stateParams) {
-    $scope.trainerID = $stateParams.trainerID;
-    $scope.trainerName = $stateParams.trainerName;
-});
-
 trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebaseObject, eventFactory, apikey, Requests, GeoRequests, Trainers, IncomingRequests, Schedule) {
     $scope.newrequest = {};
     $scope.newrequest.duration = 30;
@@ -967,6 +962,213 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
             }
         }
     }
+});
+
+trainer.controller('TrainerScheduleCtrl', function($scope, User, appFactory, $timeout, $stateParams) {
+    $scope.trainerID = $stateParams.trainerID;
+    $scope.trainerName = $stateParams.trainerName;
+});
+
+trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, appFactory, $firebaseArray, $firebaseObject, Schedule, appConfig, $ionicModal){
+    $ionicModal.fromTemplateUrl('js/trainer/templates/trainer-schedule-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.modal = modal;
+    });
+
+    $scope.edit = {};
+    $scope.edit.time = 0;
+    $scope.edit.index = 0;
+    $scope.rules = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child("rules"));
+
+
+
+    $scope.getSelectedClass = function(selected){
+        if(selected){
+            return "ob-form-button-selected";
+        } else {
+            return "";
+        }
+    };
+
+    $scope.openScheduleModal = function(index, time){
+        console.log(time);
+        $scope.edit.time = time;
+        $scope.edit.index = index;
+        $scope.edit.active = $scope.active[index];
+        if(!$scope.rules[time]){
+            $scope.rules[$scope.edit.time] = [false, false, false, false, false, false];
+        }
+        console.log($scope.rules);
+
+
+        $scope.modal.show();
+    };
+
+    $scope.closeScheduleModal = function(){
+        $scope.modal.hide();
+    };
+
+    var now = new Date();
+    console.log(now);
+    $scope.minDate = now;
+    $scope.dt = now;
+    var y = now.getYear();
+    var m = now.getMonth();
+    var d = now.getDate();
+    var h = now.getHours();
+    var min = now.getMinutes();
+
+    var slots = {
+        hour: [],
+        half: []
+    }
+
+    $scope.user = appFactory.user;
+    if(!$scope.user.normalRate){
+        $scope.user.normalRate = 3;
+    }
+    if(!$scope.user.primeRate){
+        $scope.user.primeRate = 5;
+    }
+
+    $scope.setRate = function(){
+        if($scope.user.normalRate < 3 || $scope.user.primeRate < 5){
+            alert("Minimum rate for off hour rate is 3, minimum rate for prime hour rate is 5")
+        } else {
+            $scope.user.$save().then(function(){
+                alert("Rate set");
+            });
+
+        }
+    };
+
+    $scope.active = [];
+    slots.hour = _.range(0, 2400, 100);
+    slots.hour.forEach(function (hr) {
+        slots.half.push(hr);
+        slots.half.push(hr + 30);
+        $scope.active.push({
+            status: -1,
+            prime: false
+        });
+        $scope.active.push({
+            status: -1,
+            prime: false
+        });
+    });
+    console.log($scope.active);
+
+    $scope.timeslots = slots.half;
+
+    $scope.selectTime = function(i){
+        $scope.active[i].status = -1 - $scope.active[i].status;
+    };
+
+    $scope.confirm = function () {
+        for(var i=0; i<$scope.active.length; i++){
+            $scope.active[i].rate = appFactory.user.normalRate;
+            if($scope.active[i].prime){
+                $scope.active[i].rate = appFactory.user.primeRate;
+            }
+        }
+        var name = $scope.dt.getFullYear() + "-" + $scope.dt.getMonth() + "-" + $scope.dt.getDate();
+        var daySchedule = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child(name));
+        daySchedule.active = $scope.active;
+
+        daySchedule.$save().then(function(){
+            alert("Schedule saved, thanks");
+            window.location.href = "#/menu/map";
+        });
+
+    };
+
+    $scope.printTime = function(){
+        console.log($scope.dt);
+    };
+
+    $scope.showTableRow = function(index){
+        return !appConfig.removedTimeSlot[index];
+    };
+
+    $scope.addRule = function(event, day){
+
+        if(!$scope.rules[$scope.edit.time]){
+            $scope.rules[$scope.edit.time] = [false, false, false, false, false, false];
+        }
+        if(!$scope.rules[$scope.edit.time][day]){
+            $scope.rules[$scope.edit.time][day] = true;
+            if($scope.dt.getDay() == day){
+                $scope.active[$scope.edit.index].status = 0;
+            }
+
+//            $(event.target).addClass('ob-form-button-selected');
+        } else {
+            $scope.rules[$scope.edit.time][day] = !$scope.rules[$scope.edit.time][day];
+            if($scope.dt.getDay() == day) {
+                $scope.active[$scope.edit.index].status = -1;
+            }
+//            $(event.target).removeClass('ob-form-button-selected');
+        }
+        console.log($scope.rules);
+        $scope.rules.$save();
+    };
+
+
+    $scope.removeTimeSlot = function(index){
+        var myPopup = $ionicPopup.show({
+            template: 'Would you like to continue?',
+            title: "This will remove the time slot from your scheduler",
+            scope: $scope,
+            buttons: [
+                { text: 'Cancel' },
+                {
+                    text: '<b>Okay</b>',
+                    type: 'button-positive',
+                    onTap: function (e) {
+//                        e.preventDefault();
+                        $scope.modal.hide();
+                        appConfig.removedTimeSlot[index] = true;
+                    }
+                }
+            ]
+        });
+        myPopup.then(function (res) {
+            console.log('Tapped!', res);
+        });
+
+
+    };
+
+    $scope.collapse = true;
+    $scope.rules.$loaded(function(){
+        $scope.$watch('dt', function () {
+            var name = $scope.dt.getFullYear() + "-" + $scope.dt.getMonth() + "-" + $scope.dt.getDate();
+
+            var daySchedule = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child(name));
+            daySchedule.$loaded(function () {
+                if (daySchedule.active) {
+                    $scope.active = daySchedule.active;
+                } else {
+                    for (var i = 0; i < $scope.active.length; i++) {
+                        console.log($scope.timeslots[i]);
+                        if ($scope.rules[$scope.timeslots[i]] && $scope.rules[$scope.timeslots[i]][$scope.dt.getDay()]) {
+                            $scope.active[i] = {
+                                status: 0,
+                                prime: false
+                            };
+                        } else {
+                            $scope.active[i] = {
+                                status: -1,
+                                prime: false
+                            };
+                        }
+                    }
+                }
+            })
+        });
+    }, true);
 });
 
 trainer.directive('scheduler', function($timeout, appFactory, $firebaseArray, $firebaseObject, Schedule, appConfig){

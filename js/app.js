@@ -419,7 +419,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 views: {
                     'menu': {
                         templateUrl: 'js/account/templates/my-schedule.html',
-                        controller: 'ProfileCtrl'
+                        controller: 'MyScheduleCtrl'
                     }
                 }
             })
@@ -563,7 +563,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         }, function(error){
             console.log(error);
-            alert("Cannot get location, please restart");
+            alert("Cannot load current location, using last known location");
         });
 
         navigator.geolocation.watchPosition(function(position) {

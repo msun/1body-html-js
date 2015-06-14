@@ -565,6 +565,10 @@ ion-popover-view.fit ion-content {
     text-decoration: none;
 }
 
+.ob-form-button-selected {
+    background-color: green;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* ob-form-text-input */
 /* to be used inside ob-form-flex-row */
