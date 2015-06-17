@@ -50,49 +50,67 @@ account.controller('HomeCtrl', function($scope, FirebaseRef, UserAuth){
     };
 });
 
-account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes, $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope, accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage) {
+account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes,
+                                         $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope,
+                                         accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage,
+                                         $ionicPlatform) {
     console.log(UserAuth.$getAuth());
 
-    var checkUrl = function(){
+    var checkUrl = function() {
+        if (!ionic.Platform.isWebView()) {
+            $state.transitionTo(mapstate);
+            return;
+        }
+
+        var pluginName = '';
         if (ionic.Platform.isAndroid()) {
-            var exec = cordova.require("cordova/exec");
+            pluginName = 'Card_io';
+        } else if (ionic.Platform.isIOS()) {
+            pluginName = 'OBGCM';
+        }
+
+        var exec = cordova.require("cordova/exec");
+
+        if (ionic.Platform.isAndroid()) {
             exec(function(result){
                 console.log(result);
-//                alert("received url: " + result.url);
+                //alert("received url: " + result.url);
                 window.location.href = result.url;
             }, function(err){
                 console.log(err);
-            }, 'Card_io', 'gcmpush', [{id: appFactory.user.$id}]);
+            }, pluginName, 'gcmpush', [{id: appFactory.user.$id}]);
         } else {
             $state.transitionTo(mapstate);
         }
-//        document.addEventListener("deviceready", function(){
+
+        $ionicPlatform.ready(function() {
             console.log(device.uuid);
             var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
             gcmID.$loaded(function(){
+                alert("hello5 gcmID: " + gcmID.gcmID);
                 console.log(gcmID);
                 if(!gcmID.gcmID){
-                    if (ionic.Platform.isAndroid()) {
-                        console.log("platform is android");
-                        var exec = cordova.require("cordova/exec");
-                        exec(function(result){
-                            alert(result["regid"]);
-                            if(result["regid"] && result["regid"].length > 0){
-                                gcmID.gcmID = result["regid"];
-                                gcmID.userID = appFactory.user.$id;
-                                gcmID.deviceID = device.uuid;
-                                gcmID.$priority = appFactory.user.$id;
-                                gcmID.$save().then(function(){
-                                    alert(result["regid"] + " saved to db");
-                                })
-                            }
-                        }, function(err){
-                            console.log(err);
-                        }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
-                    }
+                    alert("hello6");
+                    var exec = cordova.require("cordova/exec");
+                    exec(function(result){
+                        alert("hello7");
+                        alert(result["regid"]);
+                        if(result["regid"] && result["regid"].length > 0){
+                            gcmID.gcmID = result["regid"];
+                            gcmID.userID = appFactory.user.$id;
+                            gcmID.deviceID = device.uuid;
+                            gcmID.$priority = appFactory.user.$id;
+                            gcmID.$save().then(function(){
+                                alert(result["regid"] + " saved to db");
+                            })
+                        }
+                    }, function(err){
+                        alert("hello err");
+                        console.log(err);
+                    }, pluginName, 'gcminit', [{id: appFactory.user.$id}]);
                 }
             })
-//        }, false);
+        });
     }
 
     var loadLocalUser = function(user){

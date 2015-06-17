@@ -749,6 +749,18 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         };
 
         $scope.registerGcm = function(){
+            if (!ionic.Platform.isWebView()) {
+                $state.transitionTo(mapstate);
+                return;
+            }
+
+            var pluginName = '';
+            if (ionic.Platform.isAndroid()) {
+                pluginName = 'Card_io';
+            } else if (ionic.Platform.isIOS()) {
+                pluginName = 'OBGCM';
+            }
+
             var exec = cordova.require("cordova/exec");
             exec(function(result){
                 if(result["regid"] && result["regid"].length > 0){
@@ -764,7 +776,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             }, function(err){
                 console.log(err);
-            }, 'Card_io', 'gcminit', [{id: appFactory.user.$id}]);
+            }, pluginName, 'gcminit', [{id: appFactory.user.$id}]);
 
 //            if (ionic.Platform.isAndroid()){
 //                var exec = cordova.require("cordova/exec");
