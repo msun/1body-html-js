@@ -707,6 +707,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             }
         });
 
+        $scope.$on('$destroy', function() {
+            feedRef.off();
+        });
+
+
         $scope.partialExpendNotificationAndFeeds = function(){
             element.style.height = "200px";
             element.style.width = "250px";

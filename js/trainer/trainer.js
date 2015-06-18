@@ -442,9 +442,9 @@ trainer.controller('FollowingTrainerCtrl', function($scope, User, appFactory, $t
     });
 });
 
-trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebaseObject, eventFactory, apikey, Requests, GeoRequests, Trainers, IncomingRequests, Schedule) {
+trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $localstorage, Feeds, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebaseObject, eventFactory, apikey, Requests, GeoRequests, Trainers, IncomingRequests, Schedule) {
     $scope.newrequest = {};
-    $scope.newrequest.duration = 30;
+    $scope.newrequest.minutes = 30;
     $scope.dt = Date.now();
 
     $scope.mobile_trainers = [];
@@ -512,35 +512,45 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
         });
 
         var theday = $scope.dt.getFullYear() + "-" + $scope.dt.getMonth() + "-" + $scope.dt.getDate();
+
+        $scope.mobile_trainers = [];
         for(var key in appFactory.users){
             if(!appFactory.users.hasOwnProperty(key)){
                 continue;
             }
 
             if(appFactory.users[key].mobile){
-                $scope.mobile_trainers.push(appFactory.users[key]);
-//                (function(id){
-//                    var num = $scope.dt.getHours() * 2;
-//                    if($scope.dt.getMinutes() == 30){
-//                        num++;
-//                    }
-//                    console.log(num);
-//                    console.log(theday);
-//                    var availability = $firebaseObject(Schedule.ref().child(key).child(theday).child("active").child(num));
-//
-//                    availability.$loaded(function(){
-//                        console.log(availability);
-//                        console.log(availability[num]);
-//                        if(availability.$value == 0){
-//                            $scope.mobile_trainers.push(appFactory.users[id]);
-//                        }
-//                    });
-//
-//
-//                }(key));
+//                $scope.mobile_trainers.push(appFactory.users[key]);
+                (function(id){
+                    var num = $scope.dt.getHours() * 2;
+                    if($scope.dt.getMinutes() >= 15){
+                        num++;
+                    }
+                    console.log(num);
+                    console.log(theday);
+                    var availability = $firebaseObject(Schedule.ref().child(id).child(theday));
+
+                    availability.$loaded(function(){
+                        if(availability.active){
+                            var add = true;
+                            console.log(availability.active);
+                            for(var i=num; i < num + $scope.newrequest.minutes/30; i++){
+                                if(availability.active[i].status == 1){
+                                    add = false;
+                                    console.log(i);
+                                    break;
+                                }
+                            }
+                            if(add){
+                                $scope.mobile_trainers.push(appFactory.users[id]);
+                            }
+                        } else {
+                            $scope.mobile_trainers.push(appFactory.users[id]);
+                        }
+                    });
+                }(key));
             }
         }
-        console.log($scope.mobile_trainers);
     }
 
     $scope.showOnMap = function(item){
@@ -631,7 +641,12 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $ionicPopup
                     console.log(newReqRef.key());
 
                     newReqRef.setPriority($scope.newrequest.created);
-
+                    Feeds.push("Users",
+                        $scope.newrequest.trainerID,
+                        $scope.newrequest.trainerName,
+                            "You have made a mobile training request at " + new Date(),
+                            appFactory.user.username + " has made a mobile training request to you"
+                    );
 //                    var incomingRequestRef = IncomingRequests.ref().child(mNewrequest.trainerID).child(newReqRef.key());
 //
 //                    incomingRequestRef.set(mNewrequest);
@@ -674,6 +689,8 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
             var now = new Date();
             scope.minDate = now;
             scope.dt = now;
+            scope.rules = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child("rules"));
+
 
             scope.selectTime = function(i){
                 scope.chosen[i].status = 1 - scope.chosen[i].status;
@@ -698,28 +715,75 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
             var daySchedule;
 
             scope.$watch('dt', function (newValue, oldValue) {
-                console.log(scope.dt);
-                scope.theday = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
-                daySchedule = $firebaseObject(Schedule.ref().child(scope.trainerID).child(scope.theday));
-                daySchedule.$loaded(function(){
-                    console.log(daySchedule);
-                    if(daySchedule.active){
-                        scope.active = daySchedule.active;
-                    } else {
-                        for(var i=0; i<scope.active.length; i++){
-                            scope.active[i] = -1;
+                scope.rules.$loaded(function() {
+                    scope.theday = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
+
+                    daySchedule = $firebaseObject(Schedule.ref().child(scope.trainerID).child(scope.theday));
+                    daySchedule.$loaded(function () {
+                        if (daySchedule.active) {
+                            scope.active = daySchedule.active;
+                        } else {
+                            for (var i = 0; i < scope.active.length; i++) {
+                                if (scope.rules[slots.half[i]]) {
+                                    console.log(scope.rules[slots.half[i]][scope.dt.getDay()]);
+                                }
+
+                                if (scope.rules[slots.half[i]] && scope.rules[slots.half[i]][scope.dt.getDay()] == 1) {
+                                    scope.active[i] = {
+                                        status: 0,
+                                        rate: appFactory.selectedTrainer.normalRate,
+                                        prime: false
+                                    };
+                                } else if (scope.rules[slots.half[i]] && scope.rules[slots.half[i]][scope.dt.getDay()] == 2) {
+                                    scope.active[i] = {
+                                        status: 0,
+                                        rate: appFactory.selectedTrainer.primeRate,
+                                        prime: true
+                                    };
+                                } else {
+                                    scope.active[i] = {
+                                        status: -1,
+                                        prime: false
+                                    };
+                                }
+                            }
                         }
-                    }
-                    scope.timeslots = [];
-                    scope.chosen = [];
-                    for(var i=0; i<scope.active.length; i++){
-                        if(scope.active[i].status == 0){
-                            scope.timeslots.push(slots.half[i]);
-                            scope.chosen.push(scope.active[i]);
+                        console.log(scope.active);
+                        scope.timeslots = [];
+                        scope.chosen = [];
+                        for (var i = 0; i < scope.active.length; i++) {
+                            if (scope.active[i].status == 0) {
+                                scope.timeslots.push(slots.half[i]);
+                                scope.chosen.push(scope.active[i]);
+                            }
                         }
-                    }
-                    console.log(scope.chosen);
-                })
+                        console.log(scope.chosen);
+                    })
+
+                });
+
+//                console.log(scope.dt);
+//                scope.theday = scope.dt.getFullYear() + "-" + scope.dt.getMonth() + "-" + scope.dt.getDate();
+//                daySchedule = $firebaseObject(Schedule.ref().child(scope.trainerID).child(scope.theday));
+//                daySchedule.$loaded(function(){
+//                    console.log(daySchedule);
+//                    if(daySchedule.active){
+//                        scope.active = daySchedule.active;
+//                    } else {
+//                        for(var i=0; i<scope.active.length; i++){
+//                            scope.active[i] = -1;
+//                        }
+//                    }
+//                    scope.timeslots = [];
+//                    scope.chosen = [];
+//                    for(var i=0; i<scope.active.length; i++){
+//                        if(scope.active[i].status == 0){
+//                            scope.timeslots.push(slots.half[i]);
+//                            scope.chosen.push(scope.active[i]);
+//                        }
+//                    }
+//                    console.log(scope.chosen);
+//                })
             }, true);
 
             scope.charge = function(){
@@ -819,9 +883,12 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         trainerID: scope.trainerID,
                         sessionID: scope.trainerID,
                         trainerName: scope.trainerName,
+                        primeRate: appFactory.selectedTrainer.primeRate | 5,
+                        normalRate: appFactory.selectedTrainer.normalRate | 3,
                         tokens: bookedReduced[i].rate,
                         type: "Users",
                         address: appFactory.selectedTrainer.address | "",
+                        commentlocation: appFactory.selectedTrainer.commentlocation | "",
                         location: appFactory.selectedTrainer.location,
                         created: Firebase.ServerValue.TIMESTAMP,
                         duration: bookedReduced[i].period,
@@ -831,9 +898,6 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         scanned: false,
                         reviewed: false
                     };
-                    if(appFactory.selectedTrainer.commentlocation){
-                        transaction.commentlocation = appFactory.selectedTrainer.commentlocation;
-                    }
 
                     (function(newTransaction){
 
@@ -982,11 +1046,11 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
     $scope.edit.index = 0;
     $scope.rules = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child("rules"));
 
-
-
     $scope.getSelectedClass = function(selected){
-        if(selected){
+        if(selected == 1){
             return "ob-form-button-selected";
+        } else if(selected == 2){
+            return "ob-form-button-prime";
         } else {
             return "";
         }
@@ -997,8 +1061,8 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
         $scope.edit.time = time;
         $scope.edit.index = index;
         $scope.edit.active = $scope.active[index];
-        if(!$scope.rules[time]){
-            $scope.rules[$scope.edit.time] = [false, false, false, false, false, false];
+        if(!$scope.rules[index]){
+            $scope.rules[index] = [0, 0, 0, 0, 0, 0, 0];
         }
         console.log($scope.rules);
 
@@ -1089,25 +1153,46 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
     };
 
     $scope.showTableRow = function(index){
-        return !appConfig.removedTimeSlot[index];
+        if($scope.rules[index] && $scope.rules[index][$scope.dt.getDay()] == -1){
+            return false;
+        } else {
+            return true;
+        }
     };
 
     $scope.addRule = function(event, day){
 
-        if(!$scope.rules[$scope.edit.time]){
-            $scope.rules[$scope.edit.time] = [false, false, false, false, false, false];
+        if(!$scope.rules[$scope.edit.index]){
+            $scope.rules[$scope.edit.index] = [0, 0, 0, 0, 0, 0, 0];
         }
-        if(!$scope.rules[$scope.edit.time][day]){
-            $scope.rules[$scope.edit.time][day] = true;
+        if($scope.rules[$scope.edit.index][day] == 0){
+            $scope.rules[$scope.edit.index][day] = 1;
             if($scope.dt.getDay() == day){
-                $scope.active[$scope.edit.index].status = 0;
+                $timeout(function(){
+                    $scope.active[$scope.edit.index].status = 0;
+                    $scope.active[$scope.edit.index].prime = false;
+                    $scope.active[$scope.edit.index].rate = appFactory.user.normalRate;
+                });
+            }
+
+//            $(event.target).addClass('ob-form-button-selected');
+        } else if($scope.rules[$scope.edit.index][day] == 1){
+            $scope.rules[$scope.edit.index][day] = 2;
+            if($scope.dt.getDay() == day){
+                $timeout(function(){
+                    $scope.active[$scope.edit.index].status = 0;
+                    $scope.active[$scope.edit.index].prime = true;
+                    $scope.active[$scope.edit.index].rate = appFactory.user.primeRate;
+                });
             }
 
 //            $(event.target).addClass('ob-form-button-selected');
         } else {
-            $scope.rules[$scope.edit.time][day] = !$scope.rules[$scope.edit.time][day];
+            $scope.rules[$scope.edit.index][day] = 0;
             if($scope.dt.getDay() == day) {
-                $scope.active[$scope.edit.index].status = -1;
+                $timeout(function(){
+                    $scope.active[$scope.edit.index].status = -1;
+                })
             }
 //            $(event.target).removeClass('ob-form-button-selected');
         }
@@ -1129,7 +1214,8 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
                     onTap: function (e) {
 //                        e.preventDefault();
                         $scope.modal.hide();
-                        appConfig.removedTimeSlot[index] = true;
+                        $scope.rules[$scope.edit.index] = [-1, -1, -1, -1, -1, -1, -1];
+                        $scope.rules.$save();
                     }
                 }
             ]
@@ -1142,8 +1228,9 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
     };
 
     $scope.collapse = true;
-    $scope.rules.$loaded(function(){
+
         $scope.$watch('dt', function () {
+            $scope.rules.$loaded(function(){
             var name = $scope.dt.getFullYear() + "-" + $scope.dt.getMonth() + "-" + $scope.dt.getDate();
 
             var daySchedule = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child(name));
@@ -1152,11 +1239,21 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
                     $scope.active = daySchedule.active;
                 } else {
                     for (var i = 0; i < $scope.active.length; i++) {
-                        console.log($scope.timeslots[i]);
-                        if ($scope.rules[$scope.timeslots[i]] && $scope.rules[$scope.timeslots[i]][$scope.dt.getDay()]) {
+                        if($scope.rules[i]){
+                            console.log($scope.rules[i][$scope.dt.getDay()]);
+                        }
+
+                        if($scope.rules[i] && $scope.rules[i][$scope.dt.getDay()] == 1) {
                             $scope.active[i] = {
                                 status: 0,
+                                rate: appFactory.user.normalRate,
                                 prime: false
+                            };
+                        } else if ($scope.rules[i] && $scope.rules[i][$scope.dt.getDay()] == 2) {
+                            $scope.active[i] = {
+                                status: 0,
+                                rate: appFactory.user.primeRate,
+                                prime: true
                             };
                         } else {
                             $scope.active[i] = {

@@ -566,7 +566,10 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-button-selected {
-    background-color: green;
+    background-color: greenyellow;
+}
+.ob-form-button-prime {
+    background-color: darkgreen;
 }
 
 /* ********** ********** ********** ********** ***********/

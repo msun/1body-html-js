@@ -40,6 +40,9 @@
                     <span class="ob-form-text-input">Select Available Trainers</span>
                     <span class="ob-form-icon ob-form-icon-rightarrow"></span>
                 </div>
+                <div class="ob-form-row" ng-repeat="item in checked">
+                    <span class="ob-form-text-input">{{item.username}} </span>
+                </div>
                 <div class="ob-form-row">
                     <textarea class="ob-form-textarea ob-form-textarea-small"
                               ng-model="newrequest.message"

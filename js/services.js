@@ -103,6 +103,16 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
+    .factory("MyLocations", function(FirebaseRef) {
+        var ref = FirebaseRef.child("userLocations");
+
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
     .factory("MyNotifications", function(FirebaseRef) {
         var ref = FirebaseRef.child("userNotifications");
 
@@ -351,7 +361,7 @@ angular.module('starter.services', ["firebase"])
                 feed.created = Firebase.ServerValue.TIMESTAMP;
                 feed.type = type;
                 feed.id = id;
-                feed.message = inboundMsg
+                feed.message = inboundMsg;
 
                 var feedToHim = {};
                 feedToHim.created = Firebase.ServerValue.TIMESTAMP;
@@ -700,7 +710,6 @@ angular.module('starter.services', ["firebase"])
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);
             } else {
-                $scope.support = "Geolocation is not supported by this browser.";
                 showPosition();
             }
         }

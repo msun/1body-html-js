@@ -783,7 +783,7 @@ account.controller('AccountCtrl', function($scope, User, appFactory, baseUrl, $t
 //    }
 });
 
-account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window, $rootScope) {
+account.controller('SetLocationCtrl', function($scope, $firebaseArray, MyLocations, $firebaseObject, Users, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window, $rootScope) {
     console.log("SetLocationCtrl ctrl");
 
     $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
@@ -803,10 +803,14 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
     var saveCustomer = function(){
         $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
         $localstorage.set("user", $scope.user);
+
         $scope.user.$save().then(function(){
             alert("Position saved");
             $window.history.back();
         });
+
+        $scope.locations = $firebaseArray(MyLocations.ref().child(appFactory.user.$id));
+
     }
 
     $scope.confirm = function(){
@@ -934,33 +938,39 @@ account.controller('SetLocationCtrl', function($scope, $firebaseObject, Users, e
         });
     };
 
-    setTimeout(function() {
-        appFactory.getLocation(function (position) {
-            console.log(position);
-            console.log(document.getElementById('set-location-map'));
-            var map = new google.maps.Map(document.getElementById('set-location-map'), {
-                zoom: 12,
-                center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
+//    setTimeout(function() {
+//
+//    }, 200);
+//    appFactory.getLocation(function (position) {
+
+//        console.log(position);
+        console.log(document.getElementById('set-location-map'));
+        var map = new google.maps.Map(document.getElementById('set-location-map'), {
+            zoom: 12,
+            center: new google.maps.LatLng($rootScope.position[0], $rootScope.position[1]),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
 //            var marker;
 
-            $scope.marker = new google.maps.Marker({
-                position: map.getCenter(), //new google.maps.LatLng(appFactory.user.latitude, appFactory.users.longitude),
-                map: map,
-                draggable: true
-            });
-
-            google.maps.event.addListener(map, 'dragend', function () {
-                $scope.marker.setPosition(map.getCenter());
-                setLocation();
-            });
-
-            $scope.map = map;
-
+        $scope.marker = new google.maps.Marker({
+            position: map.getCenter(), //new google.maps.LatLng(appFactory.user.latitude, appFactory.users.longitude),
+            map: map,
+            draggable: true
         });
-    }, 200);
 
+        google.maps.event.addListener(map, 'dragend', function () {
+            $scope.marker.setPosition(map.getCenter());
+            setLocation();
+        });
+
+        $scope.map = map;
+
+//    });
+
+});
+
+account.controller('MyLocationsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseArray, MyLocations, Trainers) {
+    $scope.locations = $firebaseArray(MyLocations.ref().child(appFactory.user.$id));
 });
 
 account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseArray, Requests, Trainers){
@@ -1000,115 +1010,117 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
         $scope.currentTokens = $scope.mytokens.tokens;
     });
 
-    var paypalApp = {
-        // Application Constructor
-        initialize: function() {
-            this.bindEvents();
-        },
-        // Bind Event Listeners
-        //
-        // Bind any events that are required on startup. Common events are:
-        // 'load', 'deviceready', 'offline', and 'online'.
-        bindEvents: function() {
-            $ionicPlatform.ready(function() {
-                paypalApp.onDeviceReady();
-            });
-            //document.addEventListener('deviceready', this.onDeviceReady, false);
-        },
-        // deviceready Event Handler
-        //
-        // The scope of 'this' is the event. In order to call the 'receivedEvent'
-        // function, we must explicity call 'paypalApp.receivedEvent(...);'
-        onDeviceReady: function() {
-            paypalApp.receivedEvent('deviceready');
-        },
-        // Update DOM on a Received Event
-        receivedEvent: function(id) {
-            paypalApp.initPaymentUI();
-        },
-        initPaymentUI: function() {
-            var clientIDs = {
-              "PayPalEnvironmentProduction": "YOUR_PRODUCTION_CLIENT_ID",
-              "PayPalEnvironmentSandbox": "AU5_WbaNzFJpWSJoeYWNhIpzDjMU-q-uxAgDImQ0AI8uF5ahQ32dS-PNjxjh-AIP71nuWfpRipZfuzOr"
-            };
-            var ppm = PayPalMobile;
-            var ppmi = PayPalMobile.init;
-            PayPalMobile.init(clientIDs, paypalApp.onPayPalMobileInit);
-        },
-        onSuccessfulPayment: function(payment) {
-            alert("payment success");
-            console.log("payment success: " + JSON.stringify(payment, null, 4));
-
-            var response = payment.response;
-            if(response.state == "approved") {
-                Payments.ref().push({
-                    payID: response.id,
-                    paymentMade: response.create_time,
-                    created: Date.now(),
-                    userID: appFactory.user.$id,
-                    totalTokens: $scope.totalTokens,
-                    processed: false
+    if(ionic.Platform.isIOS()) {
+        var paypalApp = {
+            // Application Constructor
+            initialize: function () {
+                this.bindEvents();
+            },
+            // Bind Event Listeners
+            //
+            // Bind any events that are required on startup. Common events are:
+            // 'load', 'deviceready', 'offline', and 'online'.
+            bindEvents: function () {
+                $ionicPlatform.ready(function () {
+                    paypalApp.onDeviceReady();
                 });
+                //document.addEventListener('deviceready', this.onDeviceReady, false);
+            },
+            // deviceready Event Handler
+            //
+            // The scope of 'this' is the event. In order to call the 'receivedEvent'
+            // function, we must explicity call 'paypalApp.receivedEvent(...);'
+            onDeviceReady: function () {
+                paypalApp.receivedEvent('deviceready');
+            },
+            // Update DOM on a Received Event
+            receivedEvent: function (id) {
+                paypalApp.initPaymentUI();
+            },
+            initPaymentUI: function () {
+                var clientIDs = {
+                    "PayPalEnvironmentProduction": "YOUR_PRODUCTION_CLIENT_ID",
+                    "PayPalEnvironmentSandbox": "AU5_WbaNzFJpWSJoeYWNhIpzDjMU-q-uxAgDImQ0AI8uF5ahQ32dS-PNjxjh-AIP71nuWfpRipZfuzOr"
+                };
+                var ppm = PayPalMobile;
+                var ppmi = PayPalMobile.init;
+                PayPalMobile.init(clientIDs, paypalApp.onPayPalMobileInit);
+            },
+            onSuccessfulPayment: function (payment) {
+                alert("payment success");
+                console.log("payment success: " + JSON.stringify(payment, null, 4));
 
-                var unwatch = $scope.mytokens.$watch(function(){
-                    var delta = $scope.mytokens.tokens - $scope.currentTokens;
-                    alert(delta + " tokens purchased");
-                    unwatch();
+                var response = payment.response;
+                if (response.state == "approved") {
+                    Payments.ref().push({
+                        payID: response.id,
+                        paymentMade: response.create_time,
+                        created: Date.now(),
+                        userID: appFactory.user.$id,
+                        totalTokens: $scope.totalTokens,
+                        processed: false
+                    });
+
+                    var unwatch = $scope.mytokens.$watch(function () {
+                        var delta = $scope.mytokens.tokens - $scope.currentTokens;
+                        alert(delta + " tokens purchased");
+                        unwatch();
+                    });
+                }
+            },
+            onAuthorizationCallback: function (authorization) {
+                alert("payment authorized");
+                console.log("authorization: " + JSON.stringify(authorization, null, 4));
+            },
+            onUserCanceled: function (result) {
+                alert("payment cancelled");
+                console.log(result);
+            },
+            createPayment: function (amount, description) {
+                var paymentDetails = new PayPalPaymentDetails(amount, "0.00", "0.00");
+                var payment = new PayPalPayment(amount, "USD", description, "Sale", paymentDetails);
+                return payment;
+            },
+            configuration: function () {
+                // for more options see `paypal-mobile-js-helper.js`
+                var config = new PayPalConfiguration({
+                    merchantName: "1Body",
+                    merchantPrivacyPolicyURL: "",
+                    merchantUserAgreementURL: ""
                 });
+                return config;
+            },
+            onPrepareRender: function () {
+                /*
+                 buyNowBtn.onclick = function(e) {
+                 // single payment
+                 PayPalMobile.renderSinglePaymentUI(paypalApp.createPayment(),
+                 paypalApp.onSuccessfulPayment,
+                 paypalApp.onUserCanceled);
+                 };
+
+                 buyInFutureBtn.onclick = function(e) {
+                 // future payment
+                 PayPalMobile.renderFuturePaymentUI(paypalApp.onAuthorizationCallback,
+                 paypalApp.onUserCanceled);
+                 };
+
+                 profileSharingBtn.onclick = function(e) {
+                 // profile sharing
+                 PayPalMobile.renderProfileSharingUI(["profile", "email", "phone",
+                 "address", "futurepayments", "paypalattributes"
+                 ], paypalApp.onAuthorizationCallback, paypalApp.onUserCanceled);
+                 };
+                 */
+            },
+            onPayPalMobileInit: function () {
+                PayPalMobile.prepareToRender("PayPalEnvironmentSandbox",
+                    paypalApp.configuration(),
+                    paypalApp.onPrepareRender);
             }
-        },
-        onAuthorizationCallback: function(authorization) {
-            alert("payment authorized");
-            console.log("authorization: " + JSON.stringify(authorization, null, 4));
-        },
-        onUserCanceled: function(result) {
-            alert("payment cancelled");
-            console.log(result);
-        },
-        createPayment: function(amount, description) {
-            var paymentDetails = new PayPalPaymentDetails(amount, "0.00", "0.00");
-            var payment = new PayPalPayment(amount, "USD", description, "Sale", paymentDetails);
-            return payment;
-        },
-        configuration: function() {
-            // for more options see `paypal-mobile-js-helper.js`
-            var config = new PayPalConfiguration({
-              merchantName: "1Body",
-              merchantPrivacyPolicyURL: "",
-              merchantUserAgreementURL: ""
-            });
-            return config;
-        },
-        onPrepareRender: function() {
-            /*
-            buyNowBtn.onclick = function(e) {
-              // single payment
-              PayPalMobile.renderSinglePaymentUI(paypalApp.createPayment(),
-                                                 paypalApp.onSuccessfulPayment,
-                                                 paypalApp.onUserCanceled);
-            };
-
-            buyInFutureBtn.onclick = function(e) {
-              // future payment
-              PayPalMobile.renderFuturePaymentUI(paypalApp.onAuthorizationCallback,
-                                                 paypalApp.onUserCanceled);
-            };
-
-            profileSharingBtn.onclick = function(e) {
-              // profile sharing
-              PayPalMobile.renderProfileSharingUI(["profile", "email", "phone",
-                "address", "futurepayments", "paypalattributes"
-              ], paypalApp.onAuthorizationCallback, paypalApp.onUserCanceled);
-            };
-            */
-        },
-        onPayPalMobileInit: function() {
-            PayPalMobile.prepareToRender("PayPalEnvironmentSandbox",
-                                         paypalApp.configuration(),
-                                         paypalApp.onPrepareRender);
-        }
-    };
-    paypalApp.initialize();
+        };
+        paypalApp.initialize();
+    }
 
     $scope.addBundle = function(item) {
         $scope.amount = 0;
@@ -1201,30 +1213,50 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
     }
 });
 
-account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions, MyTransactions, appFactory, baseUrl, $timeout, $firebaseArray, $firebaseObject, Requests, IncomingRequests, Trainers){
+account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions, MyTransactions, appFactory, baseUrl, TransactionQueue, $timeout, $firebaseArray, $firebaseObject, Schedule, Requests, IncomingRequests, Trainers){
     console.log(appFactory.user);
     $scope.requests = $firebaseArray(Requests.ref().orderByChild("trainerID").equalTo(appFactory.user.$id));
     $scope.requests.$loaded(function(){
         console.log($scope.requests);
         for(var j=0; j<$scope.requests.length; j++){
-            $scope.requests[j].trainerAccepted = false;
-            var now = Date.now();
-            if(now - $scope.requests[j].created > 3600000){
-                $scope.requests[j].expired = true;
-            }
-            console.log(now - $scope.requests[j].created);
-            if(now - $scope.requests[j].created > 86400000){
-                console.log("remove");
-                $scope.requests[j].remove = true;
-                (function(req){
-                    $scope.requests.$remove(req).then(function(ref){
-                        console.log(ref);
-                    });
-                }($scope.requests[j]));
+            (function(request){
+                var dt = new Date(request.starttime);
+                var theday = dt.getFullYear() + "-" + dt.getMonth() + "-" + dt.getDate();
+                console.log(theday);
+                var num = dt.getHours() * 2;
+                if(dt.getMinutes() >= 15){
+                    num++;
+                }
 
-            }
+                var availability = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child(theday));
+                availability.$loaded(function() {
+                    if (availability.active) {
+                        var add = true;
+                        for (var i = num; i < num + request.minutes / 30; i++) {
+                            if (availability.active[num].status == 1) {
+                                add = false;
+                                request.expired = true;
+                                break;
+                            }
+                        }
+                    }
+
+
+                    request.trainerAccepted = false;
+                    var now = Date.now();
+                    if (now - request.created > 3600000) {
+                        request.expired = true;
+                    }
+                    console.log(now - $scope.requests[j].created);
+                    if (now - request.created > 86400000) {
+                        console.log("remove");
+                        request.remove = true;
+                        $scope.requests.$remove(request);
+                    }
+                });
+            }($scope.requests[j]));
         }
-    })
+    });
 
     var map = new google.maps.Map(document.getElementById('request-location'), {
         zoom: 11,
@@ -1249,7 +1281,6 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions,
     };
 
     $scope.acceptRequest = function(item){
-
         var reqs = $firebaseArray(Requests.ref().orderByPriority().equalTo(item.created));
 
         var transactions = Transactions.ref().child(appFactory.user.$id);
@@ -1267,28 +1298,43 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions,
                             reqs.$save(index).then(function(){
                                 var transaction = {
                                     userID: item.userID,
+                                    userName: appFactory.user.username,
                                     trainerID: item.trainerID,
-                                    trainerName: item.userName,
-                                    tokens: 2,
+                                    sessionID: item.trainerID,
+                                    trainerName: appFactory.user.username,
+                                    primeRate: appFactory.user.primeRate | 5,
+                                    normalRate: appFactory.user.normalRate | 3,
+                                    tokens: item.tokens | 0,
                                     mobile: true,
-                                    location: item.location,
                                     type: "Users",
+                                    address: item.address | "",
+                                    commentlocation: item.commentlocation | "",
+                                    location: item.location,
                                     created: Firebase.ServerValue.TIMESTAMP,
                                     duration: item.duration,
-                                    starttime: item.starttime
+                                    starttimeString: item.starttime,
+                                    starttime: item.starttime,
+                                    timezone: jstz.determine().name(),
+                                    scanned: false,
+                                    reviewed: false
                                 };
-                                var transactionRef = transactions.push(transaction, function() {
+
+                                var transactionRef = TransactionQueue.ref().push(transaction, function(){
                                     transactionRef.setPriority(item.starttime);
-
-                                    transaction.reviewed = false;
-                                    transaction.scanned = false;
-
-                                    myTransactions.child(transactionRef.key()).set(transaction, function(){
-                                        myTransactions.child(transactionRef.key()).setPriority(item.starttime);
-
-                                    });
-
                                 });
+
+//                                var transactionRef = transactions.push(transaction, function() {
+//                                    transactionRef.setPriority(item.starttime);
+//
+//                                    transaction.reviewed = false;
+//                                    transaction.scanned = false;
+//
+//                                    myTransactions.child(transactionRef.key()).set(transaction, function(){
+//                                        myTransactions.child(transactionRef.key()).setPriority(item.starttime);
+//
+//                                    });
+//
+//                                });
                             });
                         }(i));
 
