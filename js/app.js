@@ -749,7 +749,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         };
 
         $scope.registerGcm = function(){
-            if (!ionic.Platform.isWebView()) {
+            if (!ionic.Platform.isWebView() || ionic.Platform.isIOS()) {
                 $state.transitionTo(mapstate);
                 return;
             }

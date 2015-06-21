@@ -57,7 +57,7 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
     console.log(UserAuth.$getAuth());
 
     var checkUrl = function() {
-        if (!ionic.Platform.isWebView()) {
+        if (!ionic.Platform.isWebView() || ionic.Platform.isIOS()) {
             $state.transitionTo(mapstate);
             return;
         }
@@ -87,13 +87,11 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
             console.log(device.uuid);
             var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
             gcmID.$loaded(function(){
-                alert("hello5 gcmID: " + gcmID.gcmID);
+                alert(gcmID.gcmID);
                 console.log(gcmID);
                 if(!gcmID.gcmID){
-                    alert("hello6");
                     var exec = cordova.require("cordova/exec");
                     exec(function(result){
-                        alert("hello7");
                         alert(result["regid"]);
                         if(result["regid"] && result["regid"].length > 0){
                             gcmID.gcmID = result["regid"];
@@ -105,7 +103,6 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
                             })
                         }
                     }, function(err){
-                        alert("hello err");
                         console.log(err);
                     }, pluginName, 'gcminit', [{id: appFactory.user.$id}]);
                 }
