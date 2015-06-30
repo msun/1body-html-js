@@ -19,20 +19,18 @@
                 <!--</div>-->
             <!--</ion-footer-bar>-->
         </ion-nav-view>
-        <div id="notificationAndFeeds" style="z-index: 1000; width: 50px; position: absolute; top: 200px; right: 0px; height: 50px; overflow: hidden">
-            <div on-drag="onDrag($event)" on-release="onRelease($event)" style="z-index: 1001; width: 100%; height: 50px; background-color: white">
-                <span button button-icon style="width: 50px; height: 50px; float: left;" ng-click="expendNotificationAndFeeds()">
-                    <i class="icon ion-ios-arrow-back"></i>
-                </span>
-                <span button button-icon style="width: 50px; height: 50px; float: right; background-color: #ffff00" ng-click="closeNotificationAndFeeds()">
-                    <i class="icon ion-ios-arrow-back"></i>
+        <div id="notificationAndFeeds" class="ob-flnotif" style="top: 120px;">
+            <div on-drag="onDrag($event)" on-release="onRelease($event)" class="ob-flnotif-header">
+                <span class="ob-flnotif-header-button"
+                      ng-click="toggleFloatingMenu()">
+                    <!--<i class="icon ion-ios7-arrow-back"></i>-->
                 </span>
             </div>
-
-            <div style="width: 100%; height: 300px; overflow: scroll">
+            <div class="ob-flnotif-main">
                 <a class="profile-feed-review-list-row" ng-repeat="item in feeds | orderBy:'-created'" ng-click="replyto()">
                 <span class="profile-feed-review-list-row-left">
-                    <img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.id | htmlEncode}}/profilepic.jpg"/>
+                    <img class="profile-feed-review-list-img"
+                         src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.id | htmlEncode}}/profilepic.jpg"/>
                 </span>
                 <span class="profile-feed-review-list-row-right">
                     <div class="profile-feed-review-text">{{item.message}}</div>
@@ -40,7 +38,7 @@
                 </span>
                 </a>
             </div>
-            <a class="button button-full" style="width: 100%; height: 50px;" href="#/menu/Users/{{$root.user.$id}}" ng-click="closeNotificationAndFeeds()">See more</a>
+            <a class="ob-flnotif-more" href="#/menu/Users/{{$root.user.$id}}" ng-click="closeNotificationAndFeeds()">See more</a>
         </div>
     </ion-pane>
     <ion-side-menu side="left" class="ob-sidemenu">

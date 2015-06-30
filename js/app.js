@@ -701,7 +701,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             } else {
                 if (parseInt(element.style.height, 10) == 50) {
                     if(Math.abs(feedSnapshot.val().created - Date.now()) < 60000){
-                        $scope.partialExpendNotificationAndFeeds();
+                        $scope.partialExpandNotificationAndFeeds();
                     }
                 }
             }
@@ -711,10 +711,13 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             feedRef.off();
         });
 
+        $scope.expanded = false;
 
-        $scope.partialExpendNotificationAndFeeds = function(){
+        $scope.partialExpandNotificationAndFeeds = function(){
+            $scope.expanded = true;
             element.style.height = "200px";
             element.style.width = "250px";
+            element.style.background = "rgba(1, 1, 1, 0.3)"
             $timeout(function(){
                 if(parseInt(element.style.height, 10) == 200) {
                     $scope.closeNotificationAndFeeds();
@@ -722,17 +725,29 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             }, 3000);
         };
 
-        $scope.expendNotificationAndFeeds = function(){
+        $scope.expandNotificationAndFeeds = function(){
+            $scope.expanded = true;
             element.style.height = "400px";
             element.style.width = "60%";
+            element.style.background = "rgba(1, 1, 1, 0.3)"
 //            element.style.overflow = "scroll";
         };
 
         $scope.closeNotificationAndFeeds = function(){
-            element.style.height = "50px";
-            element.style.width = "50px";
+            $scope.expanded = false;
+            element.style.height = "44px";
+            element.style.width = "44px";
+            element.style.background = "transparent"
 //            element.style.overflow = "hidden";
         };
+
+        $scope.toggleFloatingMenu = function(){
+            if ($scope.expanded) {
+                $scope.closeNotificationAndFeeds();
+            } else {
+                $scope.expandNotificationAndFeeds();
+            }
+        }
 
         $scope.onDrag = function(e){
             console.log(e);
