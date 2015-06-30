@@ -390,6 +390,11 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, Scan
 
 account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images) {
     $scope.user = appFactory.user;
+
+    if (!ionic.Platform.isWebView()) {
+        return;
+    }
+
     var exec = cordova.require("cordova/exec");
 
     var image = document.getElementById('displayPic');
@@ -1025,7 +1030,9 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
         $scope.currentTokens = $scope.mytokens.tokens;
     });
 
-    if(ionic.Platform.isIOS()) {
+    if (!ionic.Platform.isWebView()) {
+        return;
+    } else if(ionic.Platform.isIOS()) {
         var paypalApp = {
             // Application Constructor
             initialize: function () {
@@ -1167,7 +1174,9 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
     }
 
     $scope.confirm = function() {
-        if(ionic.Platform.isIOS()) {
+        if (!ionic.Platform.isWebView()) {
+            return;
+        } else if(ionic.Platform.isIOS()) {
             var payment = paypalApp.createPayment($scope.amount, $scope.totalTokens + " Tokens");
             PayPalMobile.renderSinglePaymentUI(payment,
                                                paypalApp.onSuccessfulPayment,
