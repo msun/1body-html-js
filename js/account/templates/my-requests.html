@@ -1,17 +1,8 @@
-<ion-view>
-    <ion-header-bar class="ob-darkpurple-bg">
-        <div class="buttons">
-            <button ng-click="toggleMenu()" class="button button-icon">
-                <i class="icon ion-navicon ob-white-color"></i>
-            </button>
-        </div>
-        <h1 class="title ob-navbar-title">My Requests</h1>
-        <div class="buttons">
-            <button ng-click="goTo('#/menu/Mobile-Trainer-Request')" class="button button-icon">
-                <i class="icon ion-plus ob-white-color ob-ionicon-medium"></i>
-            </button>
-        </div>
-    </ion-header-bar>
+<ion-view view-title="My Requests">
+    <ion-nav-buttons side="right">
+      <button class="button button-icon ion-plus"
+              ng-click="goTo('#/menu/Mobile-Trainer-Request')"></button>
+    </ion-nav-buttons>
     <ion-content class="has-header menu1-content">
         <div class="menu1-content-div ob-sections-vertical">
             <ion-scroll class="ob-scroll ob-section" direction="y">

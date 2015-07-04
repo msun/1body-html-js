@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view hide-nav-bar="true">
     <ion-content class="ob-grey-bg">
         <div class="menu1-content-div">
             <div class="ob-header ob-map-header">
@@ -14,13 +14,13 @@
                             <i class="icon ion-search ob-bar-search-input-icon-left"></i>
                             <input type="search" class="ob-bar-search-input" placeholder="ex. hot yoga, boxing"
                                    ng-model="searchContainer.searchTerms" ng-keyup="searchTrainers($event)" focus-me/>
-                            <i class="icon ion-ios7-close-outline ob-bar-search-input-icon-right" ng-click="clearSearch()"></i>
+                            <i class="icon ion-ios-close-outline ob-bar-search-input-icon-right" ng-click="clearSearch()"></i>
                         </div>
                     </div>
                     <div class="ob-header-icon">
-                        <div class="ob-header-list-view-icon-container" ng-click="searchOnMap()">
+                        <a class="ob-header-list-view-icon-container" ng-click="searchOnMap()" nav-transition="none">
                             <span class="ob-header-list-view-icon"></span>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="ob-map-header-bottom-white-line"></div>

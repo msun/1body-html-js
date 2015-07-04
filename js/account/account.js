@@ -31,10 +31,14 @@ account.factory('accountFactory', function($http, baseUrl) {
     return factory;
 });
 
+account.controller('PreLoginCtrl', function($scope){
+
+});
+
 account.controller('HomeCtrl', function($scope, FirebaseRef, UserAuth){
     if(UserAuth.$getAuth()){
         console.log(UserAuth.$getAuth());
-        window.location.href = "#/login/login-main";
+        window.location.href = "#/prelogin/login";
     }
     $scope.googleLogin = function(){
         console.log("google login");

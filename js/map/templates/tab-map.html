@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view hide-nav-bar="true">
     <ion-content class="ob-grey-bg" scroll="false" data-tap-disabled="true">
         <ion-content class="map-content">
             <div class="map-gradient"></div>
@@ -18,11 +18,11 @@
                                    ng-model="searchContainer.searchTerms"
                                    ng-focus="onSearch()"
                                    placeholder="ex. hot yoga, boxing"/>
-                            <i class="icon ion-ios7-close-outline ob-bar-search-input-icon-right" ng-click="clearSearch()"></i>
+                            <i class="icon ion-ios-close-outline ob-bar-search-input-icon-right" ng-click="clearSearch()"></i>
                         </div>
                     </div>
                     <div class="ob-header-icon">
-                        <a class="ob-header-list-view-icon-container" href="#/menu/list">
+                        <a class="ob-header-list-view-icon-container" href="#/menu/list" nav-transition="none">
                             <span class="ob-header-list-view-icon"></span>
                         </a>
                     </div>
@@ -46,7 +46,7 @@
             </button>
 
             <button ng-click="centerOnMe()" class="button button-icon ob-map-button map-center-button">
-                <i class="icon ion-ios7-navigate-outline"></i>
+                <i class="icon ion-ios-navigate-outline"></i>
             </button>
 
             <div id="info"></div>

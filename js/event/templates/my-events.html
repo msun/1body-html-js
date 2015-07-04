@@ -1,17 +1,8 @@
-<ion-view>
-    <ion-header-bar class="ob-darkpurple-bg">
-        <div class="buttons">
-            <button ng-click="toggleMenu()" class="button button-icon">
-                <i class="icon ion-navicon ob-white-color"></i>
-            </button>
-        </div>
-        <h1 class="title ob-navbar-title">My Events</h1>
-        <div class="buttons">
-            <button ng-click="goTo('#/menu/editevent/new')" class="button button-icon button-dark">
-                <i class="icon ion-plus ob-ionicon-medium"></i>
-            </button>
-        </div>
-    </ion-header-bar>
+<ion-view view-title="My Events">
+    <ion-nav-buttons side="right">
+      <button class="button button-icon ion-plus"
+              ng-click="goTo('#/menu/editevent/new')"></button>
+    </ion-nav-buttons>
     <ion-content class="has-header menu1-content">
         <div class="menu1-content-div">
             <div class="ob-list">

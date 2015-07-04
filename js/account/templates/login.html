@@ -1,10 +1,27 @@
-
 <ion-view>
-    <ion-nav-bar class="ob-darkpurple-bg">
-        <button ng-click="back()" class="button button-icon">
-            <i class="icon ion-ios7-arrow-back ob-white-color"></i>
-        </button>
-        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
-    </ion-nav-bar>
-    <ion-nav-view name="login"></ion-nav-view>
+    <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
+    <ion-content class="has-header menu1-content">
+        <div class="menu1-content-div ob-sections-vertical">
+            <div class="ob-section-zerobase ob-center-parent">
+                <div class="ob-center-vert-child">
+                    <div class="ob-instructions">Let's get started!</div>
+                </div>
+            </div>
+            <div>
+                <div class="ob-form">
+                    <div class="ob-form-row ob-form-flex-row">
+                        <input class="ob-form-text-input" ng-model="user.email"
+                               type="email" placeholder="Email Address"/>
+                    </div>
+                    <div class="ob-form-row ob-form-flex-row">
+                        <input class="ob-form-text-input" ng-model="user.password"
+                               type="password" placeholder="Password"/>
+                    </div>
+                </div>
+                <button class="ob-block-button ob-button-blue" ng-click="signin()">Login</button>
+                <a class="ob-block-text-button" href="#/prelogin/forgot-password">Forgot password?</a>
+            </div>
+            <div class="ob-section-zerobase"></div>
+        </div>
+    </ion-content>
 </ion-view>

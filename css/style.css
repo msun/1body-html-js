@@ -3128,7 +3128,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* register-main.html */
+/* register.html */
 /* ********** ********** ********** ********** ***********/
 
 .ob-sectioned-row {
@@ -3270,7 +3270,7 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-darkpurple-bg {
-    background-color: #1f101c;
+    background-color: #1f101c !important;
 }
 
 .ob-mediumpurple-bg {
@@ -3315,6 +3315,14 @@ input.ob-form-text-input[type="search"] {
 
 .ob-color-transparent {
 
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ionic overrides */
+/* ********** ********** ********** ********** ***********/
+
+.back-button {
+    min-width: 44px !important;
 }
 
 /* ********** ********** ********** ********** ***********/

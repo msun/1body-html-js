@@ -49,7 +49,9 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         });
     })
 
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+        $ionicConfigProvider.backButton.previousTitleText(false);
+        $ionicConfigProvider.backButton.text('').icon('ion-ios-arrow-back');
 
         // Ionic uses AngularUI Router which uses the concept of states
         // Learn more here: https://github.com/angular-ui/ui-router
@@ -65,70 +67,59 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 controller: 'MenuCtrl'
             })
 
-//            .state('menu.tab', {
-//                url: "/tab",
-//                abstract: true,
-//                templateUrl: "templates/tabs.html",
-//                controller: 'TabCtrl'
-//            })
-
-            .state('home', {
-                url: "/home",
-                templateUrl: "js/account/templates/home.html",
-                controller: 'HomeCtrl'
-            })
-
-            .state('login', {
-                url: '/login',
+            .state('prelogin', {
+                url: "/prelogin",
                 abstract: true,
-                templateUrl: 'js/account/templates/login.html',
-                controller: 'LoginCtrl'
+                templateUrl: "templates/prelogin.html",
+                controller: 'PreLoginCtrl'
             })
 
-
-            .state('login.login-main', {
-                url: "/login-main",
+            .state('prelogin.home', {
+                url: "/home",
                 views: {
-                    'login': {
-                        templateUrl: "js/account/templates/login-main.html",
+                    'prelogin': {
+                        templateUrl: "js/account/templates/home.html",
+                        controller: 'HomeCtrl'
+                    }
+                }
+            })
+
+            .state('prelogin.login', {
+                url: "/login",
+                views: {
+                    'prelogin': {
+                        templateUrl: "js/account/templates/login.html",
                         controller: 'LoginCtrl'
                     }
                 }
             })
 
-            .state('login.forgot-password', {
+            .state('prelogin.forgot-password', {
                 url: "/forgot-password",
                 views: {
-                    'login': {
+                    'prelogin': {
                         templateUrl: "js/account/templates/forgot-password.html",
                         controller: 'LoginCtrl'
                     }
                 }
             })
 
-            .state('register', {
+            .state('prelogin.register', {
                 url: "/register",
-                abstract: true,
-                templateUrl: "js/account/templates/register.html",
-                controller: 'RegisterCtrl'
-            })
-
-            .state('register.register-main', {
-                url: "/register-main",
                 views: {
-                    'register': {
-                        templateUrl: "js/account/templates/register-main.html",
+                    'prelogin': {
+                        templateUrl: "js/account/templates/register.html",
                         controller: 'RegisterCtrl'
                     }
                 }
             })
 
-            .state('register.tos', {
+            .state('prelogin.tos', {
                 url: "/tos",
                 views: {
-                    'register': {
+                    'prelogin': {
                         templateUrl: "js/account/templates/tos.html",
-                        controller: 'RegisterCtrl'
+                        controller: 'LoginCtrl'
                     }
                 }
             })
@@ -546,7 +537,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //                }
 //            })
         // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/home');
+        $urlRouterProvider.otherwise('/prelogin/home');
 
     })
     .run(function($rootScope, appFactory, appConfig, GeoTrainers, GeoEvents, GeoGyms){
@@ -606,15 +597,21 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         }
     })
 
-    .controller("MenuCtrl", function($scope, $window, Users, $ionicPopup, Events, Feeds, Gyms, GeoTrainers, GeoEvents, GeoGyms, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $firebaseObject, $timeout, $ionicPopup, $state, $interval, UserAuth, $localstorage, $firebaseArray, GcmID, Notifications){
-
-
-
+    .controller("MenuCtrl", function($scope, $window, Users, $ionicPopup, Events, Feeds, Gyms, GeoTrainers, GeoEvents,
+                                     GeoGyms, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $timeout,
+                                     $firebaseObject, $ionicPopup, $state, $interval, UserAuth, $localstorage, GcmID,
+                                     $firebaseArray, Notifications, $ionicHistory){
         $rootScope.header = "Users";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
             window.location.href = url;
         };
+
+        $scope.rootGoTo = function(url){
+            console.log("rootGoTo " + url);
+            $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
+            window.location.href = url;
+        }
 
         $scope.sendNotification = function(){
             var notifToTrainer = {
