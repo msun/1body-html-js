@@ -1,16 +1,9 @@
-<ion-view>
-    <ion-nav-bar class="ob-darkpurple-bg">
-        <button ng-click="back()" class="button button-icon">
-            <i class="icon ion-ios-arrow-back ob-white-color"></i>
-        </button>
-        <h1 class="title ob-navbar-title">Set Image</h1>
-    </ion-nav-bar>
+<ion-view view-title="Set Image">
     <ion-content class="has-header ob-darkpurple-bg">
         <ion-scroll min-zoom="1" delegate-handle="mainScroll" zooming="true" direction="xy" style="width: 100vw; height: 100vw" on-scroll="scrolling()">
             <div id="displayPicContainer" style="padding: 15%; width: 100%">
                 <img id="displayPic" width="100%"/>
             </div>
-
         </ion-scroll>
         <div style="margin-top: -100vw; width: 100vw; height: 100vw">
             <div style="height: 15vw; width: 100vw">

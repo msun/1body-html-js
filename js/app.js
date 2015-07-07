@@ -52,6 +52,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
     .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         $ionicConfigProvider.backButton.previousTitleText(false);
         $ionicConfigProvider.backButton.text('').icon('ion-ios-arrow-back');
+        $ionicConfigProvider.views.transition('none');
+        $ionicConfigProvider.views.swipeBackEnabled(false);
 
         // Ionic uses AngularUI Router which uses the concept of states
         // Learn more here: https://github.com/angular-ui/ui-router
