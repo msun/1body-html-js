@@ -8,12 +8,13 @@
         </ion-nav-bar>
         <ion-nav-view name="menu">
         </ion-nav-view>
-        <div id="notificationAndFeeds" class="ob-flnotif" style="top: 120px;">
-            <div on-drag="onDrag($event)" on-release="onRelease($event)" class="ob-flnotif-header">
+        <div id="notificationAndFeeds" class="ob-flnotif" style="top: 120px; height: 50px">
+            <div on-drag="onDrag($event)" on-release="onRelease($event)" class="ob-flnotif-header"> <!-- {'ob-flnotif-header-button-hasnotif' : hasNewNotifications} -->
                 <span class="ob-flnotif-header-button"
+                      ng-class="{'ob-flnotif-header-button-hasnotif' : hasNewNotifications == true}"
                       ng-click="toggleFloatingMenu()">
                 </span>
-            </div>
+            </div> <!-- ng-class="{'ob-flnotif-header-button' : true, 'ob-flnotif-header-button-hasnotif' : hasNewNotifications == true}" -->
             <div class="ob-flnotif-main">
                 <a class="profile-feed-review-list-row"
                    ng-repeat="item in feeds | orderBy:'-created'"

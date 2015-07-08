@@ -252,10 +252,16 @@
 /* override defaults */
 /* ********** ********** ********** ********** ***********/
 
+/* ******** ionic ******** */
+
 .bar {
     height: 64px;
     border: none;
     background-image: none !important;
+}
+
+.back-button {
+    min-width: 44px !important;
 }
 
 /* ******** google maps ******** */
@@ -1671,8 +1677,8 @@ input.ob-form-text-input[type="search"] {
 
 .ob-flnotif {
     z-index: 1000;
-    width: 44px;
-    height: 44px;
+    width: 50px;
+    height: 50px;
     position: absolute;
     top: 120px;
     right: 0px;
@@ -1683,8 +1689,7 @@ input.ob-form-text-input[type="search"] {
 .ob-flnotif-header {
     z-index: 1001;
     width: 100%;
-    height: 44px;
-
+    height: 50px;
 }
 
 .ob-flnotif-header-button {
@@ -1692,9 +1697,13 @@ input.ob-form-text-input[type="search"] {
     /* 173px / 213px */
     width: 27.5px;
     height: 33.5px;
-    margin: 5.25px 8.25px;
+    margin: 8.25px 11.25px;
     float: right;
     background: url("../img/Logo-Large-simple-white-lightgrey2.png") center/100% 100% no-repeat;
+}
+
+.ob-flnotif-header-button-hasnotif {
+    background: url("../img/Logo-Large-simple-white-blue.png") center/100% 100% no-repeat;
 }
 
 .ob-flnotif-main {
@@ -3315,14 +3324,6 @@ input.ob-form-text-input[type="search"] {
 
 .ob-color-transparent {
 
-}
-
-/* ********** ********** ********** ********** ***********/
-/* ionic overrides */
-/* ********** ********** ********** ********** ***********/
-
-.back-button {
-    min-width: 44px !important;
 }
 
 /* ********** ********** ********** ********** ***********/

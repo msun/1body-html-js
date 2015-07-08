@@ -643,6 +643,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         var element = document.getElementById("notificationAndFeeds");
         var initY = parseInt(element.style.top, 10);
         $scope.feeds = [];
+        $scope.expanded = false;
+        $scope.hasNewNotifications = false;
 
         var userFeedsRef = Feeds.ref().child("Users").child(appFactory.user.$id);
         var feedRef = userFeedsRef.orderByPriority().limitToLast(appConfig.defaultItemsPerPage);
@@ -698,10 +700,13 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
                 userFeedsRef.child(feedSnapshot.key()).child("attention").set(false);
             } else {
-                if (parseInt(element.style.height, 10) == 50) {
+                if (parseInt(element.style.height, 10) <= 50) {
+                    $scope.hasNewNotifications = true;
+                    /*
                     if(Math.abs(feedSnapshot.val().created - Date.now()) < 60000){
                         $scope.partialExpandNotificationAndFeeds();
                     }
+                    */
                 }
             }
         });
@@ -709,8 +714,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $scope.$on('$destroy', function() {
             feedRef.off();
         });
-
-        $scope.expanded = false;
 
         $scope.partialExpandNotificationAndFeeds = function(){
             $scope.expanded = true;
@@ -726,6 +729,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.expandNotificationAndFeeds = function(){
             $scope.expanded = true;
+            $scope.hasNewNotifications = false;
             element.style.height = "400px";
             element.style.width = "60%";
             element.style.background = "rgba(1, 1, 1, 0.3)"
@@ -734,8 +738,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.closeNotificationAndFeeds = function(){
             $scope.expanded = false;
-            element.style.height = "44px";
-            element.style.width = "44px";
+            element.style.height = "50px";
+            element.style.width = "50px";
             element.style.background = "transparent"
 //            element.style.overflow = "hidden";
         };
