@@ -61,7 +61,7 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
     console.log(UserAuth.$getAuth());
 
     var checkUrl = function() {
-        if (!ionic.Platform.isWebView() || ionic.Platform.isIOS()) {
+        if (!ionic.Platform.isWebView()) {
             $state.transitionTo(mapstate);
             return;
         }

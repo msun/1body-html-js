@@ -630,7 +630,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             UserAuth.$unauth();
             $localstorage.clear();
             $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
-            if(ionic.Platform.isAndroid()){
+            if(ionic.Platform.isAndroid() || ionic.Platform.isIOS()){
                 var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
                 gcmID.$remove();
                 alert("logged out");
@@ -768,7 +768,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         };
 
         $scope.registerGcm = function(){
-            if (!ionic.Platform.isWebView() || ionic.Platform.isIOS()) {
+            if (!ionic.Platform.isWebView()) {
                 $state.transitionTo(mapstate);
                 return;
             }
