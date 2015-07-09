@@ -629,15 +629,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $scope.logout = function(){
             UserAuth.$unauth();
             $localstorage.clear();
+            $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
             if(ionic.Platform.isAndroid()){
                 var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
                 gcmID.$remove();
                 alert("logged out");
-                window.location.href = "#";
+                window.location.href = "#/prelogin/home";
             } else {
                 $scope.toggleMenu();
                 alert("logged out");
-                window.location.href = "#";
+                window.location.href = "#/prelogin/home";
             }
         };
         var element = document.getElementById("notificationAndFeeds");
