@@ -4,7 +4,10 @@ list.factory('listFactory', function($http, $compile){
 
 });
 
-list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $timeout, $stateParams, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Users, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray, $ionicModal, Sizes) {
+list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $timeout, $stateParams, $ionicLoading,
+                                     GeoTrainers, GeoEvents, mapFactory, appFactory, Users, Events, $ionicPopover,
+                                     $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject,
+                                     $firebaseArray, $ionicModal, Sizes, $ionicHistory) {
     $scope.array = [];
     var clone = [];
     $scope.searchContainer = {};
@@ -137,6 +140,8 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
     };
 
     $scope.searchOnMap = function(){
+        //$ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
+        //$ionicHistory.nextViewOptions({ disableAnimate: true });
         appFactory.onsearch = true;
         appFactory.searchTerms = $scope.searchContainer.searchTerms;
         window.location.href = "#/menu/map";

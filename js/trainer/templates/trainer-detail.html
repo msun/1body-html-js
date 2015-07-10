@@ -1,19 +1,9 @@
 <ion-view>
-    <ion-header-bar class="ob-darkpurple-bg">
-        <div class="buttons">
-            <button ng-click="toggleMenu()" class="button button-icon button-dark">
-                <i class="icon ion-navicon"></i>
-            </button>
-        </div>
-        <h1 class="title"><span class="ob-nav-bar-logo"></span></h1>
-        <div class="buttons">
-            <button ng-click="goTo('#/menu/my-profile')"
-                    class="button button-icon button-dark"
-                    ng-show="selectedTrainer.$id == $root.user.$id">
-                <i class="icon ion-gear-a"></i>
-            </button>
-        </div>
-    </ion-header-bar>
+    <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
+    <ion-nav-buttons side="right">
+      <button class="button button-icon ion-gear-a" ng-click="goTo('#/menu/my-profile')"
+              ng-show="selectedTrainer.$id == $root.user.$id"></button>
+    </ion-nav-buttons>
     <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
         <div class="profile-top">
             <div class="follow-button"
