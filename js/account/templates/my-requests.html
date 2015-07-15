@@ -4,6 +4,7 @@
               ng-click="goTo('#/menu/Mobile-Trainer-Request')"></button>
     </ion-nav-buttons>
     <ion-content class="has-header menu1-content">
+        <a ng-show="$root.user.group == 'Trainers'" class="ob-block-button ob-button-blue ob-button-shadow" href="#/menu/requested-sessions">My Requests</a>
         <div class="menu1-content-div ob-sections-vertical">
             <ion-scroll class="ob-scroll ob-section" direction="y">
                 <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">

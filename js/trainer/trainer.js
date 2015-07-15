@@ -894,6 +894,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         duration: bookedReduced[i].period,
                         starttimeString: starttime,
                         starttime: startTimestamp,
+                        emails: [appFactory.selectedTrainer.email | "", appFactory.user.email | ""],
                         timezone: timezone.name(),
                         scanned: false,
                         reviewed: false
@@ -1161,6 +1162,9 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
     };
 
     $scope.addRule = function(event, day){
+        console.log($scope.edit);
+        console.log(day);
+        console.log(event);
 
         if(!$scope.rules[$scope.edit.index]){
             $scope.rules[$scope.edit.index] = [0, 0, 0, 0, 0, 0, 0];
@@ -1390,7 +1394,7 @@ trainer.directive('scheduleSelect', function($timeout, User){
         link: function(scope, element, attr){
         }
     }
-})
+});
 
 trainer.filter('displayTime', function(Time) {
     return function(time) {

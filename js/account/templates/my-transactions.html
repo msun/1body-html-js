@@ -1,5 +1,7 @@
 <ion-view view-title="My Sessions">
     <ion-content class="has-header ob-grey-bg">
+        <a ng-show="$root.user.group == 'Trainers'" class="ob-block-button ob-button-blue ob-button-shadow" href="#/menu/my-trainings">My Training Sessions Booked by Clients</a>
+
         <div class="buttongroup2">
             <button class="buttongroup2-button" ng-click="showCurrent()">Show by Date</button>
             <button class="buttongroup2-button" ng-click="showAll()">Show All</i></button>
@@ -10,7 +12,7 @@
                              allow-time-before-now="true"
                              show-time-picker="false"
                              data-inc-icon-class="ion ion-chevron-up"
-                             data-dec-icon-class="ion ion-chevron-down">
+                             data-dec-icon-class="ion ion-chevron-down" />
             </div>
         </div>
         </time-picker>

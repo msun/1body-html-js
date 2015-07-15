@@ -96,6 +96,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('prelogin.change-password', {
+                url: '/change-password',
+                views: {
+                    'login': {
+                        templateUrl: 'js/account/templates/change-password.html',
+                        controller: 'ChangePasswordCtrl'
+                    }
+                }
+            })
+
             .state('prelogin.forgot-password', {
                 url: "/forgot-password",
                 views: {
@@ -237,16 +247,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.my-events', {
-                url: '/my-events',
-                views: {
-                    'menu': {
-                        templateUrl: 'js/event/templates/my-events.html',
-                        controller: 'MyEventsCtrl'
-                    }
-                }
-            })
-
-            .state('menu.my-training', {
                 url: '/my-events',
                 views: {
                     'menu': {
@@ -559,19 +559,19 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             alert("Cannot load current location, using last known location");
         });
 
-        navigator.geolocation.watchPosition(function(position) {
-            console.log("location ready");
-            $rootScope.position = [position.coords.latitude, position.coords.longitude];
-            if (appFactory.user.username) {
-                appFactory.user.curlocation = $rootScope.position;
-                appFactory.user.$save();
-            }
-            console.log(position);
+//        navigator.geolocation.watchPosition(function(position) {
+//            console.log("location ready");
+//            $rootScope.position = [position.coords.latitude, position.coords.longitude];
+//            if (appFactory.user.username) {
+//                appFactory.user.curlocation = $rootScope.position;
+//                appFactory.user.$save();
+//            }
+//            console.log(position);
 //            $rootScope.$broadcast('locationReady', 'locationReady');
 //            updateLocation();
-        }, function(error){
-            console.log(error);
-        });
+//        }, function(error){
+//            console.log(error);
+//        });
 
 
 

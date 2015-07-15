@@ -61,17 +61,33 @@
     <script src="js/user/user.js"></script>
     <script src="js/list/list.js"></script>
 
-    <script type="text/javascript">
-        window.onload = function(){
-            console.log(angular.element(document.getElementById('body')).scope());
-        };
-        function callFromJava(url){
+    <!--<script type="text/javascript">-->
+        <!--window.onload = function(){-->
+            <!--console.log(angular.element(document.getElementById('body')).scope());-->
+        <!--};-->
+        <!--function callFromJava(url){-->
 
-            alert("ANDROID calling " + url);
+            <!--alert("ANDROID calling " + url);-->
 
-            angular.element(document.getElementById('body')).scope().goTo(url);
-        }
-    </script>
+            <!--angular.element(document.getElementById('body')).scope().goTo(url);-->
+        <!--}-->
+
+        <!--var foo = function(a,b,c){-->
+            <!--console.log(arguments);-->
+            <!--console.log(this);-->
+            <!--return a+b+c;-->
+        <!--}-->
+        <!--var bar = function(i){-->
+            <!--console.log(i);-->
+        <!--}-->
+        <!--function pipe(foo, bar){-->
+            <!--return function(){-->
+                <!--console.log(arguments);-->
+                <!--bar(foo.apply(this, arguments));-->
+            <!--}-->
+        <!--}-->
+        <!--pipe(foo, bar)(1,2,3);-->
+    <!--</script>-->
 
 </head>
 <body id="body" ng-app="starter" animation="none">

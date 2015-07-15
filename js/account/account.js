@@ -54,11 +54,33 @@ account.controller('HomeCtrl', function($scope, FirebaseRef, UserAuth){
     };
 });
 
+
 account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes,
                                          $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope,
                                          accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage,
-                                         $ionicPlatform) {
+                                         $ionicPlatform, ForgotPassword) {
     console.log(UserAuth.$getAuth());
+
+    $scope.passwordReset = function(){
+        $ionicLoading.show({
+            content: '<i class="icon ion-looping"></i> Loading',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
+        UserAuth.$resetPassword({
+            email: $scope.user.email
+        }).then(function() {
+            $ionicLoading.hide();
+            ForgotPassword.ref().child($scope.user.email.replace(".", "_")).set({creationTime: new Date(), email: $scope.user.email});
+            alert("Password reset email sent successfully! Please change password after sign-in");
+            window.location.href = "#/login/login-main";
+        }).catch(function(error) {
+            $ionicLoading.hide();
+            alert(error);
+        });
+    };
 
     var checkUrl = function() {
         if (!ionic.Platform.isWebView()) {
@@ -133,22 +155,35 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
             }
         });
 
-    }
+    };
 
     var loadUserFromFirebase = function(user){
         appFactory.user = $firebaseObject(Users.ref().child(user.uid));
         appFactory.user.$loaded(function(){
-            if(appFactory.user.username){
+            if(appFactory.user.email){
                 $rootScope.user = appFactory.user;
                 if($rootScope.position){
                     appFactory.user.curlocation = $rootScope.position;
                     appFactory.loadLocation();
                 }
 
-                console.log(appFactory.user);
-                $localstorage.setObject("user", appFactory.user);
-                $ionicLoading.hide();
-                checkUrl();
+                var forgetPassword = $firebaseObject(ForgotPassword.ref().child(appFactory.user.email.replace(".", "_")));
+                forgetPassword.$loaded(function(){
+                    $localstorage.setObject("user", appFactory.user);
+                    $ionicLoading.hide();
+                    if(forgetPassword.email == appFactory.user.email){
+                        UserAuth.$unauth();
+                        alert("Please change your password and sign in again. Thanks!");
+
+                        console.log(appFactory.tempPassword);
+                        window.location.href = "#/login/change-password";
+                    } else {
+                        appFactory.tempPassword = undefined;
+                        checkUrl();
+                    }
+                });
+
+
             } else {
                 alert("Login failed, please try again");
                 $ionicLoading.hide();
@@ -165,15 +200,16 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
             maxWidth: 200,
             showDelay: 0
         });
+        appFactory.tempPassword = $scope.user.password;
 
         if(UserAuth.$getAuth() && !$scope.user.email){
             appFactory.mysizes = $firebaseObject(Sizes.ref().child(UserAuth.$getAuth().uid));
             var user = $localstorage.getObject("user");
-            if(user.$id && UserAuth.$getAuth().uid && user.$id === UserAuth.$getAuth().uid){
-                loadLocalUser(user);
-            } else {
+//            if(user.$id && UserAuth.$getAuth().uid && user.$id === UserAuth.$getAuth().uid){
+//                loadLocalUser(user);
+//            } else {
                 loadUserFromFirebase(UserAuth.$getAuth());
-            }
+//            }
         } else {
             UserAuth.$authWithPassword({
                 email: $scope.user.email,
@@ -181,11 +217,11 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
             }).then(function (user) {
                 appFactory.mysizes = $firebaseObject(Sizes.ref().child(user.uid));
                 var localuser = $localstorage.getObject("user");
-                if(localuser.$id && localuser.$id == user.uid){
-                    loadLocalUser(localuser);
-                } else {
+//                if(localuser.$id && localuser.$id == user.uid){
+//                    loadLocalUser(localuser);
+//                } else {
                     loadUserFromFirebase(user);
-                }
+//                }
 
             }, function (error) {
                 console.error("Login failed: ", error);
@@ -391,6 +427,43 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, Scan
 //    });
 //
 //});
+
+account.controller('ChangePasswordCtrl', function($scope, appFactory, UserAuth, $timeout, ForgotPassword){
+    $scope.user = {};
+    if(appFactory.tempPassword){
+        $timeout(function(){
+            $scope.user.oldPassword = appFactory.tempPassword;
+        });
+    }
+
+    $scope.changePassword = function() {
+        if($scope.user.newPassword.length < 8){
+            alert("password must be at least 8 characters long");
+        } else if(!$scope.user.newPassword.match(/[a-z]/i)) {
+            alert("password must contain letters");
+        } else if(!$scope.user.newPassword.match(/[0-9]/i)) {
+            alert("password must contain numbers");
+        } else if($scope.user.newPassword != $scope.user.confirmPassword){
+            alert("new password does not match confirm password");
+        } else if($scope.user.oldPassword == $scope.user.confirmPassword) {
+            alert("new password cannot be the same as old password");
+        } else {
+            UserAuth.$changePassword({
+                email: appFactory.user.email,
+                oldPassword: $scope.user.oldPassword,
+                newPassword: $scope.user.newPassword
+            }).then(function () {
+                appFactory.tempPassword = undefined;
+                ForgotPassword.ref().child(appFactory.user.email.replace(".", "_")).remove();
+
+                alert("Password changed successfully!");
+                window.location.href = "#/login/login-main";
+            }).catch(function (error) {
+                console.error("Error: ", error);
+            });
+        }
+    };
+});
 
 account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images) {
     $scope.user = appFactory.user;

@@ -19,6 +19,7 @@ angular.module('timeAndDate', [])
 //            },
             templateUrl: 'js/event/templates/timepicker.html',
             link: function(scope, element, attrs) {
+
                 scope.minuteStep = parseInt(attrs.minuteStep, 10) || timeAndDateConfig.minuteStep;
                 scope.showMeridian = scope.$eval(attrs.showMeridian) || timeAndDateConfig.showMeridian;
                 scope.meridians = attrs.meridians || timeAndDateConfig.meridians;
@@ -26,12 +27,14 @@ angular.module('timeAndDate', [])
                 scope.incIconClass = attrs.incIconClass || timeAndDateConfig.incIconClass;
                 scope.decIconClass = attrs.decIconClass || timeAndDateConfig.decIconClass;
                 scope.widget = {};
-                scope.showTimePicker = attrs.showTimePicker || true;
-                scope.showDatePicker = attrs.showDatePicker || true;
+                console.log(attrs);
+                scope.showTimePicker = attrs.showTimePicker == 'true' || false;
+                scope.showDatePicker = attrs.showDatePicker == 'true' || true;
                 scope.allowTimeBeforeNow = attrs.allowTimeBeforeNow || false;
 
                 scope.time = attrs.time;
-                console.log(scope.$parent);
+                console.log(scope.showTimePicker);
+
 
 //                scope.$parent.loadtime = function(t) {
 //                    console.log(t);
@@ -194,7 +197,7 @@ angular.module('timeAndDate', [])
                 };
 
                 var updateModel = function() {
-                    if (angular.isDefined(scope.widget.hours) && angular.isDefined(scope.widget.minutes)) {
+                    if (angular.isDefined(scope.widget) && angular.isDefined(scope.widget.hours) && angular.isDefined(scope.widget.minutes)) {
                         scope.time = scope.widget.hours + ':' + scope.widget.minutes + ' ' + scope.widget.meridian;
                     } else {
                         setTime(scope.time);

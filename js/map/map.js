@@ -228,8 +228,6 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     }, 5000);
 
     $scope.clickontab = function (tab, $event) {
-        console.log($event);
-        console.log(tab);
         $scope.array = {};
 
         $scope.header = tab;
@@ -244,6 +242,8 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             markTrainers();
             markGyms();
         } else {
+            alert("Classes coming soon");
+            $scope.clickontab("Users");
             markGyms();
         }
     };

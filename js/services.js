@@ -341,6 +341,15 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
+    .factory("ForgotPassword", function(FirebaseRef) {
+        var ref = FirebaseRef.child("forgetPassword");
+        return {
+            ref: function(){
+                return ref;
+            }
+        };
+    })
+
     .factory("Followers", function(FirebaseRef) {
         var ref = FirebaseRef.child("followers");
         return {

@@ -53,8 +53,6 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
     };
 
     $scope.clickontab = function (tab, $event) {
-        console.log($event);
-        console.log(tab);
         $scope.array = [];
         clone = [];
 
@@ -67,6 +65,8 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
             listGyms();
 
         } else {
+            alert("Classes coming soon");
+            $scope.clickontab("Users");
             listGyms();
         }
     };
