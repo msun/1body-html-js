@@ -894,7 +894,7 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
                         duration: bookedReduced[i].period,
                         starttimeString: starttime,
                         starttime: startTimestamp,
-                        emails: [appFactory.selectedTrainer.email | "", appFactory.user.email | ""],
+                        emails: [appFactory.selectedTrainer.email, appFactory.user.email],
                         timezone: timezone.name(),
                         scanned: false,
                         reviewed: false
@@ -1398,11 +1398,15 @@ trainer.directive('scheduleSelect', function($timeout, User){
 
 trainer.filter('displayTime', function(Time) {
     return function(time) {
+        console.log(time);
+        if(time == undefined){
+            return "";
+        }
         var endtime = time+30;
         if (endtime%100 == 60){
             endtime = time + 100 - 30;
         }
-        var stringtime = ""
+        var stringtime = "";
         if(endtime.toString().length == 1){
             stringtime =  "00:0" + endtime;
         } else if(endtime.toString().length == 2){

@@ -99,7 +99,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             .state('prelogin.change-password', {
                 url: '/change-password',
                 views: {
-                    'login': {
+                    'prelogin': {
                         templateUrl: 'js/account/templates/change-password.html',
                         controller: 'ChangePasswordCtrl'
                     }

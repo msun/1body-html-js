@@ -176,7 +176,7 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
                         alert("Please change your password and sign in again. Thanks!");
 
                         console.log(appFactory.tempPassword);
-                        window.location.href = "#/login/change-password";
+                        window.location.href = "#/prelogin/change-password";
                     } else {
                         appFactory.tempPassword = undefined;
                         checkUrl();
@@ -429,6 +429,7 @@ account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, Scan
 //});
 
 account.controller('ChangePasswordCtrl', function($scope, appFactory, UserAuth, $timeout, ForgotPassword){
+    console.log("Change password ctrl");
     $scope.user = {};
     if(appFactory.tempPassword){
         $timeout(function(){
