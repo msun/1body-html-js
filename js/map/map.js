@@ -444,41 +444,50 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
         if (obj.type == "Users") {
             console.log($scope.array);
             contentString = '<trainer-info-window item=\'array["' + obj.key + '"]\'></trainer-info-window>';
-//            infowindow = new google.maps.InfoWindow();
-//            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
+            $scope.markers[obj.key.replace('-', "_")] = {
+                lat: obj.location[0],
+                lng: obj.location[1],
+                message: contentString,
+                focus: false,
+                draggable: false,
+                icon: {
+                    type: 'div',
+                    iconSize: [38, 38],
+                    className: "div-icon",
+                    html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg" style="border-radius: 50%; width: 38px; height: 38px; border: 3px solid white;" />',
+                    popupAnchor:  [0, 0]
+                },
+                getMessageScope: function() {return $scope; }
+            };
         } else if (obj.type == "Events") {
             console.log($scope.array);
             var keys = obj.key.split(",");
             contentString = '<event-info-window item=\'array["' + obj.key + '"]\'></event-info-window>';
+            $scope.markers[obj.key.replace('-', "_")] = {
+                lat: obj.location[0],
+                lng: obj.location[1],
+                message: contentString,
+                focus: false,
+                draggable: false,
+                getMessageScope: function() {return $scope; }
+            };
 //            infowindow = new google.maps.InfoWindow();
 //            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
         } else {
             contentString = '<gym-info-window gym=\'array["' + obj.key + '"]\'></gym-info-window>';
+            $scope.markers[obj.key.replace('-', "_")] = {
+                lat: obj.location[0],
+                lng: obj.location[1],
+                message: contentString,
+                focus: false,
+                draggable: false,
+                getMessageScope: function() {return $scope; }
+            };
 //            infowindow = new google.maps.InfoWindow({maxWidth: 250});
 //            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
         }
         console.log(contentString);
-//        var compiled = $compile(contentString)($scope);
-        console.log('<img src="https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg" style="border-radius: 50%;" />');
-        $scope.markers[obj.key.replace('-', "_")] = {
-            lat: obj.location[0],
-            lng: obj.location[1],
-            message: contentString,
-            focus: false,
-            draggable: false,
-            icon: {
-//                iconUrl: 'https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg',
-//                iconSize:     [38, 38],
-//                iconAnchor:   [22, 94]
 
-                type: 'div',
-                iconSize: [38, 38],
-                className: "div-icon",
-                html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg" style="border-radius: 50%; width: 38px; height: 38px; border: 3px solid blue;" />',
-                popupAnchor:  [0, 0]
-            },
-            getMessageScope: function() {return $scope; }
-        };
 //        console.log(infowindow);
 //        console.log(compiled[0]);
 //        newmarker.bindPopup(compiled);
