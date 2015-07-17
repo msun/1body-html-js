@@ -458,14 +458,25 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 //            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
         }
         console.log(contentString);
-        var compiled = $compile(contentString)($scope);
-        console.log(compiled);
+//        var compiled = $compile(contentString)($scope);
+        console.log('<img src="https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg" style="border-radius: 50%;" />');
         $scope.markers[obj.key.replace('-', "_")] = {
             lat: obj.location[0],
             lng: obj.location[1],
             message: contentString,
             focus: false,
             draggable: false,
+            icon: {
+//                iconUrl: 'https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg',
+//                iconSize:     [38, 38],
+//                iconAnchor:   [22, 94]
+
+                type: 'div',
+                iconSize: [38, 38],
+                className: "div-icon",
+                html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg" style="border-radius: 50%; width: 38px; height: 38px; border: 3px solid blue;" />',
+                popupAnchor:  [0, 0]
+            },
             getMessageScope: function() {return $scope; }
         };
 //        console.log(infowindow);
@@ -858,52 +869,52 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 ////            markGyms();
 //        }
 
-        var inprogress = false;
-        google.maps.event.addListener(map, 'dragend', function () {
-            $rootScope.position = [map.getCenter().lat(), map.getCenter().lng()];
-
-            var newRadius = calculateRadius();
-            appFactory.radius = newRadius;
-//                if($scope.searchContainer.redo_search){
-            appFactory.trainerQuery.updateCriteria({
-                center: [map.getCenter().lat(), map.getCenter().lng()],
-                radius: newRadius
-            });
-
-            appFactory.eventQuery.updateCriteria({
-                center: [map.getCenter().lat(), map.getCenter().lng()],
-                radius: newRadius
-            });
-
-            appFactory.gymQuery.updateCriteria({
-                center: [map.getCenter().lat(), map.getCenter().lng()],
-                radius: newRadius
-            });
-        });
-
-        google.maps.event.addListener(map, 'zoom_changed', function () {
-            var newRadius = calculateRadius();
-            appFactory.radius = newRadius;
-            appFactory.trainerQuery.updateCriteria({
-                center: [map.getCenter().lat(), map.getCenter().lng()],
-                radius: newRadius
-            });
-
-            appFactory.eventQuery.updateCriteria({
-                center: [map.getCenter().lat(), map.getCenter().lng()],
-                radius: newRadius
-            });
-
-            appFactory.gymQuery.updateCriteria({
-                center: [map.getCenter().lat(), map.getCenter().lng()],
-                radius: newRadius
-            });
-        });
-
-        google.maps.event.addListener(map, 'click', function () {
-            console.log("on map click");
-            clearinfowindows();
-        });
+//        var inprogress = false;
+//        google.maps.event.addListener(map, 'dragend', function () {
+//            $rootScope.position = [map.getCenter().lat(), map.getCenter().lng()];
+//
+//            var newRadius = calculateRadius();
+//            appFactory.radius = newRadius;
+////                if($scope.searchContainer.redo_search){
+//            appFactory.trainerQuery.updateCriteria({
+//                center: [map.getCenter().lat(), map.getCenter().lng()],
+//                radius: newRadius
+//            });
+//
+//            appFactory.eventQuery.updateCriteria({
+//                center: [map.getCenter().lat(), map.getCenter().lng()],
+//                radius: newRadius
+//            });
+//
+//            appFactory.gymQuery.updateCriteria({
+//                center: [map.getCenter().lat(), map.getCenter().lng()],
+//                radius: newRadius
+//            });
+//        });
+//
+//        google.maps.event.addListener(map, 'zoom_changed', function () {
+//            var newRadius = calculateRadius();
+//            appFactory.radius = newRadius;
+//            appFactory.trainerQuery.updateCriteria({
+//                center: [map.getCenter().lat(), map.getCenter().lng()],
+//                radius: newRadius
+//            });
+//
+//            appFactory.eventQuery.updateCriteria({
+//                center: [map.getCenter().lat(), map.getCenter().lng()],
+//                radius: newRadius
+//            });
+//
+//            appFactory.gymQuery.updateCriteria({
+//                center: [map.getCenter().lat(), map.getCenter().lng()],
+//                radius: newRadius
+//            });
+//        });
+//
+//        google.maps.event.addListener(map, 'click', function () {
+//            console.log("on map click");
+//            clearinfowindows();
+//        });
     }
 
     $scope.onSearch = function () {
@@ -970,7 +981,14 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
             showBackdrop: false
         });
 
-        mapFactory.centerOnMe($scope.map, function () {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            $scope.center = {
+                lat: pos[0],
+                lng: pos[1],
+                zoom: 13
+            };
+
+//            mapFactory.centerOnMe($scope.map, function () {
             $ionicLoading.hide();
         })
 
