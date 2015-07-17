@@ -1,4 +1,4 @@
-var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'ui.bootstrap', 'ui.calendar', 'eventModule']);
+var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'eventModule']);
 
 trainer.factory('Time', function(){
     var Time = {};

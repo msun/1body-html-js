@@ -1,6 +1,6 @@
 <ion-view hide-nav-bar="true">
-    <ion-content class="ob-grey-bg" scroll="false" data-tap-disabled="true">
-        <ion-content class="map-content">
+    <!--<ion-content class="ob-grey-bg" scroll="false" data-tap-disabled="true">-->
+        <!--<ion-content class="map-content">-->
             <div class="map-gradient"></div>
             <div class="ob-header ob-map-header">
                 <div class="ob-header-status-bar"></div>
@@ -50,7 +50,8 @@
             </button>
 
             <div id="info"></div>
-            <div id="dashmap" data-tap-disabled="true"></div>
-        </ion-content>
-    </ion-content>
+            <!--<div id="dashmap" data-tap-disabled="true"></div>-->
+            <leaflet id="dashmap" markers="markers" data-tap-disabled="true" center="center" defaults="defaults" ng-init="doMapInit()"></leaflet>
+        <!--</ion-content>-->
+    <!--</ion-content>-->
 </ion-view>

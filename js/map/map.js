@@ -1,4 +1,4 @@
-var map = angular.module('mapModule', ['ionic', 'accountModule', 'starter']);
+var map = angular.module('mapModule', ['ionic', 'accountModule', 'starter', 'leaflet-directive']);
 
 map.factory('mapFactory', function($http, $compile){
     var factory = {};
@@ -99,7 +99,7 @@ map.directive('gymInfoWindow', function($rootScope){
     }
 });
 
-map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $firebase, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Trainers, Users, Sizes, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray, $ionicModal) {
+map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $timeout, $firebase, $ionicLoading, GeoTrainers, GeoEvents, mapFactory, appFactory, Trainers, Users, Sizes, Events, $ionicPopover, $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject, $firebaseArray, $ionicModal) {
     $scope.header = $rootScope.header;
     var searchKeys = ["firstname", "lastname", "info", "group", "gym", "username", "email", "name"];
     $scope.categories = Categories;
@@ -107,9 +107,80 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
     var firebaseSource = Trainers;
     var clone = [];
     $scope.markers = {};
+    $scope.mapItems = {};
     $scope.trainerCircles = [];
     $scope.searchContainer = {};
     $scope.searchContainer.redo_search = true;
+
+    $scope.doMapInit = function(){
+        leafletData.getMap('dashmap').then(function(map) {
+            $scope.map = map;
+
+            console.log(map);
+
+            if ($rootScope.header == "Events") {
+                markEvents();
+            } else if ($rootScope.header == "Users") {
+                markTrainers();
+                markGyms();
+            } else {
+//            markGyms();
+            }
+
+            $scope.$on('leafletDirectiveMap.dragend', function(event){
+                console.log(event);
+                console.log($scope.map.getCenter());
+                console.log($scope.map.getBounds());
+                appFactory.radius = mapFactory.calculateDistance($scope.map.getCenter().lat, $scope.map.getCenter().lng, $scope.map.getBounds().getSouthWest().lat, $scope.map.getBounds().getSouthWest().lng);
+                appFactory.trainerQuery.updateCriteria({
+                    center: [$scope.map.getCenter().lat, $scope.map.getCenter().lng],
+                    radius: appFactory.radius
+                });
+
+                appFactory.eventQuery.updateCriteria({
+                    center: [$scope.map.getCenter().lat, $scope.map.getCenter().lng],
+                    radius: appFactory.radius
+                });
+
+                appFactory.gymQuery.updateCriteria({
+                    center: [$scope.map.getCenter().lat, $scope.map.getCenter().lng],
+                    radius: appFactory.radius
+                });
+            });
+
+            $scope.$on('leafletDirectiveMap.zoomend', function(event){
+                appFactory.radius = mapFactory.calculateDistance($scope.map.getCenter().lat, $scope.map.getCenter().lng, $scope.map.getBounds().getSouthWest().lat, $scope.map.getBounds().getSouthWest().lng);
+                appFactory.trainerQuery.updateCriteria({
+                    center: [$scope.map.getCenter().lat, $scope.map.getCenter().lng],
+                    radius: appFactory.radius
+                });
+
+                appFactory.eventQuery.updateCriteria({
+                    center: [$scope.map.getCenter().lat, $scope.map.getCenter().lng],
+                    radius: appFactory.radius
+                });
+
+                appFactory.gymQuery.updateCriteria({
+                    center: [$scope.map.getCenter().lat, $scope.map.getCenter().lng],
+                    radius: appFactory.radius
+                });
+            });
+        });
+
+
+        $scope.defaults = {
+//            tileLayer: "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+            tileLayerOptions: {
+                opacity: 0.9,
+                detectRetina: true,
+                reuseTiles: true
+            },
+            zoomAnimation: false,
+            zoomControl:false,
+            minZoom: 8
+        };
+    };
+
 
     if(appFactory.searchTerms && appFactory.searchTerms.length > 0){
 //        appFactory.onsearch = false;
@@ -296,8 +367,8 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         console.log($scope.searchContainer.mobile_trainers);
         if ($scope.searchContainer.mobile_trainers) {
             clearpins();
-            markTrainers();
-            markGyms();
+//            markTrainers();
+//            markGyms();
         }
     }
 
@@ -340,57 +411,73 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 return;
             }
 
-            if ($scope.searchContainer.mobile_trainers && radius > 0) {
-                var populationOptions = {
-                    strokeColor: '#2861ff',
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: '#2861ff',
-                    fillOpacity: 0.35,
-                    map: $scope.map,
-                    center: new google.maps.LatLng(obj.location[0], obj.location[1]),
-                    radius: radius
-                };
-                // Add the circle for this city to the map.
-                var trainerCircle = new google.maps.Circle(populationOptions);
-                $scope.trainerCircles.push(trainerCircle);
-            }
+//            if ($scope.searchContainer.mobile_trainers && radius > 0) {
+//                var populationOptions = {
+//                    strokeColor: '#2861ff',
+//                    strokeOpacity: 0.8,
+//                    strokeWeight: 2,
+//                    fillColor: '#2861ff',
+//                    fillOpacity: 0.35,
+//                    map: $scope.map,
+//                    center: new google.maps.LatLng(obj.location[0], obj.location[1]),
+//                    radius: radius
+//                };
+//                // Add the circle for this city to the map.
+//                var trainerCircle = new google.maps.Circle(populationOptions);
+//                $scope.trainerCircles.push(trainerCircle);
+//            }
         }
-        var newmarker = new google.maps.Marker({
-            position: new google.maps.LatLng(obj.location[0], obj.location[1]),
-            optimized: true,
-            map: $scope.map
-        });
+//        var newmarker = new google.maps.Marker({
+//            position: new google.maps.LatLng(obj.location[0], obj.location[1]),
+//            optimized: true,
+//            map: $scope.map
+//        });
+
+
+//        var newmarker = new L.Marker(new L.LatLng(obj.location[0], obj.location[1]));
+
+//        console.log($scope.map);
+//        $scope.map.addLayer(newmarker);
 
         var contentString;
         var infowindow;
         if (obj.type == "Users") {
             console.log($scope.array);
             contentString = '<trainer-info-window item=\'array["' + obj.key + '"]\'></trainer-info-window>';
-            infowindow = new google.maps.InfoWindow();
-            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
+//            infowindow = new google.maps.InfoWindow();
+//            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
         } else if (obj.type == "Events") {
             console.log($scope.array);
             var keys = obj.key.split(",");
             contentString = '<event-info-window item=\'array["' + obj.key + '"]\'></event-info-window>';
-            infowindow = new google.maps.InfoWindow();
-            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
+//            infowindow = new google.maps.InfoWindow();
+//            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
         } else {
             contentString = '<gym-info-window gym=\'array["' + obj.key + '"]\'></gym-info-window>';
-            infowindow = new google.maps.InfoWindow({maxWidth: 250});
-            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
+//            infowindow = new google.maps.InfoWindow({maxWidth: 250});
+//            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
         }
         console.log(contentString);
         var compiled = $compile(contentString)($scope);
+        console.log(compiled);
+        $scope.markers[obj.key.replace('-', "_")] = {
+            lat: obj.location[0],
+            lng: obj.location[1],
+            message: contentString,
+            focus: false,
+            draggable: false,
+            getMessageScope: function() {return $scope; }
+        };
+//        console.log(infowindow);
+//        console.log(compiled[0]);
+//        newmarker.bindPopup(compiled);
 
-        console.log(infowindow);
-        console.log(compiled[0]);
-        google.maps.event.addListener(newmarker, 'click', (function (marker, content, infowindow) {
-            return function () {
-                infowindow.setContent(content);
-                infowindow.open($scope.map, marker);
-            };
-        })(newmarker, compiled[0], infowindow));
+//        google.maps.event.addListener(newmarker, 'click', (function (marker, content, infowindow) {
+//            return function () {
+//                infowindow.setContent(content);
+//                infowindow.open($scope.map, marker);
+//            };
+//        })(newmarker, compiled[0], infowindow));
     }
 
     function addTrainerToGym(gym, obj){
@@ -533,6 +620,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
         $ionicLoading.hide();
         console.log($rootScope.position);
         position = $rootScope.position;
+        console.log(position);
         setmap();
 //        dropPins(appFactory.state);
 //        dropGymPins(appFactory.state);
@@ -607,8 +695,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             console.log("onKeyExit");
             console.log(key);
             if($scope.markers[key]) {
-                $scope.markers[key].marker.setMap(null);
-                $scope.markers[key] = undefined;
+                delete $scope.markers[key];
+//                $scope.markers[key].marker.setMap(null);
+//                $scope.markers[key] = undefined;
             }
         };
 
@@ -654,8 +743,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             console.log(key);
 
             if($scope.markers[key]){
-                $scope.markers[key].marker.setMap(null);
-                $scope.markers[key] = undefined;
+                delete $scope.markers[key];
+//                $scope.markers[key].marker.setMap(null);
+//                $scope.markers[key] = undefined;
             }
         };
 
@@ -663,8 +753,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             console.log("onKeyExit");
             console.log(obj);
             if($scope.markers[key]) {
-                $scope.markers[obj.key].marker.setMap(null);
-                $scope.markers[obj.key] = undefined;
+                delete $scope.markers[obj.key];
+//                $scope.markers[obj.key].marker.setMap(null);
+//                $scope.markers[obj.key] = undefined;
             }
 
 //            dropMapMarker(obj);
@@ -710,8 +801,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
             console.log("onKeyExit");
             console.log(obj);
             if($scope.markers[key]) {
-                $scope.markers[obj.key].marker.setMap(null);
-                $scope.markers[obj.key] = undefined;
+                delete $scope.markers[obj.key]
+//                $scope.markers[obj.key].marker.setMap(null);
+//                $scope.markers[obj.key] = undefined;
             }
             loadEvent(obj, function (foundItem) {
                 console.log(foundItem);
@@ -724,28 +816,47 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
 
 
     function setmap() {
-        var map = new google.maps.Map(document.getElementById('dashmap'), {
-            zoom: 12,
-            center: new google.maps.LatLng(position[0], position[1]),
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false,
-            streetViewControl: false,
-            zoomControl: false,
-            panControl: false
-        });
+        $scope.center = {
+            lat: position[0],
+            lng: position[1],
+            zoom: 13
+        };
+        console.log($scope.center.lat + " " + $scope.center.lng);
+
+//        leafletData.getMap('dashmap').then(function(map) {
+//            $scope.map = map;
+//            console.log(map);
+//        });
+
+
+        $scope.defaults = {
+            attributionControl: false,
+            zoomControl:false,
+            minZoom: 8
+        };
+
+//        var map = new google.maps.Map(document.getElementById('dashmap'), {
+//            zoom: 12,
+//            center: new google.maps.LatLng(position[0], position[1]),
+//            mapTypeId: google.maps.MapTypeId.ROADMAP,
+//            mapTypeControl: false,
+//            streetViewControl: false,
+//            zoomControl: false,
+//            panControl: false
+//        });
 
         $scope.array = {};
 
-        $scope.map = map;
+//        $scope.map = {};
 
-        if ($rootScope.header == "Events") {
-            markEvents();
-        } else if ($rootScope.header == "Users") {
-            markTrainers();
-            markGyms();
-        } else {
-            markGyms();
-        }
+//        if ($rootScope.header == "Events") {
+////            markEvents();
+//        } else if ($rootScope.header == "Users") {
+//            markTrainers();
+////            markGyms();
+//        } else {
+////            markGyms();
+//        }
 
         var inprogress = false;
         google.maps.event.addListener(map, 'dragend', function () {
@@ -816,24 +927,25 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, $timeout, $fire
                 continue;
             }
 
-            (function (id) {
-                console.log($scope.markers[id]);
-                if ($scope.markers[id]) {
-                    $scope.markers[id].marker.setVisible(false);
-                    $scope.markers[id].marker.setMap(null);
-                    $scope.markers[id].marker = null;
-
-                }
-            }(key));
+            delete $scope.markers[key];
+//            (function (id) {
+//                console.log($scope.markers[id]);
+//                if ($scope.markers[id]) {
+//                    $scope.markers[id].marker.setVisible(false);
+//                    $scope.markers[id].marker.setMap(null);
+//                    $scope.markers[id].marker = null;
+//
+//                }
+//            }(key));
 
         }
 
         $scope.markers = {};
 
-        for (var i = 0; i < $scope.trainerCircles.length; i++) { //clear markers
-            $scope.trainerCircles[i].setMap(null);
-        }
-        $scope.trainerCircles = [];
+//        for (var i = 0; i < $scope.trainerCircles.length; i++) { //clear markers
+//            $scope.trainerCircles[i].setMap(null);
+//        }
+//        $scope.trainerCircles = [];
     }
 
     function clearinfowindows() {
