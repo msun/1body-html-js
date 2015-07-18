@@ -128,10 +128,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
             }
 
             $scope.$on('leafletDirectiveMap.dragend', function(event){
-                console.log(event);
-                console.log($scope.map.getCenter());
-                console.log($scope.map.getBounds());
-                appFactory.radius = mapFactory.calculateDistance($scope.map.getCenter().lat, $scope.map.getCenter().lng, $scope.map.getBounds().getSouthWest().lat, $scope.map.getBounds().getSouthWest().lng);
+                appFactory.radius = mapFactory.calculateDistance($scope.map.getCenter().lat, $scope.map.getCenter().lng, $scope.map.getBounds().getSouthWest().lat, $scope.map.getBounds().getSouthWest().lng) + 5;
                 appFactory.trainerQuery.updateCriteria({
                     center: [$scope.map.getCenter().lat, $scope.map.getCenter().lng],
                     radius: appFactory.radius
@@ -149,7 +146,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
             });
 
             $scope.$on('leafletDirectiveMap.zoomend', function(event){
-                appFactory.radius = mapFactory.calculateDistance($scope.map.getCenter().lat, $scope.map.getCenter().lng, $scope.map.getBounds().getSouthWest().lat, $scope.map.getBounds().getSouthWest().lng);
+                appFactory.radius = mapFactory.calculateDistance($scope.map.getCenter().lat, $scope.map.getCenter().lng, $scope.map.getBounds().getSouthWest().lat, $scope.map.getBounds().getSouthWest().lng) + 5;
                 appFactory.trainerQuery.updateCriteria({
                     center: [$scope.map.getCenter().lat, $scope.map.getCenter().lng],
                     radius: appFactory.radius
@@ -365,11 +362,13 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 
     $scope.searchMobileTrainers = function () {
         console.log($scope.searchContainer.mobile_trainers);
-        if ($scope.searchContainer.mobile_trainers) {
+//        if ($scope.searchContainer.mobile_trainers) {
+
             clearpins();
-//            markTrainers();
-//            markGyms();
-        }
+            markTrainers();
+            markGyms();
+//        }
+        $scope.closePopover();
     }
 
 //    console.log("map ctrl");
@@ -411,7 +410,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                 return;
             }
 
-//            if ($scope.searchContainer.mobile_trainers && radius > 0) {
+            if ($scope.searchContainer.mobile_trainers && radius > 0) {
 //                var populationOptions = {
 //                    strokeColor: '#2861ff',
 //                    strokeOpacity: 0.8,
@@ -422,10 +421,13 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 //                    center: new google.maps.LatLng(obj.location[0], obj.location[1]),
 //                    radius: radius
 //                };
-//                // Add the circle for this city to the map.
 //                var trainerCircle = new google.maps.Circle(populationOptions);
 //                $scope.trainerCircles.push(trainerCircle);
-//            }
+                var trainerCircle = L.circle([obj.location[0], obj.location[1]], radius);
+                trainerCircle.addTo($scope.map);
+                $scope.trainerCircles.push(trainerCircle);
+            }
+
         }
 //        var newmarker = new google.maps.Marker({
 //            position: new google.maps.LatLng(obj.location[0], obj.location[1]),
@@ -452,9 +454,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                 draggable: false,
                 icon: {
                     type: 'div',
-                    iconSize: [38, 38],
-                    className: "div-icon",
-                    html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg" style="border-radius: 50%; width: 38px; height: 38px; border: 3px solid white;" />',
+                    iconSize: [40, 40],
+                    className: "div-icon-users",
+                    html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg" class="map-icon-image" onerror="this.style.display=\'none\'" />',
                     popupAnchor:  [0, 0]
                 },
                 getMessageScope: function() {return $scope; }
@@ -469,6 +471,13 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                 message: contentString,
                 focus: false,
                 draggable: false,
+                icon: {
+                    type: 'div',
+                    iconSize: [40, 40],
+                    className: "div-icon-events",
+                    html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Events/' + keys[0] + '/profilepic.jpg" class="map-icon-image" onerror="this.style.display=\'none\'" />',
+                    popupAnchor:  [0, 0]
+                },
                 getMessageScope: function() {return $scope; }
             };
 //            infowindow = new google.maps.InfoWindow();
@@ -481,6 +490,10 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                 message: contentString,
                 focus: false,
                 draggable: false,
+                icon:{
+                    iconUrl: 'img/gym-icon.png',
+                    iconSize:     [38, 38]
+                },
                 getMessageScope: function() {return $scope; }
             };
 //            infowindow = new google.maps.InfoWindow({maxWidth: 250});
@@ -705,7 +718,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
             console.log(obj);
             loadUser(obj, function(foundItem){
                 if(searchItem(foundItem)) {
-                    console.log(foundItem);
+//                    console.log(foundItem);
                     compileDropMarker(obj, foundItem);
                 }
             });
@@ -962,10 +975,11 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 
         $scope.markers = {};
 
-//        for (var i = 0; i < $scope.trainerCircles.length; i++) { //clear markers
+        for (var i = 0; i < $scope.trainerCircles.length; i++) { //clear markers
+            $scope.map.removeLayer($scope.trainerCircles[i]);
 //            $scope.trainerCircles[i].setMap(null);
-//        }
-//        $scope.trainerCircles = [];
+        }
+        $scope.trainerCircles = [];
     }
 
     function clearinfowindows() {

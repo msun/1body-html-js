@@ -1,0 +1,21 @@
+<ion-view view-title="My Events">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon ion-plus"
+                ng-click="goTo('#/menu/editevent/new')"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header menu1-content">
+        <div class="menu1-content-div">
+            <div class="ob-list">
+                <a class="ob-list-row" ng-repeat="conversation in myConversations"
+                   href="#/menu/conversations/{{conversation.$id}}">
+                    <div class="ob-list-col-img">
+                        <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{conversation.$id | htmlEncode}}/profilepic.jpg"/>
+                    </div>
+                    <div class="ob-list-col-flex">
+                        <div class="ob-list-text">{{event.name}}</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

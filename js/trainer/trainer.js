@@ -31,6 +31,28 @@ trainer.factory('Time', function(){
     return Time;
 });
 
+trainer.controller('MyConversationsCtrl', function($scope, Conversations, Users, Trainers, $ionicModal, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams, appConfig, Notifications){
+    $scope.myConversations = $firebaseArray(Conversations.ref().child(appFactory.user.$id));
+    $scope.myConversations.$loaded(function(){
+        for(var i=0; i<$scope.myConversations.length; i++){
+            var userID = $scope.myConversations[i].$id;
+            if(appFactory.users[userID]){
+                $scope.users[userID] = appFactory.users[userID];
+                console.log($scope.users);
+            } else {
+                var user = $firebaseObject(Trainers.ref().child(userID));
+                user.$loaded(function(){
+                    $scope.users[userID] = user;
+                    console.log($scope.users);
+                    appFactory.users[userID] = user;
+                    $localstorage.setObject("Users", appFactory.users);
+                });
+            }
+        }
+    });
+
+});
+
 trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversations, Users, Trainers, $ionicModal, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams, $window, appConfig, Notifications){
     console.log($stateParams.userID);
     var conversationID = "";
@@ -60,13 +82,16 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
         });
     }
 
-    $scope.messages = $firebaseArray(Conversations.ref().child(conversationID).limitToLast(appConfig.defaultItemsPerPage));
+    $scope.myMessages = $firebaseArray(Conversations.ref().child(appFactory.user.$id).child($stateParams.userID).limitToLast(appConfig.defaultItemsPerPage));
+    $scope.hisMessages = $firebaseArray(Conversations.ref().child($stateParams.userID).child(appFactory.user.$id).limitToLast(appConfig.defaultItemsPerPage));
 
     $scope.addNewMessage = function(){
         $scope.newmessage.created = new Date().getTime();
         $scope.newmessage.userID = appFactory.user.$id;
+        $scope.newmessage.acknowledged = false;
 
-        $scope.messages.$add($scope.newmessage).then(function(){
+        $scope.hisMessages.$add($scope.newmessage);
+        $scope.myMessages.$add($scope.newmessage).then(function(){
             console.log($scope.newmessage);
 
             var notif = {

@@ -437,6 +437,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.my-conversations', {
+                url: '/my-conversations',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/account/templates/my-conversations.html',
+                        controller: 'MyConversationsCtrl'
+                    }
+                }
+            })
+
             .state('menu.account.my-money', {
                 url: '/my-money',
                 views: {
