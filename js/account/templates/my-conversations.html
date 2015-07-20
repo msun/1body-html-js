@@ -12,7 +12,13 @@
                         <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{conversation.$id | htmlEncode}}/profilepic.jpg"/>
                     </div>
                     <div class="ob-list-col-flex">
-                        <div class="ob-list-text">{{event.name}}</div>
+                        <div class="ob-list-text">
+                            {{users[conversation.$id].username}}
+                            <i ng-show="!messages[conversation.$id][0].acknowledged" class="icon ion-ios-circle-filled"></i>
+                            <i ng-show="messages[conversation.$id][0].acknowledged" class="icon ion-ios-circle-outline"></i>
+                        </div>
+
+                        <div class="ob-list-subtext">{{messages[conversation.$id][0].text}} <span class="ob-list-subtext" style="float: right">{{messages[conversation.$id][0].created | date:'yyyy-MM-dd HH:mm:ss'}}</span></div>
                     </div>
                 </a>
             </div>

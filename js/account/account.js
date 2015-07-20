@@ -35,7 +35,7 @@ account.controller('PreLoginCtrl', function($scope){
 
 });
 
-account.controller('HomeCtrl', function($scope, FirebaseRef, UserAuth){
+account.controller('HomeCtrl', function($scope, FirebaseRef, UserAuth, Users, appFactory, $firebaseObject){
     if(UserAuth.$getAuth()){
         console.log(UserAuth.$getAuth());
         window.location.href = "#/prelogin/login";
@@ -44,6 +44,32 @@ account.controller('HomeCtrl', function($scope, FirebaseRef, UserAuth){
         console.log("google login");
         UserAuth.$authWithOAuthRedirect("google").then(function(authData) {
             console.log("Authenticated successfully with payload:", authData);
+        }).catch(function(error) {
+            console.error("Authentication failed:", error);
+        });
+    };
+
+    $scope.facebookLogin = function(){
+        console.log("facebook login");
+        UserAuth.$authWithOAuthPopup("facebook").then(function(authData) {
+            console.log("Authenticated successfully with payload:", authData);
+
+            appFactory.user = $firebaseObject(Users.ref().child(UserAuth.$getAuth().uid));
+            appFactory.user.$loaded(function() {
+                if (appFactory.user.username) {
+                    if($rootScope.position){
+                        appFactory.user.curlocation = $rootScope.position;
+                        appFactory.loadLocation();
+                        console.log(appFactory.user);
+                    }
+                    $rootScope.user = appFactory.user;
+                } else {
+                    appFactory.facebookAuth = UserAuth.$getAuth();
+                    window.location.href = "#/prelogin/register";
+                }
+            });
+
+
         }).catch(function(error) {
             console.error("Authentication failed:", error);
         });
@@ -232,7 +258,32 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
     }
 
     if(UserAuth.$getAuth()){
-        $scope.signin();
+        if(UserAuth.$getAuth().provider == "facebook"){
+            appFactory.user = $firebaseObject(Users.ref().child(UserAuth.$getAuth().uid));
+            appFactory.user.$loaded(function() {
+                if (appFactory.user.username) {
+
+                } else {
+                    var myRef = Users.ref().child(UserAuth.$getAuth().uid);
+                    var user = $firebaseObject(myRef);
+
+                    user.$priority = Firebase.ServerValue.TIMESTAMP;
+                    user.group = "Trainers";
+                    user.username = UserAuth.$getAuth().facebook.displayName;
+                    user.accessToken = UserAuth.$getAuth().facebook.accessToken;
+                    user.modified = Firebase.ServerValue.TIMESTAMP;
+                    user.profilepic = UserAuth.$getAuth().facebook.profileImageURL;
+                    user.tokens = 0;
+                    user.$save().then(function (thing) {
+                        console.log(thing);
+                        alert("Registered Successfully!");
+                        window.location.href = "#";
+                    });
+                }
+            });
+        } else {
+            $scope.signin();
+        }
     }
 
     $scope.back = function() {
@@ -244,7 +295,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
     $scope.newuser = {};
     $scope.newuser.group = "Users";
     console.log(UserAuth);
-    UserAuth.$unauth(); //FOR TESTING
+//    UserAuth.$unauth(); //FOR TESTING
 
     $scope.register = function(){
         console.log($scope.newuser);

@@ -31,7 +31,7 @@
             <p class="personal-quote">{{selectedTrainer.information}}</p>
             <div class="profile-stats-container">
                 <span class="profile-stats-container-empty-item"></span>
-                    <span class="followers-item">
+                    <span class="followers-item" ng-click="rootGoTo('#/menu/Followers/' + selectedTrainer.$id)">
                         <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
                         <div>Followers</div>
                     </span>
@@ -49,7 +49,7 @@
                         </div>
                         <div>(<span class="profile-reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
                     </span>
-                    <span class="following-item">
+                    <span class="following-item" ng-click="rootGoTo('#/menu/Following/' + selectedTrainer.$id)">
                         <div class="following-count">{{sizes.numOfFollowing || 0}}</div>
                         <div>Following</div>
                     </span>

@@ -60,6 +60,8 @@
                 <a menu-close ng-show="$root.user.group != 'Trainers'" ng-click="rootGoTo('#/menu/my-transactions')" class="item ob-sidemenu-tab">My Booked Sessions</a>
                 <a menu-close ng-show="$root.user.group == 'Trainers'" ng-click="rootGoTo('#/menu/my-trainings')" class="item ob-sidemenu-tab">My Booked Sessions</a>
                 <a menu-close ng-click="rootGoTo('#/menu/my-events')" class="item ob-sidemenu-tab">My Events</a>
+                <a menu-close ng-click="rootGoTo('#/menu/my-conversations')" class="item ob-sidemenu-tab">My Conversations</a>
+
                 <a menu-close ng-show="$root.user.group != 'Trainers'" ng-click="rootGoTo('#/menu/my-requests')" class="item ob-sidemenu-tab">My Mobile Requests</a>
                 <a menu-close ng-show="$root.user.group == 'Trainers'" ng-click="rootGoTo('#/menu/requested-sessions')" class="item ob-sidemenu-tab">My Mobile Sessions</a>
                 <a menu-close ng-click="rootGoTo('#/menu/buy-tokens')" class="item ob-sidemenu-tab">Buy Tokens</a>

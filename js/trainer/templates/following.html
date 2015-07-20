@@ -9,15 +9,22 @@
         </div>
     </ion-header-bar>
 
-    <ion-content>
-        <ion-content>
-            <ion-list>
-                <a ng-repeat="item in items" class="item item-avatar" type="item-text-wrap" href="#/menu/{{item.group}}/{{item.$id}}">
-                    <img src="{{item.profilepic}}">
-                    <h2>{{item.username}}{{item.name}}</h2>
-                    <p>{{item.info}}</p>
+    <ion-content class="has-header menu1-content">
+        <div class="menu1-content-div">
+            <div class="ob-list">
+                <a class="ob-list-row" ng-repeat="item in items"
+                   href="#/menu/Users/{{item.$id}}">
+                    <div class="ob-list-col-img">
+                        <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.$id | htmlEncode}}/profilepic.jpg"/>
+                    </div>
+                    <div class="ob-list-col-flex">
+                        <div class="ob-list-text">
+                            {{item.username}}
+                        </div>
+
+                    </div>
                 </a>
-            </ion-list>
-        </ion-content>
+            </div>
+        </div>
     </ion-content>
 </ion-view>
