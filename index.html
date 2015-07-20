@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: *; script-src * 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src *; frame-src *;">-->
+
     <title></title>
 
     <link href='lib/guillotine/css/jquery.guillotine.css' media='all' rel='stylesheet'>
@@ -15,6 +17,7 @@
     <!--<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
     <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&sensor=true"></script>-->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <link href="lib/leaflet/leaflet.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -42,6 +45,11 @@
     <script src="lib/calendar/calendar.js"></script>
     <script src='lib/guillotine/js/jquery.guillotine.min.js'></script>
     <script src="lib/jstimezone/jstz-1.0.4.min.js"></script>
+    <script src="lib/react/react.min.js"></script>
+    <script src="lib/react/ngReact.min.js"></script>
+
+    <script src="lib/leaflet/leaflet.js"></script>
+    <script src="lib/leaflet/angular-leftlet-directive.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>

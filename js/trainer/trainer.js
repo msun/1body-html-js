@@ -1,4 +1,4 @@
-var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'ui.bootstrap', 'ui.calendar', 'eventModule']);
+var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'eventModule']);
 
 trainer.factory('Time', function(){
     var Time = {};
@@ -31,6 +31,25 @@ trainer.factory('Time', function(){
     return Time;
 });
 
+trainer.controller('MyConversationsCtrl', function($scope, Conversations, $localstorage, Users, Trainers, $ionicModal, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams, appConfig, Notifications){
+    $scope.myConversations = $firebaseArray(Conversations.ref().child(appFactory.user.$id));
+    $scope.users = {};
+    $scope.messages = {};
+    $scope.myConversations.$loaded(function(){
+        for(var i=0; i<$scope.myConversations.length; i++){
+            var userID = $scope.myConversations[i].$id;
+            console.log(userID);
+            $scope.users[userID] = $firebaseObject(Users.ref().child(userID));
+            $scope.messages[userID] = $firebaseArray(Conversations.ref().child(appFactory.user.$id).child(userID).limitToLast(1));
+//            $scope.users[userID].$loaded(function(){
+//                console.log($scope.users[userID].username);
+//            })
+        }
+        console.log($scope.users);
+    });
+
+});
+
 trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversations, Users, Trainers, $ionicModal, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams, $window, appConfig, Notifications){
     console.log($stateParams.userID);
     var conversationID = "";
@@ -60,13 +79,29 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
         });
     }
 
-    $scope.messages = $firebaseArray(Conversations.ref().child(conversationID).limitToLast(appConfig.defaultItemsPerPage));
+    $scope.myMessages = $firebaseArray(Conversations.ref().child(appFactory.user.$id).child($stateParams.userID).limitToLast(appConfig.defaultItemsPerPage));
+    $scope.myMessages.$loaded(function(){
+        console.log($scope.myMessages[$scope.myMessages.length - 1]);
+        $scope.myMessages[$scope.myMessages.length - 1].acknowledged = true;
+        $scope.myMessages.$save($scope.myMessages.length - 1);
+        $scope.myMessages.$watch(function(event) {
+            console.log(event);
+            if(event.event == "child_added"){
+                console.log($scope.myMessages.$getRecord(event.key));
+                $scope.myMessages.$getRecord(event.key).acknowledged = true;
+                $scope.myMessages.$save($scope.myMessages.$indexFor(event.key));
+            }
+        });
+    })
+
+    $scope.hisMessages = $firebaseArray(Conversations.ref().child($stateParams.userID).child(appFactory.user.$id).limitToLast(appConfig.defaultItemsPerPage));
 
     $scope.addNewMessage = function(){
         $scope.newmessage.created = new Date().getTime();
         $scope.newmessage.userID = appFactory.user.$id;
+        $scope.newmessage.acknowledged = true;
 
-        $scope.messages.$add($scope.newmessage).then(function(){
+        $scope.myMessages.$add($scope.newmessage).then(function(){
             console.log($scope.newmessage);
 
             var notif = {
@@ -81,6 +116,9 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
 
             $scope.newmessage.text = "";
         });
+
+        $scope.newmessage.acknowledged = false;
+        $scope.hisMessages.$add($scope.newmessage);
     }
 });
 
@@ -394,51 +432,19 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     };
 });
 
-trainer.controller('FollowersCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Followers, Trainers) {
-    $scope.items = $firebase(Followers.ref().child(appFactory.user.$id)).$asArray();
+trainer.controller('FollowersListCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebaseArray, Followers, Trainers) {
+    $scope.items = $firebaseArray(Followers.ref().child($stateParams.userID));
 
     $scope.items.$loaded(function(){
         console.log($scope.items);
-        for(var i=0; i<$scope.items.length; i++){
-            (function(index) {
-                var item = $firebase(Trainers.ref().child($scope.items[index].$id)).$asObject();
-                item.$loaded(function(){
-                    console.log(item);
-                    if(item.profilepic){
-                        $scope.items[index].profilepic = item.profilepic;
-                    }
-                    if(item.info){
-                        $scope.items[index].info = item.info;
-                    }
-                    $scope.items[index].group = item.group;
-                    $scope.items.$save(index);
-                })
-            }(i));
-        }
     });
 });
 
-trainer.controller('FollowingTrainerCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebase, Following, Trainers) {
-    $scope.items = $firebase(Following.ref().child(appFactory.user.$id)).$asArray();
+trainer.controller('FollowingListCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebaseArray, Following, Trainers) {
+    $scope.items = $firebaseArray(Following.ref().child($stateParams.userID));
 
     $scope.items.$loaded(function(){
         console.log($scope.items);
-        for(var i=0; i<$scope.items.length; i++){
-            (function(index) {
-                var item = $firebase(Trainers.ref().child($scope.items[index].$id)).$asObject();
-                item.$loaded(function(){
-                    console.log(item);
-                    if(item.profilepic){
-                        $scope.items[index].profilepic = item.profilepic;
-                    }
-                    if(item.info){
-                        $scope.items[index].group = item.info;
-                    }
-                    $scope.items[index].group = item.group;
-                    $scope.items.$save(index);
-                })
-            }(i));
-        }
     });
 });
 

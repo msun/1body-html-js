@@ -206,22 +206,22 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
-            .state('menu.trainer-following', {
-                url: '/Following-Trainers',
+            .state('menu.following', {
+                url: '/Following/:userID',
                 views: {
                     'menu': {
                         templateUrl: 'js/trainer/templates/following.html',
-                        controller: 'FollowingTrainerCtrl'
+                        controller: 'FollowingListCtrl'
                     }
                 }
             })
 
             .state('menu.followers', {
-                url: '/Followers',
+                url: '/Followers/:userID',
                 views: {
                     'menu': {
                         templateUrl: 'js/trainer/templates/followers.html',
-                        controller: 'FollowersCtrl'
+                        controller: 'FollowersListCtrl'
                     }
                 }
             })
@@ -433,6 +433,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     'menu': {
                         templateUrl: 'js/account/templates/my-trainings.html',
                         controller: 'MyTrainingsCtrl'
+                    }
+                }
+            })
+
+            .state('menu.my-conversations', {
+                url: '/my-conversations',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/account/templates/my-conversations.html',
+                        controller: 'MyConversationsCtrl'
                     }
                 }
             })
