@@ -1,10 +1,14 @@
-<ion-view view-title="My Requests">
+<ion-view view-title="My Mobile Sessions">
     <ion-nav-buttons side="right">
       <button class="button button-icon ion-plus"
               ng-click="goTo('#/menu/Mobile-Trainer-Request')"></button>
     </ion-nav-buttons>
     <ion-content class="has-header menu1-content">
-        <a ng-show="$root.user.group == 'Trainers'" class="ob-block-button ob-button-blue ob-button-shadow" href="#/menu/requested-sessions">My Requests</a>
+        <div class="ob-block-switch2 ob-button-shadow" ng-show="$root.user.group == 'Trainers'">
+            <button class="ob-block-switch2-button"
+                    ng-click="rootGoTo('#/menu/requested-sessions')">Inbox</button>
+            <button class="ob-block-switch2-button ob-block-switch2-button-selected">Sent</button>
+        </div>
         <div class="menu1-content-div ob-sections-vertical">
             <ion-scroll class="ob-scroll ob-section" direction="y">
                 <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">

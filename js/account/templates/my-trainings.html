@@ -1,10 +1,17 @@
-<ion-view view-title="My Trainings">
+<ion-view view-title="My Sessions">
     <ion-content class="has-header ob-grey-bg">
-        <a class="ob-block-button ob-button-blue ob-button-shadow" href="#/menu/my-transactions">My Booked Sessions</a>
-
-        <div class="buttongroup2">
-            <button class="buttongroup2-button" ng-click="showCurrent()">Show by Date</button>
-            <button class="buttongroup2-button" ng-click="showAll()">Show All</i></button>
+        <div class="ob-block-switch2">
+            <button class="ob-block-switch2-button ob-block-switch2-button-selected">As Prof.</button>
+            <button class="ob-block-switch2-button"
+                    ng-click="rootGoTo('#/menu/my-transactions')">As User</button>
+        </div>
+        <div class="ob-block-switch2">
+            <button class="ob-block-switch2-button"
+                    ng-class="{'ob-block-switch2-button-selected' : showingAll == false}"
+                    ng-click="showCurrent()">Show by Date</button>
+            <button class="ob-block-switch2-button"
+                    ng-class="{'ob-block-switch2-button-selected' : showingAll}"
+                    ng-click="showAll()">Show All</button>
         </div>
         <div class="ob-form" ng-show="showingAll == false">
             <div class="ob-form-row">
@@ -12,13 +19,13 @@
                              allow-time-before-now="true"
                              show-time-picker="false"
                              data-inc-icon-class="ion ion-chevron-up"
-                             data-dec-icon-class="ion ion-chevron-down" />
+                             data-dec-icon-class="ion ion-chevron-down"/>
             </div>
         </div>
         </time-picker>
         <div class="ob-list">
             <div class="ob-list-emptytext"
-                 ng-show="myTransactions.length <= 0">No trainings to display</div>
+                 ng-show="myTransactions.length <= 0">No sessions to display</div>
             <div class="ob-list-row" ng-repeat="item in myTransactions" item="event" ng-click="rootGoTo('#/menu/scan')">
                 <div class="ob-list-col-img">
                     <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.classID}}{{item.eventID}}{{item.userID | htmlEncode}}/profilepic.jpg"/>

@@ -8,8 +8,8 @@
             <div class="ob-list">
                 <div class="ob-list-emptytext" ng-show="events.length <= 0">
                     You have no events!<br/><br/>
-                    Tap the magnifier icon at the top right to search for events to join<br/>
-                    Tap the + icon at the top right to create your own event!<br/>
+                    Search on the map for events to join<br/>
+                    or tap the + icon at the top right to create your own event!<br/>
                 </div>
                 <a class="ob-list-row" ng-repeat="event in events" item="event"
                    href="#/menu/Events/{{$root.user.$id}}/{{event.$id}}">
