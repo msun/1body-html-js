@@ -1,10 +1,17 @@
 <ion-view view-title="My Sessions">
     <ion-content class="has-header ob-grey-bg">
-        <a ng-show="$root.user.group == 'Trainers'" class="ob-block-button ob-button-blue ob-button-shadow" href="#/menu/my-trainings">My Training Sessions Booked by Clients</a>
-
-        <div class="buttongroup2">
-            <button class="buttongroup2-button" ng-click="showCurrent()">Show by Date</button>
-            <button class="buttongroup2-button" ng-click="showAll()">Show All</i></button>
+        <div class="ob-block-switch2" ng-show="$root.user.group == 'Trainers'">
+            <button class="ob-block-switch2-button"
+                    ng-click="rootGoTo('#/menu/my-trainings')">As Prof.</button>
+            <button class="ob-block-switch2-button ob-block-switch2-button-selected">As User</button>
+        </div>
+        <div class="ob-block-switch2">
+            <button class="ob-block-switch2-button"
+                    ng-class="{'ob-block-switch2-button-selected' : showingAll == false}"
+                    ng-click="showCurrent()">Show by Date</button>
+            <button class="ob-block-switch2-button"
+                    ng-class="{'ob-block-switch2-button-selected' : showingAll}"
+                    ng-click="showAll()">Show All</button>
         </div>
         <div class="ob-form" ng-show="showingAll == false">
             <div class="ob-form-row">

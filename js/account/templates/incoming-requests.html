@@ -1,11 +1,18 @@
-
-<ion-view view-title="Requests Inbox">
+<ion-view view-title="My Mobile Sessions">
+    <ion-nav-buttons side="right">
+      <button class="button button-icon ion-plus"
+              ng-click="goTo('#/menu/Mobile-Trainer-Request')"></button>
+    </ion-nav-buttons>
     <ion-content class="has-header menu1-content">
         <div class="menu1-content-div">
-            <a class="ob-block-button ob-button-blue ob-button-shadow" href="#/menu/my-requests">My Requests to Others</a>
+            <div class="ob-block-switch2 ob-button-shadow">
+                <button class="ob-block-switch2-button ob-block-switch2-button-selected">Inbox</button>
+                <button class="ob-block-switch2-button"
+                        ng-click="rootGoTo('#/menu/my-requests')">Sent</button>
+            </div>
             <ion-scroll class="ob-scroll" direction="y">
                 <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">
-                    You have no mobile requests at the moment
+                    You have received no mobile requests yet
                 </div>
                 <div class="ob-scroll-row" ng-repeat="item in requests | orderBy: '-created'">
                     <div class="ob-scroll-col-img">
@@ -30,5 +37,3 @@
         </div>
     </ion-content>
 </ion-view>
-
-

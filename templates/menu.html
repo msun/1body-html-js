@@ -9,13 +9,12 @@
         <ion-nav-view name="menu">
         </ion-nav-view>
         <div id="notificationAndFeeds" class="ob-flnotif" style="top: 120px; height: 50px">
-            <div on-drag="onDrag($event)" on-release="onRelease($event)" class="ob-flnotif-header"> <!-- {'ob-flnotif-header-button-hasnotif' : hasNewNotifications} -->
+            <div on-drag="onDrag($event)" on-release="onRelease($event)" class="ob-flnotif-header">
                 <span class="ob-flnotif-header-button"
                       ng-class="{'ob-flnotif-header-button-hasnotif' : hasNewNotifications == true}"
                       ng-click="toggleFloatingMenu()">
                 </span>
-
-            </div> <!-- ng-class="{'ob-flnotif-header-button' : true, 'ob-flnotif-header-button-hasnotif' : hasNewNotifications == true}" -->
+            </div>
             <div class="ob-flnotif-main">
                 <a class="profile-feed-review-list-row"
                    ng-repeat="item in feeds | orderBy:'-created'"
@@ -28,7 +27,6 @@
                         <div class="profile-feed-review-text">{{item.message}}</div>
                         <div class="profile-feed-review-creation">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                     </span>
-
                 </a>
             </div>
             <a class="ob-flnotif-more" href="#/menu/Users/{{$root.user.$id}}"
@@ -45,10 +43,9 @@
                              src="https://s3.amazonaws.com/com.onebody.profile/Users/{{$root.user.$id | htmlEncode}}/profilepic.jpg"/>
                     </span>
                     <span class="ob-sidemenu-title">{{$root.user.username}}</span>
-                    <a menu-close class="ob-sidemenu-cog-container"
+                    <span menu-close class="ion-gear-b ob-sidemenu-cog"
                        ng-click="rootGoTo('#/menu/settings'); $event.stopPropagation()">
-                        <div class="ob-cog"></div>
-                    </a>
+                    </span>
                 </div>
                 <div class="ob-sidemenu-header-bottom-divider"></div>
             </div>
@@ -57,27 +54,19 @@
             <ul>
                 <a menu-close ng-click="rootGoTo('#/menu/map')"
                    class="item ob-sidemenu-tab"><i class="icon ion-search ob-ionicon-small"></i>&nbsp;&nbsp;&nbsp;Map</a>
-                <a menu-close ng-show="$root.user.group != 'Trainers'" ng-click="rootGoTo('#/menu/my-transactions')" class="item ob-sidemenu-tab">My Booked Sessions</a>
-                <a menu-close ng-show="$root.user.group == 'Trainers'" ng-click="rootGoTo('#/menu/my-trainings')" class="item ob-sidemenu-tab">My Booked Sessions</a>
-                <a menu-close ng-click="rootGoTo('#/menu/my-events')" class="item ob-sidemenu-tab">My Events</a>
-                <a menu-close ng-click="rootGoTo('#/menu/my-conversations')" class="item ob-sidemenu-tab">My Conversations</a>
-
+                <a menu-close ng-show="$root.user.group != 'Trainers'" ng-click="rootGoTo('#/menu/my-transactions')" class="item ob-sidemenu-tab">My Sessions</a>
+                <a menu-close ng-show="$root.user.group == 'Trainers'" ng-click="rootGoTo('#/menu/my-trainings')" class="item ob-sidemenu-tab">My Sessions</a>
                 <a menu-close ng-show="$root.user.group != 'Trainers'" ng-click="rootGoTo('#/menu/my-requests')" class="item ob-sidemenu-tab">My Mobile Requests</a>
                 <a menu-close ng-show="$root.user.group == 'Trainers'" ng-click="rootGoTo('#/menu/requested-sessions')" class="item ob-sidemenu-tab">My Mobile Sessions</a>
+                <a menu-close ng-click="rootGoTo('#/menu/my-events')" class="item ob-sidemenu-tab">My Events</a>
+                <a menu-close ng-click="rootGoTo('#/menu/my-conversations')" class="item ob-sidemenu-tab">My Conversations</a>
                 <a menu-close ng-click="rootGoTo('#/menu/buy-tokens')" class="item ob-sidemenu-tab">Buy Tokens</a>
-                <!--ng-click="rootGoTo('#/menu/requested-sessions')">Requests Inbox</a>
-
-             <!--<a menu-close ng-show="$root.user.group == 'Trainers'" class="item ob-sidemenu-tab ob-mediumpurple-bg"-->
-                   <!--ng-click="rootGoTo('#/menu/requested-sessions')">Requests Inbox</a>-->
-                <!--<a menu-close ng-show="$root.user.group == 'Trainers'" class="item ob-sidemenu-tab ob-mediumpurple-bg"-->
-                   <!--ng-click="rootGoTo('#/menu/my-trainings')">My Trainings</a>-->
                 <a menu-close ng-show="$root.user.group == 'Trainers'" class="item ob-sidemenu-tab ob-mediumpurple-bg"
                    ng-click="rootGoTo('#/menu/my-schedule')" >My Schedule</a>
                 <a menu-close ng-show="$root.user.group == 'Trainers'" class="item ob-sidemenu-tab ob-mediumpurple-bg"
                    ng-click="rootGoTo('#/menu/set-location')">My Location</a>
                 <a menu-close ng-show="$root.user.group == 'Trainers'" class="item ob-sidemenu-tab ob-mediumpurple-bg"
                    ng-click="rootGoTo('#/menu/scan')">Scan QR Code</a>
-                <a menu-close class="item ob-sidemenu-tab" ng-click="rootGoTo('#/menu/settings')">Settings</a>
                 <a menu-close ng-show="$root.user.admin == 1" class="item ob-sidemenu-tab ob-lightpurple-bg"
                    ng-click="rootGoTo('#/menu/editgym/new')">Create Gym</a>
                 <a menu-close ng-show="$root.user.admin == 1" class="item ob-sidemenu-tab ob-lightpurple-bg"

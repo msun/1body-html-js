@@ -1,11 +1,15 @@
-<ion-view view-title="My Events">
+<ion-view view-title="My Conversations">
     <ion-nav-buttons side="right">
         <button class="button button-icon ion-plus"
-                ng-click="goTo('#/menu/editevent/new')"></button>
+                ng-click="goTo('#/menu/map')"></button>
     </ion-nav-buttons>
     <ion-content class="has-header menu1-content">
         <div class="menu1-content-div">
             <div class="ob-list">
+                <div class="ob-list-emptytext" ng-show="myConversations.length <= 0">
+                    You have no conversations!<br/>
+                    Open another user's profile and tap the conversation button to start!<br/>
+                </div>
                 <a class="ob-list-row" ng-repeat="conversation in myConversations"
                    href="#/menu/conversations/{{conversation.$id}}">
                     <div class="ob-list-col-img">
@@ -14,10 +18,9 @@
                     <div class="ob-list-col-flex">
                         <div class="ob-list-text">
                             {{users[conversation.$id].username}}
-                            <i ng-show="!messages[conversation.$id][0].acknowledged" class="icon ion-ios-circle-filled"></i>
-                            <i ng-show="messages[conversation.$id][0].acknowledged" class="icon ion-ios-circle-outline"></i>
+                            <i ng-show="!messages[conversation.$id][0].acknowledged" class="icon ion-chatbubble-working"></i>
+                            <!--<i ng-show="messages[conversation.$id][0].acknowledged" class="icon ion-chatbubble"></i>-->
                         </div>
-
                         <div class="ob-list-subtext">{{messages[conversation.$id][0].text}} <span class="ob-list-subtext" style="float: right">{{messages[conversation.$id][0].created | date:'yyyy-MM-dd HH:mm:ss'}}</span></div>
                     </div>
                 </a>
