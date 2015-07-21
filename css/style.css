@@ -31,7 +31,10 @@
 }
 
 .map-icon-image{
-    border-radius: 50%; width: 40px; height: 40px; border: 3px solid white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 3px solid white;
 }
 
 .scroll {
@@ -424,7 +427,7 @@ ion-popover-view.fit ion-content {
 /* generic views */
 /* ********** ********** ********** ********** ***********/
 
-.menu1-content {
+.ob-bg1 {
     background-color: transparent, #383838;
     background-position: center top, center;
     background-size: 100% 34.243%, cover;
@@ -432,7 +435,8 @@ ion-popover-view.fit ion-content {
     background-image: url("../img/tmp/Blue-Top-Gradient.png"), url("../img/tmp/bridge_background.jpg");
 }
 
-.menu1-content-div {
+/* fixes some scrolling issues*/
+.ob-content {
     border: 1px solid transparent;
     min-width: 150px;
     width: 100%;
@@ -674,6 +678,7 @@ input.ob-form-text-input[type="search"] {
     color: white;
     padding: 12px 6px;
     height: 120px;
+    width: 100%;
 }
 
 .ob-form-textarea::-webkit-input-placeholder {
@@ -1222,7 +1227,7 @@ input.ob-form-text-input[type="search"] {
     width: 93.75%; /* 300px / 320px */
     min-width: 300px;
     max-width: 500px;
-    height: 180px;
+    min-height: 180px;
     border: 1px solid #7f7b73;
     border-radius: 8px;
     margin: 12px auto;
@@ -1435,7 +1440,6 @@ input.ob-form-text-input[type="search"] {
     border-radius: 8px;
     margin: 12px auto;
     overflow: hidden;
-    height: 55%;
     min-height: 250px;
     max-height: 500px;
     /* this fixes the overflow:hidden in Chrome */
@@ -1640,23 +1644,153 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-section {
-    -webkit-flex: 2 2 auto;
-    flex: 2 2 auto;
+    -webkit-flex: 12 1 auto;
+    flex: 12 1 auto;
 }
 
 .ob-section-zerobase {
-    -webkit-flex: 2 2 0px;
-    flex: 2 2 0px;
+    -webkit-flex: 12 1 0px;
+    flex: 12 1 0px;
 }
 
 .ob-half-section {
+    -webkit-flex: 6 1 auto;
+    flex: 6 1 auto;
+}
+
+.ob-half-section-zerobase {
+    -webkit-flex: 6 1 0px;
+    flex: 6 1 0px;
+}
+
+.ob-section-0-0 {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.ob-section-0 {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+}
+
+.ob-section-1 {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
 }
 
-.ob-half-section-zerobase {
+.ob-section-2 {
+    -webkit-flex: 2 1 auto;
+    flex: 2 1 auto;
+}
+
+.ob-section-3 {
+    -webkit-flex: 3 1 auto;
+    flex: 3 1 auto;
+}
+
+.ob-section-4 {
+    -webkit-flex: 4 1 auto;
+    flex: 4 1 auto;
+}
+
+.ob-section-5 {
+    -webkit-flex: 5 1 auto;
+    flex: 5 1 auto;
+}
+
+.ob-section-6 {
+    -webkit-flex: 6 1 auto;
+    flex: 6 1 auto;
+}
+
+.ob-section-7 {
+    -webkit-flex: 7 1 auto;
+    flex: 7 1 auto;
+}
+
+.ob-section-8 {
+    -webkit-flex: 8 1 auto;
+    flex: 8 1 auto;
+}
+
+.ob-section-9 {
+    -webkit-flex: 9 1 auto;
+    flex: 9 1 auto;
+}
+
+.ob-section-10 {
+    -webkit-flex: 10 1 auto;
+    flex: 10 1 auto;
+}
+
+.ob-section-11 {
+    -webkit-flex: 11 1 auto;
+    flex: 11 1 auto;
+}
+
+.ob-section-12 {
+    -webkit-flex: 12 1 auto;
+    flex: 12 1 auto;
+}
+
+.ob-section-1z {
     -webkit-flex: 1 1 0px;
     flex: 1 1 0px;
+}
+
+.ob-section-2z {
+    -webkit-flex: 2 1 0px;
+    flex: 2 1 0px;
+}
+
+.ob-section-3z {
+    -webkit-flex: 3 1 0px;
+    flex: 3 1 0px;
+}
+
+.ob-section-4z {
+    -webkit-flex: 4 1 0px;
+    flex: 4 1 0px;
+}
+
+.ob-section-5z {
+    -webkit-flex: 5 1 0px;
+    flex: 5 1 0px;
+}
+
+.ob-section-6z {
+    -webkit-flex: 6 1 0px;
+    flex: 6 1 0px;
+}
+
+.ob-section-7z {
+    -webkit-flex: 7 1 0px;
+    flex: 7 1 0px;
+}
+
+.ob-section-8z {
+    -webkit-flex: 8 1 0px;
+    flex: 8 1 0px;
+}
+
+.ob-section-9z {
+    -webkit-flex: 9 1 0px;
+    flex: 9 1 0px;
+}
+
+.ob-section-10z {
+    -webkit-flex: 10 1 0px;
+    flex: 10 1 0px;
+}
+
+.ob-section-11z {
+    -webkit-flex: 11 1 0px;
+    flex: 11 1 0px;
+}
+
+.ob-section-12z {
+    -webkit-flex: 12 1 0px;
+    flex: 12 1 0px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1706,7 +1840,7 @@ input.ob-form-text-input[type="search"] {
     font-size: 18px;
     color: white;
     text-align: center;
-    margin: 12px;
+    margin: 12px auto;
     padding: 8px;
     max-width: 500px;
     border-radius: 8px;
@@ -2163,12 +2297,17 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-popover-label {
+    display: -webkit-flex;
+    display: flex;
     max-width: 93.75%;
     margin: 0px auto;
     border-radius: 8px;
 }
 
 .ob-popover-prompt {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    display: inline-block;
     font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 14px;
     font-weight: lighter;
@@ -3413,6 +3552,14 @@ input.ob-form-text-input[type="search"] {
 
 .ob-margins0 {
     margin: 0px;
+}
+
+.ob-ionicon-xs {
+
+}
+
+.ob-ionicon-xs::before {
+    font-size: 18px !important;
 }
 
 .ob-ionicon-small {

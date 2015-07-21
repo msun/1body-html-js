@@ -17,6 +17,11 @@
                     ng-options="category.name for category in categories">
             </select>
         </label>
+        <label class="item item-input ob-popover-row ob-popover-label"
+               ng-click="goTo('#/menu/Mobile-Trainer-Request')">
+            <div class="input-label ob-popover-prompt">Request Mobile Trainer</div>
+            <i class="icon ion-chevron-right ob-ionicon-xs"></i>
+        </label>
         <ion-toggle class="ob-popover-row ob-toggle"
                     ng-show="header =='Users'"
                     ng-model="searchContainer.mobile_trainers"

@@ -625,6 +625,10 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             window.location.href = url;
         }
 
+        $scope.alert = function(msg){
+            alert(msg);
+        }
+
         $scope.sendNotification = function(){
             var notifToTrainer = {
                 creatorID: appFactory.user.$id,

@@ -1,7 +1,7 @@
 <ion-view>
     <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
     <ion-nav-buttons side="right">
-      <button class="button button-icon ion-gear-a" ng-click="goTo('#/menu/my-profile')"
+      <button class="button button-icon ion-gear-b" ng-click="goTo('#/menu/my-profile')"
               ng-show="selectedTrainer.$id == $root.user.$id"></button>
     </ion-nav-buttons>
     <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
@@ -16,7 +16,8 @@
             <div class="profile-picture-div">
                 <img class="profile-picture"
                      ng-click="openImageModal()"
-                     src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic.jpg" onerror="this.style.display='none'"/>
+                     src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic.jpg"
+                     onerror="this.style.display='none'"/>
                 <img class="profile-picture-tag" src="img/badge-professional.png"/>
             </div>
             <div class="full-name-container">

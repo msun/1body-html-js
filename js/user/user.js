@@ -4,7 +4,9 @@ userModule.factory('userModuleFactory', function(appFactory){
 
 });
 
-userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Followers, Feeds, Notifications, appConfig){
+userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, $stateParams, Sizes, MyTransactions,
+                                                 $firebaseArray, $firebaseObject, Users, Followers, Feeds, $ionicModal,
+                                                 Notifications, appConfig){
     console.log($stateParams.userID);
     $scope.reviewRating = 0;
     $scope.numOfFollowers = 0;
@@ -117,6 +119,27 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
 
         });
     };
+
+    /*
+    $ionicModal.fromTemplateUrl('js/user/templates/image.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal){
+        $scope.imageModal = modal;
+    });
+
+    $scope.$on('$destroy', function() {
+        $scope.imageModal.remove();
+    });
+
+    $scope.openImageModal = function(){
+        $scope.imageModal.show();
+    }
+
+    $scope.closeImageModal = function(){
+        $scope.imageModal.hide();
+    }
+    */
 });
 
 userModule.controller("ImagesCtrl", function($scope, $ionicModal, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Images, ImageUrls, appConfig){
