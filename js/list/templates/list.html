@@ -1,6 +1,6 @@
 <ion-view hide-nav-bar="true">
     <ion-content class="ob-grey-bg">
-        <div class="menu1-content-div">
+        <div class="ob-content">
             <div class="ob-header ob-map-header">
                 <div class="ob-header-status-bar"></div>
                 <div class="ob-header-nav-bar">
@@ -14,7 +14,8 @@
                             <i class="icon ion-search ob-bar-search-input-icon-left"></i>
                             <input type="search" class="ob-bar-search-input" placeholder="ex. hot yoga, boxing"
                                    ng-model="searchContainer.searchTerms" ng-keyup="searchTrainers($event)" focus-me/>
-                            <i class="icon ion-ios-close-outline ob-bar-search-input-icon-right" ng-click="clearSearch()"></i>
+                            <i class="icon ion-ios-close-outline ob-bar-search-input-icon-right"
+                               ng-click="clearSearch()"></i>
                         </div>
                     </div>
                     <div class="ob-header-icon">
@@ -26,15 +27,16 @@
                 <div class="ob-map-header-bottom-white-line"></div>
             </div>
             <div class="ob-tabs">
-                <a class="ob-tab-item" ng-class="{'ob-tab-selected':header === 'Users'}" ng-click="clickontab('Users', $event)">
-                    &nbsp;Professionals&nbsp;
-                </a>
-                <a class="ob-tab-item" ng-class="{'ob-tab-selected':header === 'Classes'}" ng-click="clickontab('Classes', $event)">
-                    Classes
-                </a>
-                <a class="ob-tab-item" ng-class="{'ob-tab-selected':header === 'Events'}" ng-click="clickontab('Events', $event)">
-                    Events
-                </a>
+                <a class="ob-tab-item"
+                   ng-class="{'ob-tab-selected':header === 'Users'}"
+                   ng-click="clickontab('Users', $event)">&nbsp;Professionals&nbsp;</a><!--
+                <a class="ob-tab-item"
+                   ng-class="{'ob-tab-selected':header === 'Classes'}"
+                   ng-click="clickontab('Classes', $event)">Classes</a>
+
+              --><a class="ob-tab-item"
+                   ng-class="{'ob-tab-selected':header === 'Events'}"
+                   ng-click="clickontab('Events', $event)">Events</a>
             </div>
             <div class="ob-list ob-map-list">
                 <div class="ob-form-row ob-form-flex-row ob-map-radiusinput">

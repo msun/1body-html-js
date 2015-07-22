@@ -298,7 +298,10 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
     }
 });
 
-event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $rootScope, $scope, $timeout, $stateParams, $ionicPopup, Trainers, Event, eventFactory, appFactory, $ionicSlideBoxDelegate, mapFactory, appConfig, Events, GeoEvents, Categories, Following, Invites, $localstorage, Images, Feeds, Notifications) {
+event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $rootScope, $scope, $timeout, appConfig,
+                                             $stateParams, $ionicPopup, Trainers, Event, eventFactory, appFactory,
+                                             $ionicSlideBoxDelegate, mapFactory, Events, GeoEvents, Categories, Feeds,
+                                             Following, Invites, $localstorage, Images, Notifications, $ionicHistory) {
     console.log('CreateEventCtrl');
     console.log($stateParams.eventID);
     $scope.eventID = $stateParams.eventID;
@@ -499,6 +502,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
                 }($scope.following[i]));
             }
         }
+        $ionicHistory.goBack();
     };
 
     $scope.createEvent = function(){

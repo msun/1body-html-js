@@ -448,7 +448,10 @@ trainer.controller('FollowingListCtrl', function($scope, User, appFactory, $time
     });
 });
 
-trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $localstorage, Feeds, $ionicPopup, $scope, User, appFactory, $timeout, $stateParams, $firebaseObject, eventFactory, apikey, Requests, GeoRequests, Trainers, IncomingRequests, Schedule) {
+trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $localstorage, Feeds, $ionicPopup, $scope, User,
+                                                        appFactory, $timeout, $stateParams, $firebaseObject,
+                                                        eventFactory, apikey, Requests, GeoRequests, Trainers,
+                                                        IncomingRequests, Schedule, $ionicHistory) {
     $scope.newrequest = {};
     $scope.newrequest.minutes = 30;
     $scope.dt = Date.now();
@@ -661,7 +664,7 @@ trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $localstora
 
                 if(j == $scope.checked.length -1){
                     alert("Requests sent to trainers.");
-                    window.location.href = "#/menu/my-requests";
+                    $ionicHistory.goBack();
                 }
 
             }

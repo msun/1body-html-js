@@ -1,16 +1,16 @@
-<ion-view view-title="My Mobile Sessions">
+<ion-view view-title="My Mobile Requests">
     <ion-nav-buttons side="right">
       <button class="button button-icon ion-plus"
               ng-click="goTo('#/menu/Mobile-Trainer-Request')"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header menu1-content">
-        <div class="menu1-content-div">
-            <div class="ob-block-switch2 ob-button-shadow">
+    <ion-content class="has-header ob-bg1">
+        <div class="ob-content ob-sections-vertical">
+            <div class="ob-block-switch2 ob-button-shadow ob-section-0-0">
                 <button class="ob-block-switch2-button ob-block-switch2-button-selected">Inbox</button>
                 <button class="ob-block-switch2-button"
                         ng-click="rootGoTo('#/menu/my-requests')">Sent</button>
             </div>
-            <ion-scroll class="ob-scroll" direction="y">
+            <ion-scroll class="ob-scroll ob-section-6" direction="y">
                 <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">
                     You have received no mobile requests yet
                 </div>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </ion-scroll>
-            <div id="request-location" class="ob-block-map" data-tap-disabled="true"></div>
+            <div id="request-location" class="ob-block-map ob-section-3" data-tap-disabled="true"></div>
         </div>
     </ion-content>
 </ion-view>

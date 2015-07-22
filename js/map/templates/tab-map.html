@@ -31,25 +31,25 @@
                 <div class="ob-map-header-bottom-white-line"></div>
             </div>
             <div class="ob-tabs">
-                <a class="ob-tab-item" ng-class="{'ob-tab-selected':header === 'Users'}" ng-click="clickontab('Users', $event)">
-                    &nbsp;Professionals&nbsp;
-                </a>
-                <!--
-                <a class="ob-tab-item" ng-class="{'ob-tab-selected':header === 'Classes'}" ng-click="clickontab('Classes', $event)">
-                    Classes
-                </a>
-                -->
-                <a class="ob-tab-item" ng-class="{'ob-tab-selected':header === 'Events'}" ng-click="clickontab('Events', $event)">
-                    Events
-                </a>
+                <a class="ob-tab-item"
+                   ng-class="{'ob-tab-selected':header === 'Users'}"
+                   ng-click="clickontab('Users', $event)">&nbsp;Professionals&nbsp;</a><!--
+                <a class="ob-tab-item"
+                   ng-class="{'ob-tab-selected':header === 'Classes'}"
+                   ng-click="clickontab('Classes', $event)">Classes</a>
+             --><a class="ob-tab-item"
+                   ng-class="{'ob-tab-selected':header === 'Events'}"
+                   ng-click="clickontab('Events', $event)">Events</a>
             </div>
 
-            <button ng-click="mobile_popover.show($event)" class="button button-icon ob-map-button map-search-button">
-                <i class="icon ion-search"></i>
+            <button ng-click="mobile_popover.show($event)"
+                    class="button button-icon ob-map-button map-search-button"
+                    ng-show="header === 'Users'">
+                <i class="icon ion-gear-b"></i>
             </button>
 
             <button ng-click="centerOnMe()" class="button button-icon ob-map-button map-center-button">
-                <i class="icon ion-ios-navigate-outline"></i>
+                <i class="icon ion-ios-navigate"></i>
             </button>
 
             <div id="info"></div>

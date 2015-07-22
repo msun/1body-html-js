@@ -10,8 +10,9 @@
         </div>
     </ion-header-bar>
     <ion-content class="ob-grey-bg">
-        <div class="menu1-content-div ob-sections-vertical">
-            <ion-scroll class="ob-scroll ob-section" direction="y">
+        <div class="ob-content ob-sections-vertical">
+            <button class="ob-block-button ob-button-blue ob-section-0-0" ng-click="confirmSelectTrainerModal()">Confirm</button>
+            <ion-scroll class="ob-scroll ob-section-3" direction="y">
                 <div class="ob-scroll-row" ng-repeat="item in mobile_trainers | orderBy:'distance'">
                     <div class="ob-scroll-col-img">
                         <img class="ob-scroll-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.$id | htmlEncode}}/profilepic.jpg"
@@ -31,8 +32,7 @@
                     </div>
                 </div>
             </ion-scroll>
-            <div id="mobile-trainer-location" class="ob-block-map ob-section" data-tap-disabled="true"></div>
-            <button class="ob-block-button ob-button-blue" ng-click="confirmSelectTrainerModal()">Confirm</button>
+            <div id="mobile-trainer-location" class="ob-block-map ob-section-3" data-tap-disabled="true"></div>
         </div>
     </ion-content>
 </ion-modal-view>
