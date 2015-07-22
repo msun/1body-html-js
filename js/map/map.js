@@ -108,9 +108,59 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
     var clone = [];
     $scope.markers = {};
     $scope.mapItems = {};
+    $scope.array = {};
     $scope.trainerCircles = [];
     $scope.searchContainer = {};
     $scope.searchContainer.redo_search = true;
+    var position;
+
+    $ionicLoading.show({
+        content: '<i class="icon ion-looping"></i> Loading location data',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
+
+    if ($rootScope.position) {
+        $ionicLoading.hide();
+        console.log($rootScope.position);
+        position = $rootScope.position;
+        console.log(position);
+        setmap();
+//        dropPins(appFactory.state);
+//        dropGymPins(appFactory.state);
+        appFactory.user.position = $rootScope.position;
+        $localstorage.setObject("user", appFactory.user);
+    } else {
+        $ionicLoading.hide();
+        if (appFactory.user.curlocation) {
+            console.log("appFactory.user.curlocation");
+            position = appFactory.user.curlocation;
+            $rootScope.position = position;
+            appFactory.loadLocation();
+
+            setmap();
+//            dropPins(appFactory.state);
+//            dropGymPins(appFactory.state);
+        } else {
+            position = [43.7000, 79.4000];
+            $rootScope.position = position;
+            appFactory.loadLocation();
+
+            setmap();
+        }
+        $scope.$on('locationReady', function (event, data) {
+            position = $rootScope.position;
+            console.log(appFactory.user.curlocation);
+            setmap();
+//            dropPins(appFactory.state);
+//            dropGymPins(appFactory.state);
+            appFactory.user.curlocation = $rootScope.position;
+
+            $localstorage.setObject("user", appFactory.user);
+        });
+    }
 
     $scope.doMapInit = function(){
         leafletData.getMap('dashmap').then(function(map) {
@@ -172,6 +222,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                 detectRetina: true,
                 reuseTiles: true
             },
+            attributionControl: false,
             zoomAnimation: false,
             zoomControl:false,
             minZoom: 8
@@ -288,7 +339,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
             });
             alertPopup.then(function (res) {
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    $rootScope.position [position.coords.latitude, position.coords.longitude];
+                    $rootScope.position = [position.coords.latitude, position.coords.longitude];
                     $rootScope.$broadcast('locationReady', 'locationReady');
                 });
             });
@@ -372,13 +423,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
     }
 
 //    console.log("map ctrl");
-    $ionicLoading.show({
-        content: '<i class="icon ion-looping"></i> Loading location data',
-        animation: 'fade-in',
-        showBackdrop: true,
-        maxWidth: 200,
-        showDelay: 0
-    });
+
 
     $scope.searchCategory = function(){
         console.log($scope.searchContainer.selectedCategory);
@@ -648,40 +693,8 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
         }
     };
 
-    var position;
-    if ($rootScope.position) {
-        $ionicLoading.hide();
-        console.log($rootScope.position);
-        position = $rootScope.position;
-        console.log(position);
-        setmap();
-//        dropPins(appFactory.state);
-//        dropGymPins(appFactory.state);
-        appFactory.user.position = $rootScope.position;
-        $localstorage.setObject("user", appFactory.user);
-    } else {
-        $ionicLoading.hide();
-        if (appFactory.user.curlocation) {
-            console.log("appFactory.user.curlocation");
-            position = appFactory.user.curlocation;
-            $rootScope.position = position;
-            appFactory.loadLocation();
 
-            setmap();
-//            dropPins(appFactory.state);
-//            dropGymPins(appFactory.state);
-        }
-        $scope.$on('locationReady', function (event, data) {
-            position = $rootScope.position;
-            console.log(appFactory.user.curlocation);
-            setmap();
-//            dropPins(appFactory.state);
-//            dropGymPins(appFactory.state);
-            appFactory.user.curlocation = $rootScope.position;
 
-            $localstorage.setObject("user", appFactory.user);
-        });
-    }
 
     var calculateRadius = function () {
         var bounds = $scope.map.getBounds();
@@ -860,14 +873,11 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 //            $scope.map = map;
 //            console.log(map);
 //        });
-
-
         $scope.defaults = {
             attributionControl: false,
             zoomControl:false,
             minZoom: 8
         };
-
 //        var map = new google.maps.Map(document.getElementById('dashmap'), {
 //            zoom: 12,
 //            center: new google.maps.LatLng(position[0], position[1]),
@@ -877,11 +887,8 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 //            zoomControl: false,
 //            panControl: false
 //        });
-
-        $scope.array = {};
-
+//        $scope.array = {};
 //        $scope.map = {};
-
 //        if ($rootScope.header == "Events") {
 ////            markEvents();
 //        } else if ($rootScope.header == "Users") {

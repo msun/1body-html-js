@@ -553,9 +553,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
     })
     .run(function($rootScope, appFactory, appConfig, GeoTrainers, GeoEvents, GeoGyms){
+        console.log("started running");
         navigator.geolocation.getCurrentPosition(function(position) {
             console.log("location ready");
             $rootScope.position = [position.coords.latitude, position.coords.longitude];
+            appFactory.loginTime = Date.now();
             if (appFactory.user.username) {
                 appFactory.user.curlocation = $rootScope.position;
                 appFactory.user.$save();

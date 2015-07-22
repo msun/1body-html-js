@@ -35,7 +35,7 @@ account.controller('PreLoginCtrl', function($scope){
 
 });
 
-account.controller('HomeCtrl', function($scope, FirebaseRef, UserAuth, Users, appFactory, $firebaseObject){
+account.controller('HomeCtrl', function($scope, FirebaseRef, $rootScope, $state, mapstate, UserAuth, Users, appFactory, $firebaseObject){
     if(UserAuth.$getAuth()){
         console.log(UserAuth.$getAuth());
         window.location.href = "#/prelogin/login";
@@ -63,6 +63,7 @@ account.controller('HomeCtrl', function($scope, FirebaseRef, UserAuth, Users, ap
                         console.log(appFactory.user);
                     }
                     $rootScope.user = appFactory.user;
+                    $state.transitionTo(mapstate);
                 } else {
                     appFactory.facebookAuth = UserAuth.$getAuth();
                     window.location.href = "#/prelogin/register";
@@ -258,32 +259,7 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
     }
 
     if(UserAuth.$getAuth()){
-        if(UserAuth.$getAuth().provider == "facebook"){
-            appFactory.user = $firebaseObject(Users.ref().child(UserAuth.$getAuth().uid));
-            appFactory.user.$loaded(function() {
-                if (appFactory.user.username) {
-
-                } else {
-                    var myRef = Users.ref().child(UserAuth.$getAuth().uid);
-                    var user = $firebaseObject(myRef);
-
-                    user.$priority = Firebase.ServerValue.TIMESTAMP;
-                    user.group = "Trainers";
-                    user.username = UserAuth.$getAuth().facebook.displayName;
-                    user.accessToken = UserAuth.$getAuth().facebook.accessToken;
-                    user.modified = Firebase.ServerValue.TIMESTAMP;
-                    user.profilepic = UserAuth.$getAuth().facebook.profileImageURL;
-                    user.tokens = 0;
-                    user.$save().then(function (thing) {
-                        console.log(thing);
-                        alert("Registered Successfully!");
-                        window.location.href = "#";
-                    });
-                }
-            });
-        } else {
-            $scope.signin();
-        }
+        $scope.signin();
     }
 
     $scope.back = function() {
@@ -294,42 +270,74 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
 account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject, UserAuth, $scope, Users, Trainers, $state, mapstate) {
     $scope.newuser = {};
     $scope.newuser.group = "Users";
+    if(appFactory.facebookAuth){
+        $scope.newuser.noPassword = true;
+        $scope.newuser.username = appFactory.facebookAuth.facebook.displayName;
+        $scope.newuser.profilepic = UserAuth.$getAuth().facebook.profileImageURL;
+    }
     console.log(UserAuth);
 //    UserAuth.$unauth(); //FOR TESTING
 
     $scope.register = function(){
         console.log($scope.newuser);
+        if(appFactory.facebookAuth){
+            var myRef = Users.ref().child(appFactory.facebookAuth.uid);
+            var user = $firebaseObject(myRef);
 
-        UserAuth.$createUser({email: $scope.newuser.email, password: $scope.newuser.password}).then(function (authUser) {
-            console.log(authUser);
-            UserAuth.$authWithPassword({
-                email: $scope.newuser.email,
-                password: $scope.newuser.password
-            }).then(function (client) {
-                var myRef = Users.ref().child(client.uid);
-                var user = $firebaseObject(myRef);
-
-                user.$priority = Firebase.ServerValue.TIMESTAMP;
-                user.group = "Trainers";
-                user.username = $scope.newuser.username;
-                user.email = $scope.newuser.email;
-                user.modified = Firebase.ServerValue.TIMESTAMP;
+            user.$priority = Firebase.ServerValue.TIMESTAMP;
+            user.group = $scope.newuser.group;
+            user.username = $scope.newuser.username;
+            user.email = $scope.newuser.email;
+            user.modified = Firebase.ServerValue.TIMESTAMP;
 //                user.profilepic = "https://s3.amazonaws.com/com.onebody.profile/Users/" + client.uid + "/profilepic.jpg";
-                user.tokens = 0;
-                user.$save().then(function (thing) {
-                    console.log(thing);
-                    alert("Registered Successfully!");
-                    window.location.href = "#";
-                });
-            }, function (error) {
-                console.error("Login failed: ", error);
+            user.tokens = 0;
+            user.$save().then(function (thing) {
+                console.log(thing);
+                appFactory.facebookAuth = undefined;
+                alert("Registered Successfully!");
+                window.location.href = "#/prelogin/home";
             });
-        }).catch(function(error) {
-            console.error("Error: ", error);
-            alert(error);
-        });
+        } else {
+            if($scope.newuser.password.length < 8){
+                alert("password must be at least 8 characters long");
+            } else if(!$scope.newuser.password.match(/[a-z]/i)) {
+                alert("password must contain letters");
+            } else if(!$scope.newuser.password.match(/[0-9]/i)) {
+                alert("password must contain numbers");
+            } else if($scope.newuser.password != $scope.newuser.confirmPassword){
+                alert("new password does not match confirm password");
+            } else {
 
-//        $state.transitionTo(mapstate);
+                UserAuth.$createUser({email: $scope.newuser.email, password: $scope.newuser.password}).then(function (authUser) {
+                    console.log(authUser);
+                    UserAuth.$authWithPassword({
+                        email: $scope.newuser.email,
+                        password: $scope.newuser.password
+                    }).then(function (client) {
+                        var myRef = Users.ref().child(client.uid);
+                        var user = $firebaseObject(myRef);
+
+                        user.$priority = Firebase.ServerValue.TIMESTAMP;
+                        user.group = $scope.newuser.group;
+                        user.username = $scope.newuser.username;
+                        user.email = $scope.newuser.email;
+                        user.modified = Firebase.ServerValue.TIMESTAMP;
+//                user.profilepic = "https://s3.amazonaws.com/com.onebody.profile/Users/" + client.uid + "/profilepic.jpg";
+                        user.tokens = 0;
+                        user.$save().then(function (thing) {
+                            console.log(thing);
+                            alert("Registered Successfully! Please login again.");
+                            window.location.href = "#/prelogin/home";
+                        });
+                    }, function (error) {
+                        console.error("Login failed: ", error);
+                    });
+                }).catch(function (error) {
+                    console.error("Error: ", error);
+                    alert(error);
+                });
+            }
+        }
     }
 
     $scope.back = function() {
@@ -669,7 +677,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
     }
 
     $scope.cropImage = function(useimg){
-        var screenWidth = $('ion-content').width();
+        var screenWidth = $('#displayPic').width()/0.7;
 
         var left = $('#displayPic').position().left;
         var top = $('#displayPic').position().top;
@@ -677,8 +685,8 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
         var imageWidth = $('#displayPic').width()*view.__zoomLevel;
         var imageHeight = $('#displayPic').height()*view.__zoomLevel;
 
-        var croptop = $('ion-content').width() * 0.15;
-        var cropleft = $('ion-content').width() * 0.15;
+        var croptop = screenWidth * 0.15;
+        var cropleft = screenWidth * 0.15;
 
         var x, y;
         x = cropleft - left;
@@ -729,7 +737,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
                                 $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
                                 $scope.user.$save().then(function(){
                                     alert("Your profile picture is saved");
-                                    window.location.href = "#/menu/account/my-profile";
+                                    window.location.href = "#/menu/my-profile";
                                 });
                             });
                         });

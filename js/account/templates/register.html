@@ -25,9 +25,14 @@
                             <input class="ob-form-text-input" type="email"
                                    ng-model="newuser.email" name="email" placeholder="Email"/>
                         </div>
-                        <div class="ob-form-row ob-form-flex-row">
+                        <div ng-hide="newuser.noPassword" class="ob-form-row ob-form-flex-row">
                             <input class="ob-form-text-input" type="password"
                                    ng-model="newuser.password" placeholder="Password"/>
+                            <span class="ob-form-icon ob-form-icon-password"></span>
+                        </div>
+                        <div ng-hide="newuser.noPassword" class="ob-form-row ob-form-flex-row">
+                            <input class="ob-form-text-input" type="password"
+                                   ng-model="newuser.confirmPassword" placeholder="Confirm Password"/>
                             <span class="ob-form-icon ob-form-icon-password"></span>
                         </div>
                         <!--
