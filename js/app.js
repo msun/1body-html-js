@@ -48,7 +48,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             }
         });
     })
-
+    .run(function($ionicScrollDelegate, $ionicPlatform) {
+        $ionicPlatform.ready(function() {
+            // scroll to top on tap status bar
+            if (window.cordova && ionic.Platform.isIOS()) {
+                window.addEventListener("statusTap", function() {
+                    $ionicScrollDelegate.scrollTop(true);
+                });
+            }
+        });
+    })
     .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         $ionicConfigProvider.backButton.previousTitleText(false);
         $ionicConfigProvider.backButton.text('').icon('ion-ios-arrow-back');
