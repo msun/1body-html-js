@@ -40,7 +40,8 @@
                 <div class="ob-sidemenu-header-inner-content">
                     <span class="ob-sidemenu-usericon-container">
                         <img class="ob-sidemenu-usericon"
-                             src="https://s3.amazonaws.com/com.onebody.profile/Users/{{$root.user.$id | htmlEncode}}/profilepic.jpg?userlogin={{$root.user.modified}}"/>
+                             src="https://s3.amazonaws.com/com.onebody.profile/Users/{{$root.user.$id | htmlEncode}}/profilepic.jpg?userlogin={{$root.user.modified}}"
+                             onerror="this.src='img/emptypic-user.png'">
                     </span>
                     <span class="ob-sidemenu-title">{{$root.user.username}}</span>
                     <span menu-close class="ion-gear-b ob-sidemenu-cog"

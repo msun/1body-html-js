@@ -14,7 +14,9 @@
                 <a class="ob-list-row" ng-repeat="event in events" item="event"
                    href="#/menu/Events/{{$root.user.$id}}/{{event.$id}}">
                     <div class="ob-list-col-img">
-                        <img class="ob-list-img" src=""/>
+                        <img class="ob-list-img"
+                             src=""
+                             onerror="this.src='img/emptypic-event.png'"/>
                     </div>
                     <div class="ob-list-col-flex">
                         <div class="ob-list-text">{{event.name}}</div>

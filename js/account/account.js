@@ -31,8 +31,14 @@ account.factory('accountFactory', function($http, baseUrl) {
     return factory;
 });
 
-account.controller('PreLoginCtrl', function($scope){
-
+account.controller('PreLoginCtrl', function($scope, $ionicHistory, $ionicSlideBoxDelegate){
+    $scope.back = function() {
+        if ($ionicSlideBoxDelegate.currentIndex() >= 1) {
+            $ionicSlideBoxDelegate.previous();
+        } else {
+            $ionicHistory.goBack();
+        }
+    };
 });
 
 account.controller('HomeCtrl', function($scope, FirebaseRef, $rootScope, $state, mapstate, UserAuth, Users, appFactory, $firebaseObject){
@@ -85,7 +91,7 @@ account.controller('HomeCtrl', function($scope, FirebaseRef, $rootScope, $state,
 account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes,
                                          $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope,
                                          accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage,
-                                         $ionicPlatform, ForgotPassword) {
+                                         $ionicPlatform, ForgotPassword, $ionicHistory) {
     console.log(UserAuth.$getAuth());
 
     $scope.passwordReset = function(){
@@ -237,6 +243,7 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
 //            } else {
                 loadUserFromFirebase(UserAuth.$getAuth());
 //            }
+            $ionicHistory.clearCache();
         } else {
             UserAuth.$authWithPassword({
                 email: $scope.user.email,
@@ -263,13 +270,15 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
     }
 
     $scope.back = function() {
-        $window.history.back();
+        $ionicHistory.goBack();
     };
 });
 
-account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject, UserAuth, $scope, Users, Trainers, $state, mapstate) {
+account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBarDelegate, appFactory, $firebaseObject,
+                                            UserAuth, $scope, Users, Trainers, $state, mapstate) {
     $scope.newuser = {};
     $scope.newuser.group = "Users";
+
     if(appFactory.facebookAuth){
         $scope.newuser.noPassword = true;
         $scope.newuser.username = appFactory.facebookAuth.facebook.displayName;
@@ -340,32 +349,24 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
         }
     }
 
-    $scope.back = function() {
-        if ($ionicSlideBoxDelegate.currentIndex() >= 1) {
-            $ionicSlideBoxDelegate.previous();
-        } else {
-            window.location.href = "#";
-        }
-    };
-
     $scope.navSlide = function(index) {
-        $ionicSlideBoxDelegate.slide(index);
-    }
-
-    $scope.slideStop = function(index) {
-        $ionicSlideBoxDelegate.enableSlide(false);
+        if ($scope.newuser.group === 'Users') {
+        } else if ($scope.newuser.group === 'Trainers') {
+            $ionicSlideBoxDelegate.slide(index);
+        }
     }
 
     $scope.nextPressed = function(index) {
-        if ($ionicSlideBoxDelegate.currentIndex() == 0 && $scope.newuser.group != 'Trainers') {
-            $scope.register();
-        } else if ($ionicSlideBoxDelegate.currentIndex() == $ionicSlideBoxDelegate.slidesCount() - 1) {
-            $scope.register();
-        } else {
-            $ionicSlideBoxDelegate.next();
-        }
+        $ionicSlideBoxDelegate.next();
     }
 
+    $scope.$watch('newuser.group', function () {
+        if ($scope.newuser.group === 'Users') {
+            $ionicSlideBoxDelegate.enableSlide(false);
+        } else if ($scope.newuser.group === 'Trainers') {
+            $ionicSlideBoxDelegate.enableSlide(true);
+        }
+    });
 });
 
 account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, ScanQueue, $firebaseObject, Transactions, MyTransactions, Notifications){

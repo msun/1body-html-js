@@ -27,7 +27,9 @@
             <div ng-show="myTransactions.length <= 0" class="ob-list-emptytext">No sessions to display</div>
             <div class="ob-list-row" ng-repeat="item in myTransactions" item="event" ng-click="showQRcode(item)">
                 <div class="ob-list-col-img">
-                    <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.classID}}{{item.eventID}}{{item.userID | htmlEncode}}/profilepic.jpg"/>
+                    <img class="ob-list-img"
+                         src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.classID}}{{item.eventID}}{{item.userID | htmlEncode}}/profilepic.jpg"
+                         onerror="this.src='img/emptypic-user.png'"/>
                 </div>
                 <div class="ob-list-col-flex">
                     <div class="ob-list-text" ng-show="item.type == 'Users'">Trainer: {{item.trainerName}}</div>

@@ -17,7 +17,7 @@
                 <img class="profile-picture"
                      ng-click="openImageModal()"
                      src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic.jpg?userlogin={{selectedTrainer.modified}}"
-                     onerror="this.style.display='none'"/>
+                     onerror="this.src='img/emptypic-user.png'"/>
                 <img class="profile-picture-tag" src="img/badge-professional.png"/>
             </div>
             <div class="full-name-container">

@@ -3,7 +3,9 @@
         <div class="map-bubble-content">
             <div class="map-bubble-img-column">
                 <span class="map-bubble-img-container">
-                    <img class="map-bubble-img" src="https://s3.amazonaws.com/com.onebody.profile/Events/{{item.$id | htmlEncode}}/profilepic.jpg"/>
+                    <img class="map-bubble-img"
+                         src="https://s3.amazonaws.com/com.onebody.profile/Events/{{item.$id | htmlEncode}}/profilepic.jpg"
+                         onerror="this.src='img/emptypic-event.png'"/>
                     <img src="img/badge-event.png" class="map-bubble-img-badge"/>
                 </span>
             </div>
