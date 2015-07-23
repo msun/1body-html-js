@@ -11,7 +11,8 @@
     <ion-content>
         <div class="ob-content">
             <img class="ob-standardsize"
-                 src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic_hd.jpg">
+                 src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic_hd.jpg"
+                 onerror="this.src='img/emptypic-user.png'">
         </div>
     </ion-content>
 </ion-modal-view>

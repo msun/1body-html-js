@@ -18,16 +18,18 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-image: url("../img/badge-professional.png");
+    background-image: url("../img/emptypic-user.png");
     background-size: 40px 40px;
+    border: 1px solid white;
 }
 
 .div-icon-events{
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-image: url("../img/badge-event.png");
+    background-image: url("../img/emptypic-event.png");
     background-size: 40px 40px;
+    border: 1px solid white;
 }
 
 .map-icon-image{
@@ -1172,6 +1174,7 @@ input.ob-form-text-input[type="search"] {
 .ob-footer-input {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
+    width: 100%;
     padding: 4px 8px !important;
     overflow: hidden;
     background: transparent;

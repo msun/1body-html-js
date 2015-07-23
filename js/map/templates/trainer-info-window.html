@@ -3,7 +3,9 @@
         <div class="map-bubble-content">
             <div class="map-bubble-img-column">
                 <span class="map-bubble-img-container">
-                    <img class="map-bubble-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.$id | htmlEncode}}/profilepic.jpg" onerror="this.style.display='none'"/>
+                    <img class="map-bubble-img"
+                         src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.$id | htmlEncode}}/profilepic.jpg"
+                         onerror="this.src='img/emptypic-user.png'"/>
                     <img src="img/badge-professional.png" class="map-bubble-img-badge"/>
                 </span>
             </div>

@@ -15,7 +15,8 @@
             <div class="profile-top-padding-div"></div>
             <div class="profile-picture-div">
                 <img class="profile-picture"
-                     src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedUser.$id | htmlEncode}}/profilepic.jpg?userlogin={{selectedUser.modified}}"/>
+                     src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedUser.$id | htmlEncode}}/profilepic.jpg?userlogin={{selectedUser.modified}}"
+                     onerror="this.src='img/emptypic-user.png'"/>
                      <!--ng-click="openImageModal()"-->
             </div>
             <div class="full-name-container">

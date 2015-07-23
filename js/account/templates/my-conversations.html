@@ -13,7 +13,9 @@
                 <a class="ob-list-row" ng-repeat="conversation in myConversations"
                    href="#/menu/conversations/{{conversation.$id}}">
                     <div class="ob-list-col-img">
-                        <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{conversation.$id | htmlEncode}}/profilepic.jpg"/>
+                        <img class="ob-list-img"
+                             src="https://s3.amazonaws.com/com.onebody.profile/Users/{{conversation.$id | htmlEncode}}/profilepic.jpg"
+                             onerror="this.src='img/emptypic-user.png'"/>
                     </div>
                     <div class="ob-list-col-flex">
                         <div class="ob-list-text">
