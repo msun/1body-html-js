@@ -89,18 +89,18 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
         });
     };
 
-    if(appFactory.events[$stateParams.eventID]){
-        $scope.selectedEvent = appFactory.events[$stateParams.eventID];
-        showMap();
-        var modified = $firebaseObject(Events.ref().child($stateParams.userID).child($stateParams.eventID).child("modified"));
-        modified.$loaded(function(){
-            if(appFactory.events[$stateParams.eventID].modified >= modified.$value){
-                loadFromFirebase();
-            }
-        });
-    } else {
+//    if(appFactory.events[$stateParams.eventID]){
+//        $scope.selectedEvent = appFactory.events[$stateParams.eventID];
+//        showMap();
+//        var modified = $firebaseObject(Events.ref().child($stateParams.userID).child($stateParams.eventID).child("modified"));
+//        modified.$loaded(function(){
+//            if(appFactory.events[$stateParams.eventID].modified >= modified.$value){
+//                loadFromFirebase();
+//            }
+//        });
+//    } else {
         loadFromFirebase();
-    }
+//    }
 
     $scope.joinEvent = function(){
         console.log($scope.inEvent);
@@ -368,7 +368,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
 
 
             }
-        } else if(index == 2){
+        } else if(index == -10){
             var exec;
             if (ionic.Platform.isAndroid()) {
                 exec = cordova.require("cordova/exec");
@@ -437,7 +437,7 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
                 ]);
             }
 
-        } else if(index == 3){
+        } else if(index == 2){
             $scope.following = $firebaseArray(Following.ref().child(appFactory.user.$id));
             $scope.following.$loaded(function(){
 

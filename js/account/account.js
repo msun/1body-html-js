@@ -526,11 +526,15 @@ account.controller('ChangePasswordCtrl', function($scope, appFactory, UserAuth, 
     };
 });
 
-account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User, appFactory, baseUrl, $ionicLoading, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images) {
+account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, $firebaseObject, User, Events, appFactory, baseUrl, $ionicLoading, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images, $stateParams) {
     $scope.user = appFactory.user;
-
+    console.log($stateParams);
     if (!ionic.Platform.isWebView()) {
         return;
+    }
+
+    if($stateParams.type == "Events"){
+        $scope.event = $firebaseObject(Events.ref().child($scope.user.$id).child($stateParams.id));
     }
 
     var exec = cordova.require("cordova/exec");
@@ -721,25 +725,34 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, User,
                     exec(function (result) {
                         var bigimg = {
                             data: result.big,
-                            id: appFactory.user.$id,
+                            id: $stateParams.id,
                             name: "profilepic_hd.jpg",
-                            type: "Users"
+                            type: $stateParams.type
                         };
 
                         var smallimg = {
                             data: result.small,
-                            id: appFactory.user.$id,
+                            id: $stateParams.id,
                             name: "profilepic.jpg",
-                            type: "Users"
+                            type: $stateParams.type
                         };
 
                         Images.ref().push(smallimg, function(){
                             Images.ref().push(bigimg, function(){
-                                $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
-                                $scope.user.$save().then(function(){
-                                    alert("Your profile picture is saved");
-                                    window.location.href = "#/menu/my-profile";
-                                });
+                                if($stateParams.type == "Users"){
+                                    $scope.user.modified = Firebase.ServerValue.TIMESTAMP;
+                                    $scope.user.$save().then(function(){
+                                        alert("Your profile picture is saved");
+                                        window.location.href = "#/menu/my-profile";
+                                    });
+                                } else if($stateParams.type == "Events"){
+                                    $scope.event.modified = Firebase.ServerValue.TIMESTAMP;
+                                    $scope.event.$save().then(function(){
+                                        alert("Event profile picture is saved");
+                                        window.location.href = "#/menu/my-events";
+                                    });
+                                }
+
                             });
                         });
 
@@ -817,7 +830,7 @@ account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $loc
 
 
     $scope.setdp = function(){
-        $state.transitionTo("menu.set-dp");
+        $state.transitionTo("menu.set-dp", {type: "Uers", id: appFactory.user.$id});
     }
 
     $scope.addCertificate = function(){

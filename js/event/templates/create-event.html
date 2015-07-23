@@ -98,36 +98,36 @@
                                    ng-model="newevent.commentlocation" placeholder="Comment on location"/>
                         </div>
                     </div>
-                    <button class="ob-block-button ob-button-blue" ng-click="createEvent()">Create and set a display picture!</button>
+                    <button class="ob-block-button ob-button-blue" ng-click="createEvent()">Create and invite friends!</button>
                 </div>
             </ion-slide>
-            <ion-slide class="ob-slide">
-                <div class="ob-content">
-                    <div class="ob-main-instructions">Next up,</div>
-                    <div class="ob-sub-instructions">Upload a picture for your event!</div>
-                    <div class="ob-form">
-                        <div class="ob-form-row ob-row-picture-upload-top-section">
-                            <span class="picture-upload-placeholder"></span>
-                            <span class="picture-upload-plus-icon"></span>
-                            <span class="picture-upload-e-tag"></span>
-                            <img id="displayPic"
-                                 class="picture-upload-picture"
-                                 src="https://s3.amazonaws.com/com.onebody.profile/Events/{{newevent.$id | htmlEncode}}/profilepic_hd.jpg" />
-                        </div>
-                    </div>
-                    <div class="buttongroup2">
-                        <button class="buttongroup2-button" ng-click="fromcamera()"><i class="icon ion-camera buttongroup2-icon"></i></button>
-                        <button class="buttongroup2-button" ng-click="fromstorage()"><i class="icon ion-images buttongroup2-icon"></i></button>
-                        <button class="buttongroup2-button" ng-click="useimg()">Save</button>
-                    </div>
+            <!--<ion-slide class="ob-slide">-->
+                <!--<div class="ob-content">-->
+                    <!--<div class="ob-main-instructions">Next up,</div>-->
+                    <!--<div class="ob-sub-instructions">Upload a picture for your event!</div>-->
                     <!--<div class="ob-form">-->
-                        <!--<div class="ob-form-row">-->
-                            <!--<textarea class="ob-form-textarea" ng-model="newevent.information" placeholder="Tell us what this event is about"></textarea>-->
+                        <!--<div class="ob-form-row ob-row-picture-upload-top-section">-->
+                            <!--<span class="picture-upload-placeholder"></span>-->
+                            <!--<span class="picture-upload-plus-icon"></span>-->
+                            <!--<span class="picture-upload-e-tag"></span>-->
+                            <!--<img id="displayPic"-->
+                                 <!--class="picture-upload-picture"-->
+                                 <!--src="https://s3.amazonaws.com/com.onebody.profile/Events/{{newevent.$id | htmlEncode}}/profilepic_hd.jpg" />-->
                         <!--</div>-->
                     <!--</div>-->
-                    <button class="ob-block-button ob-button-blue"ng-click="skipImgUpload()">Skip</button>
-                </div>
-            </ion-slide>
+                    <!--<div class="buttongroup2">-->
+                        <!--<button class="buttongroup2-button" ng-click="fromcamera()"><i class="icon ion-camera buttongroup2-icon"></i></button>-->
+                        <!--<button class="buttongroup2-button" ng-click="fromstorage()"><i class="icon ion-images buttongroup2-icon"></i></button>-->
+                        <!--<button class="buttongroup2-button" ng-click="useimg()">Save</button>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div class="ob-form">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="ob-form-row">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<textarea class="ob-form-textarea" ng-model="newevent.information" placeholder="Tell us what this event is about"></textarea>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<button class="ob-block-button ob-button-blue"ng-click="skipImgUpload()">Skip</button>-->
+                <!--</div>-->
+            <!--</ion-slide>-->
             <ion-slide class="ob-slide">
                 <div class="ob-content">
                     <div class="ob-main-instructions">Who's coming?</div>
@@ -138,6 +138,12 @@
                             <input class="ob-form-text-input" type="search" placeholder="Search"/>
                         </div>
                     </div>
+
+                    <div class="button-bar">
+                        <a class="button" href="#/menu/set-dp/Events/{{newevent.$id}}">Set Event Profile Pic</a>
+                        <a class="button" href="#/menu/add-image/Events/{{newevent.$id}}">Add Images</a>
+                    </div>
+
                     <div class="ob-list">
                         <div class="ob-list-emptytext"
                              ng-show="following.length <= 0">No friends found :(</div>

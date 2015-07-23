@@ -398,7 +398,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.set-dp', {
-                url: '/set-dp',
+                url: '/set-dp/:type/:id',
                 views: {
                     'menu': {
                         templateUrl: 'js/account/templates/set-dp.html',

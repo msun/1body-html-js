@@ -273,6 +273,7 @@
 /* layers control */
 
 .leaflet-control-layers {
+    display: none;
     box-shadow: 0 1px 5px rgba(0,0,0,0.4);
     background: #fff;
     border-radius: 5px;

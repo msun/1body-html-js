@@ -162,6 +162,19 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
         });
     }
 
+    angular.extend($scope, {
+        layers: {
+            baselayers: {
+
+                googleRoadmap: {
+                    name: 'Google Streets',
+                    layerType: 'ROADMAP',
+                    type: 'google'
+                }
+            }
+        }
+    });
+
     $scope.doMapInit = function(){
         leafletData.getMap('dashmap').then(function(map) {
             $scope.map = map;
