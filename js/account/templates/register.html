@@ -1,7 +1,7 @@
 <ion-view>
     <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
     <ion-content class="has-header ob-bg1">
-        <ion-slide-box active-slide="slideStop(index)" pager-click="navSlide(index)">
+        <ion-slide-box show-pager="true" pager-click="navSlide(index)">
             <ion-slide>
                 <div class="ob-content">
                     <div class="ob-instructions">Let's get started!</div>
@@ -55,7 +55,19 @@
                         <span class="ob-note-block-middle">Professionals can still register for sessions and classes</span>
                         <span class="ob-note-block-right"></span>
                     </div>
-                    <button class="ob-block-button ob-button-blue" ng-click="nextPressed()">Sign up!</button>
+                    <button class="ob-block-button ob-button-blue"
+                            ng-click="newuser.group === 'Users' ? register() : nextPressed()">
+                            <span ng-show="newuser.group === 'Users'">Sign up!</span>
+                            <span ng-show="newuser.group === 'Trainers'">Next</span>
+                    </button>
+<!--
+                    <button class="ob-block-button ob-button-blue"
+                            ng-show="newuser.group === 'Users'"
+                            ng-click="register()">Sign up!</button>
+                    <button class="ob-block-button ob-button-blue"
+                            ng-show="newuser.group === 'Trainers'"
+                            ng-click="nextPressed()">Next</button>
+-->
                     <a class="ob-block-text-button" href="#/prelogin/login">Already have an account?</a>
                 </div>
             </ion-slide>
@@ -64,18 +76,23 @@
                     <div class="ob-main-instructions">Professional Info</div>
                     <div class="ob-sub-instructions">What kind of fitness do you do?</div>
                     <div class="ob-form">
+                        <div class="ob-form-row ob-form-flex-row">
+                            <span class="ob-form-prompt">Profession</span>
+                            <input class="ob-form-text-input" type="text" ng-model="user.firstname" placeholder="Personal Trainer, Sport Instructor, ..."/>
+                        </div>
+                        <!--
                         <div class="ob-form-row ob-sectioned-row">
                             <span class="left-prompt-text ob-blue-color">
                                 Profession
                             </span>
-                            <!--<span class="main-content">-->
-                                <!--<div class="ob-tag-2">Personal Trainer</div>-->
-                                <!--<div class="ob-tag-2">Weight Therapy</div>-->
-                            <!--</span>-->
-                            <!--<span class="right-icon-container">-->
-                                <!--<img class="small-plus-icon" src="img/event-profile/date-picker-button.png"/>-->
-                            <!--</span>-->
-                        </div>
+                            <span class="main-content">
+                                <div class="ob-tag-2">Personal Trainer</div>
+                                <div class="ob-tag-2">Weight Therapy</div>
+                            </span
+                            <span class="right-icon-container">
+                                <img class="small-plus-icon" src="img/event-profile/date-picker-button.png"/>
+                            </span>
+                        </div>-->
                         <div class="ob-form-row">
                             <textarea class="ob-form-textarea" placeholder="Tell us about yourself and your passion for fitness"></textarea>
                         </div>
@@ -84,18 +101,19 @@
                 </div>
             </ion-slide>
             <ion-slide>
-                <div class="ob-content">
-                    <div class="ob-main-instructions">Hey {{newuser.username}}!</div>
-                    <div class="ob-sub-instructions">Where is your gym?</div>
-                    <div class="ob-form">
+                <div class="ob-content ob-sections-vertical">
+                    <div class="ob-main-instructions ob-section-0">Hey {{newuser.username}}!</div>
+                    <div class="ob-sub-instructions ob-section-0">Where do you train clients?</div>
+                    <div class="ob-form ob-section-0-0">
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-icon ob-form-icon-magnifier"></span>
-                            <input class="ob-form-text-input" type="text"
+                            <input class="ob-form-text-input" type="search"
                                    name="location-search-field" placeholder="address, postal code, city, etc..."/>
                         </div>
                     </div>
-                    <div class="ob-event-create-map-container"></div>
-                    <button class="ob-block-button ob-button-blue" ng-click="nextPressed()">Done!</button>
+                    <div class="ob-event-create-map-container ob-section-1"></div>
+                    <button class="ob-block-button ob-button-blue ob-section-0-0" ng-click="register()">Sign up!</button>
+                    <div class="ob-section-1"></div>
                 </div>
             </ion-slide>
         </ion-slide-box>

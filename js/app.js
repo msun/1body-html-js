@@ -645,17 +645,15 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $scope.logout = function(){
             UserAuth.$unauth();
             $localstorage.clear();
-            $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
+            $ionicHistory.clearCache();
             if(ionic.Platform.isAndroid() || ionic.Platform.isIOS()){
                 var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
                 gcmID.$remove();
-                alert("logged out");
-                window.location.href = "#/prelogin/home";
             } else {
                 $scope.toggleMenu();
-                alert("logged out");
-                window.location.href = "#/prelogin/home";
             }
+            $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
+            window.location.href = "#/prelogin/home";
         };
         var element = document.getElementById("notificationAndFeeds");
         var initY = parseInt(element.style.top, 10);

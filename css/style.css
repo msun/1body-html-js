@@ -401,7 +401,7 @@ ion-popover-view.fit ion-content {
 
 .ob-sub-instructions {
     width: 248px;
-    margin: 10px auto 22px;
+    margin: 0px auto 22px;
     font-family: 'Lato-Light', sans-serif;
     font-size: 18px;
     color: white;
@@ -1230,7 +1230,8 @@ input.ob-form-text-input[type="search"] {
     width: 93.75%; /* 300px / 320px */
     min-width: 300px;
     max-width: 500px;
-    min-height: 180px;
+    min-height: 200px;
+    max-height: 500px;
     border: 1px solid #7f7b73;
     border-radius: 8px;
     margin: 12px auto;
@@ -1443,7 +1444,7 @@ input.ob-form-text-input[type="search"] {
     border-radius: 8px;
     margin: 12px auto;
     overflow: hidden;
-    min-height: 250px;
+    min-height: 200px;
     max-height: 500px;
     /* this fixes the overflow:hidden in Chrome */
     -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
@@ -2152,7 +2153,9 @@ input.ob-form-text-input[type="search"] {
 
 .ob-event-create-map-container {
     background: transparent url("../img/event-profile/tmp/event-creation-map.png") center/100% 100% no-repeat;
-    width: 300px;
+    width: 93.75%;
+    min-width: 300px;
+    max-width: 500px;
     height: 168px;
     border-radius: 8px;
     margin: 9px auto 0px;
@@ -3341,6 +3344,7 @@ input.ob-form-text-input[type="search"] {
 /* register.html */
 /* ********** ********** ********** ********** ***********/
 
+/*
 .ob-sectioned-row {
     display: -webkit-flex;
     display: flex;
@@ -3385,14 +3389,7 @@ input.ob-form-text-input[type="search"] {
     width: 18px;
     height: 18px;
 }
-
-.ob-event-create-map-container {
-    background: transparent url("../img/event-profile/tmp/event-creation-map.png") center/100% 100% no-repeat;
-    width: 300px;
-    height: 168px;
-    border-radius: 8px;
-    margin: 9px auto 0px;
-}
+*/
 
 /* ********** ********** ********** ********** ***********/
 /* timepicker.html */
