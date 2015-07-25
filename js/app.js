@@ -638,8 +638,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.alert = function(msg){
             alert(msg);
-        }
+        };
 
+        $scope.$on('$ionicView.afterEnter', function(){
+            ionic.DomUtil.blurAll();
+        });
         $scope.sendNotification = function(){
             var notifToTrainer = {
                 creatorID: appFactory.user.$id,
