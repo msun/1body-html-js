@@ -121,6 +121,11 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
             return;
         }
 
+        if (ionic.Platform.isIOS()) {
+            $state.transitionTo(mapstate);
+            return;
+        }
+
         var pluginName = '';
         if (ionic.Platform.isAndroid()) {
             pluginName = 'Card_io';

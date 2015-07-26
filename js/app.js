@@ -658,7 +658,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             UserAuth.$unauth();
             $localstorage.clear();
             $ionicHistory.clearCache();
-            if(ionic.Platform.isAndroid() || ionic.Platform.isIOS()){
+            if(ionic.Platform.isAndroid()){
                 var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
                 gcmID.$remove();
             } else {
@@ -795,6 +795,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.registerGcm = function(){
             if (!ionic.Platform.isWebView()) {
+                $state.transitionTo(mapstate);
+                return;
+            }
+
+            if (ionic.Platform.isIOS()) {
                 $state.transitionTo(mapstate);
                 return;
             }
