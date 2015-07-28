@@ -91,7 +91,7 @@ account.controller('HomeCtrl', function($scope, FirebaseRef, $rootScope, $state,
 account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes,
                                          $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope,
                                          accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage,
-                                         $ionicPlatform, ForgotPassword, $ionicHistory) {
+                                         $ionicPlatform, ForgotPassword, $ionicHistory, OBPush) {
     console.log(UserAuth.$getAuth());
 
     $scope.passwordReset = function(){
@@ -122,6 +122,7 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
         }
 
         if (ionic.Platform.isIOS()) {
+            OBPush.register();
             $state.transitionTo(mapstate);
             return;
         }
