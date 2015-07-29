@@ -5,7 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services', 'eventModule', 'classModule', 'gymModule', 'userModule', 'listModule'])
+angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services',
+               'eventModule', 'classModule', 'gymModule', 'userModule', 'listModule', 'OBPushModule'])
 //    .value("baseUrl", "http://108.168.247.49:10355/")
     .value('appConfig', {
         baseUrl: "http://localhost:8888/",
@@ -30,7 +31,8 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //            {interval: "Monthly"},
             {interval: "Once"}
         ],
-        removedTimeSlot: {}
+        removedTimeSlot: {},
+        debug: true
     })
     .value("baseUrl", "http://localhost:8888/")
     .value("apikey", "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc")
@@ -47,8 +49,19 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 StatusBar.styleLightContent();
             }
         });
+
     })
 
+    .run(function($ionicScrollDelegate, $ionicPlatform) {
+        $ionicPlatform.ready(function() {
+            // scroll to top on tap status bar
+            if (window.cordova && ionic.Platform.isIOS()) {
+                window.addEventListener("statusTap", function() {
+                    $ionicScrollDelegate.scrollTop(true);
+                });
+            }
+        });
+    })
     .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         $ionicConfigProvider.backButton.previousTitleText(false);
         $ionicConfigProvider.backButton.text('').icon('ion-ios-arrow-back');
@@ -614,7 +627,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
     .controller("MenuCtrl", function($scope, $window, Users, $ionicPopup, Events, Feeds, Gyms, GeoTrainers, GeoEvents,
                                      GeoGyms, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $timeout,
                                      $firebaseObject, $ionicPopup, $state, $interval, UserAuth, $localstorage, GcmID,
-                                     $firebaseArray, Notifications, $ionicHistory){
+                                     $firebaseArray, Notifications, $ionicHistory, OBPush){
         $rootScope.header = "Users";
         $rootScope.goTo = function(url){
             console.log("goto " + url);
@@ -629,8 +642,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.alert = function(msg){
             alert(msg);
-        }
+        };
 
+        $scope.$on('$ionicView.afterEnter', function(){
+            ionic.DomUtil.blurAll();
+        });
         $scope.sendNotification = function(){
             var notifToTrainer = {
                 creatorID: appFactory.user.$id,
@@ -646,11 +662,15 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             UserAuth.$unauth();
             $localstorage.clear();
             $ionicHistory.clearCache();
-            if(ionic.Platform.isAndroid() || ionic.Platform.isIOS()){
+            if (!ionic.Platform.isWebView()) {
+                $scope.toggleMenu();
+            } else if(ionic.Platform.isAndroid()){
                 var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
                 gcmID.$remove();
-            } else {
+            } else if (ionic.Platform.isIOS()) {
                 $scope.toggleMenu();
+                OBPush.unregister();
+                OBPush.setApplicationIconBadgeNumber(0);
             }
             $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
             window.location.href = "#/prelogin/home";
@@ -783,6 +803,12 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.registerGcm = function(){
             if (!ionic.Platform.isWebView()) {
+                $state.transitionTo(mapstate);
+                return;
+            }
+
+            if (ionic.Platform.isIOS()) {
+                OBPush.register();
                 $state.transitionTo(mapstate);
                 return;
             }
