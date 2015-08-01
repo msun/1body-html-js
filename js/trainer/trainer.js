@@ -136,6 +136,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     $scope.reviewRating = 0;
     $scope.numOfFollowers = 0;
     $scope.numOfFollowing = 0;
+    $scope.tabIndex = 0;
 
     $ionicModal.fromTemplateUrl('js/trainer/templates/review.html', {
         scope: $scope,

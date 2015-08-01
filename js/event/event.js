@@ -46,7 +46,10 @@ event.controller('MyEventsCtrl', function($scope, Events, appFactory, $firebaseA
     })
 });
 
-event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal, $firebaseArray, $firebaseObject, EventGoers, User, appFactory, $timeout, mapFactory, $stateParams, Events, Following, Notifications, EventComments, MyTransactions, Feeds, $rootScope, $ionicPopup) {
+event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal, $firebaseArray, $firebaseObject,
+                                             EventGoers, User, appFactory, $timeout, mapFactory, $stateParams, Events,
+                                             Following, Notifications, EventComments, MyTransactions, Feeds, $rootScope,
+                                             $ionicPopup) {
     console.log(appFactory.events);
     console.log($stateParams.userID);
     $scope.eventID = $stateParams.eventID;
@@ -59,6 +62,7 @@ event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal,
     });
     $scope.inEvent = -1;
     var transactionID = "";
+    $scope.tabIndex = 0;
 
     var eventRef = Events.ref().child($stateParams.userID).child($stateParams.eventID);
 

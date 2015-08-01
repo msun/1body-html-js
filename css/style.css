@@ -165,28 +165,6 @@
     */
 }
 
-.tabs {
-    background: transparent;
-    /*opacity: 0.7;*/
-    border-radius: 15px;
-}
-
-.tab-item {
-    color: white;
-    max-width: 200%;
-    font-size: 20px;
-    font-weight: 600;
-    display: inline-table;
-    margin-top: -2px;
-    opacity: 0.7;
-    background: #444444;
-}
-
-.tab-active {
-    background: orange;
-    opacity: 1;
-}
-
 .rotate90 {
     transform: rotate(90deg);
     -webkit-transform: rotate(90deg);
@@ -415,7 +393,7 @@ ion-popover-view.fit ion-content {
 .ob-nav-bar-logo {
     background: url("../img/Logo.png") center/100% 100% no-repeat;
     display: inline-block;
-    width: 114px;
+    width: 94px;
     height: 41px;
 }
 
@@ -846,11 +824,11 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-light {
-    border: 1px solid #c2c2c2;
+    border: 1px solid #888;
 }
 
 .ob-form-light .ob-form-row {
-    background-color: rgba(0, 0, 0, 0.48);
+    background-color: rgba(0.384, 0.384, 0.384, 0.48);
     border-bottom: 1px solid #555;
 }
 
@@ -859,23 +837,23 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-form-light .ob-form-text-input {
-    color: white !important;
+    color: #444 !important;
 }
 
 .ob-form-light .ob-form-text-input::-webkit-input-placeholder {
-    color: #d8d8d8;
+    color: white;
 }
 
 .ob-form-light .ob-form-text-input:-moz-placeholder {
-    color: #d8d8d8;
+    color: white;
 }
 
 .ob-form-light .ob-form-text-input::-moz-placeholder {
-    color: #d8d8d8;
+    color: white;
 }
 
 .ob-form-light .ob-form-text-input:-ms-input-placeholder {
-    color: #d8d8d8;
+    color: white;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1094,6 +1072,8 @@ input.ob-form-text-input[type="search"] {
 /* ob-footer */
 /* ********** ********** ********** ********** ***********/
 
+/* to be used on a ion-footer-bar */
+
 .ob-footer {
     width: 100%;
     height: 44px;
@@ -1121,6 +1101,61 @@ input.ob-form-text-input[type="search"] {
 
 .ob-footer-buttonbar-button:last-child {
     border-right: none;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-tabs */
+/* ********** ********** ********** ********** ***********/
+
+/* to be used on an ob-footer */
+.ob-tabs {
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: rgb(229, 229, 229);
+    box-shadow: 0px 3px 15px 0px black;
+}
+
+.ob-tab {
+    -webkit-flex: 1 1 0px;
+    flex: 1 1 0px;
+    height: 100%;
+    background: rgb(229, 229, 229);
+    border: none;
+}
+
+.ob-tab-img {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+}
+
+.ob-tab-img-activity-blue {
+    background: url("../img/professional-profile/tab-icon-activity-blue.png") center/100% 100% no-repeat;
+    width: 21.5px;
+    height: 20.5px;
+}
+
+.ob-tab-img-activity-grey {
+    background: url("../img/professional-profile/tab-icon-activity-grey.png") center/100% 100% no-repeat;
+    width: 21.5px;
+    height: 20.5px;
+}
+
+.ob-tab-icon {
+    font-size: 28px;
+    color: #676767;
+}
+
+.ob-tab-icon-selected {
+    color: #3882eb;
+}
+
+.ob-tab-separator {
+    height: 80%;
+    border-right: 1px solid #7d7d7d;
+    margin: auto 0px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -2472,9 +2507,9 @@ input.ob-form-text-input[type="search"] {
     margin: auto;
 }
 
-/* ******** ob-tabs ******** */
+/* ******** ob-map-tabs ******** */
 
-.ob-tabs {
+.ob-map-tabs {
     display: inline-block;
     position: absolute;
     white-space: nowrap;
@@ -2491,7 +2526,7 @@ input.ob-form-text-input[type="search"] {
     z-index: 100;
 }
 
-.ob-tab-item {
+.ob-map-tab-item {
     padding: 12px;
     background-color: rgba(0, 0, 0, 0.3);
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
@@ -2500,18 +2535,18 @@ input.ob-form-text-input[type="search"] {
     border-right: 1px solid #404040;
 }
 
-.ob-tab-item:first-child {
+.ob-map-tab-item:first-child {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
-.ob-tab-item:last-child {
+.ob-map-tab-item:last-child {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     border-right: 1px solid transparent;
 }
 
-.ob-tab-selected {
+.ob-map-tab-selected {
     background: rgb(56, 132, 237);
 }
 
@@ -2850,7 +2885,6 @@ input.ob-form-text-input[type="search"] {
 
 .profile-top {
     position: relative;
-    float: left;
     width: 100%;
     height: auto;
     background: #383838 url("../img/professional-profile/Image2-shade-cropped.jpg") center/cover no-repeat;
@@ -3193,9 +3227,14 @@ input.ob-form-text-input[type="search"] {
 }
 
 .profile-bottom {
-    height: 100%;
-    min-height: 300px;
-    background-color: rgb(225,225,225);
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    background: rgb(229,229,229);
+}
+
+.profile-bottom-paddingtop {
+    padding-top: 30px;
 }
 
 .profile-tab-bar-container {
@@ -3233,15 +3272,9 @@ input.ob-form-text-input[type="search"] {
     height: 25px;
 }
 
-.profile-bottom-content {
-    background: rgb(225,225,225);
-    padding-bottom: 12px;
-}
-
 .profile-map-container {
     width: 100%;
-    height: 88px;
-    border-bottom: 1px solid #c2c2c2;
+    height: 100%;
 }
 
 .profile-map {
@@ -3257,10 +3290,21 @@ input.ob-form-text-input[type="search"] {
     width: 100%;
     display: -webkit-flex;
     display: flex;
-    background: white;
+    background: rgb(229, 229, 229);
     border-bottom: 1px solid #c2c2c2;
     padding: 0px;
     text-decoration: none;
+}
+
+.profile-feed-review-list-emptytext {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: #686868;
+    text-align: center;
+    margin: 24px;
 }
 
 .profile-feed-review-list-row + .profile-feed-review-list-row {
@@ -3483,6 +3527,10 @@ input.ob-form-text-input[type="search"] {
 
 .ob-lightpurple-bg {
     background-color: #381d33;
+}
+
+.ob-pale-bg {
+    background-color: rgb(229,229,229);
 }
 
 .ob-grey-bg {
