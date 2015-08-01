@@ -1,182 +1,125 @@
-<ion-view>
-    <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
+<ion-view view-title="{{selectedTrainer.username}}" cache-view="false">
+    <!--<ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>-->
     <ion-nav-buttons side="right">
-      <button class="button button-icon ion-gear-b" ng-click="goTo('#/menu/my-profile')"
-              ng-show="selectedTrainer.$id == $root.user.$id"></button>
+        <button class="button button-icon ion-chatbubble"
+                ng-class="{'ion-gear-b' : selectedTrainer.$id == $root.user.$id,
+                           'ion-chatbubble' : selectedTrainer.$id != $root.user.$id}"
+                ng-click="selectedTrainer.$id == $root.user.$id ?
+                          goTo('#/menu/my-profile') :
+                          goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
+        <!--
+        <button class="button button-icon ion-chatbubble ob-hide"
+                ng-class="{'ob-show' : selectedTrainer.$id != $root.user.$id}"
+                ng-click="goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
+        <button class="button button-icon ion-gear-b ob-hide"
+                ng-click="goTo('#/menu/my-profile')"
+                ng-class="{'ob-show' : selectedTrainer.$id == $root.user.$id}"></button>
+        -->
     </ion-nav-buttons>
-    <ion-content class="ob-grey-bg" scrollbar-x="false" scrollbar-y="false">
-        <div class="profile-top">
-            <div class="follow-button"
-                 ng-show="!followerMe.username"
-                 ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
-            <div class="following-button"
-                 ng-show="followerMe.username"
-                 ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
-            <div class="profile-top-padding-div"></div>
-            <div class="profile-picture-div">
-                <img class="profile-picture"
-                     ng-click="openImageModal()"
-                     src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedTrainer.$id | htmlEncode}}/profilepic.jpg?userlogin={{selectedTrainer.modified}}"
-                     onerror="this.src='img/emptypic-user.png'"/>
-                <img class="profile-picture-tag" src="img/badge-professional.png"/>
-            </div>
-            <div class="full-name-container">
-                <span class="full-name-left"></span>
-                <span class="full-name">{{selectedTrainer.username}}</span>
-                <span class="full-name-right">
-                    <img ng-show="true" class="full-name-icon profile-verified-icon" src="img/professional-profile/green-checkmark.png">
-                    <img ng-show="selectedTrainer.mobile" class="full-name-icon profile-car-icon" src="img/professional-profile/green-car.png">
-                </span>
-            </div>
-            <p class="profession">{{selectedTrainer.profession}}</p>
-            <p class="personal-quote">{{selectedTrainer.information}}</p>
-            <div class="profile-stats-container">
-                <span class="profile-stats-container-empty-item"></span>
-                    <span class="followers-item" ng-click="rootGoTo('#/menu/Followers/' + selectedTrainer.$id)">
-                        <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
-                        <div>Followers</div>
-                    </span>
-                    <span class="profile-reviews-item">
-                        <div class="profile-review-stars">
-                            <img class="profile-review-star" src="img/professional-profile/blue-star-single.png"/>
-                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/white-star-single.png"/>
-                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 1.4" src="img/professional-profile/blue-star-single.png"/>
-                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/white-star-single.png"/>
-                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 2.4" src="img/professional-profile/blue-star-single.png"/>
-                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/white-star-single.png"/>
-                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 3.4" src="img/professional-profile/blue-star-single.png"/>
-                            <img class="profile-review-star" ng-hide="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/white-star-single.png"/>
-                            <img class="profile-review-star" ng-show="sizes.rating/sizes.numOfReviews > 4.4" src="img/professional-profile/blue-star-single.png"/>
-                        </div>
-                        <div>(<span class="profile-reviews-count">{{sizes.numOfReviews || 0}}</span> Reviews)</div>
-                    </span>
-                    <span class="following-item" ng-click="rootGoTo('#/menu/Following/' + selectedTrainer.$id)">
-                        <div class="following-count">{{sizes.numOfFollowing || 0}}</div>
-                        <div>Following</div>
-                    </span>
-                <span class="profile-stats-container-empty-item"></span>
-            </div>
-            <a class="profile-main-action-button" href="#/menu/trainer-schedule/{{selectedTrainer.$id}}/{{selectedTrainer.username}}">
-                Book a session!
-            </a>
-        </div>
-        <div class="profile-bottom">
-            <div class="profile-tab-bar-container">
-                    <span class="button-bar profile-tab-bar">
-                        <a class="button profile-tab" id="profile-tab-1">
-                            <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
-                            <!--<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>-->
-                        </a>
-                        <a class="button profile-tab" id="profile-tab-2" href="#/menu/images/Users/{{selectedTrainer.$id}}/{{selectedTrainer.$id}}">
-                            <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
-                            <!--<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>-->
-                        </a>
-                        <a class="button profile-tab" id="profile-tab-3" href="#/menu/Users/{{selectedTrainer.$id}}">
-                            <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
-                            <!--<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>-->
-                        </a>
-                        <a class="button profile-tab" id="profile-tab-4" href="#/menu/conversations/{{selectedTrainer.$id}}">
-                            <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
-                            <!--<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>-->
-                        </a>
-                    </span>
-            </div>
-            <div class="profile-bottom-content">
-                <div class="profile-map-container">
-                    <div class="item profile-map" id="trainer-detail-map" data-tap-disabled="true"></div>
-                </div>
-                <div class="profile-feed-review-list">
-                    <a class="profile-feed-review-list-row" ng-repeat="review in reviews" ng-href="#/menu/Users/{{review.userID}}">
-                        <span class="profile-feed-review-list-row-left">
-                            <img class="profile-feed-review-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{review.userID | htmlEncode}}/profilepic.jpg"/>
-                        </span>
-                        <span class="profile-feed-review-list-row-right">
-                            <div class="profile-feed-review-text">{{review.text}}</div>
-                            <div class="profile-feed-review-creation">{{review.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
 
-                            <div class="profile-feed-review-stars">
-                                <span class="profile-feed-review-star" ng-show="review.rating > 0" id="profile-feed-review-star-1"></span>
-                                <span class="profile-feed-review-star" ng-show="review.rating > 1" id="profile-feed-review-star-2"></span>
-                                <span class="profile-feed-review-star" ng-show="review.rating > 2" id="profile-feed-review-star-3"></span>
-                                <span class="profile-feed-review-star" ng-show="review.rating > 3" id="profile-feed-review-star-4"></span>
-                                <span class="profile-feed-review-star" ng-show="review.rating > 4" id="profile-feed-review-star-5"></span>
-                            </div>
-                        </span>
-                    </a>
-                    <div class="ob-feedend-container" ng-show="reviews.length < 5">
-                        <span class="ob-feedend-line"></span>
-                        <span class="ob-feedend-ornament"></span>
-                        <span class="ob-feedend-line"></span>
-                    </div>
-                    <button class="ob-block-button ob-button-blue" ng-show="reviews.length == 5" ng-click="moreReviews()">More Reviews</button>
-                </div>
-                <!--
-                <ion-list>
-                    <ion-item ng-repeat="review in reviews" ng-click="replyto()">
-                        <p><strong>{{review.userID}}</strong></p>
-                        <p>
-                        <rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating> {{review.creation}}
-                        </p>
-                        <p>{{review.text}}</p>
-                        <p style="font-size: 10px">{{review.username}} left at: {{review.creation}}</p>
-                    </ion-item>
-                    <p ng-show="reviews.length < 5">No more reviews</p>
-                    <button ng-show="reviews.length == 5" class="button" ng-click="moreReviews()">More reviews</button>
-                </ion-list>
-                -->
-            </div>
+    <div ng-include="'js/trainer/templates/trainer-detail-main.html'"
+         ng-show="tabIndex == 0"></div>
+    <ion-content ng-show="tabIndex == 1"
+                 class="ob-grey-bg ob-content"
+                 scroll="false"
+                 data-tap-disabled="true">
+        <div class="item profile-map"
+             data-tap-disabled="true"
+             id="trainer-detail-map">
         </div>
     </ion-content>
+     <div ng-controller="ImagesCtrl" ng-init="init('Users', trainerID, trainerID)"
+          ng-include="'js/user/templates/images.html'"
+          ng-show="tabIndex == 2"></div>
+    <!--
+    <div ng-include=""
+         ng-show="tabIndex == 3"></div>
+    -->
+
+    <ion-footer-bar class="ob-footer">
+        <div class="ob-tabs">
+            <button class="ob-tab" ng-click="tabIndex = 0">
+                <span class="ob-tab-img"
+                      ng-class="{'ob-tab-img-activity-blue' : tabIndex == 0,
+                                 'ob-tab-img-activity-grey' : tabIndex != 0}"></span>
+            </button>
+            <span class="ob-tab-separator"></span>
+            <button class="ob-tab"
+                    ng-click="tabIndex = 1">
+                <i class="icon ion-ios-location ob-tab-icon"
+                   ng-class="{'ob-tab-icon-selected' : tabIndex == 1}"
+                   ng-class></i>
+            </button>
+            <span class="ob-tab-separator"></span>
+            <button class="ob-tab"
+                    ng-click="tabIndex = 2">
+                <i class="icon ion-images ob-tab-icon"
+                   ng-class="{'ob-tab-icon-selected' : tabIndex == 2}"
+                   ng-class></i>
+            </button>
+            <!--
+            <button class="ob-tab"
+
+                    ng-click="tabIndex = 3">
+                <i class="icon ion-information-circled ob-tab-icon"
+                   ng-class="{'ob-tab-icon-selected' : tabIndex == 3}"
+                   ng-class></i>
+            </button>
+            -->
+        </div>
+    </ion-footer-bar>
 </ion-view>
 
-    <!--<ion-content has-header="true">-->
-        <!--<div class="detail-page-top">-->
-            <!--<div class="row" >-->
-                <!--<div class="col-33">-->
-                    <!--<img src="{{selectedTrainer.profilepic}}" style="border-radius: 50%; width: 80%; margin-left: 10%; margin-right: 10%" ng-click="openImageModal()">-->
+<!--
+<ion-nav-view name="main"></ion-nav-view>
+<ion-tabs class="tabs-light tabs-icon-only ob-top-shadow">
+    <ion-tab title="Activity"
+             icon-on="ion-ios-body positive"
+             icon-off="ion-ios-body"
+             href="#/menu/Trainers/{{selectedTrainer.$id}}//main">
+          <ion-nav-view name="main"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Map"
+             icon-on="ion-ios-location positive"
+             icon-off="ion-ios-location"
+             href="#/menu/Trainers/{{selectedTrainer.$id}}//map">
+        <ion-nav-view name="map"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Images"
+             icon-on="ion-images positive"
+             icon-off="ion-images"
+             href="#/menu/Trainers/{{selectedTrainer.$id}}//images/Users/{{selectedTrainer.$id}}/{{selectedTrainer.$id}}">
+        <ion-nav-view name="images"></ion-nav-view>
 
-                <!--</div>-->
-                <!--<div class="col-67" >-->
-                    <!--<h2 style="color: white"></i>&nbsp;N{{selectedTrainer.name}} </h2>-->
-                    <!--<!--<h2><i class = "icon ion-person"></i> {{selectedTrainer.username}}</h2>-->-->
-                    <!--<p class="information-and-icon"><i class = "icon ion-person"></i> &nbsp;Professional</p>-->
-                    <!--<p class="information-and-icon"><i class = "icon ion-location"></i> &nbsp;Toronto</p>-->
-                    <!--<rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>-->
+    </ion-tab>
+    <ion-tab title="Info"
+             icon-on="ion-information-circled positive"
+             icon-off="ion-information-circled"
+             href="#/menu/Trainers/{{selectedTrainer.$id}}//info">
+        <ion-nav-view name="info"></ion-nav-view>
+    </ion-tab>
+</ion-tabs>
+-->
 
-                    <!--<button class="button button-calm" ng-click="addTransaction()">Add Transaction</button>-->
-                    <!--<button class="button button-calm" ng-click="addReview()">Add Review</button>-->
-                    <!--<button class="button button-calm" ng-click="moreReviews()">more Review</button>-->
-                    <!--<button class="button button-default" ng-click="follow()">follow</button>-->
-
-                <!--</div>-->
-            <!--</div>-->
-
-            <!--<div class="item" id="trainer-detail-map" data-tap-disabled="true" style="width: 90%; margin-left: 5%; margin-right: 5%; height: 150px; border-radius: 15px; margin-top: 20px"></div>-->
-            <!--<!--<scheduler-user-view></scheduler-user-view>-->-->
-        <!--<div class="item item-input-inset">-->
-            <!--<label class="item-input-wrapper">-->
-                <!--<input type="text" ng-model="amount" placeholder="Amount">-->
-            <!--</label>-->
-
-            <!--<button class="button button-small" ng-click="charge(amount)">-->
-                <!--Charge Me-->
-            <!--</button>-->
-        <!--</div>-->
-
-
-        <!--<div>-->
-            <!--<ion-list>-->
-                <!--<ion-item ng-repeat="review in reviews" ng-click="replyto()">-->
-                    <!--<p><strong>{{review.userID}}</strong></p>-->
-                    <!--<!--<p>-->-->
-                        <!--<!--<rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating> {{review.creation}}-->-->
-                    <!--<!--</p>-->-->
-                    <!--<p>{{review.created}}</p>-->
-                    <!--<!--<p style="font-size: 10px">{{review.username}} left at: {{review.creation}}</p>-->-->
-                <!--</ion-item>-->
-            <!--</ion-list>-->
-        <!--</div>-->
-        <!--<button ng-show="showAddReview()" class="button button-calm" ng-click="showReviewModal()">Leave Feedback</button>-->
-        <!--</div>-->
-    <!--</ion-content>-->
-<!--</ion-view>-->
+<!--
+<div class="profile-tab-bar-container">
+        <span class="button-bar profile-tab-bar">
+            <a class="button profile-tab" id="profile-tab-1">
+                <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
+                <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>
+            </a>
+            <a class="button profile-tab" id="profile-tab-2" href="#/menu/images/Users/{{selectedTrainer.$id}}/{{selectedTrainer.$id}}">
+                <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
+                <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
+            </a>
+            <a class="button profile-tab" id="profile-tab-3" href="#/menu/Users/{{selectedTrainer.$id}}">
+                <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
+                <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
+            </a>
+            <a class="button profile-tab" id="profile-tab-4">
+                <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
+                <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
+            </a>
+        </span>
+</div>
+-->

@@ -143,13 +143,22 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
 });
 
 userModule.controller("ImagesCtrl", function($scope, $ionicModal, Following, appFactory, $stateParams, Sizes, MyTransactions, $firebaseArray, $firebaseObject, Users, Images, ImageUrls, appConfig){
-    console.log($stateParams.id);
-    console.log($stateParams.type);
+    $scope.myID = appFactory.user.$id;
+    $scope.edit = false;
+    $scope.type = $stateParams.type;
     $scope.id = $stateParams.id;
     $scope.userID = $stateParams.userID;
-    $scope.myID = appFactory.user.$id;
-    $scope.type = $stateParams.type;
-    $scope.edit = false;
+    if ($scope.type && $scope.id) {
+        $scope.images = $firebaseArray(ImageUrls.ref().child($scope.type).child($scope.id).orderByPriority().endAt(Date.now()).limitToLast(9));
+    }
+
+    $scope.init = function(type, id, userID) {
+        console.log("ImagesCtrl init = " + type + " | " + id + " | " + userID);
+        $scope.type = type;
+        $scope.id = id;
+        $scope.userID = userID;
+        $scope.images = $firebaseArray(ImageUrls.ref().child($scope.type).child($scope.id).orderByPriority().endAt(Date.now()).limitToLast(9));
+    }
 
     $ionicModal.fromTemplateUrl('js/user/templates/image.html', {
         scope: $scope,
@@ -157,9 +166,6 @@ userModule.controller("ImagesCtrl", function($scope, $ionicModal, Following, app
     }).then(function(modal){
         $scope.modal = modal;
     });
-
-
-    $scope.images = $firebaseArray(ImageUrls.ref().child($stateParams.type).child($stateParams.id).orderByPriority().endAt(Date.now()).limitToLast(9));
 
     $scope.moreImages = function(){
         $scope.images = $firebaseArray(ImageUrls.ref().child($stateParams.type).child($stateParams.id).orderByPriority().endAt($scope.images[0].$priority).limitToLast(9));
