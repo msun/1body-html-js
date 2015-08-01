@@ -1,6 +1,6 @@
 var event = angular.module('eventModule', ['ionic', 'accountModule', 'ui.bootstrap', 'starter', 'timeAndDate']);
 
-event.factory('eventFactory', function($resource, baseUrl, $http, appFactory){
+event.factory('eventFactory', function($resource, $http, appFactory){
     var factory = {};
 
     factory.getStreetAddress = function(url, callback){
@@ -27,13 +27,15 @@ event.factory('eventFactory', function($resource, baseUrl, $http, appFactory){
     return factory;
 });
 
-event.controller('EventsCtrl', function($scope, User, appFactory) {
+event.controller('EventsCtrl', function($scope, appFactory) {
     console.log(appFactory.events);
     $scope.events = appFactory.events;
 });
 
-event.controller('MyEventsCtrl', function($scope, Events, appFactory, $firebaseArray){
+event.controller('MyEventsCtrl', function($scope, Events, appFactory, $firebaseArray, $ionicHistory){
     console.log("MyEventsCtrl");
+    console.log($ionicHistory);
+    console.log($ionicHistory.viewHistory());
     $scope.events = $firebaseArray(Events.ref().child(appFactory.user.$id));
 
     $scope.events.$loaded(function(){
@@ -47,7 +49,7 @@ event.controller('MyEventsCtrl', function($scope, Events, appFactory, $firebaseA
 });
 
 event.controller('EventDetailCtrl', function($scope, $localstorage, $ionicModal, $firebaseArray, $firebaseObject,
-                                             EventGoers, User, appFactory, $timeout, mapFactory, $stateParams, Events,
+                                             EventGoers, appFactory, $timeout, mapFactory, $stateParams, Events,
                                              Following, Notifications, EventComments, MyTransactions, Feeds, $rootScope,
                                              $ionicPopup) {
     console.log(appFactory.events);

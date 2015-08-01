@@ -1,0 +1,18 @@
+<ion-modal-view>
+    <div class="ob-content">
+        <div class="ob-instructions">Set your hourly rate</div>
+        <div class="ob-form ob-button-shadow">
+            <div class="ob-form-row ob-form-row-button ob-button-blue" ng-click="setRate()">Confirm</div>
+            <div class="ob-form-row ob-form-flex-row">
+                <div class="ob-form-prompt">Prime Time Rate</div>
+                <input class="ob-form-text-input" type="text"
+                       ng-model="user.primeRate" placeholder="Minimum 5 Tokens"/>
+            </div>
+            <div class="ob-form-row ob-form-flex-row">
+                <div class="ob-form-prompt">Off Time Rate</div>
+                <input class="ob-form-text-input" type="text"
+                       ng-model="user.normalRate" placeholder="Minimum 3 Tokens"/>
+            </div>
+        </div>
+    </div>
+</ion-modal-view>

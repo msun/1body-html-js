@@ -59,3 +59,19 @@
 <div class="timepicker-dayofweek" ng-show="showDatePicker">
     {{dayOfWeek}}
 </div>
+
+<div class="row timepicker-row" ng-show="!showDatePicker && !showTimePicker">
+    <div class="col-33 timepicker-column">
+        <span ng-click="decrementDay()" class="timepicker-arrow-container">
+            <i ng-class="incIconClass"></i>
+        </span>
+    </div>
+    <div class="col-33 timepicker-column" class="timepicker-arrow-container">
+        <div class="minutes-val timepicker-label">{{ widget.year }} {{ widget.month }} {{ widget.day }}</div>
+    </div>
+    <div class="col-33 timepicker-column" class="timepicker-arrow-container">
+        <span ng-click="incrementDay()" ng-mousedown="decrementDayStart()" ng-mouseup="decrementDayStop()" class="timepicker-arrow-container">
+            <i ng-class="decIconClass"></i>
+        </span>
+    </div>
+</div>

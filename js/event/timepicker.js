@@ -7,7 +7,10 @@ angular.module('timeAndDate', [])
         widgetColClass: 'col-xs-4',
         incIconClass: 'icon-chevron-up',
         decIconClass: 'icon-chevron-down',
-        daysInAWeek: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        daysInAWeek: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ]
     })
 
     .directive('timePicker', ['timeAndDateConfig', '$timeout', function(timeAndDateConfig, $timeout) {
@@ -29,10 +32,12 @@ angular.module('timeAndDate', [])
                 scope.widget = {};
                 console.log(attrs);
                 scope.showTimePicker = attrs.showTimePicker == 'true' || false;
-                scope.showDatePicker = attrs.showDatePicker == 'true' || true;
+                scope.showDatePicker = attrs.showDatePicker == 'true' || false
+                ;
                 scope.allowTimeBeforeNow = attrs.allowTimeBeforeNow || false;
 
                 scope.time = attrs.time;
+
                 console.log(scope.showTimePicker);
 
 
@@ -138,7 +143,7 @@ angular.module('timeAndDate', [])
                         scope.widget.meridian = theRightMeridian;
                         scope.widget.hours = theRightHour;
                         scope.widget.minutes = dTime.getMinutes();
-                        scope.widget.month = dTime.getMonth() + 1;
+                        scope.widget.month = timeAndDateConfig.monthNames[dTime.getMonth()];
                         scope.widget.day = dTime.getDate();
                         scope.widget.year = dTime.getFullYear();
                         scope.dayOfWeek = timeAndDateConfig.daysInAWeek[dTime.getDay()];
@@ -229,8 +234,9 @@ angular.module('timeAndDate', [])
 
                 var setTime = function(time) {
                     var timeArray, hours, minutes;
+                    console.log(time);
                     if (time) {
-                        console.log(time);
+                        dTime = scope.dt;
                         if (time.match(new RegExp(scope.meridians[1].substring(0,1), 'i'))) {
                             scope.widget.meridian = scope.meridians[1];
                         } else {
@@ -260,7 +266,8 @@ angular.module('timeAndDate', [])
                         }
 
                     } else { // set current time
-                        dTime = new Date();
+
+                        dTime = scope.dt;
                         hours = dTime.getHours();
                         minutes = dTime.getMinutes();
                         setDate();
@@ -307,6 +314,7 @@ angular.module('timeAndDate', [])
 
 
                 scope.$watch('widget', function(val) {
+                    console.log(val);
                     updateModel();
                 }, true);
 

@@ -1,12 +1,4 @@
 angular.module('starter.services', ["firebase"])
-    .factory('User', function($resource, baseUrl){
-        return $resource(baseUrl + "user/:id");
-    })
-
-//    .factory('Event', function($resource, baseUrl){
-//        return $resource(baseUrl + "event/:id");
-//    })
-
     .factory("FirebaseRef", function() {
         var ref = new Firebase('https://amber-heat-8595.firebaseio.com/');
 
@@ -229,6 +221,13 @@ angular.module('starter.services', ["firebase"])
         return {
             ref: function(){
                 return ref;
+            },
+            dateRef: function(userID, date){
+                return ref.child(userID).child(date.getFullYear()).child(date.getMonth()).child(date.getDate());
+            },
+            monthRef: function(userID, date){
+                console.log(date);
+                return ref.child(userID).child(date.getFullYear()).child(date.getMonth());
             }
         };
     })
@@ -665,7 +664,7 @@ angular.module('starter.services', ["firebase"])
         return Event;
     })
 
-    .factory('appFactory', function($http, baseUrl, User, Event, Gyms, GeoTrainers, Trainers, Users, GeoEvents, Events, GeoGyms, Classes, $firebaseObject, $firebaseArray, $localstorage, Sizes, appConfig, $rootScope) {
+    .factory('appFactory', function($http, Gyms, GeoTrainers, Trainers, Users, GeoEvents, Events, GeoGyms, Classes, $firebaseObject, $firebaseArray, $localstorage, Sizes, appConfig, $rootScope) {
         var factory = {};
         factory.user = {};
         factory.userRef = undefined;
@@ -700,7 +699,7 @@ angular.module('starter.services', ["firebase"])
 
         factory.init = function() {
             if(!factory.user.username){
-                window.location.href = baseUrl;
+                window.location.href = "#";
                 return;
             }
 

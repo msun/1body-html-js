@@ -236,6 +236,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                 reuseTiles: true
             },
             attributionControl: false,
+            trackResize: false,
             zoomAnimation: false,
             zoomControl:false,
             minZoom: 8

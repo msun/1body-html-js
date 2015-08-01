@@ -1,7 +1,31 @@
 <ion-view view-title="Book a Session">
     <ion-content class="has-header ob-grey-bg">
         <div class="ob-content">
-            <scheduler-user-view></scheduler-user-view>
+            <div class="ob-content">
+                <div class="ob-form">
+                    <div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">
+                        <time-picker class="ob-form-timepicker"
+                                     show-time-picker="false"
+                                     show-date-picker="false"
+                                     data-inc-icon-class="ion ion-chevron-up"
+                                     data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                    </div>
+                    <div class="ob-form-row" ng-show="timeslots.length <= 0">
+                        <div class="ob-form-text ob-text-center">No sessions found</div>
+                    </div>
+                    <div class="ob-form-row" ng-repeat="time in timeslots track by $index">
+                        <div class="ob-form-text ob-text-center ob-blue-color">{{time | displayTime}}</div>
+                        <div class="ob-form-subrow ob-form-flex-row">
+                            <div class="ob-form-text">{{chosen[$index].rate}} Tokens</div> <!--ng-show="chosen[$index].prime"-->
+                            <div ng-show="chosen[$index].status == 1" class="ob-form-button" ng-click="selectTime($index)">Selected</div>
+                            <div ng-show="chosen[$index].status == 0" class="ob-form-button" ng-click="selectTime($index)">Available</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="ob-block-button ob-button-blue" ng-click="charge()">Confirm</button>
+                <!--<button class="ob-block-button ob-button-dark" ng-click="printTime()">Check Time</button>-->
+            </div>
+
         </div>
     </ion-content>
 </ion-view>

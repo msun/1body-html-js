@@ -75,7 +75,7 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
                     appFactory.user.username + " followed you"
                 );
 
-                alert("Following user: " + $scope.selectedTrainer.username);
+                alert("Following user: " + $scope.selectedUser.username);
             });
         });
     };

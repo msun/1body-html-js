@@ -1,35 +1,4 @@
 var account = angular.module('accountModule', ['ionic', 'starter', 'mapModule', 'ngResource', 'angularPayments', "firebase", "trainerModule"]);
-account.factory('accountFactory', function($http, baseUrl) {
-    var factory = {};
-
-    factory.addcard = function(cardInfo, callback){
-        $http({
-            url: baseUrl + 'addcard',
-            method: "POST",
-            data: cardInfo
-        }).success(function(data, status){
-            callback(data, status);
-        }).error(function(data, status){
-            console.log(data);
-            console.log(status);
-        });
-    };
-
-    factory.charge = function(cardInfo, callback){
-        $http({
-            url: baseUrl + 'charge',
-            method: "POST",
-            data: cardInfo
-        }).success(function(data, status){
-            callback(data, status);
-        }).error(function(data, status){
-            console.log(data);
-            console.log(status);
-        });
-    };
-
-    return factory;
-});
 
 account.controller('PreLoginCtrl', function($scope, $ionicHistory, $ionicSlideBoxDelegate){
     $scope.back = function() {
@@ -90,7 +59,7 @@ account.controller('HomeCtrl', function($scope, FirebaseRef, $rootScope, $state,
 
 account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes,
                                          $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope,
-                                         accountFactory, appFactory, $state, mapstate, $rootScope, $localstorage,
+                                         appFactory, $state, mapstate, $rootScope, $localstorage,
                                          $ionicPlatform, ForgotPassword, $ionicHistory, OBPush) {
     console.log(UserAuth.$getAuth());
 
@@ -532,7 +501,7 @@ account.controller('ChangePasswordCtrl', function($scope, appFactory, UserAuth, 
     };
 });
 
-account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, $firebaseObject, User, Events, appFactory, baseUrl, $ionicLoading, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images, $stateParams) {
+account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, $firebaseObject, User, Events, appFactory, $ionicLoading, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images, $stateParams) {
     $scope.user = appFactory.user;
     console.log($stateParams);
     if (!ionic.Platform.isWebView()) {
@@ -791,7 +760,7 @@ account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, $fire
     }
 });
 
-account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $localstorage, Users, appFactory, baseUrl, $timeout, $state, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, appConfig) {
+account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $localstorage, Users, appFactory, $timeout, $state, $ionicPopup, $ionicSideMenuDelegate, $firebaseObject, appConfig) {
     console.log("ProfileCtrl");
 
     $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
@@ -894,7 +863,7 @@ account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $loc
 
 });
 
-account.controller('MoneyCtrl', function($scope, User, appFactory, baseUrl, $timeout, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
+account.controller('MoneyCtrl', function($scope, User, appFactory, $timeout, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
     console.log("money ctrl");
     var exec = cordova.require("cordova/exec");
 
@@ -912,7 +881,7 @@ account.controller('MoneyCtrl', function($scope, User, appFactory, baseUrl, $tim
 
 });
 
-account.controller('AccountCtrl', function($scope, User, appFactory, baseUrl, $timeout, accountFactory, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
+account.controller('AccountCtrl', function($scope, User, appFactory, $timeout, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
     console.log("account ctrl");
 //
 //    var exec = cordova.require("cordova/exec");
@@ -926,33 +895,6 @@ account.controller('AccountCtrl', function($scope, User, appFactory, baseUrl, $t
 //
 //    exec(successCallback, errorCallback, 'Card_io', 'scanCard', []);
 
-    Stripe.setPublishableKey('pk_test_DBhUBAORKHi5IqZLUlMUex0Y');
-    $scope.user = appFactory.user;
-
-
-    $scope.handleStripe = function(status, response){
-        if(response.error) {
-            // there was an error. Fix it.
-            console.log(response.error);
-        } else {
-            // got stripe token, now charge it or smt
-//            token = response.id;
-            console.log(response.id);
-            accountFactory.addcard({stripeToken: response.id, id: appFactory.user._id}, function(data, status){
-                console.log(data);
-                appFactory.user = data;
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Success',
-                    template: 'Your credit card was successfully added to our system'
-                });
-                alertPopup.then(function(res) {
-                    console.log('popup closed');
-                    window.location.href = baseUrl + "#/tab/dash/map";
-                });
-            })
-        }
-    }
-
 //    $scope.sideMenuController.toggleLeft();
 //    $scope.toggleMenu = function() {
 //        console.log("toggle left");
@@ -960,7 +902,7 @@ account.controller('AccountCtrl', function($scope, User, appFactory, baseUrl, $t
 //    }
 });
 
-account.controller('SetLocationCtrl', function($scope, $firebaseArray, MyLocations, $firebaseObject, Users, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, accountFactory, GeoTrainers, $localstorage, $window, $rootScope) {
+account.controller('SetLocationCtrl', function($scope, $firebaseArray, MyLocations, $firebaseObject, Users, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, GeoTrainers, $localstorage, $window, $rootScope) {
     console.log("SetLocationCtrl ctrl");
 
     $scope.user = $firebaseObject(Users.ref().child(appFactory.user.$id));
@@ -1146,11 +1088,11 @@ account.controller('SetLocationCtrl', function($scope, $firebaseArray, MyLocatio
 
 });
 
-account.controller('MyLocationsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseArray, MyLocations, Trainers) {
+account.controller('MyLocationsCtrl', function($scope, Users, appFactory, $timeout, $firebaseArray, MyLocations, Trainers) {
     $scope.locations = $firebaseArray(MyLocations.ref().child(appFactory.user.$id));
 });
 
-account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseArray, Requests, Trainers){
+account.controller('MyRequestsCtrl', function($scope, Users, appFactory, $timeout, $firebaseArray, Requests, Trainers){
     $scope.requests = $firebaseArray(Requests.ref().orderByChild("userID").equalTo(appFactory.user.$id));
     var now = Date.now();
     $scope.requests.$loaded(function(){
@@ -1172,7 +1114,7 @@ account.controller('MyRequestsCtrl', function($scope, Users, appFactory, baseUrl
     });
 });
 
-account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl, $timeout, $firebaseObject, Requests, Trainers, $window, $localstorage, MyTokens, Payments, $ionicPlatform){
+account.controller('BuyTokensCtrl', function($scope, Users, appFactory, $timeout, $firebaseObject, Requests, Trainers, $window, $localstorage, MyTokens, Payments, $ionicPlatform){
     $scope.bundles = [
         {numberTokens: 20, price: 100},
         {numberTokens: 10, price: 50},
@@ -1394,7 +1336,7 @@ account.controller('BuyTokensCtrl', function($scope, Users, appFactory, baseUrl,
     }
 });
 
-account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions, MyTransactions, appFactory, baseUrl, TransactionQueue, $timeout, $firebaseArray, $firebaseObject, Schedule, Requests, IncomingRequests, Trainers){
+account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions, MyTransactions, appFactory, TransactionQueue, $timeout, $firebaseArray, $firebaseObject, Schedule, Requests, IncomingRequests, Trainers){
     console.log(appFactory.user);
     $scope.requests = $firebaseArray(Requests.ref().orderByChild("trainerID").equalTo(appFactory.user.$id));
     $scope.requests.$loaded(function(){
@@ -1597,7 +1539,7 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions,
     }
 });
 
-account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, Transactions, $window, $localstorage){
+account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, $timeout, Requests, Transactions, $window, $localstorage){
     $scope.dt = new Date();
     $scope.showingAll = false;
 
@@ -1746,7 +1688,7 @@ account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFacto
     }
 });
 
-account.controller('MyTransactionsCtrl', function($scope,$firebaseObject, $ionicModal, Users, appFactory, $firebaseArray, baseUrl, $timeout, Requests, MyTransactions, $window, $localstorage){
+account.controller('MyTransactionsCtrl', function($scope,$firebaseObject, $ionicModal, Users, appFactory, $firebaseArray, $timeout, Requests, MyTransactions, $window, $localstorage){
     $scope.dt = new Date();
     $scope.showingAll = false;
 

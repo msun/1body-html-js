@@ -6,8 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services',
-               'eventModule', 'classModule', 'gymModule', 'userModule', 'listModule', 'OBPushModule'])
-//    .value("baseUrl", "http://108.168.247.49:10355/")
+               'eventModule', 'classModule', 'gymModule', 'userModule', 'listModule', 'OBPushModule', 'calendarModule'])
     .value('appConfig', {
         baseUrl: "http://localhost:8888/",
         apikey: "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc",
@@ -32,9 +31,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             {interval: "Once"}
         ],
         removedTimeSlot: {},
-        debug: true
+        debug: true,
+        monthNames: ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ]
     })
-    .value("baseUrl", "http://localhost:8888/")
     .value("apikey", "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc")
     .value("mapstate", "menu.map")
     .run(function($ionicPlatform) {
@@ -190,7 +191,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.trainer-schedule', {
-                url: '/trainer-schedule/:trainerID/:trainerName',
+                url: '/trainer-schedule/:trainerID/:trainerName/:year/:month/:day',
                 views: {
                     'menu': {
                         templateUrl: 'js/trainer/templates/trainer-schedule.html',
@@ -421,7 +422,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.my-schedule', {
-                url: '/my-schedule',
+                url: '/my-schedule/:year/:month/:day',
                 views: {
                     'menu': {
                         templateUrl: 'js/account/templates/my-schedule.html',
@@ -506,6 +507,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     'menu': {
                         templateUrl: 'js/account/templates/scan.html',
                         controller: 'ScanCtrl'
+                    }
+                }
+            })
+
+            .state('menu.calendar', {
+                url: '/calendar/:type/:userID/:userName',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/calendar/templates/calendar.html',
+                        controller: 'CalendarController'
                     }
                 }
             })
