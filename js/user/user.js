@@ -11,6 +11,7 @@ userModule.controller("UserDetailCtrl", function($scope, Following, appFactory, 
     $scope.reviewRating = 0;
     $scope.numOfFollowers = 0;
     $scope.numOfFollowings = 0;
+    $scope.tabIndex = 0;
 
     $scope.selectedUser = $firebaseObject(Users.ref().child($stateParams.userID));
 

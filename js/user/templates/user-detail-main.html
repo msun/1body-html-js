@@ -1,0 +1,61 @@
+<ion-content class="ob-pale-bg" scrollbar-x="false" scrollbar-y="false">
+    <div class="profile-top">
+        <div class="follow-button"
+             ng-show="!followerMe.username"
+             ng-click="follow()"><img class="plus-icon" src="img/professional-profile/plus.png"/>Follow</div>
+        <div class="following-button"
+             ng-show="followerMe.username"
+             ng-click="unfollow()"><img class="checkmark-icon" src="img/professional-profile/checkmark.png"/>Following</div>
+        <div class="profile-top-padding-div"></div>
+        <div class="profile-picture-div">
+            <img class="profile-picture"
+                 src="https://s3.amazonaws.com/com.onebody.profile/Users/{{selectedUser.$id | htmlEncode}}/profilepic.jpg?userlogin={{selectedUser.modified}}"
+                 onerror="this.src='img/emptypic-user.png'"/>
+                 <!--ng-click="openImageModal()"-->
+        </div>
+        <div class="full-name-container">
+            <span class="full-name-left"></span>
+            <span class="full-name">{{selectedUser.username}}</span>
+            <span class="full-name-right"></span>
+        </div>
+        <p class="profession">{{selectedUser.profession}}</p>
+        <p class="personal-quote">{{selectedUser.information}}</p>
+        <div class="profile-stats-container">
+            <span class="profile-stats-container-empty-item"></span>
+                <span class="followers-item" ng-click="goTo('#/menu/Followers/' + selectedUser.$id)">
+                    <div class="followers-count">{{sizes.numOfFollowers || 0}}</div>
+                    <div>Followers</div>
+                </span>
+                <span class="following-item" ng-click="goTo('#/menu/Following/' + selectedUser.$id)">
+                    <div class="following-count">{{sizes.numOfFollowing || 0}}</div>
+                    <div>Following</div>
+                </span>
+            <span class="profile-stats-container-empty-item"></span>
+        </div>
+    </div>
+    <div class="profile-bottom">
+        <div class="profile-bottom-content">
+            <div class="profile-feed-review-list">
+                <div class="profile-feed-review-list-emptytext"
+                     ng-show="feeds.length <= 0">Your activity feed is empty!</div>
+                <a class="profile-feed-review-list-row" ng-repeat="item in feeds | orderBy:'-created'" ng-click="replyto()">
+                    <span class="profile-feed-review-list-row-left">
+                        <img class="profile-feed-review-list-img"
+                             src="https://s3.amazonaws.com/com.onebody.profile/{{item.type}}/{{item.id | htmlEncode}}/profilepic.jpg"
+                             onerror="this.src='img/emptypic-user.png'"/>
+                    </span>
+                    <span class="profile-feed-review-list-row-right">
+                        <div class="profile-feed-review-text">{{item.message}}</div>
+                        <div class="profile-feed-review-creation">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                    </span>
+                </a>
+                <div class="ob-feedend-container" ng-show="feeds.length < 5">
+                    <span class="ob-feedend-line"></span>
+                    <span class="ob-feedend-ornament"></span>
+                    <span class="ob-feedend-line"></span>
+                </div>
+                <button class="ob-block-button ob-button-blue" ng-show="feeds.length >= 5" ng-click="moreFeeds()">More Feeds</button>
+            </div>
+        </div>
+    </div>
+</ion-content>
