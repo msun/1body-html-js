@@ -20,21 +20,24 @@ calendar.controller( 'CalendarController', function( $scope, $interval, $statePa
 
         var monthSchedule = $firebaseArray(Schedule.monthRef(userID, now));
         monthSchedule.$loaded(function () {
-            console.log(monthSchedule);
-            for (var i = 0; i < monthSchedule.length; i++) {
-                var openings = 0;
-                var booked = 0;
-                for (var j = 0; j < monthSchedule[i].active.length; j++) {
-                    if (monthSchedule[i].active[j].status == 0) {
-                        openings++;
-                    } else if(monthSchedule[i].active[j].status == 1){
-                        booked++;
+            var rules = $firebaseObject(Schedule.ref().child(userID).child("rules"));
+            rules.$loaded(function(){
+                console.log(monthSchedule);
+                for (var i = 0; i < monthSchedule.length; i++) {
+                    var openings = 0;
+                    var booked = 0;
+                    for (var j = 0; j < monthSchedule[i].active.length; j++) {
+                        if (monthSchedule[i].active[j].status == 0) {
+                            openings++;
+                        } else if(monthSchedule[i].active[j].status == 1){
+                            booked++;
+                        }
                     }
+                    $scope.slotsopen[now.getMonth()][monthSchedule[i].$id] = openings;
+                    $scope.slotsbooked[now.getMonth()][monthSchedule[i].$id] = booked;
                 }
-                $scope.slotsopen[now.getMonth()][monthSchedule[i].$id] = openings;
-                $scope.slotsbooked[now.getMonth()][monthSchedule[i].$id] = booked;
-            }
-            console.log($scope.slotsopen);
+                console.log($scope.slotsopen);
+            });
         });
 
         monthSchedule.$watch(function(event) {

@@ -27,12 +27,12 @@ classModule.factory('classModuleFactory', function($resource, baseUrl, $http, ap
     return factory;
 });
 
-classModule.controller('ClassesCtrl', function($scope, User, appFactory) {
+classModule.controller('ClassesCtrl', function($scope, appFactory) {
     console.log(appFactory.classes);
     $scope.classes = appFactory.classes;
 });
 
-classModule.controller('ClassScheduleCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, $timeout, Sizes, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
+classModule.controller('ClassScheduleCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, appFactory, $timeout, Sizes, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
     $scope.classID = $stateParams.classID;
     $scope.gymID = $stateParams.gymID;
     console.log($scope.classID);
@@ -214,7 +214,7 @@ classModule.controller('ClassScheduleCtrl', function($scope, Notifications, $loc
     };
 });
 
-classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, User, appFactory, Reviews, $timeout, $firebaseArray, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
+classModule.controller('ClassDetailCtrl', function($scope, Notifications, $localstorage, $ionicModal, Gyms, $firebaseObject, GeoGyms, appFactory, Reviews, $timeout, $firebaseArray, $stateParams, Classes, MyTransactions, Transactions, Users, $ionicPopup) {
     console.log($stateParams.gymID);
     $scope.newcomment = {};
     $scope.gymID = $stateParams.gymID;

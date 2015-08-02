@@ -344,7 +344,7 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
     });
 });
 
-account.controller('ScanCtrl', function($scope, User, appFactory, $timeout, ScanQueue, $firebaseObject, Transactions, MyTransactions, Notifications){
+account.controller('ScanCtrl', function($scope, appFactory, $timeout, ScanQueue, $firebaseObject, Transactions, MyTransactions, Notifications){
     $scope.clientCode = {};
 
     var processTransaction = function(text){
@@ -501,7 +501,7 @@ account.controller('ChangePasswordCtrl', function($scope, appFactory, UserAuth, 
     };
 });
 
-account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, $firebaseObject, User, Events, appFactory, $ionicLoading, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images, $stateParams) {
+account.controller('Set-dpCtrl', function($ionicModal, $scope, $rootScope, $firebaseObject, Events, appFactory, $ionicLoading, $ionicPopup, $ionicSideMenuDelegate, $timeout, $localstorage, $ionicScrollDelegate, Images, $stateParams) {
     $scope.user = appFactory.user;
     console.log($stateParams);
     if (!ionic.Platform.isWebView()) {
@@ -863,7 +863,7 @@ account.controller('ProfileCtrl', function($ionicModal, $scope, $rootScope, $loc
 
 });
 
-account.controller('MoneyCtrl', function($scope, User, appFactory, $timeout, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
+account.controller('MoneyCtrl', function($scope, appFactory, $timeout, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
     console.log("money ctrl");
     var exec = cordova.require("cordova/exec");
 
@@ -881,7 +881,7 @@ account.controller('MoneyCtrl', function($scope, User, appFactory, $timeout, $io
 
 });
 
-account.controller('AccountCtrl', function($scope, User, appFactory, $timeout, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
+account.controller('AccountCtrl', function($scope, appFactory, $timeout, $ionicPopup, $ionicSideMenuDelegate, $timeout) {
     console.log("account ctrl");
 //
 //    var exec = cordova.require("cordova/exec");

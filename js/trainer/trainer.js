@@ -433,7 +433,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
     };
 });
 
-trainer.controller('FollowersListCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebaseArray, Followers, Trainers) {
+trainer.controller('FollowersListCtrl', function($scope, appFactory, $timeout, $stateParams, GeoEvents, $firebaseArray, Followers, Trainers) {
     $scope.items = $firebaseArray(Followers.ref().child($stateParams.userID));
 
     $scope.items.$loaded(function(){
@@ -441,7 +441,7 @@ trainer.controller('FollowersListCtrl', function($scope, User, appFactory, $time
     });
 });
 
-trainer.controller('FollowingListCtrl', function($scope, User, appFactory, $timeout, $stateParams, GeoEvents, $firebaseArray, Following, Trainers) {
+trainer.controller('FollowingListCtrl', function($scope, appFactory, $timeout, $stateParams, GeoEvents, $firebaseArray, Following, Trainers) {
     $scope.items = $firebaseArray(Following.ref().child($stateParams.userID));
 
     $scope.items.$loaded(function(){
@@ -449,7 +449,7 @@ trainer.controller('FollowingListCtrl', function($scope, User, appFactory, $time
     });
 });
 
-trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $localstorage, Feeds, $ionicPopup, $scope, User,
+trainer.controller('MobileTrainerRequestCtrl', function($ionicModal, $localstorage, Feeds, $ionicPopup, $scope,
                                                         appFactory, $timeout, $stateParams, $firebaseObject,
                                                         eventFactory, apikey, Requests, GeoRequests, Trainers,
                                                         IncomingRequests, Schedule, $ionicHistory) {

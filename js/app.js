@@ -702,7 +702,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             }
 
             if(feedSnapshot.val().attention){
-                if (ionic.Platform.isAndroid()) {
+                if (ionic.Platform.isAndroid() && !feedSnapshot.val().error) {
                     var myPopup = $ionicPopup.show({
                         template: 'Would you like to save this to your calendar?',
                         title: feedSnapshot.val().message,

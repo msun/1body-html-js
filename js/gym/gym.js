@@ -27,7 +27,7 @@ gymModule.factory('gymModuleFactory', function($resource, baseUrl, $http, appFac
     return factory;
 });
 
-gymModule.controller('GymsCtrl', function($scope, User, appFactory) {
+gymModule.controller('GymsCtrl', function($scope, appFactory) {
     console.log(appFactory.gyms);
     $scope.gyms = appFactory.gyms;
 });
