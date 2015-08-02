@@ -58,8 +58,8 @@
                         <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/{{$root.header}}/{{item.$id | htmlEncode}}/profilepic.jpg"/>
                     </div>
                     <div class="ob-list-col-flex">
-                        <div>
-                            <span class="ob-list-text ob-blue-color">{{item.username}}{{item.name}}</span>,
+                        <div class="ob-list-text">
+                            <span class="ob-list-text ob-blue-color">{{item.username}}{{item.name}}</span>
                             <span class="ob-list-subtext">{{item.profession}}{{item.category.name}}</span>
                             <span class="ob-list-text-soft">{{item.distance | number:1}}km</span>
                         </div>

@@ -331,6 +331,10 @@ account.controller('RegisterCtrl', function($ionicSlideBoxDelegate, $ionicNavBar
         }
     }
 
+    $scope.slideChanged = function(index) {
+        ionic.DomUtil.blurAll();
+    }
+
     $scope.nextPressed = function(index) {
         $ionicSlideBoxDelegate.next();
     }
@@ -900,6 +904,18 @@ account.controller('AccountCtrl', function($scope, appFactory, $timeout, $ionicP
 //        console.log("toggle left");
 //        $ionicSideMenuDelegate.toggleLeft();
 //    }
+});
+
+account.controller('OBSettingsCtrl', function($scope, OBPush) {
+    $scope.notif = { checked: OBPush.getIsRegistered() };
+
+    $scope.notifChange = function() {
+        if ($scope.notif.checked) {
+            OBPush.register();
+        } else {
+            OBPush.unregister();
+        }
+    }
 });
 
 account.controller('SetLocationCtrl', function($scope, $firebaseArray, MyLocations, $firebaseObject, Users, eventFactory, appConfig, Gyms, GeoGyms, $ionicModal, appFactory, $timeout, GeoTrainers, $localstorage, $window, $rootScope) {

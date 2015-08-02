@@ -59,6 +59,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             if (window.cordova && ionic.Platform.isIOS()) {
                 window.addEventListener("statusTap", function() {
                     $ionicScrollDelegate.scrollTop(true);
+                    ionic.DomUtil.blurAll();
                 });
             }
         });
@@ -436,7 +437,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 views: {
                     'menu': {
                         templateUrl: 'js/account/templates/settings.html',
-                        controller: 'AccountCtrl'
+                        controller: 'OBSettingsCtrl'
                     }
                 }
             })
@@ -653,6 +654,18 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.alert = function(msg){
             alert(msg);
+        };
+
+        $scope.isBrowser = function() {
+            return !ionic.Platform.isWebView();
+        };
+
+        $scope.isIOS = function() {
+            return ionic.Platform.isIOS() && ionic.Platform.isWebView();
+        };
+
+        $scope.isAndroid = function() {
+            return ionic.Platform.isAndroid();
         };
 
         $scope.$on('$ionicView.afterEnter', function(){

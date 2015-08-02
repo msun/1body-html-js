@@ -25,7 +25,7 @@
                     <input class="ob-form-text-input" type="text"
                            ng-model="newrequest.address" placeholder=""/>
                 </div>
-                <div class="ob-form-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <textarea class="ob-form-textarea ob-form-textarea-small"
                               ng-model="newrequest.commentlocation"
                               placeholder="Location Details"></textarea>
@@ -37,7 +37,7 @@
                 <div class="ob-form-row" ng-repeat="item in checked">
                     <span class="ob-form-text-input">{{item.username}} </span>
                 </div>
-                <div class="ob-form-row">
+                <div class="ob-form-row ob-form-flex-row">
                     <textarea class="ob-form-textarea ob-form-textarea-small"
                               ng-model="newrequest.message"
                               placeholder="Message for Trainer"></textarea>

@@ -21,6 +21,7 @@
     background-image: url("../img/emptypic-user.png");
     background-size: 40px 40px;
     border: 1px solid white;
+    overflow: hidden;
 }
 
 .div-icon-events{
@@ -30,13 +31,13 @@
     background-image: url("../img/emptypic-event.png");
     background-size: 40px 40px;
     border: 1px solid white;
+    overflow: hidden;
 }
 
 .map-icon-image{
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    border: 1px solid white;
 }
 
 .scroll {
@@ -459,40 +460,52 @@ ion-popover-view.fit ion-content {
     overflow: hidden;
     min-height: 44px;
     text-decoration: none;
-    padding: 0px 4px;
+    padding: 0px;
 }
-
 .ob-form-row:last-child {
     border-bottom: none;
 }
 
-/* ********** ********** ********** ********** ***********/
-/* ob-form-subrow */
-/* ********** ********** ********** ********** ***********/
-
 .ob-form-subrow {
-
+    text-decoration: none;
+    padding: 0px;
 }
-
+/*
 .ob-form-subrow:first-child {
     padding-top: 2px;
 }
-
 .ob-form-subrow:last-child {
     padding-bottom: 2px;
 }
-
-/*
-.ob-form-subrow + .ob-form-subrow:before {
-    height: 1px;
-    background: #333;
-    width: 70%;
-    display: block;
-    margin: 0px auto;
-    content: "";
-}
 */
 
+/* optional */
+/*
+.ob-form > .ob-form-row:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.ob-form > .ob-form-row:first-child > *:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.ob-form > .ob-form-row:last-child > .ob-form-subrow:first-child > *:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.ob-form > .ob-form-row:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.ob-form > .ob-form-row:last-child > *:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.ob-form > .ob-form-row:last-child > .ob-form-subrow:last-child > *:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+*/
 /* ********** ********** ********** ********** ***********/
 /* ob-form-flex-row */
 /* ********** ********** ********** ********** ***********/
@@ -521,6 +534,13 @@ ion-popover-view.fit ion-content {
     height: 32px;
 }
 
+.ob-form-icon:first-child {
+    margin-left: 10px;
+}
+.ob-form-icon:last-child {
+    margin-right: 10px;
+}
+
 .ob-form-icon-magnifier {
     background: url("../img/event-profile/magnifier.png") center/100% 100% no-repeat;
     width: 16px;
@@ -542,10 +562,21 @@ ion-popover-view.fit ion-content {
 .ob-form-prompt {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
-    margin: auto 6px;
+    -webkit-align-self: flex-start;
+    align-self: flex-start;
+    display: inline-block;
+    margin: 0px 6px 0px;
+    height: 42px;
+    line-height: 42px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: #3884ed;
+}
+.ob-form-prompt:first-child {
+    margin-left: 10px;
+}
+.ob-form-prompt:last-child {
+    margin-right: 10px;
 }
 
 .ob-form-text {
@@ -559,6 +590,12 @@ ion-popover-view.fit ion-content {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: white;
+}
+.ob-form-text:first-child {
+    margin-left: 10px;
+}
+.ob-form-text:last-child {
+    margin-right: 10px;
 }
 
 .ob-form-button {
@@ -598,6 +635,12 @@ ion-popover-view.fit ion-content {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: white !important;
+}
+.ob-form-text-input:first-child {
+    margin-left: 10px;
+}
+.ob-form-text-input:last-child {
+    margin-right: 10px;
 }
 
 /* a hack to fix search bar height */
@@ -648,17 +691,25 @@ input.ob-form-text-input[type="search"] {
 
 /* ********** ********** ********** ********** ***********/
 /* ob-form-textarea */
+/* to be used inside ob-form-flex-row */
 /* ********** ********** ********** ********** ***********/
 
 .ob-form-textarea {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
     resize: none;
     background: transparent;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16.5;
     color: white;
-    padding: 12px 6px;
+    padding: 12px 12px;
     height: 120px;
-    width: 100%;
+}
+.ob-form-textarea:first-child {
+
+}
+.ob-form-textarea:last-child {
+
 }
 
 .ob-form-textarea::-webkit-input-placeholder {
@@ -789,6 +840,26 @@ input.ob-form-text-input[type="search"] {
 
 .ob-form-toggle {
     margin-top: -3px;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-toggle2 */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-toggle2.item-toggle {
+    background: transparent;
+    color: white;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    padding: 0px;
+    padding-left: 10px;
+    height: 42px;
+    line-height: 42px;
+    border: none;
+}
+
+.ob-form-toggle2 .toggle {
+    margin-top: -9px;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1062,6 +1133,14 @@ input.ob-form-text-input[type="search"] {
 
 .ob-button-blue:active {
     background-color: #3172cc;
+}
+
+.ob-button-red {
+    background-color: #bb0000;
+}
+
+.ob-button-red:active {
+    background-color: #aa0000;
 }
 
 .ob-button-shadow {
@@ -2116,6 +2195,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-slide {
+
 }
 
 #create-eventmap {
@@ -2804,7 +2884,8 @@ input.ob-form-text-input[type="search"] {
     flex: 0 0 auto;
     color: white;
     font-size: 32px;
-    margin: 0px 16px 0px 8px;
+    margin: 0px 4px 0px 4px;
+    padding: 10px;
 }
 
 /*
@@ -3627,4 +3708,9 @@ input.ob-form-text-input[type="search"] {
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 16px;
     color: white;
+}
+
+.ob-vertical-spacing {
+    width: 100%;
+    height: 4px;
 }
