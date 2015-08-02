@@ -333,6 +333,8 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
 
     // Called each time the slide changes
     $scope.slideChanged = function(index) {
+        ionic.DomUtil.blurAll();
+
         $scope.slideIndex = index;
         console.log(index);
         if(index == 1){
@@ -579,15 +581,11 @@ event.controller('CreateEventCtrl', function($firebaseArray, $firebaseObject, $r
         }
     };
 
+    //$ionicSlideBoxDelegate.enableSlide(false);
+
     $scope.navSlide = function(index) {
         $ionicSlideBoxDelegate.slide(index);
     };
-
-    $scope.slideStop = function(index) {
-        $timeout(function() {
-            $ionicSlideBoxDelegate.enableSlide(0);
-        });
-    }
 
     $scope.nextPressed = function(index) {
         $ionicSlideBoxDelegate.next();

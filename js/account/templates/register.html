@@ -1,7 +1,10 @@
 <ion-view>
     <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
     <ion-content class="has-header ob-bg1">
-        <ion-slide-box show-pager="true" pager-click="navSlide(index)">
+        <ion-slide-box class="ob-slide-box"
+                       show-pager="true"
+                       pager-click="navSlide(index)"
+                       on-slide-changed="slideChanged($index)">
             <ion-slide>
                 <div class="ob-content">
                     <div class="ob-instructions">Let's get started!</div>
@@ -78,7 +81,7 @@
                     <div class="ob-form">
                         <div class="ob-form-row ob-form-flex-row">
                             <span class="ob-form-prompt">Profession</span>
-                            <input class="ob-form-text-input" type="text" ng-model="user.firstname" placeholder="Personal Trainer, Sport Instructor, ..."/>
+                            <input class="ob-form-text-input" type="text" ng-model="user.firstname" placeholder="e.g. Personal Trainer"/>
                         </div>
                         <!--
                         <div class="ob-form-row ob-sectioned-row">
@@ -93,7 +96,7 @@
                                 <img class="small-plus-icon" src="img/event-profile/date-picker-button.png"/>
                             </span>
                         </div>-->
-                        <div class="ob-form-row">
+                        <div class="ob-form-row ob-form-flex-row">
                             <textarea class="ob-form-textarea" placeholder="Tell us about yourself and your passion for fitness"></textarea>
                         </div>
                     </div>

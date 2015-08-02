@@ -5,6 +5,7 @@ To use, inject the module "OBPushModule" / service "OBPush"
 Available methods:
 OBPush.register();
 OBPush.unregister();
+OBPush.getIsRegistered();
 OBpush.setApplicationIconBadgeNumber(integer); // iOS only
 
 This file uses the plugin https://github.com/phonegap-build/PushPlugin
@@ -95,7 +96,7 @@ var OBPushApp = {
 
 angular.module('OBPushModule', ['ionic'])
 .factory('OBPush', [function() {
-    var pushNotificationVar;
+    var isRegistered = false;
 
     var onDeviceReady = function () {
         // Only for Amazon Fire OS, Android, BlackBerry 10, Windows Phone 8
@@ -106,7 +107,7 @@ angular.module('OBPushModule', ['ionic'])
 
             //if( $("#home").length > 0) {
                 // call this to get a new token each time. don't call it to reuse existing token.
-                //pushNotification.unregister(successHandler, errorHandler);
+                //pushNotification.unregister(registerSuccess, registerError);
                 //e.preventDefault();
                 //navigator.app.exitApp();
             //} else {
@@ -122,13 +123,13 @@ angular.module('OBPushModule', ['ionic'])
             if (device.platform == 'android' ||
                 device.platform == 'Android' ||
                 device.platform == 'amazon-fireos' ) {
-                pushNotification.register(successHandler,
-                                          errorHandler,
+                pushNotification.register(registerSuccess,
+                                          registerError,
                                           {"senderID" : "661780372179",
                                            "ecb" : "OBPushApp.onNotification"});
             } else {
                 pushNotification.register(tokenHandler,
-                                          errorHandler,
+                                          registerError,
                                           {"badge" : "true",
                                            "sound" : "true",
                                            "alert" : "true",
@@ -142,40 +143,44 @@ angular.module('OBPushModule', ['ionic'])
     };
 
     var tokenHandler = function (result) {
+        isRegistered = true;
         OBLog("APNS token: " + result);
 
         // Your iOS push server needs to know the token before it can push to this device
         // here is where you might want to send it the token for later use.
     };
 
-    var successHandler = function (result) {
-        OBLog("OBPush successHandler", 5);
+    var registerSuccess = function (result) {
+        isRegistered = true;
+        OBLog("OBPush registerSuccess", 5);
     };
 
-    var errorHandler = function (error) {
-        OBLog("OBPush errorHandler", 5);
+    var registerError = function (error) {
+        OBLog("OBPush registerError", 5);
     };
 
-    var didRegister = false;
     var register = function() {
-        if (didRegister) {
+        if (isRegistered) {
             return;
         }
         ionic.Platform.ready(function(){
             onDeviceReady();
-            didRegister = true;
         });
     };
 
     var unregister = function() {
         ionic.Platform.ready(function(){
             pushNotification.unregister(function(result) {
-                                          didRegister = false;
+                                          isRegistered = false;
                                         },
                                         function(result) {
                                         });
         });
     };
+
+    var getIsRegistered = function() {
+        return isRegistered;
+    }
 
     var setApplicationIconBadgeNumber = function(num) {
         if (!ionic.Platform.isWebView()) {
@@ -192,6 +197,7 @@ angular.module('OBPushModule', ['ionic'])
     return {
         register : register,
         unregister : unregister,
+        getIsRegistered : getIsRegistered,
         setApplicationIconBadgeNumber : setApplicationIconBadgeNumber
     };
 }]);

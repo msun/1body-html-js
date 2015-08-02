@@ -1,21 +1,22 @@
 <ion-view cache-view="false">
     <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
     <ion-nav-buttons side="right">
-        <button class="button button-icon ion-chatbubble"
+        <button class="button button-icon"
                 ng-class="{'ion-gear-b' : selectedTrainer.$id == $root.user.$id,
-'ion-chatbubble' : selectedTrainer.$id != $root.user.$id}"
+                           'ion-chatbubble' : selectedTrainer.$id != $root.user.$id}"
                 ng-click="selectedTrainer.$id == $root.user.$id ?
-goTo('#/menu/my-profile') :
-goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
+                          goTo('#/menu/my-profile') :
+                          goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
         <!--
         <button class="button button-icon ion-chatbubble ob-hide"
-        ng-class="{'ob-show' : selectedTrainer.$id != $root.user.$id}"
-        ng-click="goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
+                ng-class="{'ob-show' : selectedTrainer.$id != $root.user.$id}"
+                ng-click="goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
         <button class="button button-icon ion-gear-b ob-hide"
-        ng-click="goTo('#/menu/my-profile')"
-        ng-class="{'ob-show' : selectedTrainer.$id == $root.user.$id}"></button>
+                ng-click="goTo('#/menu/my-profile')"
+                ng-class="{'ob-show' : selectedTrainer.$id == $root.user.$id}"></button>
         -->
     </ion-nav-buttons>
+
     <div ng-include="'js/trainer/templates/trainer-detail-main.html'"
          ng-show="tabIndex == 0"></div>
     <ion-content ng-show="tabIndex == 1"
@@ -32,14 +33,15 @@ goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
          ng-show="tabIndex == 2"></div>
     <!--
     <div ng-include=""
-    ng-show="tabIndex == 3"></div>
+         ng-show="tabIndex == 3"></div>
     -->
+
     <ion-footer-bar class="ob-footer">
         <div class="ob-tabs">
             <button class="ob-tab" ng-click="tabIndex = 0">
-<span class="ob-tab-img"
-      ng-class="{'ob-tab-img-activity-blue' : tabIndex == 0,
-'ob-tab-img-activity-grey' : tabIndex != 0}"></span>
+                <span class="ob-tab-img"
+                      ng-class="{'ob-tab-img-activity-blue' : tabIndex == 0,
+                                 'ob-tab-img-activity-grey' : tabIndex != 0}"></span>
             </button>
             <span class="ob-tab-separator"></span>
             <button class="ob-tab"
@@ -57,63 +59,63 @@ goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
             </button>
             <!--
             <button class="ob-tab"
-            ng-click="tabIndex = 3">
-            <i class="icon ion-information-circled ob-tab-icon"
-            ng-class="{'ob-tab-icon-selected' : tabIndex == 3}"
-            ng-class></i>
+                    ng-click="tabIndex = 3">
+                <i class="icon ion-information-circled ob-tab-icon"
+                   ng-class="{'ob-tab-icon-selected' : tabIndex == 3}"></i>
             </button>
             -->
         </div>
     </ion-footer-bar>
 </ion-view>
+
 <!--
-<ion-nav-view name="main"></ion-nav-view>
 <ion-tabs class="tabs-light tabs-icon-only ob-top-shadow">
-<ion-tab title="Activity"
-icon-on="ion-ios-body positive"
-icon-off="ion-ios-body"
-href="#/menu/Trainers/{{selectedTrainer.$id}}//main">
-<ion-nav-view name="main"></ion-nav-view>
-</ion-tab>
-<ion-tab title="Map"
-icon-on="ion-ios-location positive"
-icon-off="ion-ios-location"
-href="#/menu/Trainers/{{selectedTrainer.$id}}//map">
-<ion-nav-view name="map"></ion-nav-view>
-</ion-tab>
-<ion-tab title="Images"
-icon-on="ion-images positive"
-icon-off="ion-images"
-href="#/menu/Trainers/{{selectedTrainer.$id}}//images/Users/{{selectedTrainer.$id}}/{{selectedTrainer.$id}}">
-<ion-nav-view name="images"></ion-nav-view>
-</ion-tab>
-<ion-tab title="Info"
-icon-on="ion-information-circled positive"
-icon-off="ion-information-circled"
-href="#/menu/Trainers/{{selectedTrainer.$id}}//info">
-<ion-nav-view name="info"></ion-nav-view>
-</ion-tab>
+    <ion-tab title="Activity"
+             icon-on="ion-ios-body positive"
+             icon-off="ion-ios-body"
+             href="#/menu/Trainers/{{selectedTrainer.$id}}//main">
+        <ion-nav-view name="main"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Map"
+             icon-on="ion-ios-location positive"
+             icon-off="ion-ios-location"
+             href="#/menu/Trainers/{{selectedTrainer.$id}}//map">
+        <ion-nav-view name="map"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Images"
+             icon-on="ion-images positive"
+             icon-off="ion-images"
+             href="#/menu/Trainers/{{selectedTrainer.$id}}//images/Users/{{selectedTrainer.$id}}/{{selectedTrainer.$id}}">
+        <ion-nav-view name="images"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Info"
+             icon-on="ion-information-circled positive"
+             icon-off="ion-information-circled"
+             href="#/menu/Trainers/{{selectedTrainer.$id}}//info">
+        <ion-nav-view name="info"></ion-nav-view>
+    </ion-tab>
 </ion-tabs>
 -->
+
 <!--
 <div class="profile-tab-bar-container">
-<span class="button-bar profile-tab-bar">
-<a class="button profile-tab" id="profile-tab-1">
-<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
-<img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>
-</a>
-<a class="button profile-tab" id="profile-tab-2" href="#/menu/images/Users/{{selectedTrainer.$id}}/{{selectedTrainer.$id}}">
-<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
-<img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
-</a>
-<a class="button profile-tab" id="profile-tab-3" href="#/menu/Users/{{selectedTrainer.$id}}">
-<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
-<img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
-</a>
-<a class="button profile-tab" id="profile-tab-4">
-<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
-<img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
-</a>
-</span>
+    <span class="button-bar profile-tab-bar">
+        <a class="button profile-tab" id="profile-tab-1">
+            <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-grey.png"/>
+            <img class="profile-tab-icon" id="profile-tab-icon-1" src="img/professional-profile/tab-icon-map-blue.png"/>
+        </a>
+        <a class="button profile-tab" id="profile-tab-2" href="#/menu/images/Users/{{selectedTrainer.$id}}/{{selectedTrainer.$id}}">
+            <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
+            <img class="profile-tab-icon" id="profile-tab-icon-2" src="img/professional-profile/tab-icon-photos-grey.png"/>
+        </a>
+        <a class="button profile-tab" id="profile-tab-3" href="#/menu/Users/{{selectedTrainer.$id}}">
+            <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
+            <img class="profile-tab-icon" id="profile-tab-icon-3" src="img/professional-profile/tab-icon-activity-grey.png"/>
+        </a>
+        <a class="button profile-tab" id="profile-tab-4">
+            <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
+            <img class="profile-tab-icon" id="profile-tab-icon-4" src="img/professional-profile/tab-icon-info.png"/>
+        </a>
+    </span>
 </div>
 -->
