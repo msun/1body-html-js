@@ -3718,3 +3718,13 @@ input.ob-form-text-input[type="search"] {
     width: 100%;
     height: 4px;
 }
+
+.ob-images-emptytext {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: white;
+    text-align: center;
+    margin: 20px 12px;
+    border
+}
