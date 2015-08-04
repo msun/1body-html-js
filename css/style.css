@@ -2468,9 +2468,27 @@ input.ob-form-text-input[type="search"] {
     height: 20px;
 }
 
-.ob-header-icon {
+.ob-header-icon-container {
     -webkit-flex: 0 0 44px;
     flex: 0 0 44px;
+    -webkit-align-self: stretch;
+    align-self: stretch;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.ob-header-icon {
+    margin: auto;
+}
+
+.ob-header-icon-list {
+    background: url("../img/List-View-Icon.png") center/100% 100% no-repeat;
+    width: 19px;
+    height: 16px;
+}
+
+.ob-header-icon-map {
+    font-size: 24px;
 }
 
 .ob-header-flex-area {
@@ -2571,20 +2589,6 @@ input.ob-form-text-input[type="search"] {
     width: 95%;
     height: 2px;
     background: white;
-}
-
-.ob-header-list-view-icon-container {
-    display: block;
-    width: 100%;
-    margin: auto;
-}
-
-.ob-header-list-view-icon {
-    background: url("../img/List-View-Icon.png") center/100% 100% no-repeat;
-    display: block;
-    width: 19px;
-    height: 16px;
-    margin: auto;
 }
 
 /* ******** ob-map-tabs ******** */
