@@ -702,10 +702,16 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
     slots.hour.forEach(function (hr) {
         slots.half.push(hr);
         slots.half.push(hr + 30);
-        $scope.active.push(-1);
-        $scope.active.push(-1);
+        $scope.active.push({
+            status: -1,
+            prime: false
+        });
+        $scope.active.push({
+            status: -1,
+            prime: false
+        });
     });
-    console.log(slots.half);
+    console.log($scope.active);
     var now = new Date();
     $scope.minDate = now;
 
@@ -715,7 +721,7 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
     console.log(now);
     $scope.dt = now;
 
-    $scope.rules = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child("rules"));
+    $scope.rules = $firebaseArray(Schedule.ref().child(appFactory.user.$id).child("rules"));
 
     $scope.selectTime = function(i){
         $scope.chosen[i].status = 1 - $scope.chosen[i].status;
@@ -733,32 +739,29 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
         $scope.rules.$loaded(function() {
             $scope.theday = $scope.dt.getFullYear() + "-" + $scope.dt.getMonth() + "-" + $scope.dt.getDate();
             console.log($scope.dt);
+            console.log($scope.rules);
             daySchedule = $firebaseObject(Schedule.dateRef($scope.trainerID, $scope.dt));
             daySchedule.$loaded(function () {
+                console.log(daySchedule);
                 if (daySchedule.active) {
                     $scope.active = daySchedule.active;
                 } else {
-                    for (var i = 0; i < $scope.active.length; i++) {
-                        if ($scope.rules[slots.half[i]]) {
-                            console.log($scope.rules[slots.half[i]][$scope.dt.getDay()]);
+                    for (var i = 0; i < $scope.rules.length; i++) {
+                        if ($scope.rules[i]) {
+                            console.log($scope.rules[i]);
                         }
-
-                        if ($scope.rules[slots.half[i]] && $scope.rules[slots.half[i]][$scope.dt.getDay()] == 1) {
-                            $scope.active[i] = {
+                        if($scope.rules[i][$scope.dt.getDay()] == 1){
+                            console.log($scope.rules[i]);
+                            $scope.active[$scope.rules[i].$id] = {
                                 status: 0,
                                 rate: appFactory.selectedTrainer.normalRate,
                                 prime: false
                             };
-                        } else if ($scope.rules[slots.half[i]] && $scope.rules[slots.half[i]][$scope.dt.getDay()] == 2) {
-                            $scope.active[i] = {
+                        } else if($scope.rules[i][$scope.dt.getDay()] == 2){
+                            $scope.active[$scope.rules[i].$id] = {
                                 status: 0,
-                                rate: appFactory.selectedTrainer.primeRate,
+                                rate: appFactory.selectedTrainer.normalRate,
                                 prime: true
-                            };
-                        } else {
-                            $scope.active[i] = {
-                                status: -1,
-                                prime: false
                             };
                         }
                     }
@@ -1042,7 +1045,7 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
     }
 });
 
-trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, appFactory, $firebaseArray, $firebaseObject, Schedule, appConfig, $ionicModal, $state, $stateParams){
+trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, appFactory, $firebaseArray, $firebaseObject, Schedule, appConfig, $ionicModal, $state, $ionicHistory, $stateParams){
     $ionicModal.fromTemplateUrl('js/trainer/templates/trainer-schedule-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -1155,7 +1158,8 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
 
         daySchedule.$save().then(function(){
             alert("Schedule saved, thanks");
-            $state.transitionTo("menu.calendar" , {type: "my-schedule", userID: appFactory.user.$id, username: appFactory.user.username});
+            $ionicHistory.goBack();
+//            $state.transitionTo("menu.calendar" , {type: "my-schedule", userID: appFactory.user.$id, username: appFactory.user.username});
         });
 
     };

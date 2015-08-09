@@ -1555,8 +1555,13 @@ account.controller('IncomingRequestsCtrl', function($scope, Users, Transactions,
     }
 });
 
-account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, $timeout, Requests, Transactions, $window, $localstorage){
+account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFactory, $firebaseArray, $timeout, Requests, Transactions, $window, $localstorage, $stateParams){
+
     $scope.dt = new Date();
+    $scope.dt.setFullYear($stateParams.year);
+    $scope.dt.setMonth($stateParams.month);
+    $scope.dt.setDate($stateParams.day);
+
     $scope.showingAll = false;
 
     $scope.showCurrent = function(){
@@ -1595,13 +1600,14 @@ account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFa
 
     $scope.showAll = function(){
         $scope.showingAll = true;
-        $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id));
-
-        $scope.myTransactions.$loaded(function(){
-            for(var i=0; i<$scope.myTransactions.length; i++){
-                console.log($scope.myTransactions.$priority);
-            }
-        });
+//        $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id));
+//
+//        $scope.myTransactions.$loaded(function(){
+//            for(var i=0; i<$scope.myTransactions.length; i++){
+//                console.log($scope.myTransactions.$priority);
+//            }
+//        });
+        $window.location.href = "#/menu/transaction-calendar/my-trainings";
     }
 
     $ionicModal.fromTemplateUrl('js/account/templates/qrcode.html', {

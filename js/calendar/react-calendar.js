@@ -1,5 +1,5 @@
 
-var Calendar = React.createClass({
+var Calendar = React.createClass({displayName: "Calendar",
     propTypes : {
         selected: React.PropTypes.object.isRequired,
         slotsopen: React.PropTypes.array,
@@ -40,15 +40,16 @@ var Calendar = React.createClass({
     },
 
     render: function() {
-        return <div>
-            <div className="header">
-                <i className="fa fa-angle-left" onClick={this.previous}></i>
-							{this.renderMonthLabel()}
-                <i className="fa fa-angle-right" onClick={this.next}></i>
-            </div>
-            <DayNames />
-            {this.renderWeeks()}
-        </div>;
+        console.log(this.props);
+        return React.createElement("div", null,
+            React.createElement("div", {className: "header"},
+                React.createElement("i", {className: "fa fa-angle-left", onClick: this.previous}),
+                this.renderMonthLabel(),
+                React.createElement("i", {className: "fa fa-angle-right", onClick: this.next})
+            ),
+            React.createElement(DayNames, null),
+            this.renderWeeks()
+        );
     },
 
     renderWeeks: function() {
@@ -60,7 +61,7 @@ var Calendar = React.createClass({
 
         console.log(this.props);
         while (!done) {
-            weeks.push(<Week rulesopen={this.props.rulesopen} slotsbooked={this.props.slotsbooked} type={this.props.type} next={this.next} previous={this.previous} slotsopen={this.props.slotsopen} goto={this.props.goto} key={date.toString()} date={date.clone()} month={this.state.month} select={this.select} selected={this.props.selected} />);
+            weeks.push(React.createElement(Week, {rulesopen: this.props.rulesopen, slotsbooked: this.props.slotsbooked, type: this.props.type, next: this.next, previous: this.previous, slotsopen: this.props.slotsopen, goto: this.props.goto, key: date.toString(), date: date.clone(), month: this.state.month, select: this.select, selected: this.props.selected}));
             date.add(1, "w");
             done = count++ > 2 && monthIndex !== date.month();
             monthIndex = date.month();
@@ -70,25 +71,25 @@ var Calendar = React.createClass({
     },
 
     renderMonthLabel: function() {
-        return <span>{this.state.month.format("MMMM, YYYY")}</span>;
+        return React.createElement("span", null, this.state.month.format("MMMM, YYYY"));
     }
 });
 
-var DayNames = React.createClass({
+var DayNames = React.createClass({displayName: "DayNames",
     render: function() {
-        return <div className="week names">
-            <span className="day">Sun</span>
-            <span className="day">Mon</span>
-            <span className="day">Tue</span>
-            <span className="day">Wed</span>
-            <span className="day">Thu</span>
-            <span className="day">Fri</span>
-            <span className="day">Sat</span>
-        </div>;
+        return React.createElement("div", {className: "week names"},
+            React.createElement("span", {className: "day"}, "Sun"),
+            React.createElement("span", {className: "day"}, "Mon"),
+            React.createElement("span", {className: "day"}, "Tue"),
+            React.createElement("span", {className: "day"}, "Wed"),
+            React.createElement("span", {className: "day"}, "Thu"),
+            React.createElement("span", {className: "day"}, "Fri"),
+            React.createElement("span", {className: "day"}, "Sat")
+        );
     }
 });
 
-var Week = React.createClass({
+var Week = React.createClass({displayName: "Week",
     goto: function(day){
         console.log(this);
         this.props.goto(day);
@@ -122,12 +123,12 @@ var Week = React.createClass({
             var goto = this.goto.bind(this, day);
             var change = this.change.bind(this, day);
             if(!day.isCurrentMonth){
-                days.push(<span key={day.date.toString()} className={"day" + (day.isToday ? " today" : "") + (day.isCurrentMonth ? "" : " different-month") + (day.date.isSame(this.props.selected) ? " selected" : "")} onClick={change}>{day.number}<br/>-</span>);
+                days.push(React.createElement("span", {key: day.date.toString(), className: "day" + (day.isToday ? " today" : "") + (day.isCurrentMonth ? "" : " different-month") + (day.date.isSame(this.props.selected) ? " selected" : ""), onClick: change}, day.number, React.createElement("br", null), "-"));
             } else {
                 if(this.props.type == "my-schedule"){
-                    days.push(<span key={day.date.toString()} className={"day" + (day.isToday ? " today" : "") + (day.isCurrentMonth ? "" : " different-month") + (day.date.isSame(this.props.selected) ? " selected" : "")} onClick={goto}>{day.number}<br/>{this.props.slotsbooked[day.date.month()][day.number]}|{day.slotsopen} </span>);
+                    days.push(React.createElement("span", {key: day.date.toString(), className: "day" + (day.isToday ? " today" : "") + (day.isCurrentMonth ? "" : " different-month") + (day.date.isSame(this.props.selected) ? " selected" : ""), onClick: goto}, day.number, React.createElement("br", null), this.props.slotsbooked[day.date.month()][day.number], "|", day.slotsopen, " "));
                 } else {
-                    days.push(<span key={day.date.toString()} className={"day" + (day.isToday ? " today" : "") + (day.isCurrentMonth ? "" : " different-month") + (day.date.isSame(this.props.selected) ? " selected" : "")} onClick={goto}>{day.number}<br/>{day.slotsopen} </span>);
+                    days.push(React.createElement("span", {key: day.date.toString(), className: "day" + (day.isToday ? " today" : "") + (day.isCurrentMonth ? "" : " different-month") + (day.date.isSame(this.props.selected) ? " selected" : ""), onClick: goto}, day.number, React.createElement("br", null), day.slotsopen, " "));
                 }
             }
 
@@ -136,9 +137,9 @@ var Week = React.createClass({
 
         }
 
-        return <div className="week" key={days[0].toString()}>
-						{days}
-        </div>;
+        return React.createElement("div", {className: "week", key: days[0].toString()},
+            days
+        );
     }
 });
 

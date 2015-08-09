@@ -1,7 +1,7 @@
 <ion-side-menus enable-menu-with-back-views="false">
     <ion-pane ion-side-menu-content drag-content="false">
         <ion-nav-bar class="bar-dark ob-darkpurple-bg">
-            <ion-nav-back-button class="ob-back-button"></ion-nav-back-button>
+            <ion-nav-back-button class="ob-back-button" ></ion-nav-back-button>
             <ion-nav-buttons side="left">
                 <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
             </ion-nav-buttons>
@@ -55,8 +55,10 @@
             <ul>
                 <a menu-close ng-click="rootGoTo('#/menu/map')"
                    class="item ob-sidemenu-tab"><i class="icon ion-search ob-ionicon-small"></i>&nbsp;&nbsp;&nbsp;Map</a>
-                <a menu-close ng-show="$root.user.group != 'Trainers'" ng-click="rootGoTo('#/menu/my-transactions')" class="item ob-sidemenu-tab">My Sessions</a>
-                <a menu-close ng-show="$root.user.group == 'Trainers'" ng-click="rootGoTo('#/menu/my-trainings')" class="item ob-sidemenu-tab">My Sessions</a>
+                <a menu-close ng-href="#/menu/transaction-calendar/my-trainings" class="item ob-sidemenu-tab">My Sessions</a>
+                <!--<a menu-close ng-show="$root.user.group == 'Trainers'" class="item ob-sidemenu-tab"-->
+                   <!--ng-click="rootGoTo('#/menu/my-trainings')" >My Sessions</a>-->
+                <!--ng-href="#/menu/transaction-calendar/my-trainings" >My Sessions</a>-->
                 <a menu-close ng-show="$root.user.group != 'Trainers'" ng-click="rootGoTo('#/menu/my-requests')" class="item ob-sidemenu-tab">My Mobile Requests</a>
                 <a menu-close ng-show="$root.user.group == 'Trainers'" ng-click="rootGoTo('#/menu/requested-sessions')" class="item ob-sidemenu-tab">My Mobile Requests</a>
                 <a menu-close ng-click="rootGoTo('#/menu/my-events')" class="item ob-sidemenu-tab">My Events</a>

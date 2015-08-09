@@ -443,7 +443,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.my-trainings', {
-                url: '/my-trainings',
+                url: '/my-trainings/:year/:month/:day',
                 views: {
                     'menu': {
                         templateUrl: 'js/account/templates/my-trainings.html',
@@ -521,6 +521,27 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     }
                 }
             })
+
+            .state('menu.trainer-schedule-calendar', {
+                url: '/trainer-schedule-calendar/:userID/:userName',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/calendar/templates/trainer-schedule-calendar.html',
+                        controller: 'TrainerScheduleController'
+                    }
+                }
+            })
+
+            .state('menu.transaction-calendar', {
+                url: '/transaction-calendar/:type',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/calendar/templates/my-sessions-calendar.html',
+                        controller: 'TransactionCalendarController'
+                    }
+                }
+            })
+
 
 //            .state('menu.account.qrcode', {
 //                url: '/qrcode/:transactionID',
@@ -638,7 +659,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
     .controller("MenuCtrl", function($scope, $window, Users, $ionicPopup, Events, Feeds, Gyms, GeoTrainers, GeoEvents,
                                      GeoGyms, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $timeout,
-                                     $firebaseObject, $ionicPopup, $state, $interval, UserAuth, $localstorage, GcmID,
+                                     $firebaseObject, $state, $interval, UserAuth, $localstorage, GcmID,
                                      $firebaseArray, Notifications, $ionicHistory, OBPush){
         $rootScope.header = "Users";
         $rootScope.goTo = function(url){
@@ -890,8 +911,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $scope.toggleMenu = function() {
             console.log("toggle left");
             $ionicSideMenuDelegate.toggleLeft();
-
-        }
+        };
 
         $scope.showWarning = false;
 
@@ -899,6 +919,18 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             console.log("location ready");
 
         });
+
+        $scope.myGoBack = function(){
+            if($ionicHistory.currentView().stateName == "menu.calendar"){
+//                $ionicHistory.goBack();
+//                $ionicHistory.clearHistory();
+                console.log($ionicHistory.viewHistory());
+                $ionicSideMenuDelegate.toggleLeft();
+            } else {
+                $ionicHistory.goBack();
+            }
+
+        };
 
         $scope.back = function() {
             $window.history.back();
