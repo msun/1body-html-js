@@ -110,7 +110,7 @@ calendar.controller( 'CalendarController', function( $scope, $interval, $statePa
     $scope.goto = function(day){
         console.log(day);
         if(!day.beforeToday || day.isToday){
-            $state.transitionTo('menu.' + $stateParams.type, {trainerID: $stateParams.userID, trainerName: $stateParams.userName, year: day.date.year(), month: day.date.month(), day: day.date.date()});
+            $state.transitionTo('menu.my-schedule', {year: day.date.year(), month: day.date.month(), day: day.date.date()});
         }
     };
 
@@ -219,7 +219,7 @@ calendar.controller( 'TrainerScheduleController', function( $scope, $interval, $
     $scope.goto = function(day){
         console.log(day);
         if(!day.beforeToday || day.isToday){
-            $state.transitionTo('menu.' + $stateParams.type, {trainerID: $stateParams.userID, trainerName: $stateParams.userName, year: day.date.year(), month: day.date.month(), day: day.date.date()});
+            $state.transitionTo('menu.trainer-schedule', {trainerID: $stateParams.userID, trainerName: $stateParams.userName, year: day.date.year(), month: day.date.month(), day: day.date.date()});
         }
     };
 
@@ -316,7 +316,7 @@ calendar.controller( 'TransactionCalendarController', function( $scope, $interva
 
     $scope.goto = function(day){
         console.log(day);
-        $state.transitionTo("menu.my-trainings", {year: day.date.year(), month: day.date.month(), day: day.date.date()});
+        $state.transitionTo("menu.my-transactions", {year: day.date.year(), month: day.date.month(), day: day.date.date()});
     };
 
     render();

@@ -1710,8 +1710,11 @@ account.controller('AddImageCtrl', function($scope, $ionicModal, Users, appFacto
     }
 });
 
-account.controller('MyTransactionsCtrl', function($scope,$firebaseObject, $ionicModal, Users, appFactory, $firebaseArray, $timeout, Requests, MyTransactions, $window, $localstorage){
+account.controller('MyTransactionsCtrl', function($scope, $stateParams, $firebaseObject, $ionicModal, Users, appFactory, $firebaseArray, $timeout, Requests, MyTransactions, $window, $localstorage){
     $scope.dt = new Date();
+    $scope.dt.setFullYear($stateParams.year);
+    $scope.dt.setMonth($stateParams.month);
+    $scope.dt.setDate($stateParams.day);
     $scope.showingAll = false;
 
     $scope.showCurrent = function(){

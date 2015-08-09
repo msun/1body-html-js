@@ -483,7 +483,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 //            })
 
             .state('menu.my-transactions', {
-                url: '/my-transactions',
+                url: '/my-transactions/:year/:month/:day',
                 views: {
                     'menu': {
                         templateUrl: 'js/account/templates/my-transactions.html',
