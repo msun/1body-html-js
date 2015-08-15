@@ -6,25 +6,21 @@ list.factory('listFactory', function($http, $compile){
 
 list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $timeout, $stateParams, $ionicLoading,
                                      GeoTrainers, GeoEvents, mapFactory, appFactory, Users, Events, $ionicPopover,
-                                     $ionicPopup, Categories, GeoGyms, Gyms, Classes, $localstorage, $firebaseObject,
+                                     $ionicPopup, Categories, GeoGyms, Gyms, Classes, $state, $localstorage, $firebaseObject,
                                      $firebaseArray, $ionicModal, Sizes, $ionicHistory) {
+    console.log("list ctrl");
     $scope.array = [];
     var clone = [];
     $scope.searchContainer = {};
-    $scope.searchContainer.radius = appFactory.radius || 8;
+    $scope.searchContainer.radius = appFactory.radius || 15;
 
     var searchKeys = appConfig.searchKeys;
 
     $scope.header = $rootScope.header;
 
-    if($rootScope.header == "Users"){
-        listUsers();
-        listGyms();
-    } else if($rootScope.header == "Events") {
-        listEvents();
-    } else {
-        listGyms();
-    }
+    listUsers();
+    listGyms();
+    listEvents();
 
     if(appFactory.searchTerms && appFactory.searchTerms.length > 0){
 //        appFactory.onsearch = false;
@@ -53,22 +49,8 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
     };
 
     $scope.clickontab = function (tab, $event) {
-        $scope.array = [];
-        clone = [];
-
         $scope.header = tab;
         $rootScope.header = tab;
-        if (tab == "Events") {
-            listEvents();
-        } else if (tab == "Users") {
-            listUsers();
-            listGyms();
-
-        } else {
-            alert("Classes coming soon");
-            $scope.clickontab("Users");
-            listGyms();
-        }
     };
 
     $scope.radiusChange = function(){
@@ -87,7 +69,10 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
         });
     };
 
-    function searchItem(t){
+    $scope.searchFilter = function(t){
+        if(t.type != $rootScope.header){
+            return false;
+        }
         console.log(t);
         if(!$scope.searchContainer.searchTerms){
             return true;
@@ -140,11 +125,9 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
     };
 
     $scope.searchOnMap = function(){
-        //$ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
-        //$ionicHistory.nextViewOptions({ disableAnimate: true });
         appFactory.onsearch = true;
         appFactory.searchTerms = $scope.searchContainer.searchTerms;
-        window.location.href = "#/menu/map";
+        $state.go("menu.map", {}, {reload: true});
     };
 
     $scope.searchTrainers = function(event){
@@ -153,9 +136,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
         var i = $scope.array.length;
         console.log($scope.array);
         while(i--){
-            if(!searchItem($scope.array[i])){
-                $scope.array.splice(i, 1);
-            }
+            $scope.array.splice(i, 1);
         }
         return;
     };
@@ -165,6 +146,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
             var fobj = $firebaseObject(Users.ref().child(obj.key));
             fobj.$loaded(function(){
                 fobj.distance = obj.distance;
+                fobj.type = "Users";
                 appFactory.users[obj.key] = fobj;
 
                 $localstorage.setObject("Users", appFactory.users);
@@ -175,6 +157,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
         };
 
         if (appFactory.users[obj.key]) {
+            appFactory.users[obj.key].type = "Users";
             appFactory.users[obj.key].distance = obj.distance;
             appFactory.users[obj.key].sizes = $firebaseObject(Sizes.ref().child(obj.key));
             appFactory.users[obj.key].href = "#/menu/Trainers/" + appFactory.users[obj.key].$id + "/";
@@ -195,37 +178,23 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
     }
 
     function listUsers(){
-        appFactory.onKeyEnter = function (obj) {
-            console.log("onKeyEnter");
+        $scope.$on('onKeyEnterUser', function (event, obj) {
             console.log(obj);
             findUser(obj, function(foundItem){
-                if(searchItem(foundItem)){
-                    $scope.array.push(foundItem);
-                }
-
-                clone.push(foundItem);
+                $scope.array.push(foundItem);
             });
-        };
+        });
 
-        appFactory.onKeyExit = function (key) {
-            console.log("onKeyExit");
-            console.log(key);
+        $scope.$on('onKeyExitUser', function (event, key) {
             for(var i=0; i < $scope.array.length; i++){
                 if($scope.array[i].$id == key){
                     $scope.array.splice(i, 1);
                     break;
                 }
             }
+        });
 
-            for(var i=0; i < clone.length; i++){
-                if(clone[i].$id == key){
-                    clone.splice(i, 1);
-                    break;
-                }
-            }
-        };
-
-        appFactory.onKeyMove = function (obj) {
+        $scope.$on('onKeyMoveUser', function (event, obj) {
             console.log("onKeyMove");
             console.log(key);
             for(var i=0; i < $scope.array.length; i++){
@@ -234,23 +203,13 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
                     break;
                 }
             }
-
-            for(var i=0; i < clone.length; i++){
-                if(clone[i].$id == obj.key){
-                    clone[i].distance = obj.distance;
-                    break;
-                }
-            }
-        };
+        });
 
         console.log(appFactory.geoTrainers);
         angular.forEach(appFactory.geoTrainers, function(obj, key){
             findUser(obj, function(foundItem){
                 console.log(foundItem);
-                if(searchItem(foundItem)) {
-                    $scope.array.push(foundItem);
-                }
-                clone.push(foundItem);
+                $scope.array.push(foundItem);
             });
         });
     }
@@ -262,6 +221,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
             fobj.$loaded(function(){
                 console.log(fobj);
                 fobj.distance = obj.distance;
+                fobj.type = "Events";
                 appFactory.events[keys[0]] = fobj;
 
                 $localstorage.setObject("Events", appFactory.events);
@@ -272,6 +232,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
 
         if(appFactory.events[keys[0]]){
             appFactory.events[keys[0]].distance = obj.distance;
+            appFactory.events[keys[0]].type = "Events";
             appFactory.events[keys[0]].href = "#/menu/Events/" + keys[1] + "/" + keys[0];
 
             var lastModified = $firebaseObject(Events.ref().child(keys[1]).child(keys[0]).child("modified"));
@@ -290,60 +251,35 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
     }
 
     function listEvents(){
-        appFactory.onKeyEnter = function (obj) {
+        $scope.$on('onKeyEnterEvent', function (event, obj) {
             console.log("onKeyEnter");
             console.log(obj);
             findEvent(obj, function(foundItem){
-                if(searchItem(foundItem)) {
-                    $scope.array.push(foundItem);
-                }
-                clone.push(foundItem);
+                $scope.array.push(foundItem);
             });
-        };
+        });
 
-        appFactory.onKeyExit = function (key) {
-            console.log("onKeyExit");
-            console.log(key);
-            console.log($scope.array);
+        $scope.$on('onKeyExitEvent', function (event, key) {
             for(var i=0; i < $scope.array.length; i++){
                 if(key.indexOf($scope.array[i].$id) >= 0){
                     $scope.array.splice(i, 1);
                     break;
                 }
             }
+        });
 
-            for(var i=0; i < clone.length; i++){
-                if(key.indexOf(clone[i].$id) >= 0){
-                    clone.splice(i, 1);
-                    break;
-                }
-            }
-        };
-
-        appFactory.onKeyMove = function (obj) {
-            console.log("onKeyMove");
-            console.log(key);
+        $scope.$on('onKeyMoveEvent', function (event, obj) {
             for(var i=0; i < $scope.array.length; i++){
                 if(obj.key.indexOf($scope.array[i].$id) >= 0){
                     $scope.array[i].distance = obj.distance;
                     break;
                 }
             }
-
-            for(var i=0; i < clone.length; i++){
-                if(clone[i].$id == key){
-                    clone[i].distance = obj.distance;
-                    break;
-                }
-            }
-        };
+        });
 
         angular.forEach(appFactory.geoEvents, function(obj, key){
             findEvent(obj, function(foundItem){
-                if(searchItem(foundItem)) {
-                    $scope.array.push(foundItem);
-                }
-                clone.push(foundItem);
+                $scope.array.push(foundItem);
             });
         });
     }
@@ -362,10 +298,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
                     gym.Trainers[key].distance = obj.distance;
                     findUser(gym.Trainers[key], function(foundItem){
                         console.log(foundItem);
-                        if(searchItem(foundItem)){
-                            $scope.array.push(foundItem);
-                        }
-                        clone.push(foundItem);
+                        $scope.array.push(foundItem);
                     });
                 }
             }
@@ -383,10 +316,7 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
                 if (gym.Classes[key]) {
                     gym.Classes[key].distance = obj.distance;
                     gym.Classes[key].href = "#/menu/Classes/" + gym.Classes[key].classID + "/" + obj.key;
-                    if(searchItem(gym.Classes[key])) {
-                        $scope.array.push(gym.Classes[key]);
-                    }
-                    clone.push(gym.Classes[key]);
+                    $scope.array.push(gym.Classes[key]);
                 }
             }
         }
@@ -409,13 +339,13 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
     };
 
     function listGyms(){
-        appFactory.onGymEnter = function (obj) {
+        $scope.$on('onKeyEnterGym', function (event, obj) {
             console.log("onKeyEnter");
             console.log(obj);
             findGym(obj);
-        };
+        });
 
-        appFactory.onGymExit = function (key) {
+        $scope.$on('onKeyExitGym', function (event, key) {
             console.log("onKeyExit");
             console.log(key);
             var i = $scope.array.length;
@@ -424,16 +354,9 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
                     $scope.array.splice(i, 1);
                 }
             }
+        });
 
-            i = clone.length;
-            while(i--){
-                if(clone[i].gym && clone[i].gym.gymID == key){
-                    clone.splice(i, 1);
-                }
-            }
-        };
-
-        appFactory.onGymMove = function (obj) {
+        $scope.$on('onKeyEnterGym', function (event, obj) {
             console.log("onKeyMove");
             console.log(key);
             for(var i=0; i < $scope.array.length; i++){
@@ -441,19 +364,9 @@ list.controller('ListCtrl', function($rootScope, $scope, $compile, appConfig, $t
                     $scope.array[i].distance = obj.distance;
                 }
             }
-
-            for(var i=0; i < clone.length; i++){
-                if(clone[i].gym && clone[i].gym.gymID == obj.key){
-                    clone[i].distance = obj.distance;
-                    break;
-                }
-            }
-        };
-
-
+        });
 
         angular.forEach(appFactory.geoGyms, function(obj, key){
-
             findGym(obj);
         });
     }

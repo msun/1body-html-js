@@ -1,4 +1,4 @@
-var account = angular.module('accountModule', ['ionic', 'starter', 'mapModule', 'ngResource', 'angularPayments', "firebase", "trainerModule"]);
+var account = angular.module('accountModule', ['ionic', 'starter', 'mapModule', "firebase", "trainerModule"]);
 
 account.controller('PreLoginCtrl', function($scope, $ionicHistory, $ionicSlideBoxDelegate){
     $scope.back = function() {

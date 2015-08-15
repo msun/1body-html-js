@@ -791,19 +791,14 @@ angular.module('starter.services', ["firebase"])
                     type: "Users"
                 };
                 factory.geoTrainers.push(obj);
-                if($rootScope.header == "Users" && factory.onKeyEnter){
-                    factory.onKeyEnter(obj);
-                }
-                console.log(factory.geoTrainers);
+                $rootScope.$broadcast('onKeyEnterUser', obj);
             });
 
             factory.trainerQuery.on("key_exited", function(key, location, distance) {
                 for(var i=0; i<factory.geoTrainers.length; i++){
                     if(factory.geoTrainers[i].key == key){
                         factory.geoTrainers.splice(i, 1);
-                        if($rootScope.header == "Users" && factory.onKeyExit){
-                            factory.onKeyExit(key);
-                        }
+                        $rootScope.$broadcast('onKeyExitUser', key);
                         break;
                     }
                 }
@@ -815,9 +810,7 @@ angular.module('starter.services', ["firebase"])
                     if(factory.geoTrainers[i].key == key){
                         factory.geoTrainers[i].location = location;
                         factory.geoTrainers[i].distance = GeoFire.distance(location, user.curlocation);
-                        if($rootScope.header == "Users" && factory.onKeyMove){
-                            factory.onKeyMove(factory.geoTrainers[i]);
-                        }
+                        $rootScope.$broadcast('onKeyMoveUser', factory.geoTrainers[i]);
                         break;
                     }
                 }
@@ -839,18 +832,21 @@ angular.module('starter.services', ["firebase"])
                 };
 
                 factory.geoEvents.push(obj);
-                if($rootScope.header == "Events" && factory.onKeyEnter){
-                    factory.onKeyEnter(obj);
-                }
+                $rootScope.$broadcast('onKeyEnterEvent', obj);
+
+//                if($rootScope.header == "Events" && factory.onKeyEnter){
+//                    factory.onKeyEnter(obj);
+//                }
             });
 
             factory.eventQuery.on("key_exited", function(key, location, distance) {
                 for(var i=0; i<factory.geoEvents.length; i++){
                     if(factory.geoEvents[i].key == key){
                         factory.geoEvents.splice(i, 1);
-                        if($rootScope.header == "Events" && factory.onKeyExit){
-                            factory.onKeyExit(key);
-                        }
+                        $rootScope.$broadcast('onKeyExitEvent', key);
+//                        if($rootScope.header == "Events" && factory.onKeyExit){
+//                            factory.onKeyExit(key);
+//                        }
                         break;
                     }
                 }
@@ -861,9 +857,10 @@ angular.module('starter.services', ["firebase"])
                     if(factory.geoEvents[i].key == key){
                         factory.geoEvents[i].location = location;
                         factory.geoEvents[i].distance = GeoFire.distance(location, user.curlocation);
-                        if($rootScope.header == "Events" && factory.onKeyMove){
-                            factory.onKeyMove(factory.geoEvents[i]);
-                        }
+                        $rootScope.$broadcast('onKeyMoveEvent', factory.geoEvents[i]);
+//                        if($rootScope.header == "Events" && factory.onKeyMove){
+//                            factory.onKeyMove(factory.geoEvents[i]);
+//                        }
                         break;
                     }
                 }
@@ -883,9 +880,10 @@ angular.module('starter.services', ["firebase"])
                 };
                 console.log(obj);
                 factory.geoGyms.push(obj);
-                if($rootScope.header != "Events" && factory.onGymEnter){
-                    factory.onGymEnter(obj);
-                }
+                $rootScope.$broadcast('onKeyMoveGym', obj);
+//                if($rootScope.header != "Events" && factory.onGymEnter){
+//                    factory.onGymEnter(obj);
+//                }
 
             });
 
@@ -893,9 +891,10 @@ angular.module('starter.services', ["firebase"])
                 for(var i=0; i<factory.geoGyms.length; i++){
                     if(factory.geoGyms[i].key == key){
                         factory.geoGyms.splice(i, 1);
-                        if($rootScope.header != "Events" && factory.onGymExit){
-                            factory.onGymExit(key);
-                        }
+                        $rootScope.$broadcast('onKeyExitGym', key);
+//                        if($rootScope.header != "Events" && factory.onGymExit){
+//                            factory.onGymExit(key);
+//                        }
                         break;
                     }
                 }
@@ -906,9 +905,10 @@ angular.module('starter.services', ["firebase"])
                     if(factory.geoGyms[i].key == key){
                         factory.geoGyms[i].location = location;
                         factory.geoGyms[i].distance = GeoFire.distance(location, user.curlocation);
-                        if($rootScope.header != "Events" && factory.onGymMove){
-                            factory.onGymMove(factory.geoGyms[i]);
-                        }
+//                        if($rootScope.header != "Events" && factory.onGymMove){
+//                            factory.onGymMove(factory.geoGyms[i]);
+//                        }
+                        $rootScope.$broadcast('onKeyMoveGym', factory.geoGyms[i]);
                         break;
                     }
                 }

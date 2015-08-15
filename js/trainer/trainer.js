@@ -31,23 +31,27 @@ trainer.factory('Time', function(){
     return Time;
 });
 
-trainer.controller('MyConversationsCtrl', function($scope, Conversations, $localstorage, Users, Trainers, $ionicModal, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams, appConfig, Notifications){
-    $scope.myConversations = $firebaseArray(Conversations.ref().child(appFactory.user.$id));
+trainer.controller('MyConversationsCtrl', function($scope, Conversations, $state, $localstorage, Users, Trainers, $ionicModal, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams, appConfig, Notifications){
+    $scope.myConversations = $firebaseArray(Conversations.ref().child(appFactory.user.$id).child("metadata"));
     $scope.users = {};
     $scope.messages = {};
-    $scope.myConversations.$loaded(function(){
-        for(var i=0; i<$scope.myConversations.length; i++){
-            var userID = $scope.myConversations[i].$id;
-            console.log(userID);
-            $scope.users[userID] = $firebaseObject(Users.ref().child(userID));
-            $scope.messages[userID] = $firebaseArray(Conversations.ref().child(appFactory.user.$id).child(userID).limitToLast(1));
-//            $scope.users[userID].$loaded(function(){
-//                console.log($scope.users[userID].username);
-//            })
+
+    $scope.myConversations.$watch(function(event){
+        if(event.event == "child_added"){
+//            $scope.myConversations.$getRecord(event.key).lastMessage.acknowledged = true;
+//            $scope.myConversations.$save($scope.myConversations.$indexFor(event.key));
+////            $scope.users[record.$id] = $firebaseObject(Users.ref().child(record.$id));
+            $scope.messages[event.key] = $firebaseArray(Conversations.ref().child(appFactory.user.$id).child(event.key).limitToLast(1));
         }
-        console.log($scope.users);
     });
 
+    $scope.clickConversation = function(conversation){
+        $scope.myConversations.$getRecord(conversation.$id).lastMessage.acknowledged = true;
+        $scope.myConversations.$save($scope.myConversations.$indexFor(conversation.$id));
+
+        $state.transitionTo("menu.conversations", {userID: conversation.$id});
+    }
+    console.log($scope.myConversations);
 });
 
 trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversations, Users, Trainers, $ionicModal, $firebaseObject, $firebaseArray, appFactory, $timeout, $stateParams, $window, appConfig, Notifications){
@@ -62,37 +66,34 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
         $window.history.back();
     }
 
-    $scope.newmessage = {};
-    $scope.users = {};
-    $scope.users[appFactory.user.$id] = appFactory.user;
+    $scope.user = $firebaseObject(Trainers.ref().child($stateParams.userID));
 
-    if(appFactory.users[$stateParams.userID]){
-        $scope.users[$stateParams.userID] = appFactory.users[$stateParams.userID];
-        console.log($scope.users);
-    } else {
-        var user = $firebaseObject(Trainers.ref().child($stateParams.userID));
-        user.$loaded(function(){
-            $scope.users[$stateParams.userID] = user;
-            console.log($scope.users);
-            appFactory.users[$stateParams.userID] = user;
-            $localstorage.setObject("Users", appFactory.users);
-        });
-    }
+    $scope.newmessage = {};
+//    $scope.users = {};
+//    $scope.users[appFactory.user.$id] = appFactory.user;
+//
+//    if(appFactory.users[$stateParams.userID]){
+//        $scope.users[$stateParams.userID] = appFactory.users[$stateParams.userID];
+//        console.log($scope.users);
+//    } else {
+//        $scope.user = $firebaseObject(Trainers.ref().child($stateParams.userID));
+//        user.$loaded(function(){
+//            $scope.users[$stateParams.userID] = user;
+//            console.log($scope.users);
+//            appFactory.users[$stateParams.userID] = user;
+//            $localstorage.setObject("Users", appFactory.users);
+//        });
+//    }
 
     $scope.myMessages = $firebaseArray(Conversations.ref().child(appFactory.user.$id).child($stateParams.userID).limitToLast(appConfig.defaultItemsPerPage));
-    $scope.myMessages.$loaded(function(){
-        console.log($scope.myMessages[$scope.myMessages.length - 1]);
-        $scope.myMessages[$scope.myMessages.length - 1].acknowledged = true;
-        $scope.myMessages.$save($scope.myMessages.length - 1);
-        $scope.myMessages.$watch(function(event) {
-            console.log(event);
-            if(event.event == "child_added"){
-                console.log($scope.myMessages.$getRecord(event.key));
-                $scope.myMessages.$getRecord(event.key).acknowledged = true;
-                $scope.myMessages.$save($scope.myMessages.$indexFor(event.key));
-            }
-        });
-    })
+    $scope.myMessages.$watch(function(event) {
+        console.log(event);
+        if(event.event == "child_added"){
+            console.log($scope.myMessages.$getRecord(event.key));
+            $scope.myMessages.$getRecord(event.key).acknowledged = true;
+            $scope.myMessages.$save($scope.myMessages.$indexFor(event.key));
+        }
+    });
 
     $scope.hisMessages = $firebaseArray(Conversations.ref().child($stateParams.userID).child(appFactory.user.$id).limitToLast(appConfig.defaultItemsPerPage));
 
@@ -112,13 +113,30 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
                 message: appFactory.user.username + " has left you a message: " + $scope.newmessage.text
             }
 
+            var metadata = $firebaseObject(Conversations.ref().child(appFactory.user.$id).child("metadata").child($stateParams.userID));
+            metadata.username = $scope.user.username;
+            metadata.lastModifiedDate = $scope.newmessage.created;
+            metadata.lastMessage = $scope.newmessage;
+            metadata.$save().then(function(){
+                var hismessage = $scope.newmessage;
+                hismessage.acknowledged = false;
+                var hismetadata = $firebaseObject(Conversations.ref().child($stateParams.userID).child("metadata").child(appFactory.user.$id));
+                hismetadata.username = appFactory.user.username;
+                hismetadata.lastModifiedDate = $scope.newmessage.created;
+                hismetadata.lastMessage = hismessage;
+                hismetadata.$save();
+                $scope.hisMessages.$add(hismessage).then(function(){
+                    $scope.newmessage.text = "";
+                });
+
+            });
+
             Notifications.ref().push(notif);
 
-            $scope.newmessage.text = "";
+
         });
 
-        $scope.newmessage.acknowledged = false;
-        $scope.hisMessages.$add($scope.newmessage);
+
     }
 });
 
@@ -234,11 +252,37 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             });
         }
 
+        $scope.reviews = [];
+        $scope.hasMoreReviews = true;
         var reviewRef = Reviews.ref().child($stateParams.trainerID);
-        $scope.reviews = $firebaseArray(reviewRef.orderByPriority().endAt(Date.now()).limitToLast(appConfig.defaultItemsPerPage));
+        var reviewArray = $firebaseArray(reviewRef.orderByPriority().endAt(Date.now()).limitToLast(appConfig.defaultItemsPerPage));
+        reviewArray.$loaded(function(){
+            angular.forEach(reviewArray, function(value, key){
+                console.log(value.$priority);
+                $scope.reviews.push(value);
+            });
+            if(reviewArray.length < 5){
+                $scope.hasMoreReviews = false;
+            }
+        });
+//        $scope.reviews = $firebaseArray(reviewRef.orderByPriority().endAt(Date.now()).limitToLast(appConfig.defaultItemsPerPage));
 
         $scope.moreReviews = function(){
-            $scope.reviews = $firebaseArray(reviewRef.orderByPriority().endAt($scope.reviews[0].$priority).limitToLast(appConfig.defaultItemsPerPage));
+            console.log($scope.hasMoreReviews);
+            if($scope.hasMoreReviews){
+                console.log("pri " + $scope.reviews[$scope.reviews.length - appConfig.defaultItemsPerPage].$priority);
+                var moreReviewsArray = $firebaseArray(reviewRef.orderByPriority().endAt($scope.reviews[$scope.reviews.length - appConfig.defaultItemsPerPage].$priority - 1).limitToLast(appConfig.defaultItemsPerPage));
+                moreReviewsArray.$loaded(function(){
+                    angular.forEach(moreReviewsArray, function(value, key){
+                        console.log(value.$priority);
+                        $scope.reviews.push(value);
+                    });
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                    if(moreReviewsArray.length < 5){
+                        $scope.hasMoreReviews = false;
+                    }
+                });
+            }
         };
     }
 
@@ -698,7 +742,7 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
         half: []
     }
     $scope.active = [];
-    slots.hour = _.range(0, 2300, 100);
+    slots.hour = _.range(0, 2400, 100);
     slots.hour.forEach(function (hr) {
         slots.half.push(hr);
         slots.half.push(hr + 30);
@@ -721,7 +765,7 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
     console.log(now);
     $scope.dt = now;
 
-    $scope.rules = $firebaseArray(Schedule.ref().child(appFactory.user.$id).child("rules"));
+    $scope.rules = $firebaseArray(Schedule.ref().child($scope.trainerID).child("rules"));
 
     $scope.selectTime = function(i){
         $scope.chosen[i].status = 1 - $scope.chosen[i].status;
@@ -738,8 +782,12 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
     $scope.$watch('dt', function (newValue, oldValue) {
         $scope.rules.$loaded(function() {
             $scope.theday = $scope.dt.getFullYear() + "-" + $scope.dt.getMonth() + "-" + $scope.dt.getDate();
-            console.log($scope.dt);
+            console.log($scope.dt.getDay());
             console.log($scope.rules);
+            for(var i=0; i<48;i++){
+                $scope.active[i].status = -1;
+            }
+
             daySchedule = $firebaseObject(Schedule.dateRef($scope.trainerID, $scope.dt));
             daySchedule.$loaded(function () {
                 console.log(daySchedule);
@@ -758,6 +806,7 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
                                 prime: false
                             };
                         } else if($scope.rules[i][$scope.dt.getDay()] == 2){
+                            console.log($scope.rules[i]);
                             $scope.active[$scope.rules[i].$id] = {
                                 status: 0,
                                 rate: appFactory.selectedTrainer.normalRate,
@@ -766,16 +815,20 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
                         }
                     }
                 }
-                console.log($scope.active);
-                $scope.timeslots = [];
-                $scope.chosen = [];
-                for (var i = 0; i < $scope.active.length; i++) {
-                    if ($scope.active[i].status == 0) {
-                        $scope.timeslots.push(slots.half[i]);
-                        $scope.chosen.push($scope.active[i]);
+
+                $timeout(function(){
+                    console.log($scope.active);
+                    $scope.timeslots = [];
+                    $scope.chosen = [];
+                    for (var i = 0; i < $scope.active.length; i++) {
+                        if ($scope.active[i].status == 0) {
+                            $scope.timeslots.push(slots.half[i]);
+                            $scope.chosen.push($scope.active[i]);
+                        }
                     }
-                }
-                console.log($scope.chosen);
+                    console.log($scope.chosen);
+                });
+
             })
 
         });

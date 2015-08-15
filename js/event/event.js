@@ -1,6 +1,6 @@
-var event = angular.module('eventModule', ['ionic', 'accountModule', 'ui.bootstrap', 'starter', 'timeAndDate']);
+var event = angular.module('eventModule', ['ionic', 'accountModule', 'starter', 'timeAndDate']);
 
-event.factory('eventFactory', function($resource, $http, appFactory){
+event.factory('eventFactory', function($http, appFactory){
     var factory = {};
 
     factory.getStreetAddress = function(url, callback){

@@ -17,7 +17,7 @@
              id="event-detail-map">
         </div>
     </ion-content>
-     <div ng-controller="ImagesCtrl" ng-init="init('Users', eventID, eventID)"
+     <div ng-controller="ImagesCtrl" ng-init="init('Events', eventID, selectedEvent.userID)"
           ng-include="'js/user/templates/images.html'"
           ng-show="tabIndex == 2"></div>
     <!--

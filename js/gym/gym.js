@@ -1,4 +1,4 @@
-var gymModule = angular.module('gymModule', ['ionic', 'accountModule', 'ui.bootstrap', 'starter', 'ui.bootstrap.datetimepicker']);
+var gymModule = angular.module('gymModule', ['ionic', 'accountModule', 'starter']);
 
 gymModule.factory('gymModuleFactory', function($resource, baseUrl, $http, appFactory){
     var factory = {};

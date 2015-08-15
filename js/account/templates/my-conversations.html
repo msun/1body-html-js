@@ -1,4 +1,4 @@
-<ion-view view-title="My Conversations">
+<ion-view view-title="My Conversations" style="display: flex;">
     <!--
     <ion-nav-buttons side="right">
         <button class="button button-icon ion-plus"
@@ -12,8 +12,25 @@
                     You have no conversations!<br/>
                     Open another user's profile and tap the conversation button to start!<br/>
                 </div>
-                <a class="ob-list-row" ng-repeat="conversation in myConversations"
-                   href="#/menu/conversations/{{conversation.$id}}">
+                <!--<a class="ob-list-row" ng-repeat="conversation in myConversations"-->
+                   <!--href="#/menu/conversations/{{conversation.$id}}">-->
+                    <!--<div class="ob-list-col-img">-->
+                        <!--<img class="ob-list-img"-->
+                             <!--src="https://s3.amazonaws.com/com.onebody.profile/Users/{{conversation.$id | htmlEncode}}/profilepic.jpg"-->
+                             <!--onerror="this.src='img/emptypic-user.png'"/>-->
+                    <!--</div>-->
+                    <!--<div class="ob-list-col-flex">-->
+                        <!--<div class="ob-list-text">-->
+                            <!--{{users[conversation.$id].username}}-->
+                            <!--<i ng-show="!messages[conversation.$id][0].acknowledged" class="icon ion-chatbubble-working"></i>-->
+                            <!--&lt;!&ndash;<i ng-show="messages[conversation.$id][0].acknowledged" class="icon ion-chatbubble"></i>&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--<div class="ob-list-subtext">{{messages[conversation.$id][0].text}} <span class="ob-list-subtext" style="float: right">{{messages[conversation.$id][0].created | date:'yyyy-MM-dd HH:mm:ss'}}</span></div>-->
+                    <!--</div>-->
+                <!--</a>-->
+
+                <a class="ob-list-row" ng-repeat="conversation in myConversations | orderBy: '-lastModifiedDate'"
+                   ng-click="clickConversation(conversation)">
                     <div class="ob-list-col-img">
                         <img class="ob-list-img"
                              src="https://s3.amazonaws.com/com.onebody.profile/Users/{{conversation.$id | htmlEncode}}/profilepic.jpg"
@@ -21,11 +38,11 @@
                     </div>
                     <div class="ob-list-col-flex">
                         <div class="ob-list-text">
-                            {{users[conversation.$id].username}}
+                            {{conversation.username}}
                             <i ng-show="!messages[conversation.$id][0].acknowledged" class="icon ion-chatbubble-working"></i>
                             <!--<i ng-show="messages[conversation.$id][0].acknowledged" class="icon ion-chatbubble"></i>-->
                         </div>
-                        <div class="ob-list-subtext">{{messages[conversation.$id][0].text}} <span class="ob-list-subtext" style="float: right">{{messages[conversation.$id][0].created | date:'yyyy-MM-dd HH:mm:ss'}}</span></div>
+                        <div class="ob-list-subtext">{{conversation.lastMessage.text}} <span class="ob-list-subtext" style="float: right">{{conversation.lastMessage.created | date:'yyyy-MM-dd HH:mm:ss'}}</span></div>
                     </div>
                 </a>
             </div>

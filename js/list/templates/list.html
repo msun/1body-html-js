@@ -1,4 +1,4 @@
-<ion-view hide-nav-bar="true">
+<ion-view hide-nav-bar="true" cache-view="false">
     <ion-content class="ob-grey-bg">
         <div class="ob-content">
             <div class="ob-header ob-map-header">
@@ -13,7 +13,7 @@
                         <div class="ob-bar-search-input-container">
                             <i class="icon ion-search ob-bar-search-input-icon-left"></i>
                             <input type="search" class="ob-bar-search-input" placeholder="ex. hot yoga, boxing"
-                                   ng-model="searchContainer.searchTerms" ng-keyup="searchTrainers($event)" focus-me/>
+                                   ng-model="searchContainer.searchTerms"  focus-me/>
                             <i class="icon ion-ios-close-outline ob-bar-search-input-icon-right"
                                ng-click="clearSearch()"></i>
                         </div>
@@ -41,9 +41,19 @@
             <div class="ob-list ob-map-list">
                 <div class="ob-form-row ob-form-flex-row ob-map-radiusinput">
                     <span class="ob-form-prompt">Search Radius</span>
+
+                    <select class="ob-form-select ob-form-select-xlarge"
+                            ng-model="searchContainer.radius" ng-change="radiusChange()">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>15</option>
+                        <option>20</option>
+                        <option>30</option>
+                        <option>50</option>
+                    </select>
                     <span class="ob-form-text">{{searchContainer.radius  | number:0}}km</span>
-                    <input class="ob-form-range" type="range" name="volume" min="0" max="50"
-                           ng-change="radiusChange()" ng-model="searchContainer.radius">
+                    <!--<input class="ob-form-range" type="range" name="volume" min="0" max="50"-->
+                           <!--ng-change="radiusChange()" ng-model="searchContainer.radius">-->
                 </div>
                 <div class="ob-list-emptytext" ng-show="array.length <= 0">
                     No <span ng-show="header === 'Users'">professionals</span>
@@ -52,7 +62,7 @@
                     found
                 </div>
                 <a class="ob-list-row ob-map-list-row"
-                   ng-repeat="item in array track by $index | orderBy:'distance'"
+                   ng-repeat="item in array track by $index | orderBy:'distance'" ng-if="searchFilter(item)"
                    href="{{item.href}}">
                     <div class="ob-list-col-img">
                         <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/{{$root.header}}/{{item.$id | htmlEncode}}/profilepic.jpg"/>

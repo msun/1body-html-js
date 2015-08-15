@@ -149,6 +149,7 @@ userModule.controller("ImagesCtrl", function($scope, $ionicModal, Following, app
     $scope.type = $stateParams.type;
     $scope.id = $stateParams.id;
     $scope.userID = $stateParams.userID;
+    console.log($stateParams);
     if ($scope.type && $scope.id) {
         $scope.images = $firebaseArray(ImageUrls.ref().child($scope.type).child($scope.id).orderByPriority().endAt(Date.now()).limitToLast(9));
     }

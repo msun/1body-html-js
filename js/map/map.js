@@ -109,6 +109,10 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
     $scope.markers = {};
     $scope.mapItems = {};
     $scope.array = {};
+
+    $scope.trainers = {};
+    $scope.events = {};
+
     $scope.trainerCircles = [];
     $scope.searchContainer = {};
     $scope.searchContainer.redo_search = true;
@@ -502,61 +506,69 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 
         var contentString;
         var infowindow;
-        if (obj.type == "Users") {
-            console.log($scope.array);
-            contentString = '<trainer-info-window item=\'array["' + obj.key + '"]\'></trainer-info-window>';
-            $scope.markers[obj.key.replace('-', "_")] = {
-                lat: obj.location[0],
-                lng: obj.location[1],
-                message: contentString,
-                focus: false,
-                draggable: false,
-                icon: {
-                    type: 'div',
-                    iconSize: [40, 40],
-                    className: "div-icon-users",
-                    html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg" class="map-icon-image" onerror="this.style.display=\'none\'" />',
-                    popupAnchor:  [0, 0]
-                },
-                getMessageScope: function() {return $scope; }
-            };
-        } else if (obj.type == "Events") {
-            console.log($scope.array);
-            var keys = obj.key.split(",");
-            contentString = '<event-info-window item=\'array["' + obj.key + '"]\'></event-info-window>';
-            $scope.markers[obj.key.replace('-', "_")] = {
-                lat: obj.location[0],
-                lng: obj.location[1],
-                message: contentString,
-                focus: false,
-                draggable: false,
-                icon: {
-                    type: 'div',
-                    iconSize: [40, 40],
-                    className: "div-icon-events",
-                    html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Events/' + keys[0] + '/profilepic.jpg" class="map-icon-image" onerror="this.style.display=\'none\'" />',
-                    popupAnchor:  [0, 0]
-                },
-                getMessageScope: function() {return $scope; }
-            };
+        if($rootScope.header == obj.type) {
+            if (obj.type == "Users") {
+                console.log($scope.array);
+                contentString = '<trainer-info-window item=\'array["' + obj.key + '"]\'></trainer-info-window>';
+                $scope.markers[obj.key.replace('-', "_")] = {
+                    lat: obj.location[0],
+                    lng: obj.location[1],
+                    message: contentString,
+                    focus: false,
+                    draggable: false,
+                    icon: {
+                        type: 'div',
+                        iconSize: [40, 40],
+                        className: "div-icon-users",
+                        html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Users/' + obj.key + '/profilepic.jpg" class="map-icon-image" onerror="this.style.display=\'none\'" />',
+                        popupAnchor: [0, 0]
+                    },
+                    getMessageScope: function () {
+                        return $scope;
+                    }
+                };
+            } else if (obj.type == "Events") {
+                console.log($scope.array);
+                var keys = obj.key.split(",");
+                contentString = '<event-info-window item=\'array["' + obj.key + '"]\'></event-info-window>';
+                $scope.markers[obj.key.replace('-', "_")] = {
+                    lat: obj.location[0],
+                    lng: obj.location[1],
+                    message: contentString,
+                    focus: false,
+                    draggable: false,
+                    icon: {
+                        type: 'div',
+                        iconSize: [40, 40],
+                        className: "div-icon-events",
+                        html: '<img src="https://s3.amazonaws.com/com.onebody.profile/Events/' + keys[0] + '/profilepic.jpg" class="map-icon-image" onerror="this.style.display=\'none\'" />',
+                        popupAnchor: [0, 0]
+                    },
+                    getMessageScope: function () {
+                        return $scope;
+                    }
+                };
 //            infowindow = new google.maps.InfoWindow();
 //            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
-        } else {
-            contentString = '<gym-info-window gym=\'array["' + obj.key + '"]\'></gym-info-window>';
-            $scope.markers[obj.key.replace('-', "_")] = {
-                lat: obj.location[0],
-                lng: obj.location[1],
-                message: contentString,
-                focus: false,
-                draggable: false,
-                icon:{
-                    iconUrl: 'img/gym-icon.png',
-                    iconSize:     [38, 38]
-                },
-                getMessageScope: function() {return $scope; }
-            };
+            } else {
+                contentString = '<gym-info-window gym=\'array["' + obj.key + '"]\'></gym-info-window>';
+                $scope.markers[obj.key.replace('-', "_")] = {
+                    lat: obj.location[0],
+                    lng: obj.location[1],
+                    message: contentString,
+                    focus: false,
+                    draggable: false,
+                    icon: {
+                        iconUrl: 'img/gym-icon.png',
+                        iconSize: [38, 38]
+                    },
+                    getMessageScope: function () {
+                        return $scope;
+                    }
+                };
 //            infowindow = new google.maps.InfoWindow({maxWidth: 250});
 //            $scope.markers[obj.key] = {marker: newmarker, index: obj.key, infowindow: infowindow};
+            }
         }
         console.log(contentString);
 
@@ -740,18 +752,27 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
             });
         });
 
-        appFactory.onKeyEnter = function (obj) {
-            console.log("onKeyEnter");
-            console.log(obj);
+        $scope.$on('onKeyEnterUser', function (event, obj) {
+            console.log(event);
             loadUser(obj, function(foundItem){
-                if(searchItem(foundItem)) {
-//                    console.log(foundItem);
+                if(searchItem(foundItem)){
                     compileDropMarker(obj, foundItem);
                 }
             });
-        };
+        });
 
-        appFactory.onKeyExit = function (key) {
+//        appFactory.onKeyEnter = function (obj) {
+//            console.log("onKeyEnter");
+//            console.log(obj);
+//            loadUser(obj, function(foundItem){
+//                if(searchItem(foundItem)) {
+////                    console.log(foundItem);
+//                    compileDropMarker(obj, foundItem);
+//                }
+//            });
+//        };
+
+        $scope.$on('onKeyExitUser', function (event, key) {
             console.log("onKeyExit");
             console.log(key);
             if($scope.markers[key]) {
@@ -759,9 +780,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 //                $scope.markers[key].marker.setMap(null);
 //                $scope.markers[key] = undefined;
             }
-        };
+        });
 
-        appFactory.onKeyMove = function (obj) {
+        $scope.$on('onKeyMoveUser', function (event, obj) {
             console.log("onKeyExit");
             console.log(obj);
             if($scope.markers[key]) {
@@ -775,7 +796,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                     compileDropMarker(obj, foundItem);
                 }
             });
-        };
+        });
     };
 
     function markGyms() {
@@ -787,7 +808,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
             })
         });
 
-        appFactory.onGymEnter = function (obj) {
+        $scope.$on('onKeyEnterGym', function (event, obj) {
             console.log("onKeyEnter");
             console.log(obj);
 //            dropMapMarker(obj);
@@ -796,9 +817,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                     compileDropMarker(obj, foundItem);
                 }
             })
-        };
+        });
 
-        appFactory.onGymExit = function (key) {
+        $scope.$on('onKeyExitGym', function (event, key) {
             console.log("onKeyExit");
             console.log(key);
 
@@ -807,9 +828,9 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
 //                $scope.markers[key].marker.setMap(null);
 //                $scope.markers[key] = undefined;
             }
-        };
+        });
 
-        appFactory.onGymMove = function (obj) {
+        $scope.$on('onKeyEnterGym', function (event, obj) {
             console.log("onKeyExit");
             console.log(obj);
             if($scope.markers[key]) {
@@ -824,7 +845,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                     compileDropMarker(obj, foundItem);
                 }
             })
-        };
+        });
     };
 
     function markEvents() {
@@ -837,7 +858,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
             });
         });
 
-        appFactory.onKeyEnter = function (obj) {
+        $scope.$on('onKeyEnterEvent', function (event, obj) {
             console.log("onKeyEnter");
             console.log(obj);
             loadEvent(obj, function (foundItem) {
@@ -846,18 +867,18 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                     compileDropMarker(obj, foundItem);
                 }
             });
-        };
+        });
 
-        appFactory.onKeyExit = function (key) {
+        $scope.$on('onKeyExitEvent', function (event, key) {
             console.log("onKeyExit");
             console.log(key);
             if($scope.markers[key]){
                 $scope.markers[key].marker.setMap(null);
                 $scope.markers[key] = undefined;
             }
-        };
+        });
 
-        appFactory.onKeyMove = function (obj) {
+        $scope.$on('onKeyMoveEvent', function (event, obj) {
             console.log("onKeyExit");
             console.log(obj);
             if($scope.markers[key]) {
@@ -871,7 +892,7 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
                     compileDropMarker(obj, foundItem);
                 }
             });
-        };
+        });
     };
 
 
@@ -966,13 +987,13 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
     };
 
     $scope.$on('$destroy', function() {
-        console.log("scope destroy, clear on key events");
-
-        appFactory.onKeyEnter = undefined;
-
-        appFactory.onKeyExit = undefined;
-
-        appFactory.onKeyMove = undefined;
+        console.log("scope destroy");
+//
+//        appFactory.onKeyEnter = undefined;
+//
+//        appFactory.onKeyExit = undefined;
+//
+//        appFactory.onKeyMove = undefined;
     });
 
     function clearpins() {

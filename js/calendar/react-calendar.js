@@ -40,7 +40,6 @@ var Calendar = React.createClass({displayName: "Calendar",
     },
 
     render: function() {
-        console.log(this.props);
         return React.createElement("div", null,
             React.createElement("div", {className: "header"},
                 React.createElement("i", {className: "fa fa-angle-left", onClick: this.previous}),
@@ -59,7 +58,6 @@ var Calendar = React.createClass({displayName: "Calendar",
             monthIndex = date.month(),
             count = 0;
 
-        console.log(this.props);
         while (!done) {
             weeks.push(React.createElement(Week, {rulesopen: this.props.rulesopen, slotsbooked: this.props.slotsbooked, type: this.props.type, next: this.next, previous: this.previous, slotsopen: this.props.slotsopen, goto: this.props.goto, key: date.toString(), date: date.clone(), month: this.state.month, select: this.select, selected: this.props.selected}));
             date.add(1, "w");

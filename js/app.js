@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'ui.bootstrap', 'starter.services',
+angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule', 'starter.services',
                'eventModule', 'classModule', 'gymModule', 'userModule', 'listModule', 'OBPushModule', 'calendarModule'])
     .value('appConfig', {
         baseUrl: "http://localhost:8888/",
@@ -667,10 +667,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             window.location.href = url;
         };
 
-        $scope.rootGoTo = function(url){
+        $scope.rootGoTo = function(url, params){
             console.log("rootGoTo " + url);
             $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
-            window.location.href = url;
+//            window.location.href = url;
+            $state.go(url, params);
         }
 
         $scope.alert = function(msg){

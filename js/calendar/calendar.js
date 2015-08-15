@@ -164,6 +164,7 @@ calendar.controller( 'TrainerScheduleController', function( $scope, $interval, $
         var rules = $firebaseArray(Schedule.ref().child(userID).child("rules"));
 
         rules.$watch(function(event) {
+            console.log(rules);
             $scope.rulesopen[now.getMonth()] = [];
 
             for (var i = 0; i < rules.length; i++) {
