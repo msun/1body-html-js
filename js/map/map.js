@@ -1047,12 +1047,27 @@ map.controller('MapCtrl', function($rootScope, $scope, $compile, leafletData, $t
         });
 
         navigator.geolocation.getCurrentPosition(function(pos) {
+            console.log(pos);
             $scope.center = {
-                lat: pos[0],
-                lng: pos[1],
+                lat: pos.coords.latitude,
+                lng: pos.coords.longitude,
                 zoom: 13
             };
+            appFactory.radius = mapFactory.calculateDistance($scope.map.getCenter().lat, $scope.map.getCenter().lng, $scope.map.getBounds().getSouthWest().lat, $scope.map.getBounds().getSouthWest().lng) + 5;
+            appFactory.trainerQuery.updateCriteria({
+                center: [pos.coords.latitude, pos.coords.longitude],
+                radius: appFactory.radius
+            });
 
+            appFactory.eventQuery.updateCriteria({
+                center: [pos.coords.latitude, pos.coords.longitude],
+                radius: appFactory.radius
+            });
+
+            appFactory.gymQuery.updateCriteria({
+                center: [pos.coords.latitude, pos.coords.longitude],
+                radius: appFactory.radius
+            });
 //            mapFactory.centerOnMe($scope.map, function () {
             $ionicLoading.hide();
         })
