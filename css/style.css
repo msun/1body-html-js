@@ -532,11 +532,17 @@ ion-popover-view.fit ion-content {
 
 .ob-form-ionicon-container {
     margin: auto 6px;
+    width: 44px;
+    height: 40px;
 }
 
 .ob-form-ionicon {
     font-size: 18px;
     color: white;
+    margin: auto;
+    display: block;
+    width: 18px;
+    line-height: 40px;
 }
 
 .ob-form-icon {
