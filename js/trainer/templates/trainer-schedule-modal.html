@@ -1,6 +1,6 @@
 <ion-modal-view>
     <ion-header-bar align-title="center" class="ob-darkpurple-bg">
-        <h1 class="title ob-navbar-title"></h1>
+        <h1 class="title ob-navbar-title">{{edit.time | displayTime}}</h1>
         <div class="buttons">
             <button ng-click="closeScheduleModal()" class="button button-icon">
                 <i class="icon ion-close ob-white-color"></i>
@@ -9,20 +9,13 @@
     </ion-header-bar>
     <ion-content class="has-header ob-grey-bg">
         <div class="ob-content">
-            <div class="ob-form-subrow">
-                <p class="ob-form-text ob-blue-color">{{edit.time | displayTime}}</p>
-
-                <p class="ob-form-text ob-blue-color">remove this timeslot from my schedule</p>
-                <button class="button button-calm" ng-click="removeTimeSlot(edit.index)">
-                    <i class="icon ion-minus-round ob-form-ionicon ob-color-red"></i>
-                </button>
-
-
-                <div ng-show="active[edit.index].status == -1" class="ob-form-button" ng-click="selectTime(edit.index)">Not Available</div>
-                <div ng-show="active[edit.index].status == 0" class="ob-form-button" ng-click="selectTime(edit.index)">Available</div>
-                <div ng-show="active[edit.index].status == 1" class="ob-form-button" ng-click="selectTime(edit.index)">Booked</div>
-
-
+            <div class="ob-form">
+                <div class="ob-form-row ob-form-flex-row" ng-click="removeTimeSlot(edit.index)">
+                    <span class="ob-form-text">Remove this timeslot</span>
+                    <span class="ob-form-ionicon-container" ng-click="openScheduleModal($index, time)">
+                        <i class="icon ion-close ob-form-ionicon ob-color-red"></i>
+                    </span>
+                </div>
                 <div class="item item-toggle ob-form-toggle-container">
                     <span ng-show="active[edit.index].prime">Prime Time</span>
                     <span ng-hide="active[edit.index].prime">Off Time</span>
@@ -33,27 +26,42 @@
                         </div>
                     </label>
                 </div>
-
-                <p class="ob-form-text ob-blue-color">Click to keep this time slot open</p>
-                <div class="row" style="width: 80%; margin-left: 10%; margin-right: 10%">
-                    <div ng-class="getSelectedClass(rules[edit.index][1])" class="col col-50 ob-form-button" ng-click="addRule($event, 1)">Monday</div>
-                    <div ng-class="getSelectedClass(rules[edit.index][2])" class="col col-50 ob-form-button" ng-click="addRule($event, 2)">Tuesday</div>
-                </div>
-                <div class="row" style="width: 80%; margin-left: 10%; margin-right: 10%; margin-top: 20px">
-                    <div ng-class="getSelectedClass(rules[edit.index][3])" class="col col-50 ob-form-button" ng-click="addRule($event, 3)">Wednesday</div>
-                    <div ng-class="getSelectedClass(rules[edit.index][4])" class="col col-50 ob-form-button" ng-click="addRule($event, 4)">Thursday</div>
-                </div>
-                <div class="row" style="width: 80%; margin-left: 10%; margin-right: 10%; margin-top: 20px">
-                    <div ng-class="getSelectedClass(rules[edit.index][5])" class="col col-50 ob-form-button" ng-click="addRule($event, 5)">Friday</div>
-                    <div ng-class="getSelectedClass(rules[edit.index][6])" class="col col-50 ob-form-button" ng-click="addRule($event, 6)">Saturday</div>
-                </div>
-                <div class="row" style="width: 80%; margin-left: 10%; margin-right: 10%; margin-top: 20px">
-                    <div ng-class="getSelectedClass(rules[edit.index][0])" class="col col-50 ob-form-button" ng-click="addRule($event, 0)">Sunday</div>
+            </div>
+            <div ng-show="active[edit.index].status == -1" class="ob-block-button ob-button-dark" ng-click="selectTime(edit.index)">Not Available</div>
+            <div ng-show="active[edit.index].status == 0" class="ob-block-button ob-button-blue" ng-click="selectTime(edit.index)">Available</div>
+            <div ng-show="active[edit.index].status == 1" class="ob-block-button ob-button-dark" ng-click="selectTime(edit.index)">Booked</div>
+            <div class="ob-form">
+                <div class="ob-form-row">
+                    <div class="ob-form-subrow">
+                        <span class="ob-form-text">Keep as
+                        <span class="ob-button-color-blue">Prime</span> |
+                        <span class="ob-button-color-darkblue">Off</span> |
+                        <span class="ob-button-color-dark">Not Available</span>
+                        </span>
+                    </div>
+                    <div class="ob-form-subrow">
+                        <div ng-class="getSelectedClass(rules[edit.index][1])" class="ob-form-button" ng-click="addRule($event, 1)">Monday</div>
+                    </div>
+                    <div class="ob-form-subrow">
+                        <div ng-class="getSelectedClass(rules[edit.index][2])" class="ob-form-button" ng-click="addRule($event, 2)">Tuesday</div>
+                    </div>
+                    <div class="ob-form-subrow">
+                        <div ng-class="getSelectedClass(rules[edit.index][3])" class="ob-form-button" ng-click="addRule($event, 3)">Wednesday</div>
+                    </div>
+                    <div class="ob-form-subrow">
+                        <div ng-class="getSelectedClass(rules[edit.index][4])" class="ob-form-button" ng-click="addRule($event, 4)">Thursday</div>
+                    </div>
+                    <div class="ob-form-subrow">
+                        <div ng-class="getSelectedClass(rules[edit.index][5])" class="ob-form-button" ng-click="addRule($event, 5)">Friday</div>
+                    </div>
+                    <div class="ob-form-subrow">
+                        <div ng-class="getSelectedClass(rules[edit.index][6])" class="ob-form-button" ng-click="addRule($event, 6)">Saturday</div>
+                    </div>
+                    <div class="ob-form-subrow">
+                        <div ng-class="getSelectedClass(rules[edit.index][0])" class="ob-form-button" ng-click="addRule($event, 0)">Sunday</div>
+                    </div>
                 </div>
             </div>
-
-
-
         </div>
     </ion-content>
 </ion-modal-view>

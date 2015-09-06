@@ -13,8 +13,8 @@
                     </div>
                     <div class="ob-form-row" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">
                         <div class="ob-form-subrow ob-form-flex-row">
-                            <span class="ob-form-ionicon-container">
-                                <i class="icon ion-arrow-expand ob-form-ionicon ob-color-red" ng-click="openScheduleModal($index, time)"></i>
+                            <span class="ob-form-ionicon-container" ng-click="openScheduleModal($index, time)">
+                                <i class="icon ion-calendar ob-form-ionicon"></i>
                                    <!--ng-click="removeTimeSlot($index)"></i>-->
 
                             </span>

@@ -17,6 +17,7 @@
                     </div>
                 </div>
             </div>
+            <div class="ob-images-emptytext" ng-show="images.length <= 0">There are no images!</div>
             <div class="row">
                 <div class="col col-33" ng-repeat="item in images | orderBy:'-created'">
                     <img src="{{item.hdurl}}" width="100%" ng-click="openImageModal(item)"/>

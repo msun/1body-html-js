@@ -22,6 +22,7 @@ var OBPushApp = {
         OBLog("OBPushApp.errorHandler", 5);
     },
 
+    // handle APNS notifications for iOS
     // This function is only called if the app is currently open
     onNotificationAPN : function (e) {
         if (e.alert) {
@@ -113,8 +114,6 @@ angular.module('OBPushModule', ['ionic'])
             //} else {
                 //navigator.app.backHistory();
             //}
-
-            navigator.app.backHistory();
         }, false);
 
         try {

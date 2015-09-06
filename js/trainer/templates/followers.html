@@ -5,13 +5,14 @@
                 <a class="ob-list-row" ng-repeat="item in items"
                    href="#/menu/Users/{{item.$id}}">
                     <div class="ob-list-col-img">
-                        <img class="ob-list-img" src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.$id | htmlEncode}}/profilepic.jpg"/>
+                        <img class="ob-list-img"
+                             src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.$id | htmlEncode}}/profilepic.jpg"
+                             onerror="this.src='img/emptypic-user.png'"/>
                     </div>
                     <div class="ob-list-col-flex">
                         <div class="ob-list-text">
                             {{item.username}}
                         </div>
-
                     </div>
                 </a>
             </div>

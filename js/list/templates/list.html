@@ -4,10 +4,9 @@
             <div class="ob-header ob-map-header">
                 <div class="ob-header-status-bar"></div>
                 <div class="ob-header-nav-bar">
-                    <div class="ob-header-icon">
-                        <button menu-toggle="left" class="button button-icon button-dark">
-                            <i class="icon ion-navicon"></i>
-                        </button>
+                    <div class="ob-header-icon-container">
+                        <button menu-toggle="left"
+                                class="button button-icon icon ion-navicon button-dark ob-header-icon"></button>
                     </div>
                     <div class="ob-header-flex-area">
                         <div class="ob-bar-search-input-container">
@@ -18,10 +17,12 @@
                                ng-click="clearSearch()"></i>
                         </div>
                     </div>
-                    <div class="ob-header-icon">
-                        <a class="ob-header-list-view-icon-container" ng-click="searchOnMap()" nav-transition="none">
-                            <span class="ob-header-list-view-icon"></span>
-                        </a>
+                    <div class="ob-header-icon-container"
+                         ng-click="searchOnMap()"
+                         nav-transition="none">
+                        <span class="ob-header-icon">
+                            <i class="icon ion-ios-location light ob-header-icon-map"></i>
+                        </span>
                     </div>
                 </div>
                 <div class="ob-map-header-bottom-white-line"></div>

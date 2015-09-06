@@ -1113,11 +1113,11 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
 
     $scope.getSelectedClass = function(selected){
         if(selected == 1){
-            return "ob-form-button-selected";
+            return "ob-button-blue";
         } else if(selected == 2){
-            return "ob-form-button-prime";
+            return "ob-button-darkblue";
         } else {
-            return "";
+            return "ob-button-dark";
         }
     };
 

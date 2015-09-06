@@ -268,6 +268,19 @@
     min-width: 44px !important;
 }
 
+/*
+.ng-hide-add .ng-hide-add-active,
+.ng-hide-remove .ng-hide-remove-active {
+   -webkit-transition: none !important;
+   transition: none !important;
+}
+
+* {
+   -webkit-transition: none !important;
+   transition: none !important;
+}
+*/
+
 /* ******** google maps ******** */
 .gm-style {
 }
@@ -518,12 +531,18 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-ionicon-container {
-    margin: auto 6px;
+    margin: auto 0px;
+    width: 34px;
+    height: 40px;
 }
 
 .ob-form-ionicon {
     font-size: 18px;
     color: white;
+    margin: auto;
+    display: block;
+    width: 18px;
+    line-height: 40px;
 }
 
 .ob-form-icon {
@@ -603,20 +622,13 @@ ion-popover-view.fit ion-content {
     flex: 0 0 auto;
     border-radius: 8px;
     border: 1px solid #666;
-    margin: auto 6px;
+    margin: 4px 6px;
     padding: 8px 16px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: white;
     text-align: center;
     text-decoration: none;
-}
-
-.ob-form-button-selected {
-    background-color: greenyellow;
-}
-.ob-form-button-prime {
-    background-color: darkgreen;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1127,12 +1139,32 @@ input.ob-form-text-input[type="search"] {
     background-color: #444444;
 }
 
+.ob-button-color-dark {
+    color: #444444;
+}
+
 .ob-button-blue {
     background-color: #3884ed;
 }
 
 .ob-button-blue:active {
     background-color: #3172cc;
+}
+
+.ob-button-color-blue {
+    color: #3884ed;
+}
+
+.ob-button-darkblue {
+    background-color: #204b87;
+}
+
+.ob-button-darkblue:active {
+    background-color: #173661;
+}
+
+.ob-button-color-darkblue {
+    color: #204b87;
 }
 
 .ob-button-red {
@@ -1144,6 +1176,8 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-button-shadow {
+    -moz-box-shadow: 0px 0px 100px 1px #333333;
+    -webkit-box-shadow: 0px 0px 100px 1px #333333;
     box-shadow: 0px 0px 100px 1px #333333;
 }
 
@@ -1193,6 +1227,8 @@ input.ob-form-text-input[type="search"] {
     width: 100%;
     height: 100%;
     background: rgb(229, 229, 229);
+    -moz-box-shadow: 0px 3px 15px 0px black;
+    -webkit-box-shadow: 0px 3px 15px 0px black;
     box-shadow: 0px 3px 15px 0px black;
 }
 
@@ -1470,6 +1506,8 @@ input.ob-form-text-input[type="search"] {
     border-top: 1px solid #a1a6ae;
     border-bottom: 1px solid #a1a6ae;
     text-decoration: none;
+    -moz-box-shadow: -1px 0 0 #a1a6ae, 1px 0 0 #a1a6ae;
+    -webkit-box-shadow: -1px 0 0 #a1a6ae, 1px 0 0 #a1a6ae;
     box-shadow: -1px 0 0 #a1a6ae, 1px 0 0 #a1a6ae;
 }
 
@@ -2468,9 +2506,27 @@ input.ob-form-text-input[type="search"] {
     height: 20px;
 }
 
-.ob-header-icon {
+.ob-header-icon-container {
     -webkit-flex: 0 0 44px;
     flex: 0 0 44px;
+    -webkit-align-self: stretch;
+    align-self: stretch;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.ob-header-icon {
+    margin: auto;
+}
+
+.ob-header-icon-list {
+    background: url("../img/List-View-Icon.png") center/100% 100% no-repeat;
+    width: 19px;
+    height: 16px;
+}
+
+.ob-header-icon-map {
+    font-size: 24px;
 }
 
 .ob-header-flex-area {
@@ -2571,20 +2627,6 @@ input.ob-form-text-input[type="search"] {
     width: 95%;
     height: 2px;
     background: white;
-}
-
-.ob-header-list-view-icon-container {
-    display: block;
-    width: 100%;
-    margin: auto;
-}
-
-.ob-header-list-view-icon {
-    background: url("../img/List-View-Icon.png") center/100% 100% no-repeat;
-    display: block;
-    width: 19px;
-    height: 16px;
-    margin: auto;
 }
 
 /* ******** ob-map-tabs ******** */
@@ -3713,4 +3755,18 @@ input.ob-form-text-input[type="search"] {
 .ob-vertical-spacing {
     width: 100%;
     height: 4px;
+}
+
+.ob-images-emptytext {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: white;
+    text-align: center;
+    margin: 20px 12px;
+    border
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }

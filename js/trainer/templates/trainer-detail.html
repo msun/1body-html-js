@@ -1,20 +1,22 @@
 <ion-view cache-view="false">
     <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
     <ion-nav-buttons side="right">
-        <button class="button button-icon"
-                ng-class="{'ion-gear-b' : selectedTrainer.$id == $root.user.$id,
-                           'ion-chatbubble' : selectedTrainer.$id != $root.user.$id}"
+        <!--
+        <button class="button"
+                ng-class="{'button-clear button-light' : selectedTrainer.$id == $root.user.$id,
+                           'button-icon ion-chatbubble' : selectedTrainer.$id != $root.user.$id}"
                 ng-click="selectedTrainer.$id == $root.user.$id ?
                           goTo('#/menu/my-profile') :
-                          goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
-        <!--
-        <button class="button button-icon ion-chatbubble ob-hide"
-                ng-class="{'ob-show' : selectedTrainer.$id != $root.user.$id}"
-                ng-click="goTo('#/menu/conversations/{{selectedTrainer.$id}}')"></button>
-        <button class="button button-icon ion-gear-b ob-hide"
-                ng-click="goTo('#/menu/my-profile')"
-                ng-class="{'ob-show' : selectedTrainer.$id == $root.user.$id}"></button>
+                          goTo('#/menu/conversations/{{selectedTrainer.$id}}')">
+            <span ng-show="selectedTrainer.$id == $root.user.$id">Edit</span>
+        </button>
         -->
+        <button class="button button-icon ion-chatbubble"
+                ng-click="goTo('#/menu/conversations/{{selectedTrainer.$id}}')"
+                ng-show="selectedTrainer.$id != $root.user.$id"></button>
+        <button class="button button-clear button-light"
+                ng-click="goTo('#/menu/my-profile')"
+                ng-show="selectedTrainer.$id == $root.user.$id">Edit</button>
     </ion-nav-buttons>
 
     <div ng-include="'js/trainer/templates/trainer-detail-main.html'"
