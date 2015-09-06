@@ -531,8 +531,8 @@ ion-popover-view.fit ion-content {
 }
 
 .ob-form-ionicon-container {
-    margin: auto 6px;
-    width: 44px;
+    margin: auto 0px;
+    width: 34px;
     height: 40px;
 }
 
@@ -622,20 +622,13 @@ ion-popover-view.fit ion-content {
     flex: 0 0 auto;
     border-radius: 8px;
     border: 1px solid #666;
-    margin: auto 6px;
+    margin: 4px 6px;
     padding: 8px 16px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 16px;
     color: white;
     text-align: center;
     text-decoration: none;
-}
-
-.ob-form-button-selected {
-    background-color: greenyellow;
-}
-.ob-form-button-prime {
-    background-color: darkgreen;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1146,12 +1139,32 @@ input.ob-form-text-input[type="search"] {
     background-color: #444444;
 }
 
+.ob-button-color-dark {
+    color: #444444;
+}
+
 .ob-button-blue {
     background-color: #3884ed;
 }
 
 .ob-button-blue:active {
     background-color: #3172cc;
+}
+
+.ob-button-color-blue {
+    color: #3884ed;
+}
+
+.ob-button-darkblue {
+    background-color: #204b87;
+}
+
+.ob-button-darkblue:active {
+    background-color: #173661;
+}
+
+.ob-button-color-darkblue {
+    color: #204b87;
 }
 
 .ob-button-red {
