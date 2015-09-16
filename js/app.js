@@ -65,10 +65,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         });
     })
     .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-        $ionicConfigProvider.backButton.previousTitleText(false);
-        $ionicConfigProvider.backButton.text('').icon('ion-ios-arrow-back');
-        $ionicConfigProvider.views.transition('none');
-        $ionicConfigProvider.views.swipeBackEnabled(false);
+
+//        $ionicConfigProvider.backButton.previousTitleText(false);
+//        $ionicConfigProvider.backButton.text('').icon('ion-ios-arrow-back');
+//        $ionicConfigProvider.views.transition('none');
+//        $ionicConfigProvider.views.swipeBackEnabled(false);
 
         // Ionic uses AngularUI Router which uses the concept of states
         // Learn more here: https://github.com/angular-ui/ui-router
@@ -432,6 +433,36 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                 }
             })
 
+            .state('menu.transaction-detail', {
+                url: '/transaction-detail/:transactionID',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/trainer/templates/transaction-detail.html',
+                        controller: 'TransactionDetailCtrl'
+                    }
+                }
+            })
+
+            .state('menu.transaction-search-user', {
+                url: '/transaction-search-user/:userID',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/trainer/templates/transaction-search-user.html',
+                        controller: 'TransactionSearchUserCtrl'
+                    }
+                }
+            })
+
+            .state('menu.transaction-search-time', {
+                url: '/transaction-search-time/:orderBy/:start/:end',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/trainer/templates/transaction-search-month.html',
+                        controller: 'TransactionSearchTimeCtrl'
+                    }
+                }
+            })
+
             .state('menu.settings', {
                 url: '/settings',
                 views: {
@@ -669,7 +700,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         $scope.rootGoTo = function(url, params){
             console.log("rootGoTo " + url);
-            $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
+//            $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
 //            window.location.href = url;
             $state.go(url, params);
         }
@@ -707,7 +738,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $scope.logout = function(){
             UserAuth.$unauth();
             $localstorage.clear();
-            $ionicHistory.clearCache();
+//            $ionicHistory.clearCache();
             if (!ionic.Platform.isWebView()) {
                 $scope.toggleMenu();
             } else if(ionic.Platform.isAndroid()){

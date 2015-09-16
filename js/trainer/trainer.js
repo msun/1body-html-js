@@ -1,4 +1,4 @@
-var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'eventModule']);
+var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'eventModule', 'angularCharts']);
 
 trainer.factory('Time', function(){
     var Time = {};
@@ -216,14 +216,34 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 
         appFactory.selectedTrainer = $scope.selectedTrainer;
 
-        /**TODO: transaction rework,
+        /**TODO: review rework
+         * 1. when transaction is processed, add review to trainer review list without content
+         * 2. check list of trainer reviews in trainer detail page, find reviews without content
+         *
          * 1. push new transaction into MyTransactions to get new unique id for transaction
          * 2. generate qr code with new unique id
          * 3. scan this code and save it to transcation in Transactions
          * 4. server monitors transcations and compares transacation with unique id from MyTranscations
          * 5. if matches, then reduce token otherwise do not process transaction
          **/
-        $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("sessionID").equalTo($scope.selectedTrainer.$id));
+//        $scope.myTransactions = $firebaseArray(MyTransactions.ref().child(appFactory.user.$id).orderByChild("sessionID").equalTo($scope.selectedTrainer.$id));
+
+        $scope.emptyReviews = $firebaseArray(Reviews.ref().child($scope.selectedTrainer.$id).orderByChild("userID").equalTo(appFactory.user.$id));
+
+        $scope.emptyReviews.$loaded(function(){
+            console.log($scope.emptyReviews);
+            for(var k=0; k<$scope.emptyReviews.length; k++){
+                if(!$scope.emptyReviews[k].text){
+//                    alert("Please leave a review");
+//                    $scope.showReviewModal();
+                    $scope.review = $scope.emptyReviews[k];
+                    console.log($scope.review);
+//                    $scope.transaction = $scope.myTransactions[i];
+                    break;
+                }
+            }
+        })
+
 
         if($scope.selectedTrainer.gym && $scope.selectedTrainer.gym.gymID){
             GeoGyms.get($scope.selectedTrainer.gym.gymID).then(function(location){
@@ -270,7 +290,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
         $scope.moreReviews = function(){
             console.log($scope.hasMoreReviews);
             if($scope.hasMoreReviews){
-                console.log("pri " + $scope.reviews[$scope.reviews.length - appConfig.defaultItemsPerPage].$priority);
+//                console.log("pri " + $scope.reviews[$scope.reviews.length - appConfig.defaultItemsPerPage].$priority);
                 var moreReviewsArray = $firebaseArray(reviewRef.orderByPriority().endAt($scope.reviews[$scope.reviews.length - appConfig.defaultItemsPerPage].$priority - 1).limitToLast(appConfig.defaultItemsPerPage));
                 moreReviewsArray.$loaded(function(){
                     angular.forEach(moreReviewsArray, function(value, key){
@@ -323,9 +343,13 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             $priority: Firebase.ServerValue.TIMESTAMP
         };
 
+        $scope.review.text = $scope.newreview.text;
+        $scope.review.reviewAdded = Firebase.ServerValue.TIMESTAMP;
+        $scope.review.$priority = Firebase.ServerValue.TIMESTAMP;
+
         console.log(newReview);
 
-        var newReviewRef = $scope.reviews.$add(newReview).then(function(ref) {
+//        var newReviewRef = $scope.reviews.$add(newReview).then(function(ref) {
             if($scope.sizes.rating){
                 $scope.sizes.numOfReviews++;
                 $scope.sizes.rating += $scope.newreview.rating;
@@ -336,13 +360,17 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
 
             $scope.sizes.$save().then(function(){
                 console.log($scope.sizes);
+                $scope.emptyReviews.$save($scope.review).then(function(){
+                    alert("Review added");
+                    $scope.closeReviewModal();
+                });
                 $scope.transaction.reviewed = true;
                 $scope.myTransactions.$save($scope.transaction).then(function(){
                     alert("Review added");
                     $scope.closeReviewModal();
                 });
             });
-            var myreview = $firebaseObject(MyReviews.ref().child(appFactory.user.$id).child(ref.key()));
+            var myreview = $firebaseObject(MyReviews.ref().child(appFactory.user.$id).child($scope.review.$id));
             myreview.userID = appFactory.user.$id;
             myreview.trainerID = $stateParams.trainerID;
             myreview.text = $scope.newreview.text;
@@ -357,7 +385,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
                 "You left a review for " + $scope.selectedTrainer.username,
                 appFactory.user.username + " left you a review"
             );
-        });
+//        });
     };
 
     $scope.showReviewModal = function(){
@@ -732,9 +760,341 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
     }
 });
 
-trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseObject, appFactory, appConfig, Schedule, $firebaseArray, Transactions, MyTransactions, Notifications, Feeds, $ionicPopup, TransactionQueue, $stateParams) {
+trainer.controller('TransactionSearchTimeCtrl', function($scope, $timeout, $firebaseObject, Reviews, appFactory, Users, Schedule, $firebaseArray, Transactions, MyTransactions, $stateParams) {
+    console.log($stateParams);
+    $scope.total = 0;
+
+    $scope.params = $stateParams;
+
+    $scope.userTransactions = [];
+    $scope.predicate = "starttime";
+
+    $scope.data1 = {
+        series: [],
+        data: []
+    };
+
+    $scope.chartType = 'pie';
+
+    $scope.config1 = {
+        labels: false,
+        tooltips: true,
+        click : function(d) {
+            console.log(d);
+        },
+        title: "Income from user",
+        legend: {
+            display: true,
+            position: 'left'
+        },
+        innerRadius: 0
+    };
+
+
+    if(!$stateParams.start){
+        var tmpDate = new Date();
+        tmpDate.setMonth(0);
+        tmpDate.setDate(1);
+        tmpDate.setHours(0);
+        tmpDate.setMinutes(0);
+        tmpDate.setSeconds(0);
+        tmpDate.setMilliseconds(0);
+        $scope.params.start = tmpDate.getTime();
+    }
+
+    if(!$stateParams.end){
+        $scope.params.end = Date.now();
+    }
+
+    $scope.transactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByPriority().startAt(parseInt($scope.params.start)).endAt(parseInt($scope.params.end)));
+
+    $scope.transactions.$loaded(function(){
+        console.log($scope.transactions);
+
+        angular.forEach($scope.transactions, function(value, key){
+            console.log(value);
+            $scope.total += value.tokens * 4.9;
+
+            var found = false;
+            if(value.reviewID){
+                value.review = $firebaseObject(Reviews.ref().child(appFactory.user.$id).child(value.reviewID));
+            }
+
+            for(var i=0; i<$scope.userTransactions.length; i++){
+                if($scope.userTransactions[i].userID == value.userID){
+                    found = true;
+                    $scope.userTransactions[i].transactions.push(value);
+                    $scope.userTransactions[i].total += value.tokens * 4.9;
+                }
+            }
+            if(!found){
+                $scope.userTransactions.push({
+                    userID: value.userID,
+                    userName: value.userName,
+                    transactions: [value],
+                    total: value.tokens * 4.9
+                });
+            }
+        });
+        angular.forEach($scope.userTransactions, function(value, key){
+            if($scope.data1.series.indexOf(value.userName) < 0){
+                $scope.data1.series.push(value.userName);
+            }
+
+            $scope.data1.data.push({
+                x:value.userName,
+                y:[value.total],
+                tooltip: value.userName + ": " + value.total
+            })
+        });
+        console.log($scope.data1);
+        console.log($scope.userTransactions);
+    });
+
+});
+
+trainer.controller('TransactionSearchUserCtrl', function($scope, $timeout, $firebaseObject, Reviews, appFactory, Users, Schedule, $firebaseArray, Transactions, MyTransactions, $stateParams) {
+    console.log($stateParams);
+    $scope.total = 0;
+
+    $scope.params = $stateParams;
+
+    $scope.monthlyTransactions = [];
+
+    $scope.data1 = {
+        series: ['Income by Month'],
+        data: []
+    };
+
+    $scope.chartType = 'bar';
+
+    $scope.config1 = {
+        labels: false,
+        tooltips: true,
+        click : function(d) {
+            console.log(d);
+        },
+        title: "Income from users",
+        legend: {
+            display: true,
+            position: 'left'
+        },
+        innerRadius: 0
+    };
+
+
+    if(!$stateParams.start){
+        var tmpDate = new Date();
+        tmpDate.setMonth(0);
+        tmpDate.setDate(1);
+        tmpDate.setHours(0);
+        tmpDate.setMinutes(0);
+        tmpDate.setSeconds(0);
+        tmpDate.setMilliseconds(0);
+        $scope.params.start = tmpDate.getTime();
+    }
+
+    if(!$stateParams.end){
+        $scope.params.end = Date.now();
+    }
+
+    $scope.transactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByChild("userID").equalTo($stateParams.userID));
+
+    $scope.transactions.$loaded(function(){
+        console.log($scope.transactions);
+        if($scope.transactions.length > 0){
+            var tdate = new Date(parseInt($scope.transactions[0].starttime));
+            var yearMonth = tdate.getFullYear() + "-" + tdate.getMonth();
+            $scope.params.month = yearMonth;
+        }
+
+        angular.forEach($scope.transactions, function(value, key){
+            console.log(value);
+            $scope.total += value.tokens * 4.9;
+
+            var tdate = new Date(parseInt(value.starttime));
+            var yearMonth = tdate.getFullYear() + "-" + (tdate.getMonth() + 1);
+            value.yearMonth = tdate.getFullYear() + "-" + (tdate.getMonth() + 1);
+
+            var found = false;
+            if(value.reviewID){
+                value.review = $firebaseObject(Reviews.ref().child(appFactory.user.$id).child(value.reviewID));
+            }
+
+            for(var i=0; i<$scope.monthlyTransactions.length; i++){
+                if($scope.monthlyTransactions[i].yearMonth == yearMonth){
+                    found = true;
+                    $scope.monthlyTransactions[i].transactions.push(value);
+                    $scope.monthlyTransactions[i].total += value.tokens * 4.9;
+                }
+            }
+            if(!found){
+                $scope.monthlyTransactions.push({
+                    yearMonth: yearMonth,
+                    transactions: [value],
+                    total: value.tokens * 4.9
+                });
+            }
+        });
+        angular.forEach($scope.monthlyTransactions, function(value, key){
+            $scope.data1.data.push({
+                x:value.yearMonth,
+                y:[value.total],
+                tooltip: value.yearMonth + ": " + value.total
+            })
+        });
+        console.log($scope.monthlyTransactions);
+    });
+
+});
+
+trainer.controller('TransactionMonthlySearchCtrl', function($scope, $timeout, $firebaseObject, appFactory, Users, Schedule, $firebaseArray, Transactions, MyTransactions, $stateParams) {
+    console.log($stateParams);
+    $scope.total = 0;
+
+    $scope.params = $stateParams;
+
+    $scope.monthlyTransactions = [];
+
+    if(!$stateParams.start){
+        var tmpDate = new Date();
+        tmpDate.setMonth(0);
+        tmpDate.setDate(1);
+        tmpDate.setHours(0);
+        tmpDate.setMinutes(0);
+        tmpDate.setSeconds(0);
+        tmpDate.setMilliseconds(0);
+        $scope.params.start = tmpDate.getTime();
+    }
+
+    if(!$stateParams.end){
+        $scope.params.end = Date.now();
+    }
+
+    $scope.transactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByPriority().startAt(parseInt($scope.params.start)).endAt(parseInt($scope.params.end)));
+
+    $scope.transactions.$loaded(function(){
+        console.log($scope.transactions);
+        $scope.params.username = $scope.transactions[0].username;
+        angular.forEach($scope.transactions, function(value, key){
+            console.log(value);
+            $scope.total += value.tokens * 4.9;
+            var tdate = new Date(parseInt(value.starttime));
+            var yearMonth = tdate.getFullYear() + "-" + tdate.getMonth();
+            value.yearMonth = tdate.getFullYear() + "-" + tdate.getMonth();
+
+            var found = false;
+            for(var i=0; i<$scope.monthlyTransactions.length; i++){
+                if($scope.monthlyTransactions[i].yearMonth == yearMonth){
+                    found = true;
+                    $scope.monthlyTransactions[i].transactions.push(value);
+                    $scope.monthlyTransactions[i].total += value.tokens * 4.9;
+                }
+            }
+            if(!found){
+                $scope.monthlyTransactions.push({
+                    yearMonth: yearMonth,
+                    transactions: [value],
+                    total: value.tokens * 4.9
+                });
+            }
+        })
+        console.log($scope.monthlyTransactions);
+    });
+
+});
+
+trainer.controller('TransactionDetailCtrl', function($scope, $state, $timeout, $firebaseObject, appFactory, Users, Schedule, $firebaseArray, Transactions, MyTransactions, $stateParams) {
+    console.log($stateParams);
+    angular.extend($scope, {
+        layers: {
+            baselayers: {
+
+                googleRoadmap: {
+                    name: 'Google Streets',
+                    layerType: 'ROADMAP',
+                    type: 'google'
+                }
+            }
+        }
+    });
+
+    $scope.defaults = {
+//            tileLayer: "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+        tileLayerOptions: {
+            opacity: 0.9,
+            detectRetina: true,
+            reuseTiles: true
+        },
+        attributionControl: false,
+        trackResize: false,
+        zoomAnimation: false,
+        zoomControl:false,
+        minZoom: 8
+    };
+
+    $scope.center = {
+        lat: appFactory.user.location[0],
+        lng: appFactory.user.location[1],
+        zoom: 13
+    };
+
+    $scope.transaction = $firebaseObject(Transactions.ref().child(appFactory.user.$id).child($stateParams.transactionID));
+    $scope.transaction.$loaded(function(){
+        console.log($scope.transaction);
+
+        $scope.center = {
+            lat: $scope.transaction.location[0],
+            lng: $scope.transaction.location[1],
+            zoom: 13
+        };
+
+        var showmessage = " Address: " + $scope.transaction.address
+        if($scope.transaction.commentlocation){
+            showmessage = $scope.transaction.commentlocation + " " + showmessage;
+        }
+
+        $scope.markers = {
+            trainingMarker: {
+                lat: $scope.transaction.location[0],
+                lng: $scope.transaction.location[1],
+                message: showmessage
+            }
+        };
+
+        $scope.user = $firebaseObject(Users.ref().child($scope.transaction.userID));
+        console.log($scope.user);
+    });
+
+    $scope.accountingThisUser = function(){
+        $state.go('menu.transaction-search-user', {userID: $scope.transaction.userID});
+    };
+
+    $scope.accountingThisMonth = function(){
+        var firstDay = new Date();
+        firstDay.setDate(1);
+        firstDay.setHours(0);
+        firstDay.setMinutes(0);
+        firstDay.setSeconds(0);
+        console.log(firstDay);
+
+        var lastDay = new Date();
+        lastDay.setMonth(lastDay.getMonth() + 1);
+        lastDay.setDate(1);
+        lastDay.setHours(0);
+        lastDay.setMinutes(0);
+        lastDay.setSeconds(0);
+        console.log(lastDay);
+
+        $state.go('menu.transaction-search-time', {orderby: 'month', start: firstDay.getTime(), end: lastDay.getTime()});
+
+    };
+});
+
+trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseObject, Trainers, appFactory, appConfig, Schedule, $firebaseArray, Transactions, MyTransactions, Notifications, Feeds, $ionicPopup, TransactionQueue, $stateParams) {
     $scope.trainerID = $stateParams.trainerID;
     $scope.trainerName = $stateParams.trainerName;
+    $scope.selectedTrainer = $firebaseObject(Trainers.ref().child($stateParams.trainerID));
     console.log($stateParams);
 
     var slots = {
@@ -860,6 +1220,7 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
     $scope.charge = function(){
         var booked = [];
         var starttime = 0;
+        console.log($scope.selectedTrainer);
 
         for(var i=0; i < $scope.chosen.length; i++) {
             if ($scope.chosen[i].status == 1) {
@@ -943,7 +1304,8 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
             mDate.setHours(Math.floor(bookedReduced[i].starttime / 100));
             mDate.setMinutes(bookedReduced[i].starttime % 100);
             mDate.setSeconds(0);
-            console.log(mDate)
+            mDate.setMilliseconds(0);
+            console.log(mDate);
             var startTimestamp = mDate.getTime();
             console.log(startTimestamp);
             var timezone = jstz.determine();
@@ -954,22 +1316,28 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
                 trainerID: $scope.trainerID,
                 sessionID: $scope.trainerID,
                 trainerName: $scope.trainerName,
-                primeRate: appFactory.selectedTrainer.primeRate | 5,
-                normalRate: appFactory.selectedTrainer.normalRate | 3,
+                primeRate: $scope.selectedTrainer.primeRate | 5,
+                normalRate: $scope.selectedTrainer.normalRate | 3,
                 tokens: bookedReduced[i].rate,
                 type: "Users",
-                address: appFactory.selectedTrainer.address | "",
-                commentlocation: appFactory.selectedTrainer.commentlocation | "",
-                location: appFactory.selectedTrainer.location,
+                location: $scope.selectedTrainer.location,
                 created: Firebase.ServerValue.TIMESTAMP,
                 duration: bookedReduced[i].period,
                 starttimeString: starttime,
                 starttime: startTimestamp,
-                emails: [appFactory.selectedTrainer.email, appFactory.user.email],
+                emails: [$scope.selectedTrainer.email, appFactory.user.email],
                 timezone: timezone.name(),
                 scanned: false,
                 reviewed: false
             };
+
+            if($scope.selectedTrainer.address){
+                transaction.address = $scope.selectedTrainer.address;
+            }
+
+            if($scope.selectedTrainer.commentlocation){
+                transaction.commentlocation = $scope.selectedTrainer.commentlocation;
+            }
 
             (function(newTransaction){
 
@@ -1098,7 +1466,7 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
     }
 });
 
-trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, appFactory, $firebaseArray, $firebaseObject, Schedule, appConfig, $ionicModal, $state, $ionicHistory, $stateParams){
+trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $state, $location, $ionicScrollDelegate, MyTransactions, Transactions, $timeout, appFactory, $firebaseArray, $firebaseObject, Schedule, appConfig, $ionicModal, $state, $ionicHistory, $stateParams){
     $ionicModal.fromTemplateUrl('js/trainer/templates/trainer-schedule-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -1106,10 +1474,31 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
         $scope.modal = modal;
     });
 
+    $scope.meridiem = 'am';
+    $scope.showOnly = -2;
+    $scope.sidebar = [0,1,2,3,4,5,6,7,8,9,10,11];
     $scope.edit = {};
     $scope.edit.time = 0;
     $scope.edit.index = 0;
     $scope.rules = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child("rules"));
+
+//    $anchorScrollProvider.disableAutoScrolling();
+
+    $scope.scrollTo = function(index){
+        $location.hash("anchor"+index*2);
+//        $anchorScroll();
+//        document.getElementById("anchor"+index).scrollIntoView();
+        $ionicScrollDelegate.anchorScroll();
+    };
+
+    $scope.changeMeridiem = function(){
+        $scope.meridiem = ($scope.meridiem == 'am') ? 'pm':'am';
+        if($scope.meridiem == 'pm'){
+            $scope.sidebar = [12,13,14,15,16,17,18,19,20,21,22,23];
+        } else {
+            $scope.sidebar = [0,1,2,3,4,5,6,7,8,9,10,11];
+        }
+    }
 
     $scope.getSelectedClass = function(selected){
         if(selected == 1){
@@ -1121,18 +1510,38 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $timeout, app
         }
     };
 
-    $scope.openScheduleModal = function(index, time){
+    $scope.gotoTransactionPage = function(time){
         console.log(time);
-        $scope.edit.time = time;
-        $scope.edit.index = index;
-        $scope.edit.active = $scope.active[index];
-        if(!$scope.rules[index]){
-            $scope.rules[index] = [0, 0, 0, 0, 0, 0, 0];
+        var mDate = new Date();
+        mDate.setFullYear($scope.dt.getFullYear());
+        mDate.setMonth($scope.dt.getMonth());
+        mDate.setDate($scope.dt.getDate());
+        mDate.setHours(Math.floor(time / 100));
+        mDate.setMinutes(time % 100);
+        mDate.setSeconds(0);
+        mDate.setMilliseconds(0);
+        console.log(mDate);
+        var tran = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByPriority().equalTo(mDate.getTime()));
+        tran.$loaded(function(){
+            console.log(tran[0]);
+            $state.go('menu.transaction-detail', {transactionID: tran[0].$id});
+        });
+
+    };
+
+    $scope.openScheduleModal = function(index, time, $event){
+        if($event.target.className.indexOf("ob-form-button") < 0) {
+            console.log($event);
+            $scope.edit.time = time;
+            $scope.edit.index = index;
+            $scope.edit.active = $scope.active[index];
+            if (!$scope.rules[index]) {
+                $scope.rules[index] = [0, 0, 0, 0, 0, 0, 0];
+            }
+            console.log($scope.rules);
+
+            $scope.modal.show();
         }
-        console.log($scope.rules);
-
-
-        $scope.modal.show();
     };
 
     $scope.closeScheduleModal = function(){

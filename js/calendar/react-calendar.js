@@ -19,11 +19,11 @@ var Calendar = React.createClass({displayName: "Calendar",
 
     previous: function() {
         var month = this.state.month;
-        if(this.props.selected.month() < month.month()){
+//        if(this.props.selected.month() < month.month()){
             month.add(-1, "M");
             this.setState({ month: month });
             this.props.previous(month.month());
-        }
+//        }
     },
 
     next: function() {

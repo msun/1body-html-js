@@ -109,9 +109,9 @@ calendar.controller( 'CalendarController', function( $scope, $interval, $statePa
 
     $scope.goto = function(day){
         console.log(day);
-        if(!day.beforeToday || day.isToday){
+//        if(!day.beforeToday || day.isToday){
             $state.transitionTo('menu.my-schedule', {year: day.date.year(), month: day.date.month(), day: day.date.date()});
-        }
+//        }
     };
 
     $scope.next = function(month){

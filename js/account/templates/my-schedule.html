@@ -1,33 +1,78 @@
 <ion-view view-title="My Schedule">
-    <ion-content class="has-header ob-bg1">
-        <div class="ob-content">
-            <div class="ob-content">
-                <div class="ob-instructions">Set your available training times</div>
-                <div class="ob-form ob-button-shadow">
-                    <div class="ob-form-row ob-form-row-button ob-button-blue" ng-click="confirm()">Confirm</div>
-                    <div class="ob-form-row ob-form-flex-row">
-                        <time-picker class="ob-form-timepicker"
-                                     show-time-picker="false"
-                                     data-inc-icon-class="ion ion-chevron-up"
-                                     data-dec-icon-class="ion ion-chevron-down"></time-picker>
-                    </div>
-                    <div class="ob-form-row" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">
-                        <div class="ob-form-subrow ob-form-flex-row">
-                            <span class="ob-form-ionicon-container" ng-click="openScheduleModal($index, time)">
-                                <i class="icon ion-calendar ob-form-ionicon"></i>
-                                   <!--ng-click="removeTimeSlot($index)"></i>-->
-
-                            </span>
-                            <span class="ob-form-text ob-blue-color">{{time | displayTime}}</span>
-                            <div ng-show="active[$index].status == -1" class="ob-form-button" ng-click="selectTime($index)">Not Available</div>
-                            <div ng-show="active[$index].status == 0" class="ob-form-button" ng-click="selectTime($index)">Available</div>
-                            <div ng-show="active[$index].status == 1" class="ob-form-button" ng-click="selectTime($index)">Booked</div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
+<!--<<<<<<< Updated upstream-->
+    <!--<ion-content class="has-header ob-bg1">-->
+        <!--<div class="ob-content">-->
+            <!--<div class="ob-content">-->
+                <!--<div class="ob-instructions">Set your available training times</div>-->
+                <!--<div class="ob-form ob-button-shadow">-->
+                    <!--<div class="ob-form-row ob-form-row-button ob-button-blue" ng-click="confirm()">Confirm</div>-->
+                    <!--<div class="ob-form-row ob-form-flex-row">-->
+                        <!--<time-picker class="ob-form-timepicker"-->
+                                     <!--show-time-picker="false"-->
+                                     <!--data-inc-icon-class="ion ion-chevron-up"-->
+                                     <!--data-dec-icon-class="ion ion-chevron-down"></time-picker>-->
+                    <!--</div>-->
+                    <!--<div class="ob-form-row" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">-->
+                        <!--<div class="ob-form-subrow ob-form-flex-row">-->
+                            <!--<span class="ob-form-ionicon-container" ng-click="openScheduleModal($index, time)">-->
+                                <!--<i class="icon ion-calendar ob-form-ionicon"></i>-->
+                                   <!--&lt;!&ndash;ng-click="removeTimeSlot($index)"></i>&ndash;&gt;-->
+<!--=======-->
+    <ion-content class="has-header ob-bg1" scroll="false">
+        <div class="list" style="position: absolute; bottom: 0px">
+            <a class="item" style="padding: 10px" ng-click="changeMeridiem()">
+                <span>{{meridiem}}</span>
+            </a>
+            <a class="item" style="padding: 10px" ng-click="scrollTo(x)" ng-repeat="x in sidebar">
+                <span>{{x}}</span>
+            </a>
         </div>
+
+        <table width="100%">
+            <tr>
+                <td width="10%">
+                </td>
+                <td width="90%">
+                    <div class="ob-content">
+                        <!--<div class="ob-instructions">Set your available training times</div>-->
+                        <div class="ob-instructions">
+                            Show Only:
+                            <div class="button-bar">
+                                <a class="button" ng-click="showOnly = (showOnly==-1)?-2:-1; scrollTo(0)" ng-class="(showOnly==-1) ? 'button-positive':''">Not Available</a>
+                                <a class="button" ng-click="showOnly = (showOnly==0)?-2:0; scrollTo(0)" ng-class="(showOnly==0) ? 'button-positive':''">Avalable</a>
+                                <a class="button" ng-click="showOnly = (showOnly==1)?-2:1; scrollTo(0)" ng-class="(showOnly==1) ? 'button-positive':''">Booked</a>
+                            </div>
+                        </div>
+                        <div class="ob-form ob-button-shadow">
+                            <div class="ob-form-row ob-form-row-button ob-button-blue" ng-click="confirm()">Confirm</div>
+                            <div class="ob-form-row ob-form-flex-row">
+                                <time-picker class="ob-form-timepicker"
+                                             show-time-picker="false"
+                                             allow-time-before-now="true"
+                                             data-inc-icon-class="ion ion-chevron-up"
+                                             data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                            </div>
+                            <ion-scroll style="width: 100%; height: 300px">
+                                <div ng-click="openScheduleModal($index, time, $event)" class="item ob-form-row" id="anchor{{$index}}" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)" ng-if="(showOnly > -2) ? active[$index].status == showOnly : true">
+                                    <div class="ob-form-subrow ob-form-flex-row">
+                                    <!--<span class="ob-form-ionicon-container">-->
+                                        <!--<i class="icon ion-arrow-expand ob-form-ionicon ob-color-red"></i>-->
+                                           <!--&lt;!&ndash;ng-click="removeTimeSlot($index)"></i>&ndash;&gt;-->
+
+                                    <!--</span>-->
+                                        <span class="ob-form-text ob-blue-color">{{time | displayTime}}</span>
+                                        <div ng-show="active[$index].status == -1" class="ob-form-button" ng-click="selectTime($index, $event)">Not Available</div>
+                                        <div ng-show="active[$index].status == 0" class="ob-form-button" ng-click="selectTime($index, $event)">Available</div>
+                                        <div ng-show="active[$index].status == 1" class="ob-form-button" ng-click="gotoTransactionPage(time)">Booked</div>
+                                    </div>
+
+                                </div>
+                            </ion-scroll>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
     </ion-content>
 </ion-view>

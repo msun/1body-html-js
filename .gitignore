@@ -12,3 +12,7 @@ js/user/tc.js
 img/localhost_files/*
 
 img/localhost.html
+
+lib/ionic/scss/_action-sheet.scss
+
+*.scss

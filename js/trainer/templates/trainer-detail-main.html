@@ -57,14 +57,14 @@
         <div class="profile-feed-review-list">
             <div class="profile-feed-review-list-emptytext"
                  ng-show="reviews.length <= 0">You have no reviews at the moment</div>
-            <a class="profile-feed-review-list-row" ng-repeat="review in reviews | orderBy: '-created'" ng-href="#/menu/Users/{{review.userID}}">
+            <a class="profile-feed-review-list-row" ng-repeat="review in reviews | orderBy: '-created'" ng-if="review.text != undefined" ng-href="#/menu/Users/{{review.userID}}">
                 <span class="profile-feed-review-list-row-left">
                     <img class="profile-feed-review-list-img"
                          src="https://s3.amazonaws.com/com.onebody.profile/Users/{{review.userID | htmlEncode}}/profilepic.jpg"
                          onerror="this.src='img/emptypic-user.png'"/>
                 </span>
                 <span class="profile-feed-review-list-row-right">
-                    <div class="profile-feed-review-text"><span class="text-bold">{{review.userID}}</span> {{review.text}}
+                    <div class="profile-feed-review-text"><span class="text-bold">{{review.username}}</span> {{review.text}}
                         <span class="profile-feed-review-creation">{{review.created | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </div>
                     <div class="profile-feed-review-stars">
