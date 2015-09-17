@@ -20,11 +20,11 @@
 <!--=======-->
     <ion-content class="has-header ob-bg1" scroll="false">
         <div class="list" style="position: absolute; bottom: 0px">
-            <a class="item" style="padding: 10px" ng-click="changeMeridiem()">
-                <span>{{meridiem}}</span>
-            </a>
             <a class="item" style="padding: 10px" ng-click="scrollTo(x)" ng-repeat="x in sidebar">
                 <span>{{x}}</span>
+            </a>
+            <a class="item" style="padding: 10px" ng-click="changeMeridiem()">
+                <span>{{meridiem}}</span>
             </a>
         </div>
 

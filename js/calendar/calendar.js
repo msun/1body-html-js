@@ -7,6 +7,34 @@ calendar.controller( 'CalendarController', function( $scope, $interval, $statePa
 
     $scope.selected = moment().startOf("day");
 
+    $scope.accountingThisMonth = function(){
+        console.log($scope.month);
+
+        var firstDay = new Date();
+        firstDay.setDate(1);
+        if($scope.month){
+            firstDay.setMonth(parseInt($scope.month));
+        }
+        firstDay.setHours(0);
+        firstDay.setMinutes(0);
+        firstDay.setSeconds(0);
+        console.log(firstDay);
+
+        var lastDay = new Date();
+        if($scope.month){
+            lastDay.setMonth(parseInt($scope.month + 1));
+        } else {
+            lastDay.setMonth(lastDay.getMonth() + 1);
+        }
+        lastDay.setDate(1);
+        lastDay.setHours(0);
+        lastDay.setMinutes(0);
+        lastDay.setSeconds(0);
+        console.log(lastDay);
+
+        $state.go('menu.transaction-search-time', {orderby: 'month', start: firstDay.getTime(), end: lastDay.getTime()});
+    };
+
     var slots = {
         hour: [],
         half: []
@@ -88,6 +116,7 @@ calendar.controller( 'CalendarController', function( $scope, $interval, $statePa
     };
 
     var setOpenSlots = function(month) {
+        $scope.month = month;
         var now = new Date();
         if(month){
             now.setMonth(month);

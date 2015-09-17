@@ -34,6 +34,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         debug: true,
         monthNames: ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
+        ],
+        daysOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+            "Saturday"
+        ],
+        hoursOfDay: ["0am-4am", "0am-4am", "0am-4am", "0am-4am",
+            "4am-8am", "4am-8am", "4am-8am", "4am-8am",
+            "8am-12pm", "8am-12pm", "8am-12pm", "8am-12pm",
+            "12pm-4pm", "12pm-4pm", "12pm-4pm", "12pm-4pm",
+            "4pm-8pm", "4pm-8pm", "4pm-8pm", "4pm-8pm",
+            "8pm-12am", "8pm-12am", "8pm-12am", "8pm-12am"
         ]
     })
     .value("apikey", "AIzaSyA8QpUf-wkAJKi4_zHNvPHgI-CUEjZpPjc")

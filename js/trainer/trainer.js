@@ -760,27 +760,86 @@ trainer.directive('schedulerUserView', function($timeout, $firebaseObject, appFa
     }
 });
 
-trainer.controller('TransactionSearchTimeCtrl', function($scope, $timeout, $firebaseObject, Reviews, appFactory, Users, Schedule, $firebaseArray, Transactions, MyTransactions, $stateParams) {
+trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDelegate, $location, $timeout, appConfig, $firebaseObject, Reviews, appFactory, Users, Schedule, $firebaseArray, Transactions, MyTransactions, $stateParams) {
     console.log($stateParams);
     $scope.total = 0;
 
     $scope.params = $stateParams;
 
     $scope.userTransactions = [];
-    $scope.predicate = "starttime";
+    $scope.dayTransactions = [];
+    $scope.hourTransactions = [];
+    $scope.primeTransactions = [
+        {
+            prime: 'prime',
+            transactions: [],
+            total: 0
+        },
+        {
+            prime: 'off',
+            transactions: [],
+            total: 0
+        }
+    ];
+    $scope.predicate = "user";
 
     $scope.data1 = {
-        series: [],
+        series: ["User"],
         data: []
     };
 
+    $scope.data2 = {
+        series: ["Day"],
+        data: []
+    };
+
+    $scope.data3 = {
+        series: ["Hour"],
+        data: []
+    };
+
+    $scope.data4 = {
+        series: ["Prime/Off"],
+        data: [
+            {
+                x: "prime",
+                y:[0]
+            },
+            {
+                x: "off",
+                y:[0]
+            }
+        ]
+    };
+
+    $scope.data = $scope.data1;
+
     $scope.chartType = 'pie';
 
+    $scope.predicateChange = function(predicate){
+        console.log(predicate);
+        if (predicate == "user"){
+            $scope.data = $scope.data1;
+        } else if (predicate == "hour") {
+            $scope.data = $scope.data3;
+        } else if (predicate == "day") {
+            $scope.data = $scope.data2;
+        } else if (predicate == "prime") {
+            $scope.data = $scope.data4;
+        }
+    };
+
+    $scope.scrollTo = function(index){
+        $location.hash("anchor"+index);
+        $ionicScrollDelegate.anchorScroll();
+    };
+
     $scope.config1 = {
-        labels: false,
+        labels: true,
         tooltips: true,
         click : function(d) {
-            console.log(d);
+            console.log(d.data.x);
+            $scope.scrollTo(d.data.x);
         },
         title: "Income from user",
         legend: {
@@ -815,10 +874,63 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $timeout, $fire
             console.log(value);
             $scope.total += value.tokens * 4.9;
 
+            var tdate = new Date(parseInt(value.starttime));
+            var dayInWeek = appConfig.daysOfWeek[tdate.getDay()];
+            var hourInDay = appConfig.hoursOfDay[tdate.getHours()];
+
             var found = false;
             if(value.reviewID){
                 value.review = $firebaseObject(Reviews.ref().child(appFactory.user.$id).child(value.reviewID));
             }
+
+            if(value.prime){
+                console.log($scope.data4);
+                console.log($scope.primeTransactions[0]);
+
+                $scope.primeTransactions[0].total += value.tokens * 4.9;
+                $scope.primeTransactions[0].transactions.push(value);
+            } else {
+
+                $scope.data4.data[1].y[0] += Math.round(value.tokens * 4.9*100)/100;
+                $scope.primeTransactions[1].total += value.tokens * 4.9;
+                $scope.primeTransactions[1].transactions.push(value);
+            }
+
+            for(var i=0; i<$scope.dayTransactions.length; i++){
+                if($scope.dayTransactions[i].dayInWeek == dayInWeek){
+                    found = true;
+                    $scope.dayTransactions[i].transactions.push(value);
+                    $scope.dayTransactions[i].total += value.tokens * 4.9;
+                }
+            }
+
+            if(!found){
+                $scope.dayTransactions.push({
+                    dayInWeek: dayInWeek,
+                    transactions: [value],
+                    total: value.tokens * 4.9
+                });
+            }
+
+            found = false;
+
+            for(var i=0; i<$scope.hourTransactions.length; i++){
+                if($scope.hourTransactions[i].hourInDay == hourInDay){
+                    found = true;
+                    $scope.hourTransactions[i].transactions.push(value);
+                    $scope.hourTransactions[i].total += value.tokens * 4.9;
+                }
+            }
+
+            if(!found){
+                $scope.hourTransactions.push({
+                    hourInDay: hourInDay,
+                    transactions: [value],
+                    total: value.tokens * 4.9
+                });
+            }
+
+            found = false;
 
             for(var i=0; i<$scope.userTransactions.length; i++){
                 if($scope.userTransactions[i].userID == value.userID){
@@ -835,20 +947,41 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $timeout, $fire
                     total: value.tokens * 4.9
                 });
             }
+
+            found = false;
         });
         angular.forEach($scope.userTransactions, function(value, key){
-            if($scope.data1.series.indexOf(value.userName) < 0){
-                $scope.data1.series.push(value.userName);
-            }
+//            if($scope.data1.series.indexOf(value.userName) < 0){
+//                $scope.data1.series.push(value.userName);
+//            }
 
             $scope.data1.data.push({
                 x:value.userName,
-                y:[value.total],
+                y:[Math.round(value.total*100)/100],
                 tooltip: value.userName + ": " + value.total
             })
         });
-        console.log($scope.data1);
-        console.log($scope.userTransactions);
+
+        angular.forEach($scope.dayTransactions, function(value, key){
+            $scope.data2.data.push({
+                x:value.dayInWeek,
+                y:[Math.round(value.total*100)/100],
+                tooltip: value.dayInWeek + ": " + value.total
+            })
+        });
+
+        angular.forEach($scope.hourTransactions, function(value, key){
+            $scope.data3.data.push({
+                x:value.hourInDay,
+                y:[Math.round(value.total*100)/100],
+                tooltip: value.hourInDay + ": " + value.total
+            })
+        });
+
+        $scope.data4.data[0].y[0] += Math.round($scope.primeTransactions[0].total*100)/100;
+        $scope.data4.data[1].y[0] += Math.round($scope.primeTransactions[1].total*100)/100;
+        console.log($scope.data4);
+        console.log($scope.data3);
     });
 
 });
