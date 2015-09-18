@@ -1589,10 +1589,22 @@ input.ob-form-text-input[type="search"] {
     border-top: none;
 }
 
+.ob-list-row-bordered {
+	border: 1px solid black;
+}
+
+.ob-list-superrow {
+	margin: 20px 0px;
+}
+
+.ob-list-superrow ~ .ob-list-superrow {
+}
+
 .ob-list-col-img {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 80px;
+	margin: auto;
 }
 
 .ob-list-img {
@@ -3758,6 +3770,7 @@ input.ob-form-text-input[type="search"] {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 14pt;
     color: #383838;
+	text-decoration: none;
 }
 
 * ~ .ob-text {
