@@ -541,7 +541,7 @@ ion-popover-view.fit ion-content {
     color: white;
     margin: auto;
     display: block;
-    width: 18px;
+    width: 44px;
     line-height: 40px;
 }
 
@@ -629,6 +629,21 @@ ion-popover-view.fit ion-content {
     color: white;
     text-align: center;
     text-decoration: none;
+}
+
+.ob-form-button-ionicon {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    border-radius: 8px;
+    border: 1px solid #666;
+    margin: 4px 6px;
+    padding: 0px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+	cursor: pointer;
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -1385,6 +1400,9 @@ input.ob-form-text-input[type="search"] {
     border: 1px solid #7f7b73;
     border-radius: 8px;
     margin: 12px auto;
+    overflow: hidden;
+    /* this fixes the overflow:hidden in Chrome */
+    -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -3688,8 +3706,44 @@ input.ob-form-text-input[type="search"] {
     color: #2b6acf;
 }
 
+.ob-red-color {
+    color: #660000;
+}
+
 .ob-color-transparent {
 
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-light */
+/* ********** ********** ********** ********** ***********/
+
+.ob-page {
+    background-color: #EAEAEA;
+}
+
+.ob-img {
+    margin: 20px;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+}
+
+.ob-block {
+    text-align: center;
+    margin: 12pt auto;
+    border: 1px solid transparent;
+}
+
+.ob-text {
+    margin: 0pt auto;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 14pt;
+    font-color: #383838;
+}
+
+* ~ .ob-text {
+    margin-top: 4pt;
 }
 
 /* ********** ********** ********** ********** ***********/
