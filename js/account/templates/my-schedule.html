@@ -18,87 +18,81 @@
                                 <!--<i class="icon ion-calendar ob-form-ionicon"></i>-->
                                    <!--&lt;!&ndash;ng-click="removeTimeSlot($index)"></i>&ndash;&gt;-->
 <!--=======-->
-    <ion-content class="has-header ob-bg1" scroll="false">
-        <div class="list" style="position: absolute; bottom: 0px">
-            <a class="item" style="padding: 10px" ng-click="scrollTo(x)" ng-repeat="x in sidebar">
-                <span>{{x}}</span>
-            </a>
-            <a class="item" style="padding: 10px" ng-click="changeMeridiem()">
-                <span>{{meridiem}}</span>
-            </a>
-        </div>
-
-        <table width="100%">
-            <tr>
-                <td width="10%">
-                </td>
-                <td width="90%">
-                    <div class="ob-content">
-                        <div class="ob-block-switch2 ob-button-shadow">
-                            <button class="ob-block-switch2-button"
-                                    ng-click="showOnly = (showOnly==-1)?-2:-1; scrollTo(0)"
-                                    ng-class="(showOnly==-1) ? 'ob-block-switch2-button-selected':''"
-                                    ><span class="ion-ios-circle-outline ob-ionicon-medium"></span></button>
-                            <button class="ob-block-switch2-button"
-                                    ng-click="showOnly = (showOnly==0)?-2:0; scrollTo(0)"
-                                    ng-class="(showOnly==0) ? 'ob-block-switch2-button-selected':''"
-                                    ><span class="ion-close ob-ionicon-medium"></span></button>
-                            <button class="ob-block-switch2-button"
-                                    ng-click="showOnly = (showOnly==1)?-2:1; scrollTo(0)"
-                                    ng-class="(showOnly==1) ? 'ob-block-switch2-button-selected':''"
-                                    ><span class="ion-android-calendar ob-ionicon-medium"></span></button>
-                        </div>
-                        <!--
-                        <div class="ob-block-switch2 ob-button-shadow ob-section-0-0" ng-show="$root.user.group == 'Trainers'">
-                            <button class="ob-block-switch2-button"
-                                    ng-click="rootGoTo('#/menu/requested-sessions')">Inbox</button>
-                            <button class="ob-block-switch2-button ob-block-switch2-button-selected">Sent</button>
-                        </div>
-                        -->
-                        <div class="ob-form ob-button-shadow">
-                            <div class="ob-form-row ob-form-row-button ob-button-blue" ng-click="confirm()">Confirm</div>
-                            <div class="ob-form-row ob-form-flex-row">
-                                <time-picker class="ob-form-timepicker"
-                                             show-time-picker="false"
-                                             allow-time-before-now="true"
-                                             data-inc-icon-class="ion ion-chevron-up"
-                                             data-dec-icon-class="ion ion-chevron-down"></time-picker>
-                            </div>
-                            <ion-scroll style="width: 100%; height: 300px">
-                                <div class="item ob-form-row" id="anchor{{$index}}"
-                                     ng-repeat="time in timeslots track by $index"
-                                     ng-show="showTableRow($index)"
-                                     ng-if="(showOnly > -2) ? active[$index].status == showOnly : true">
-                                    <div class="ob-form-subrow ob-form-flex-row">
-                                    <!--<span class="ob-form-ionicon-container">-->
-                                        <!--<i class="icon ion-arrow-expand ob-form-ionicon ob-color-red"></i>-->
-                                           <!--&lt;!&ndash;ng-click="removeTimeSlot($index)"></i>&ndash;&gt;-->
-
-                                    <!--</span>-->
-                                        <span class="ob-form-text ob-blue-color">{{time | displayTime}}</span>
-                                        <div class="ob-form-button-ionicon"
-                                             ng-click="openScheduleModal($index, time, $event)">
-                                             <span class="ion-clock ob-form-ionicon"></span>
-                                        </div>
-                                        <div class="ob-form-button-ionicon">
-                                            <span ng-show="active[$index].status == -1"
-                                                  class="ion-ios-circle-outline ob-form-ionicon"
-                                                  ng-click="selectTime($index, $event)"></span>
-                                            <span ng-show="active[$index].status == 0"
-                                                  class="ion-close ob-form-ionicon"
-                                                  ng-click="selectTime($index, $event)"></span>
-                                            <span ng-show="active[$index].status == 1"
-                                                  class="ion-android-calendar ob-form-ionicon"
-                                                  ng-click="gotoTransactionPage(time)"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ion-scroll>
+    <ion-content class="has-header ob-bg1">
+        <div class="ob-content">
+            <div class="ob-block-switch2 ob-button-shadow">
+                <button class="ob-block-switch2-button"
+                        ng-click="showOnly = (showOnly==-1)?-2:-1; scrollTo(0)"
+                        ng-class="(showOnly==-1) ? 'ob-block-switch2-button-selected':''"
+                        ><span class="ion-ios-circle-outline ob-ionicon-medium"></span></button>
+                <button class="ob-block-switch2-button"
+                        ng-click="showOnly = (showOnly==0)?-2:0; scrollTo(0)"
+                        ng-class="(showOnly==0) ? 'ob-block-switch2-button-selected':''"
+                        ><span class="ion-close ob-ionicon-medium"></span></button>
+                <button class="ob-block-switch2-button"
+                        ng-click="showOnly = (showOnly==1)?-2:1; scrollTo(0)"
+                        ng-class="(showOnly==1) ? 'ob-block-switch2-button-selected':''"
+                        ><span class="ion-android-calendar ob-ionicon-medium"></span></button>
+            </div>
+            <!--
+            <div class="ob-block-switch2 ob-button-shadow ob-section-0-0" ng-show="$root.user.group == 'Trainers'">
+                <button class="ob-block-switch2-button"
+                        ng-click="rootGoTo('#/menu/requested-sessions')">Inbox</button>
+                <button class="ob-block-switch2-button ob-block-switch2-button-selected">Sent</button>
+            </div>
+            -->
+            <div class="ob-form ob-button-shadow">
+                <div class="ob-form-row ob-form-row-button ob-button-blue" ng-click="confirm()">Confirm</div>
+                <div class="ob-form-row ob-form-flex-row">
+                    <time-picker class="ob-form-timepicker"
+                                 show-time-picker="false"
+                                 allow-time-before-now="true"
+                                 data-inc-icon-class="ion ion-chevron-up"
+                                 data-dec-icon-class="ion ion-chevron-down"></time-picker>
+                </div>
+                <div class="ob-form-sections">
+                    <div class="ob-form-section-leftsidebar ob-center-parent">
+                        <div class="list ob-scrubber ob-center-vert-child">
+                            <a class="item ob-scrubber-item" ng-click="scrollTo(x)" ng-repeat="x in sidebar" ng-if="!(($index) % 2)">
+                                <span>{{x}}</span>
+                            </a>
+                            <a class="item ob-scrubber-meridiem" ng-click="changeMeridiem()">
+                                <span>{{meridiem}}</span>
+                            </a>
                         </div>
                     </div>
-                </td>
-            </tr>
-        </table>
+                    <ion-scroll class="ob-form-section-main ob-form-scroll">
+                        <div class="ob-form-row" id="anchor{{$index}}"
+                             ng-repeat="time in timeslots track by $index"
+                             ng-show="showTableRow($index)"
+                             ng-if="(showOnly > -2) ? active[$index].status == showOnly : true">
+                            <div class="ob-form-subrow ob-form-flex-row">
+                            <!--<span class="ob-form-ionicon-container">-->
+                                <!--<i class="icon ion-arrow-expand ob-form-ionicon ob-color-red"></i>-->
+                                   <!--&lt;!&ndash;ng-click="removeTimeSlot($index)"></i>&ndash;&gt;-->
 
+                            <!--</span>-->
+                                <span class="ob-form-text ob-blue-color">{{time | displayTime}}</span>
+                                <div class="ob-form-button-ionicon"
+                                     ng-click="openScheduleModal($index, time, $event)">
+                                     <span class="ion-clock ob-form-ionicon"></span>
+                                </div>
+                                <div class="ob-form-button-ionicon">
+                                    <span ng-show="active[$index].status == -1"
+                                          class="ion-ios-circle-outline ob-form-ionicon"
+                                          ng-click="selectTime($index, $event)"></span>
+                                    <span ng-show="active[$index].status == 0"
+                                          class="ion-close ob-form-ionicon"
+                                          ng-click="selectTime($index, $event)"></span>
+                                    <span ng-show="active[$index].status == 1"
+                                          class="ion-android-calendar ob-form-ionicon"
+                                          ng-click="gotoTransactionPage(time)"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-scroll>
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

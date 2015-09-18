@@ -918,6 +918,41 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
+/* ob-form-section */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-sections {
+	display: -webkit-flex;
+    display: flex;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.ob-form-sections .ob-form-row {
+	background: none;
+}
+
+.ob-form-section-leftsidebar {
+	-webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+	width: 44px;
+	border-right: 1px solid #7f7b73;
+	min-height: 275px; /* some hacky value */
+}
+
+.ob-form-section-main {
+	-webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-form-light */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-scroll {
+	max-height: 275px; /* some hacky value */
+}
+
+/* ********** ********** ********** ********** ***********/
 /* ob-form-light */
 /* ********** ********** ********** ********** ***********/
 
@@ -1965,44 +2000,6 @@ input.ob-form-text-input[type="search"] {
 .ob-section-12z {
     -webkit-flex: 12 1 0px;
     flex: 12 1 0px;
-}
-
-/* ********** ********** ********** ********** ***********/
-/* ob-vertical-center */
-/* ********** ********** ********** ********** ***********/
-
-.ob-center-parent {
-    position: relative;
-}
-
-.ob-center-vert-child {
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-}
-
-.ob-center-horiz-child {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
-}
-
-.ob-center-both-child {
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
 }
 
 /* ********** ********** ********** ********** ***********/
@@ -3725,8 +3722,8 @@ input.ob-form-text-input[type="search"] {
 .ob-img {
     margin: 20px;
     display: inline-block;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
 }
 
 .ob-block {
@@ -3739,11 +3736,72 @@ input.ob-form-text-input[type="search"] {
     margin: 0pt auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 14pt;
-    font-color: #383838;
+    color: #383838;
 }
 
 * ~ .ob-text {
     margin-top: 4pt;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-scrubber */
+/* ********** ********** ********** ********** ***********/
+
+.ob-scrubber {
+	width: 44px;
+	position: absolute;
+	top: 0px;
+	font-family: 'AvenirNextLTPro-Demi', sans-serif;
+	font-size: 14pt;
+    color: white;
+}
+
+.ob-scrubber-item, .ob-scrubber-meridiem {
+	text-align: center;
+	padding: 8px 4px;
+	background: transparent;
+	border: none;
+	font-family: 'AvenirNextLTPro-Demi', sans-serif !important;
+	font-size: 14pt !important;
+    color: white !important;
+}
+
+/* ********** ********** ********** ********** ***********/
+/* ob-vertical-center */
+/* ********** ********** ********** ********** ***********/
+
+.ob-center-parent {
+    position: relative;
+}
+
+.ob-center-vert-child {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.ob-center-horiz-child {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+}
+
+.ob-center-both-child {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
 }
 
 /* ********** ********** ********** ********** ***********/
