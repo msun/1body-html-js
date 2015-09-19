@@ -57,7 +57,7 @@ account.controller('HomeCtrl', function($scope, FirebaseRef, $rootScope, $state,
 });
 
 
-account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseObject, $firebaseArray,Sizes,
+account.controller('LoginCtrl', function($window, GeoTrainers, PushID, $firebaseObject, $firebaseArray,Sizes,
                                          $ionicLoading, Firebase, Trainers, UserAuth, Users, Events, $scope,
                                          appFactory, $state, mapstate, $rootScope, $localstorage,
                                          $ionicPlatform, ForgotPassword, $ionicHistory, OBPush) {
@@ -119,21 +119,25 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
 
         $ionicPlatform.ready(function() {
             console.log(device.uuid);
-            var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
-            gcmID.$loaded(function(){
-                alert(gcmID.gcmID);
-                console.log(gcmID);
-                if(!gcmID.gcmID){
+            var pushID = $firebaseObject(PushID.ref().child(device.uuid));
+            pushID.$loaded(function(){
+                console.log(pushID);
+                if(!pushID.pushID){
                     var exec = cordova.require("cordova/exec");
                     exec(function(result){
-                        alert(result["regid"]);
                         if(result["regid"] && result["regid"].length > 0){
-                            gcmID.gcmID = result["regid"];
-                            gcmID.userID = appFactory.user.$id;
-                            gcmID.deviceID = device.uuid;
-                            gcmID.$priority = appFactory.user.$id;
-                            gcmID.$save().then(function(){
-                                alert(result["regid"] + " saved to db");
+                            pushID.pushID = result["regid"];
+                            pushID.userID = appFactory.user.$id;
+                            pushID.deviceID = device.uuid;
+                            if (ionic.Platform.isAndroid()) {
+                                pushID.platform = "android";
+                            }
+                            if (ionic.Platform.isIOS()) {
+                                pushID.platform = "ios";
+                            }
+                            pushID.$priority = appFactory.user.$id;
+                            pushID.$save().then(function(){
+                                alert("saved to db" + result["regid"]);
                             })
                         }
                     }, function(err){
@@ -142,7 +146,7 @@ account.controller('LoginCtrl', function($window, GeoTrainers, GcmID, $firebaseO
                 }
             })
         });
-    }
+    };
 
     var loadLocalUser = function(user){
         console.log(user);

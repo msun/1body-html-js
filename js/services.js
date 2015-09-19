@@ -75,7 +75,7 @@ angular.module('starter.services', ["firebase"])
         };
     })
 
-    .factory("GcmID", function(FirebaseRef) {
+    .factory("PushID", function(FirebaseRef) {
         var ref = FirebaseRef.child("gcmID");
 
         return {
