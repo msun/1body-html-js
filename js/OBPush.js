@@ -95,9 +95,16 @@ var OBPushApp = {
     }
 };
 
-angular.module('OBPushModule', ['ionic'])
-.factory('OBPush', [function() {
+angular.module('OBPushModule', ['ionic', 'starter', 'firebase'])
+.factory('OBPush', function(FirebaseRef, $firebaseObject) {
     var isRegistered = false;
+
+    var getPushRef = function () {
+        FirebaseRef.child("push");
+    }
+    var getPushObject = function () {
+        $firebaseObject(getPushRef().child(device.uuid));
+    }
 
     var onDeviceReady = function () {
         // Only for Amazon Fire OS, Android, BlackBerry 10, Windows Phone 8
@@ -141,12 +148,29 @@ angular.module('OBPushModule', ['ionic'])
         }
     };
 
-    var tokenHandler = function (result) {
+    // iOS only
+    var tokenHandler = function (token) {
         isRegistered = true;
-        OBLog("APNS token: " + result);
+        OBLog("APNS token: " + token);
 
-        // Your iOS push server needs to know the token before it can push to this device
-        // here is where you might want to send it the token for later use.
+        ionic.Platform.ready(function() {
+            //OBLog("device.uuid: " + device.uuid);
+            OBLog("asdf");
+            var pushObject = getPushObject();
+            pushObject.$loaded(function(){
+                OBLog("pushObject loaded");
+                console.log("pushObject: ", pushObject);
+                if (!pushObject.apnsID){
+                    pushObject.apnsID = token;
+                    pushObject.userID = appFactory.user.$id;
+                    pushObject.deviceID = device.uuid;
+                    pushObject.$priority = appFactory.user.$id;
+                    pushObject.$save().then(function(){
+                        alert(token + " saved to db");
+                    })
+                }
+            })
+        });
     };
 
     var registerSuccess = function (result) {
@@ -162,7 +186,7 @@ angular.module('OBPushModule', ['ionic'])
         if (isRegistered) {
             return;
         }
-        ionic.Platform.ready(function(){
+        ionic.Platform.ready(function() {
             onDeviceReady();
         });
     };
@@ -174,12 +198,14 @@ angular.module('OBPushModule', ['ionic'])
                                         },
                                         function(result) {
                                         });
+            var pushObject = getPushObject();
+            pushObject.$remove();
         });
     };
 
     var getIsRegistered = function() {
         return isRegistered;
-    }
+    };
 
     var setApplicationIconBadgeNumber = function(num) {
         if (!ionic.Platform.isWebView()) {
@@ -191,7 +217,7 @@ angular.module('OBPushModule', ['ionic'])
                                                                num);
             });
         }
-    }
+    };
 
     return {
         register : register,
@@ -199,4 +225,4 @@ angular.module('OBPushModule', ['ionic'])
         getIsRegistered : getIsRegistered,
         setApplicationIconBadgeNumber : setApplicationIconBadgeNumber
     };
-}]);
+});
