@@ -6,7 +6,7 @@ function OBLog(msg) {
     priority = (arguments.length >= 2) ? arguments[1] : 1; // Lower number is higher priority
     alertType = (arguments.length >= 3) ? arguments[2]: 3;
 
-    var priorityLimit = 1;
+    var priorityLimit = 1; // Set this to 0 to turn off all logging
     if (priority > priorityLimit) {
         return;
     }

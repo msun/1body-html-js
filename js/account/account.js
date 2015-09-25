@@ -415,27 +415,27 @@ account.controller('ScanCtrl', function($scope, appFactory, $timeout, ScanQueue,
     };
 
     $scope.scanClient = function() {
-//        document.addEventListener("deviceready", onDeviceReady, false);
-//        function onDeviceReady() {
-            var scanner = cordova.require("com.phonegap.plugins.barcodescanner.BarcodeScanner");
-//            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-            scanner.scan(function (result) {
+        var scanner;
 
-                alert("We got a barcode\n" +
-                    "Result: " + result.text + "\n" +
-                    "Format: " + result.format + "\n" +
-                    "Cancelled: " + result.cancelled);
+        if (ionic.Platform.isIOS()) {
+            scanner = cordova.require("phonegap-plugin-barcodescanner.BarcodeScanner");
+        } else {
+            scanner = cordova.require("com.phonegap.plugins.barcodescanner.BarcodeScanner");
+        }
 
-                console.log("Scanner result: \n" +
-                    "text: " + result.text + "\n" +
-                    "format: " + result.format + "\n" +
-                    "cancelled: " + result.cancelled + "\n");
-
-                processTransaction(result.text);
-            }, function (error) {
-                console.log("Scanning failed: ", error);
-            });
-//        }
+        scanner.scan(function (result) {
+            alert("We got a barcode\n" +
+                "Result: " + result.text + "\n" +
+                "Format: " + result.format + "\n" +
+                "Cancelled: " + result.cancelled);
+            console.log("Scanner result: \n" +
+                "text: " + result.text + "\n" +
+                "format: " + result.format + "\n" +
+                "cancelled: " + result.cancelled + "\n");
+            processTransaction(result.text);
+        }, function (error) {
+            console.log("Scanning failed: ", error);
+        });
     }
 
     $scope.enterCode = function(){

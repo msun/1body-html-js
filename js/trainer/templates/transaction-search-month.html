@@ -1,61 +1,65 @@
-<ion-view view-title="My Sessions" cache-view="false">
+<ion-view view-title="Transactions" cache-view="false">
     <ion-nav-buttons side="right">
-        <a ng-href="#/menu/calendar/my-schedule/{{$root.user.$id}}/{{$root.user.username}}" class="button button-icon icon ion-calendar">Calendar</a>
+        <a ng-href="#/menu/calendar/my-schedule/{{$root.user.$id}}/{{$root.user.username}}" class="button button-icon icon ion-calendar"></a>
     </ion-nav-buttons>
-
-    <ion-content class="has-header ob-grey-bg">
-
-        <div class="list">
-            <!--<div class="ob-list">-->
-            <!--<div class="ob-form-row ob-form-flex-row" ng-click="openDatePicker()">-->
-            <!--<time-picker class="ob-form-timepicker"-->
-                         <!--show-time-picker="false"-->
-                         <!--show-date-picker="false"-->
-                         <!--data-inc-icon-class="ion ion-chevron-up"-->
-                         <!--data-dec-icon-class="ion ion-chevron-down"></time-picker>-->
-
-            OrderBy:
-            <select ng-model="predicate" ng-change="predicateChange(predicate)">
-                <option value="user">User</option>
-                <option value="day">Day in Week</option>
-                <option value="hour">Hour in Day</option>
-                <option value="prime">Prime/Off</option>
-                <option value="starttime">Start Time</option>
-                <option value="created">Creation Time</option>
-            </select>
-
-            <select ng-model="chartType">
-                <option value="pie">pie</option>
-                <option value="bar">bar</option>
-                <!--<option value="line">line</option>-->
-                <!--<option value="area">area</option>-->
-            </select>
-
-            <p class="ob-list-text">Total Earnings From {{params.yearMonth}}: {{total | number:2}}</p>
-
-            <div ng-show="transactions.length <= 0" class="ob-list-emptytext">No sessions to display</div>
-
-            <div ng-hide="predicate == 'starttime' || predicate == 'created'" class="item" id="chart1" ac-chart="chartType" ac-data="data" ac-config="config1"></div>
-
-            <div class="ob-list" ng-show="predicate == 'user'">
-                <div ng-repeat="tran in userTransactions | orderBy: '-total'" id="anchor{{tran.userName}}">
-
+    <ion-content class="ob-page">
+        <div class="ob-content">
+            <div class="ob-form ob-form-light">
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">OrderBy:</span>
+                    <span class="ob-form-text"></span>
+                    <div class="ob-form-select-container ob-form-select-container-xlarge">
+                        <select class="ob-form-select ob-form-select-xlarge"
+                                ng-model="predicate"
+                                ng-change="predicateChange(predicate)">
+                                <option value="user">User</option>
+                                <option value="day">Day in Week</option>
+                                <option value="hour">Hour in Day</option>
+                                <option value="prime">Prime/Off</option>
+                                <option value="starttime">Start Time</option>
+                                <option value="created">Creation Time</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Chart Type</span>
+                    <span class="ob-form-text"></span>
+                    <div class="ob-form-select-container ob-form-select-container-xlarge">
+                        <select class="ob-form-select ob-form-select-xlarge"
+                                ng-model="chartType">
+                                <option value="pie">Pie</option>
+                                <option value="bar">Bar</option>
+                                <!--<option value="line">line</option>-->
+                                <!--<option value="area">area</option>-->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="ob-block">
+                <div class="ob-text">Total Earnings From {{params.yearMonth}}: ${{total | number:2}}</div>
+                <div class="ob-text" ng-show="transactions.length <= 0">No sessions to display</div>
+            </div>
+            <div ng-hide="predicate == 'starttime' || predicate == 'created'"
+                 id="chart1"
+                 ac-chart="chartType" ac-data="data" ac-config="config1"></div>
+            <div class="ob-block ob-list" ng-show="predicate == 'user'">
+                <div class="ob-list-superrow" ng-repeat="tran in userTransactions | orderBy: '-total'" id="anchor{{tran.userName}}">
                     <div class="ob-list-col-img">
                         <img class="ob-list-img"
                              src="https://s3.amazonaws.com/com.onebody.profile/Users/{{tran.userID | htmlEncode}}/profilepic.jpg"
                              onerror="this.src='img/emptypic-user.png'"/>
                     </div>
                     <div class="ob-list-col-flex">
-                        <div class="ob-list-text">User: {{tran.userName}}</div>
-                        <div class="ob-list-subtext">Start Time: {{tran.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                        <div class="ob-text">User: {{tran.userName}}</div>
+                        <div class="ob-text">Start Time: {{tran.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                     </div>
-                    <p class="ob-list-emptytext">Total Earnings {{tran.userName}}: ${{tran.total |  number:2}}</p>
+                    <p class="ob-text">Total Earnings {{tran.userName}}: ${{tran.total |  number:2}}</p>
                     <div class="ob-list">
-                        <a class="ob-list-text" ng-repeat="item in tran.transactions | orderBy: '-starttime'" ng-href="#/menu/transaction-detail/{{item.$id}}">
-                            <div class="ob-list-subtext">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            <div class="ob-list-subtext">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            <div class="ob-list-subtext">Tokens: {{item.tokens}}</div>
-                            <div class="ob-list-subtext">Review: {{item.text}}</div>
+                        <a class="ob-text" ng-repeat="item in tran.transactions | orderBy: '-starttime'" ng-href="#/menu/transaction-detail/{{item.$id}}">
+                            <div class="ob-text">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            <div class="ob-text">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            <div class="ob-text">Tokens: {{item.tokens}}</div>
+                            <div class="ob-text">Review: {{item.text}}</div>
                             <div class="profile-feed-review-stars">
                                 <span class="profile-feed-review-star" ng-show="item.review.rating > 0" id="profile-feed-review-star-1"></span>
                                 <span class="profile-feed-review-star" ng-show="item.review.rating > 1" id="profile-feed-review-star-2"></span>
@@ -63,109 +67,84 @@
                                 <span class="profile-feed-review-star" ng-show="item.review.rating > 3" id="profile-feed-review-star-4"></span>
                                 <span class="profile-feed-review-star" ng-show="item.review.rating > 4" id="profile-feed-review-star-5"></span>
                             </div>
-                            <div class="ob-list-subtext">Duration: {{item.duration * 30}} mins</div>
+                            <div class="ob-text">Duration: {{item.duration * 30}} mins</div>
                         </a>
                     </div>
                 </div>
             </div>
-
-            <div class="ob-list" ng-show="predicate == 'hour'" >
-                <div ng-repeat="tran in hourTransactions | orderBy: '-total'" id="anchor{{tran.hourInDay}}">
-                    <p class="ob-list-emptytext">Total Earnings {{tran.hourInDay}}: ${{tran.total |  number:2}}</p>
-                    <a class="ob-list-row" ng-repeat="item in tran.transactions | orderBy:'-starttime'" ng-href="#/menu/transaction-detail/{{item.$id}}">
+            <div class="ob-block ob-list" ng-show="predicate == 'hour'" >
+                <div class="ob-list-superrow" ng-repeat="tran in hourTransactions | orderBy: '-total'" id="anchor{{tran.hourInDay}}">
+                    <p class="ob-text">Total Earnings {{tran.hourInDay}}: ${{tran.total |  number:2}}</p>
+                    <a class="ob-list-row ob-list-row-bordered" ng-repeat="item in tran.transactions | orderBy:'-starttime'" ng-href="#/menu/transaction-detail/{{item.$id}}">
                         <div class="ob-list-col-img">
                             <img class="ob-list-img"
                                  src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.userID | htmlEncode}}/profilepic.jpg"
                                  onerror="this.src='img/emptypic-user.png'"/>
                         </div>
                         <div class="ob-list-col-flex">
-                            <div class="ob-list-text">User: {{item.userName}}</div>
-                            <div class="ob-list-subtext">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            <div class="ob-list-subtext">Created Time: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            <!--<div class="ob-list-subtext">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>-->
-                            <div class="ob-list-subtext">Duration: {{item.duration * 30}} mins</div>
+                            <div class="ob-text">User: {{item.userName}}</div>
+                            <div class="ob-text">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            <div class="ob-text">Created Time: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            <!--<div class="ob-text">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>-->
+                            <div class="ob-text">Duration: {{item.duration * 30}} mins</div>
                         </div>
                     </a>
                 </div>
             </div>
-
-            <div class="ob-list" ng-show="predicate == 'prime'" >
-                <div ng-repeat="tran in primeTransactions | orderBy: '-total'" id="anchor{{tran.prime}}">
-                    <p class="ob-list-emptytext">Total Earnings {{tran.prime}}: ${{tran.total |  number:2}}</p>
-                    <a class="ob-list-row" ng-repeat="item in tran.transactions | orderBy:'-starttime'" ng-href="#/menu/transaction-detail/{{item.$id}}">
+            <div class="ob-block ob-list" ng-show="predicate == 'prime'" >
+                <div class="ob-list-superrow" ng-repeat="tran in primeTransactions | orderBy: '-total'" id="anchor{{tran.prime}}">
+                    <p class="ob-text">Total Earnings {{tran.prime}}: ${{tran.total |  number:2}}</p>
+                    <a class="ob-list-row ob-list-row-bordered" ng-repeat="item in tran.transactions | orderBy:'-starttime'" ng-href="#/menu/transaction-detail/{{item.$id}}">
                         <div class="ob-list-col-img">
                             <img class="ob-list-img"
                                  src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.userID | htmlEncode}}/profilepic.jpg"
                                  onerror="this.src='img/emptypic-user.png'"/>
                         </div>
                         <div class="ob-list-col-flex">
-                            <div class="ob-list-text">User: {{item.userName}}</div>
-                            <div class="ob-list-subtext">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            <div class="ob-list-subtext">Created Time: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            <!--<div class="ob-list-subtext">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>-->
-                            <div class="ob-list-subtext">Duration: {{item.duration * 30}} mins</div>
+                            <div class="ob-text">User: {{item.userName}}</div>
+                            <div class="ob-text">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            <div class="ob-text">Created Time: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            <!--<div class="ob-text">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>-->
+                            <div class="ob-text">Duration: {{item.duration * 30}} mins</div>
                         </div>
                     </a>
                 </div>
             </div>
-
-            <div class="ob-list" ng-show="predicate == 'day'">
-                <div ng-repeat="tran in dayTransactions | orderBy: '-total'" id="anchor{{tran.dayInWeek}}">
-                    <p class="ob-list-emptytext">Total Earnings {{tran.dayInWeek}}s: ${{tran.total |  number:2}}</p>
-                    <a class="ob-list-row" ng-repeat="item in tran.transactions | orderBy:'-starttime'" ng-href="#/menu/transaction-detail/{{item.$id}}">
+            <div class="ob-list ob-block" ng-show="predicate == 'day'">
+                <div class="ob-list-superrow" ng-repeat="tran in dayTransactions | orderBy: '-total'" id="anchor{{tran.dayInWeek}}">
+                    <p class="ob-text">Total Earnings {{tran.dayInWeek}}s: ${{tran.total |  number:2}}</p>
+                    <a class="ob-list-row ob-list-row-bordered" ng-repeat="item in tran.transactions | orderBy:'-starttime'" ng-href="#/menu/transaction-detail/{{item.$id}}">
                         <div class="ob-list-col-img">
                             <img class="ob-list-img"
                                  src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.userID | htmlEncode}}/profilepic.jpg"
                                  onerror="this.src='img/emptypic-user.png'"/>
                         </div>
                         <div class="ob-list-col-flex">
-                            <div class="ob-list-text">User: {{item.userName}}</div>
-                            <div class="ob-list-subtext">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            <div class="ob-list-subtext">Created Time: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            <!--<div class="ob-list-subtext">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>-->
-                            <div class="ob-list-subtext">Duration: {{item.duration * 30}} mins</div>
+                            <div class="ob-text">User: {{item.userName}}</div>
+                            <div class="ob-text">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            <div class="ob-text">Created Time: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            <!--<div class="ob-text">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>-->
+                            <div class="ob-text">Duration: {{item.duration * 30}} mins</div>
                         </div>
                     </a>
                 </div>
             </div>
-
-            <div class="ob-list" ng-show="predicate == 'starttime' || predicate == 'created'">
-                <a class="ob-list-row" ng-repeat="item in transactions | orderBy:predicate" item="event" ng-href="#/menu/transaction-detail/{{item.$id}}">
+            <div class="ob-list ob-block" ng-show="predicate == 'starttime' || predicate == 'created'">
+                <a class="ob-list-row ob-list-row-bordered" ng-repeat="item in transactions | orderBy:predicate" item="event" ng-href="#/menu/transaction-detail/{{item.$id}}">
                     <div class="ob-list-col-img">
                         <img class="ob-list-img"
                              src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.userID | htmlEncode}}/profilepic.jpg"
                              onerror="this.src='img/emptypic-user.png'"/>
                     </div>
                     <div class="ob-list-col-flex">
-                        <div class="ob-list-text">User: {{item.userName}}</div>
-                        <div class="ob-list-subtext">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                        <div class="ob-list-subtext">Created Time: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                        <!--<div class="ob-list-subtext">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>-->
-                        <div class="ob-list-subtext">Duration: {{item.duration * 30}} mins</div>
+                        <div class="ob-text">User: {{item.userName}}</div>
+                        <div class="ob-text">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                        <div class="ob-text">Created Time: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                        <!--<div class="ob-text">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>-->
+                        <div class="ob-text">Duration: {{item.duration * 30}} mins</div>
                     </div>
                 </a>
             </div>
         </div>
-
-        <style type="text/css">
-            [ac-chart] {
-                width: 100%;
-                height: 400px;
-                margin: 0 1%;
-            }
-
-            .ac-tooltip {
-                color: black;
-                border: 2px solid rgba(200,200,0,0.8);
-                background-color: rgba(200,200,0,0.5);
-                z-index: 999;
-            }
-
-            #chart1 .ac-legend-box {
-                border-radius: 10px;
-            }
-
-        </style>
-
     </ion-content>
 </ion-view>

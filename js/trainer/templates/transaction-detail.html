@@ -1,29 +1,39 @@
-<ion-view>
-    <ion-content class="ob-grey-bg">
-        <div ng-click="">
-            <span>
-                <img class="ob-list-img"
-                 src="https://s3.amazonaws.com/com.onebody.profile/Users/{{user.$id | htmlEncode}}/profilepic.jpg"
-                 onerror="this.src='img/emptypic-user.png'"/>
-            </span>
-            <span>{{user.username}}</span>
-            <a class="button button-calm" ng-href="#/menu/conversations/{{user.$id}}">Talk to user</a>
+<ion-view view-title="Transaction Detail">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon ion-chatbubble"
+                ng-click="goTo('#/menu/conversations/{{user.$id}}')"
+                ng-show="selectedTrainer.$id != $root.user.$id"></button>
+    </ion-nav-buttons>
+    <ion-content class="ob-page">
+        <div class="ob-content">
+            <div class="ob-block">
+                <img class="ob-img"
+                     src="https://s3.amazonaws.com/com.onebody.profile/Users/{{user.$id | htmlEncode}}/profilepic.jpg"
+                     onerror="this.src='img/emptypic-user.png'"/>
+                <div class="ob-text">{{user.username}}</div>
+            </div>
+            <div class="ob-block">
+                <div class="ob-text">Tokens: {{transaction.tokens}}</div>
+                <div class="ob-text">Start Time: {{transaction.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                <div class="ob-text">Duration: {{transaction.duration * 30}} Minutes</div>
+            </div>
+            <div class="ob-block">
+                <leaflet id="transaction-location"
+                         class="ob-block-map ob-section-3"
+                         layers="layers"
+                         markers="markers"
+                         data-tap-disabled="true"
+                         center="center"
+                         defaults="defaults"
+                         ng-init="doMapInit()"></leaflet>
+            </div>
+            <div class="ob-block">
+                <div class="ob-text">My Transactions</div>
+            </div>
+            <div class="buttongroup2">
+                <button class="buttongroup2-button" ng-click="accountingThisUser()">This User</button>
+                <button class="buttongroup2-button" ng-click="accountingThisMonth()">This Month</i></button>
+            </div>
         </div>
-
-        <div>
-            <p>Tokens: {{transaction.tokens}}</p>
-            <p>Starttime: {{transaction.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-            <p>Duration: {{transaction.duration * 30}} Minutes</p>
-        </div>
-
-        <div>
-            <leaflet id="transaction-location" class="ob-block-map ob-section-3" layers="layers" markers="markers" data-tap-disabled="true" center="center" defaults="defaults" ng-init="doMapInit()"></leaflet>
-        </div>
-        <p>My Transactions:</p>
-        <div class="button-bar">
-            <a class="button button-calm" ng-click="accountingThisUser()">With this user</a>
-            <a class="button button-calm" ng-click="accountingThisMonth()">This month</a>
-        </div>
-
     </ion-content>
 </ion-view>
