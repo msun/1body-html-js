@@ -700,7 +700,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
     .controller("MenuCtrl", function($scope, $window, Users, $ionicPopup, Events, Feeds, Gyms, GeoTrainers, GeoEvents,
                                      GeoGyms, appConfig, $ionicSideMenuDelegate, appFactory, $rootScope, $timeout,
-                                     $firebaseObject, $state, $interval, UserAuth, $localstorage, GcmID,
+                                     $firebaseObject, $state, $interval, UserAuth, $localstorage, PushID,
                                      $firebaseArray, Notifications, $ionicHistory, OBPush){
         $rootScope.header = "Users";
         $rootScope.goTo = function(url){
@@ -746,19 +746,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         };
 
         $scope.logout = function(){
+            OBPush.unregister();
             UserAuth.$unauth();
             $localstorage.clear();
-//            $ionicHistory.clearCache();
-            if (!ionic.Platform.isWebView()) {
-                $scope.toggleMenu();
-            } else if(ionic.Platform.isAndroid()){
-                var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
-                gcmID.$remove();
-            } else if (ionic.Platform.isIOS()) {
-                $scope.toggleMenu();
-                OBPush.unregister();
-                OBPush.setApplicationIconBadgeNumber(0);
-            }
+            $scope.toggleMenu();
+
             $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
             window.location.href = "#/prelogin/home";
         };
@@ -886,52 +878,6 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         $scope.onRelease = function(event)  {
             console.log(event);
             initY = parseInt(element.style.top, 10);
-        };
-
-        $scope.registerGcm = function(){
-            if (!ionic.Platform.isWebView()) {
-                $state.transitionTo(mapstate);
-                return;
-            }
-
-            if (ionic.Platform.isIOS()) {
-                OBPush.register();
-                $state.transitionTo(mapstate);
-                return;
-            }
-
-            var pluginName = '';
-            if (ionic.Platform.isAndroid()) {
-                pluginName = 'Card_io';
-            } else if (ionic.Platform.isIOS()) {
-                pluginName = 'OBGCM';
-            }
-
-            var exec = cordova.require("cordova/exec");
-            exec(function(result){
-                if(result["regid"] && result["regid"].length > 0){
-                    var gcmID = $firebaseObject(GcmID.ref().child(device.uuid));
-
-                    gcmID.gcmID = result["regid"];
-                    gcmID.userID = appFactory.user.$id;
-                    gcmID.deviceID = device.uuid;
-                    gcmID.$priority = appFactory.user.$id;
-                    gcmID.$save().then(function(){
-                        alert(result["regid"] + " saved to db");
-                    })
-                }
-            }, function(err){
-                console.log(err);
-            }, pluginName, 'gcminit', [{id: appFactory.user.$id}]);
-
-//            if (ionic.Platform.isAndroid()){
-//                var exec = cordova.require("cordova/exec");
-//                exec(function(result){
-//                    console.log(result);
-//                }, function(err){
-//                    console.log(err);
-//                }, 'Card_io', 'gcmpush', [{id: appFactory.user.$id}]);
-//            }
         };
 
         $rootScope.user = appFactory.user;

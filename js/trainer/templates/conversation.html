@@ -1,6 +1,10 @@
 <ion-view cache-view="false">
     <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
     <ion-content class="ob-grey-bg">
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="doRefresh()">
+        </ion-refresher>
         <div class="ob-list">
             <div class="ob-list-emptytext"
                  ng-show="messages.length <= 0">No messages yet</div>

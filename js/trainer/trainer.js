@@ -66,6 +66,10 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
         $window.history.back();
     }
 
+    $scope.doRefresh = function(){
+
+    };
+
     $scope.user = $firebaseObject(Trainers.ref().child($stateParams.userID));
 
     $scope.newmessage = {};

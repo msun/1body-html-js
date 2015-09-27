@@ -84,68 +84,32 @@ account.controller('LoginCtrl', function($window, GeoTrainers, PushID, $firebase
         });
     };
 
+    var registerPushNotification = function(pushID){
+        if(pushID && pushID.length > 0){
+            pushID.pushID = pushID;
+            pushID.userID = appFactory.user.$id;
+            pushID.deviceID = device.uuid;
+            if (ionic.Platform.isAndroid()) {
+                pushID.platform = "android";
+            }
+            if (ionic.Platform.isIOS()) {
+                pushID.platform = "ios";
+            }
+            pushID.$priority = appFactory.user.$id;
+            pushID.$save().then(function(){
+                alert("saved to db" + pushID);
+            })
+        }
+    }
+
     var checkUrl = function() {
         if (!ionic.Platform.isWebView()) {
             $state.transitionTo(mapstate);
             return;
         }
 
-        if (ionic.Platform.isIOS()) {
-            OBPush.register();
-            $state.transitionTo(mapstate);
-            return;
-        }
-
-        var pluginName = '';
-        if (ionic.Platform.isAndroid()) {
-            pluginName = 'Card_io';
-        } else if (ionic.Platform.isIOS()) {
-            pluginName = 'OBGCM';
-        }
-
-        var exec = cordova.require("cordova/exec");
-
-        if (ionic.Platform.isAndroid()) {
-            exec(function(result){
-                console.log(result);
-                //alert("received url: " + result.url);
-                window.location.href = result.url;
-            }, function(err){
-                console.log(err);
-            }, pluginName, 'gcmpush', [{id: appFactory.user.$id}]);
-        } else {
-            $state.transitionTo(mapstate);
-        }
-
-        $ionicPlatform.ready(function() {
-            console.log(device.uuid);
-            var pushID = $firebaseObject(PushID.ref().child(device.uuid));
-            pushID.$loaded(function(){
-                console.log(pushID);
-                if(!pushID.pushID){
-                    var exec = cordova.require("cordova/exec");
-                    exec(function(result){
-                        if(result["regid"] && result["regid"].length > 0){
-                            pushID.pushID = result["regid"];
-                            pushID.userID = appFactory.user.$id;
-                            pushID.deviceID = device.uuid;
-                            if (ionic.Platform.isAndroid()) {
-                                pushID.platform = "android";
-                            }
-                            if (ionic.Platform.isIOS()) {
-                                pushID.platform = "ios";
-                            }
-                            pushID.$priority = appFactory.user.$id;
-                            pushID.$save().then(function(){
-                                alert("saved to db" + result["regid"]);
-                            })
-                        }
-                    }, function(err){
-                        console.log(err);
-                    }, pluginName, 'gcminit', [{id: appFactory.user.$id}]);
-                }
-            })
-        });
+        OBPush.register();
+        $state.transitionTo(mapstate);
     };
 
     var loadLocalUser = function(user){
