@@ -1530,6 +1530,12 @@ input.ob-form-text-input[type="search"] {
     background-color: #3884ed;
 }
 
+.ob-block-switch2-button-smalltext {
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 12px;
+    color: white;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* ob-toggle */
 /* ********** ********** ********** ********** ***********/

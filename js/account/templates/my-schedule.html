@@ -21,18 +21,18 @@
     <ion-content class="has-header ob-bg1">
         <div class="ob-content">
             <div class="ob-block-switch2 ob-button-shadow">
-                <button class="ob-block-switch2-button"
+                <button class="ob-block-switch2-button ob-block-switch2-button-smalltext"
                         ng-click="showOnly = (showOnly==-1)?-2:-1; scrollTo(0)"
                         ng-class="(showOnly==-1) ? 'ob-block-switch2-button-selected':''"
-                        ><span class="ion-ios-circle-outline ob-ionicon-medium"></span></button>
-                <button class="ob-block-switch2-button"
+                        >Open <span class="ion-ios-circle-outline ob-ionicon-xs"></span></button>
+                <button class="ob-block-switch2-button ob-block-switch2-button-smalltext"
                         ng-click="showOnly = (showOnly==0)?-2:0; scrollTo(0)"
                         ng-class="(showOnly==0) ? 'ob-block-switch2-button-selected':''"
-                        ><span class="ion-close ob-ionicon-medium"></span></button>
-                <button class="ob-block-switch2-button"
+                        >Not Open <span class="ion-close ob-ionicon-xs"></span></button>
+                <button class="ob-block-switch2-button ob-block-switch2-button-smalltext"
                         ng-click="showOnly = (showOnly==1)?-2:1; scrollTo(0)"
                         ng-class="(showOnly==1) ? 'ob-block-switch2-button-selected':''"
-                        ><span class="ion-android-calendar ob-ionicon-medium"></span></button>
+                        >Booked <span class="ion-android-calendar ob-ionicon-xs"></span></button>
             </div>
             <!--
             <div class="ob-block-switch2 ob-button-shadow ob-section-0-0" ng-show="$root.user.group == 'Trainers'">
