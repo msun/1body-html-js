@@ -6,34 +6,30 @@
     </ion-nav-buttons>
     <ion-content class="ob-page">
         <div class="ob-content">
-            <div class="ob-block">
+            <div class="ob-card">
                 <img class="ob-img"
                      src="https://s3.amazonaws.com/com.onebody.profile/Users/{{user.$id | htmlEncode}}/profilepic.jpg"
                      onerror="this.src='img/emptypic-user.png'"/>
                 <div class="ob-text">{{user.username}}</div>
-            </div>
-            <div class="ob-block">
                 <div class="ob-text">Tokens: {{transaction.tokens}}</div>
                 <div class="ob-text">Start Time: {{transaction.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                 <div class="ob-text">Duration: {{transaction.duration * 30}} Minutes</div>
             </div>
-            <div class="ob-block">
-                <leaflet id="transaction-location"
-                         class="ob-block-map ob-section-3"
-                         layers="layers"
-                         markers="markers"
-                         data-tap-disabled="true"
-                         center="center"
-                         defaults="defaults"
-                         ng-init="doMapInit()"></leaflet>
-            </div>
-            <div class="ob-block">
+            <div class="ob-card">
                 <div class="ob-text">My Transactions</div>
+                <div class="buttongroup2-basic">
+                    <button class="buttongroup2-button" ng-click="accountingThisUser()">This User</button>
+                    <button class="buttongroup2-button" ng-click="accountingThisMonth()">This Month</i></button>
+                </div>
             </div>
-            <div class="buttongroup2">
-                <button class="buttongroup2-button" ng-click="accountingThisUser()">This User</button>
-                <button class="buttongroup2-button" ng-click="accountingThisMonth()">This Month</i></button>
-            </div>
+            <leaflet id="transaction-location"
+                     class="ob-block-map ob-section-3"
+                     layers="layers"
+                     markers="markers"
+                     data-tap-disabled="true"
+                     center="center"
+                     defaults="defaults"
+                     ng-init="doMapInit()"></leaflet>
         </div>
     </ion-content>
 </ion-view>
