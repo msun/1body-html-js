@@ -484,6 +484,10 @@ ion-popover-view.fit ion-content {
     margin: 12px auto;
     overflow: hidden;
 }
+
+.ob-form-basic {
+}
+
 .ob-form-row {
     background-color: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid #7f7b73;
@@ -1160,7 +1164,7 @@ input.ob-form-text-input[type="search"] {
     display: flex;
     height: 40px;
     line-height: 40px;
-    margin: 12px auto;
+    margin: 12px;
     border-radius: 6px;
     overflow: hidden;
     background-color: #2b6acf;
@@ -1600,7 +1604,11 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-list-superrow {
-	margin: 20px 0px;
+    display: block;
+	margin: 12px 0px;
+    text-decoration: none;
+    border-top: 1px solid #7f7b73;
+    border-bottom: 1px solid #7f7b73;
 }
 
 .ob-list-superrow ~ .ob-list-superrow {
@@ -1631,6 +1639,7 @@ input.ob-form-text-input[type="search"] {
     font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 16.5px;
     color: white;
+    text-decoration: none;
 }
 
 .ob-list-text-soft {
@@ -3714,6 +3723,10 @@ input.ob-form-text-input[type="search"] {
     background: #383838;
 }
 
+.ob-grey-color {
+    color: #383838;
+}
+
 .ob-darktranslucent-bg {
     background: rgba(0, 0, 0, 0.6);
 }
@@ -3759,24 +3772,55 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-img {
-    margin: 20px;
-    display: inline-block;
+    display: block;
+    margin: 4pt auto;
     width: 100px;
     height: 100px;
 }
 
+.ob-card {
+    width: 93.75%; /* 300px / 320px */
+    min-width: 300px;
+    max-width: 500px;
+    margin: 12px auto;
+    overflow: hidden;
+    border: 2px solid #7f7b73;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.ob-card-child {
+    border-bottom: 2px solid #7f7b73;
+}
+
+.ob-card-child:last-child {
+    border-bottom: none;
+}
+
+.ob-card .ob-list {
+    margin-bottom: 4px;
+}
+
 .ob-block {
     text-align: center;
-    margin: 12pt auto;
+    margin: 12px auto;
     border: 1px solid transparent;
 }
 
 .ob-text {
-    margin: 0pt auto;
+    margin: 6pt auto 2px;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    font-size: 14pt;
+    font-size: 12pt;
     color: #383838;
 	text-decoration: none;
+}
+
+.ob-text ~ .ob-text {
+    margin: 2pt auto;
+}
+
+.ob-text:last-child {
+    margin: 2pt auto 6px;
 }
 
 * ~ .ob-text {
@@ -3921,4 +3965,20 @@ input.ob-form-text-input[type="search"] {
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
+}
+
+.calendar {
+    clear: both !important;
+    float: none !important;
+    width: 95% !important;
+    display: block !important;
+    margin: 0px auto !important;
+}
+
+.ob-chart {
+    clear: both !important;
+    float: none !important;
+    width: 90% !important;
+    display: block !important;
+    margin: 0px auto !important;
 }

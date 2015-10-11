@@ -4,7 +4,7 @@
     </ion-nav-buttons>
     <ion-content class="ob-page">
         <div class="ob-content">
-            <div class="ob-block">
+            <div class="ob-card">
                 <div class="ob-text">Total Earnings From {{params.userName}}: ${{total | number: 2}}</div>
                 <img class="ob-img"
                      src="https://s3.amazonaws.com/com.onebody.profile/Users/{{params.userID | htmlEncode}}/profilepic.jpg"
@@ -26,32 +26,36 @@
                     </div>
                 </div>
             </div>
-            <div id="chart1" ac-chart="chartType" ac-data="data1" ac-config="config1"></div>
+            <div id="chart1" class="ob-chart" ac-chart="chartType" ac-data="data1" ac-config="config1"></div>
             <div class="ob-block" ng-show="monthlyTransactions.length <= 0">
                 <div class="ob-text">No sessions to display</div>
             </div>
-            <div class="ob-block">
+            <div class="ob-card">
                 <div ng-repeat="tran in monthlyTransactions | orderBy: '-yearMonth'"
-                    class="ob-block">
+                     class="ob-card-child">
                     <div class="ob-block">
                         <div class="ob-text">Total Earnings {{tran.yearMonth}}: ${{tran.total |  number:2}}</div>
                     </div>
                     <div class="ob-list">
-                        <a class="ob-list-row"
+                        <a class="ob-list-superrow"
                            ng-repeat="item in tran.transactions | orderBy: '-starttime'"
                            ng-href="#/menu/transaction-detail/{{item.$id}}">
-                            <p class="ob-list-text">Start: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-                            <p class="ob-list-text">Created: {{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-                            <p class="ob-list-text">Tokens: {{item.tokens}}</p>
-                            <p class="ob-list-text">Review: {{item.text}}</p>
-                            <p class="profile-feed-review-stars">
-                                <span class="profile-feed-review-star" ng-show="item.review.rating > 0" id="profile-feed-review-star-1"></span>
-                                <span class="profile-feed-review-star" ng-show="item.review.rating > 1" id="profile-feed-review-star-2"></span>
-                                <span class="profile-feed-review-star" ng-show="item.review.rating > 2" id="profile-feed-review-star-3"></span>
-                                <span class="profile-feed-review-star" ng-show="item.review.rating > 3" id="profile-feed-review-star-4"></span>
-                                <span class="profile-feed-review-star" ng-show="item.review.rating > 4" id="profile-feed-review-star-5"></span>
-                            </p>
-                            <p class="ob-list-text">Duration: {{item.duration * 30}} mins</p>
+                            <div class="ob-list-row">
+                                <div class="ob-list-col-flex ob-list-text"><span class="ob-grey-color">Start: </span>{{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                                <div class="ob-list-col-flex ob-list-text"><span class="ob-grey-color">Created: </span>{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                                <div class="ob-list-col-flex ob-list-text"><span class="ob-grey-color">Duration: </span>{{item.duration * 30}} mins</div>
+                            </div>
+                            <div class="ob-list-row">
+                                <div class="ob-list-col-flex ob-list-text"><span class="ob-grey-color">Tokens: </span>{{item.tokens}}</div>
+                                <div class="ob-list-col-flex ob-list-text"><span class="ob-grey-color">Review: </span>{{item.text}}</div>
+                                <div class="ob-list-col-flex profile-feed-review-stars">
+                                    <span class="profile-feed-review-star" ng-show="item.review.rating > 0" id="profile-feed-review-star-1"></span>
+                                    <span class="profile-feed-review-star" ng-show="item.review.rating > 1" id="profile-feed-review-star-2"></span>
+                                    <span class="profile-feed-review-star" ng-show="item.review.rating > 2" id="profile-feed-review-star-3"></span>
+                                    <span class="profile-feed-review-star" ng-show="item.review.rating > 3" id="profile-feed-review-star-4"></span>
+                                    <span class="profile-feed-review-star" ng-show="item.review.rating > 4" id="profile-feed-review-star-5"></span>
+                                </div>
+                            </div>
                         </a>
                     </div>
                 </div>

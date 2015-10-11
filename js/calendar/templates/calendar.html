@@ -1,10 +1,12 @@
 <ion-view>
     <ion-nav-title><span class="ob-nav-bar-logo"></span></ion-nav-title>
-    <ion-content>
-        <div>
-            <!--<calendar selected="selected" slotsbooked="slotsbooked" rulesopen="rulesopen" slotsopen="slotsopen" goto="goto" next="next" previous="previous" type="type"></calendar>-->
-            <div id="calendar" class="calendar"></div>
+    <ion-content class="ob-page">
+        <div class="ob-content">
+            <div class="ob-block-button ob-button-blue" ng-click="accountingThisMonth()">Monthly Report</div>
+            <div class="ob-block">
+                <!--<calendar selected="selected" slotsbooked="slotsbooked" rulesopen="rulesopen" slotsopen="slotsopen" goto="goto" next="next" previous="previous" type="type"></calendar>-->
+                <div id="calendar" class="calendar"></div>
+            </div>
         </div>
-        <div class="ob-block-button ob-button-blue" ng-click="accountingThisMonth()">Monthly Report</div>
     </ion-content>
 </ion-view>
