@@ -1204,6 +1204,44 @@ input.ob-form-text-input[type="search"] {
     color: white;
 }
 
+/* buttongroup3 */
+
+.buttongroup3 {
+    display: -webkit-flex;
+    display: flex;
+    width: 93.75%; /* 300px / 320px */
+    min-width: 300px;
+    max-width: 500px;
+    height: 40px;
+    line-height: 40px;
+    margin: 8px auto;
+}
+
+.buttongroup3-button {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: white;
+    padding: auto 2px;
+    background-color: #174584;
+    margin: 0px 2px;
+    border: none;
+    border-radius: 6px;
+}
+
+.buttongroup3-button:first-child {
+    margin-left: 0px;
+}
+
+.buttongroup3-button:last-child {
+    margin-right: 0px;
+}
+
+.buttongroup3-button-selected {
+    background-color: #3884ed;
+}
+
 /* button additions */
 
 .ob-button-dark {
@@ -3973,6 +4011,48 @@ input.ob-form-text-input[type="search"] {
     width: 95% !important;
     display: block !important;
     margin: 0px auto !important;
+}
+
+.calendar div.header {
+    background-color: #3884ed !important;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    background-color: white !important;
+    color: #383838 !important;
+    font-size: 1.3em !important;
+    height: 44px !important;
+    line-height: 44px !important;
+    border-left: solid 1px #cccccc !important;
+    border-right: solid 1px #cccccc !important;
+}
+
+.calendar div.header i {
+    line-height: 44px !important;
+}
+
+.calendar div.week {
+    border-left: solid 1px #cccccc !important;
+    border-right: solid 1px #cccccc !important;
+}
+
+.calendar div.week.names {
+    height: 54px !important;
+    line-height: 54px !important;
+}
+
+.calendar div.week.names span {
+    font-size: 1.3em !important;
+    font-family: 'Avenir Next LT Pro', sans-serif;
+}
+
+.calendar div.week span.day {
+    font-family: 'Avenir Next LT Pro', sans-serif;
+    font-size: 1.2em !important;
+    height: 54px !important;
+    line-height: 27px !important;
+}
+
+.calendar div.week span.day.today {
+    background-color: #3884ed !important;
 }
 
 .ob-chart {
