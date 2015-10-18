@@ -3778,7 +3778,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-blue-color {
-    color: #3884ed;
+    color: #3884ed !important;
 }
 
 .ob-blue-color-active {
@@ -3833,6 +3833,10 @@ input.ob-form-text-input[type="search"] {
 
 .ob-card-child:last-child {
     border-bottom: none;
+}
+
+.ob-card .ob-list-superrow {
+    border: none;
 }
 
 .ob-card .ob-list {
