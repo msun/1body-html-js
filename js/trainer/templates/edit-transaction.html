@@ -1,0 +1,43 @@
+<ion-view view-title="Edit Transaction">
+    <ion-content>
+        <ul class="list">
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Start time: {{starttime}}</span>
+            </label>
+                <!--<h2 class="title">{{header}}</h2>-->
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Name of Client</span>
+                <input type="text" ng-model="newTransaction.username" placeholder="Name of Client">
+            </label>
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Amount
+                </div>
+                $<input type="number" ng-model="newTransaction.amount" placeholder="Income for this transaction">
+            </label>
+
+            <div class="item range range-positive">
+                <span class="input-label">Duration {{newTransaction.duration}}min</span>
+                <input class="ob-form-range" type="range" name="volume"
+                       min="0" max="240" step="30" ng-model="newTransaction.duration">
+            </div>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Address</span>
+                <textarea type="text" rows="3" ng-model="newTransaction.address" placeholder="Training Location">
+                </textarea>
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Description</span>
+                <textarea type="text" rows="8" ng-model="newTransaction.description" placeholder="Description">
+                </textarea>
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <button ng-click="confirm()" class="button button-calm">Confirm</button>
+            </label>
+        </ul>
+    </ion-content>
+</ion-view>

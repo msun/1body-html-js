@@ -106,10 +106,10 @@ account.controller('LoginCtrl', function($window, GeoTrainers, PushID, $firebase
         if (!ionic.Platform.isWebView()) {
             $state.transitionTo(mapstate);
             return;
+        } else {
+            OBPush.register();
+            $state.transitionTo(mapstate);
         }
-
-        OBPush.register();
-        $state.transitionTo(mapstate);
     };
 
     var loadLocalUser = function(user){
@@ -1561,7 +1561,7 @@ account.controller('MyTrainingsCtrl', function($scope, $ionicModal, Users, appFa
         console.log(endDate);
         console.log(endDate.getTime());
 
-        $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByPriority().startAt(startDate.getTime()).endAt(endDate.getTime()));
+            $scope.myTransactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByPriority().startAt(startDate.getTime()).endAt(endDate.getTime()));
     }
 
     $scope.$watch('dt', $scope.showCurrent, true);

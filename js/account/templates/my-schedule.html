@@ -42,7 +42,10 @@
             </div>
             -->
             <div class="ob-form ob-button-shadow">
-                <div class="ob-form-row ob-form-row-button ob-button-blue" ng-click="confirm()">Confirm</div>
+                <div class="ob-form-row ob-form-row-button ob-button-blue">
+                    <button ng-click="confirm()">confirm</button>
+                    <button ng-click="editTransaction()">editTransaction</button>
+                </div>
                 <div class="ob-form-row ob-form-flex-row">
                     <time-picker class="ob-form-timepicker"
                                  show-time-picker="false"
@@ -72,7 +75,7 @@
                                    <!--&lt;!&ndash;ng-click="removeTimeSlot($index)"></i>&ndash;&gt;-->
 
                             <!--</span>-->
-                                <span class="ob-form-text ob-blue-color">{{time | displayTime}}</span>
+                                <span ng-click="selectTimeSlot($index)" class="ob-form-text ob-blue-color" ng-class="(active[$index].selected) ? 'ob-form-row-selected':''">{{time | displayTime:{timeslot:active[$index], index: $index} }}</span>
                                 <div class="ob-form-button-ionicon"
                                      ng-click="openScheduleModal($index, time, $event)">
                                      <span class="ion-clock ob-form-ionicon"></span>

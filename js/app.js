@@ -14,6 +14,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
         defaultItemsPerPage: 5,
         maxReviewCount: 100000,
         radius: 8,
+        tokenRate: 5,
         maxFollowerCount: 100000,
         searchKeys: ["firstname", "lastname", "info", "group", "gym", "username", "email", "name"],
         categories: [
@@ -208,6 +209,16 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
                     'menu': {
                         templateUrl: 'js/trainer/templates/trainer-schedule.html',
                         controller: 'TrainerScheduleCtrl'
+                    }
+                }
+            })
+
+            .state('menu.edit-transaction', {
+                url: '/edit-transaction/:start/:end/:day/:month/:year',
+                views: {
+                    'menu': {
+                        templateUrl: 'js/trainer/templates/edit-transaction.html',
+                        controller: 'EditTransactionCtrl'
                     }
                 }
             })
@@ -454,7 +465,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             })
 
             .state('menu.transaction-search-user', {
-                url: '/transaction-search-user/:userID',
+                url: '/transaction-search-user/:userID/:username',
                 views: {
                     'menu': {
                         templateUrl: 'js/trainer/templates/transaction-search-user.html',

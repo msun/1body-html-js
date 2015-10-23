@@ -10,10 +10,11 @@
                 <img class="ob-img"
                      src="https://s3.amazonaws.com/com.onebody.profile/Users/{{user.$id | htmlEncode}}/profilepic.jpg"
                      onerror="this.src='img/emptypic-user.png'"/>
-                <div class="ob-text">{{user.username}}</div>
-                <div class="ob-text">Tokens: {{transaction.tokens}}</div>
+                <div class="ob-text">{{transaction.userName}}</div>
+                <div class="ob-text">Amount: ${{transaction.amount || transaction.tokens * 5}}</div>
                 <div class="ob-text">Start Time: {{transaction.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                 <div class="ob-text">Duration: {{transaction.duration * 30}} Minutes</div>
+                <div class="ob-text">Address: {{transaction.address}}</div>
             </div>
             <div class="ob-card">
                 <div class="ob-text">My Transactions</div>
@@ -22,7 +23,7 @@
                     <button class="buttongroup2-button" ng-click="accountingThisMonth()">This Month</i></button>
                 </div>
             </div>
-            <leaflet id="transaction-location"
+            <leaflet ng-show="transaction.location" id="transaction-location"
                      class="ob-block-map ob-section-3"
                      layers="layers"
                      markers="markers"

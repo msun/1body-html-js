@@ -8,7 +8,7 @@
                          data-inc-icon-class="ion ion-chevron-up"
                          data-dec-icon-class="ion ion-chevron-down"></time-picker>
         </div>
-        <div class="ob-form-row" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">
+        <div class="ob-form-row" ng-class="" ng-repeat="time in timeslots track by $index" ng-show="showTableRow($index)">
             <div class="ob-form-subrow ob-form-flex-row">
                 <span class="ob-form-ionicon-container">
                     <i class="icon ion-minus-round ob-form-ionicon ob-color-red"

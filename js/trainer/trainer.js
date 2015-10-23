@@ -1,4 +1,4 @@
-var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter', 'eventModule', 'angularCharts']);
+var trainer = angular.module('trainerModule', ['ionic', 'accountModule', 'starter','react', 'eventModule', 'angularCharts']);
 
 trainer.factory('Time', function(){
     var Time = {};
@@ -66,8 +66,13 @@ trainer.controller('ConversationCtrl', function($scope, $localstorage, Conversat
         $window.history.back();
     }
 
+    var messagesToGet = appConfig.defaultItemsPerPage;
     $scope.doRefresh = function(){
-
+        messagesToGet += appConfig.defaultItemsPerPage;
+        $scope.myMessages = $firebaseArray(Conversations.ref().child(appFactory.user.$id).child($stateParams.userID).limitToLast(messagesToGet));
+        $scope.myMessages.$loaded(function(){
+            $scope.$broadcast('scroll.refreshComplete');
+        })
     };
 
     $scope.user = $firebaseObject(Trainers.ref().child($stateParams.userID));
@@ -308,7 +313,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
                 });
             }
         };
-    }
+    };
 
     var loadFromFirebase = function(){
         var firebaseObj = $firebaseObject(Trainers.ref().child($scope.trainerID));
@@ -320,7 +325,7 @@ trainer.controller('TrainerDetailCtrl', function(mapFactory, $localstorage, Size
             $localstorage.setObject("Users", appFactory.users);
             loadData();
         })
-    }
+    };
 
     if(appFactory.users[$scope.trainerID]) {
         $scope.selectedTrainer = appFactory.users[$scope.trainerID];
@@ -876,7 +881,7 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDel
 
         angular.forEach($scope.transactions, function(value, key){
             console.log(value);
-            $scope.total += value.tokens * 4.9;
+            $scope.total += value.amount | value.tokens * appConfig.tokenRate;
 
             var tdate = new Date(parseInt(value.starttime));
             var dayInWeek = appConfig.daysOfWeek[tdate.getDay()];
@@ -891,12 +896,12 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDel
                 console.log($scope.data4);
                 console.log($scope.primeTransactions[0]);
 
-                $scope.primeTransactions[0].total += value.tokens * 4.9;
+                $scope.primeTransactions[0].total += value.amount | value.tokens * appConfig.tokenRate;
                 $scope.primeTransactions[0].transactions.push(value);
             } else {
 
-                $scope.data4.data[1].y[0] += Math.round(value.tokens * 4.9*100)/100;
-                $scope.primeTransactions[1].total += value.tokens * 4.9;
+                $scope.data4.data[1].y[0] += Math.round(value.tokens * appConfig.tokenRate*100)/100;
+                $scope.primeTransactions[1].total += value.amount | value.tokens * appConfig.tokenRate;
                 $scope.primeTransactions[1].transactions.push(value);
             }
 
@@ -904,7 +909,7 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDel
                 if($scope.dayTransactions[i].dayInWeek == dayInWeek){
                     found = true;
                     $scope.dayTransactions[i].transactions.push(value);
-                    $scope.dayTransactions[i].total += value.tokens * 4.9;
+                    $scope.dayTransactions[i].total += value.amount | value.tokens * appConfig.tokenRate;
                 }
             }
 
@@ -912,7 +917,7 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDel
                 $scope.dayTransactions.push({
                     dayInWeek: dayInWeek,
                     transactions: [value],
-                    total: value.tokens * 4.9
+                    total: value.amount | value.tokens * appConfig.tokenRate
                 });
             }
 
@@ -922,7 +927,7 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDel
                 if($scope.hourTransactions[i].hourInDay == hourInDay){
                     found = true;
                     $scope.hourTransactions[i].transactions.push(value);
-                    $scope.hourTransactions[i].total += value.tokens * 4.9;
+                    $scope.hourTransactions[i].total += value.amount | value.tokens * appConfig.tokenRate;
                 }
             }
 
@@ -930,7 +935,7 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDel
                 $scope.hourTransactions.push({
                     hourInDay: hourInDay,
                     transactions: [value],
-                    total: value.tokens * 4.9
+                    total: value.amount | value.tokens * appConfig.tokenRate
                 });
             }
 
@@ -940,7 +945,7 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDel
                 if($scope.userTransactions[i].userID == value.userID){
                     found = true;
                     $scope.userTransactions[i].transactions.push(value);
-                    $scope.userTransactions[i].total += value.tokens * 4.9;
+                    $scope.userTransactions[i].total += value.amount | value.tokens * appConfig.tokenRate;
                 }
             }
             if(!found){
@@ -948,7 +953,7 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDel
                     userID: value.userID,
                     userName: value.userName,
                     transactions: [value],
-                    total: value.tokens * 4.9
+                    total: value.amount | value.tokens * appConfig.tokenRate
                 });
             }
 
@@ -990,7 +995,7 @@ trainer.controller('TransactionSearchTimeCtrl', function($scope, $ionicScrollDel
 
 });
 
-trainer.controller('TransactionSearchUserCtrl', function($scope, $timeout, $firebaseObject, Reviews, appFactory, Users, Schedule, $firebaseArray, Transactions, MyTransactions, $stateParams) {
+trainer.controller('TransactionSearchUserCtrl', function($scope, $timeout, appConfig, $firebaseObject, Reviews, appFactory, Users, Schedule, $firebaseArray, Transactions, MyTransactions, $stateParams) {
     console.log($stateParams);
     $scope.total = 0;
 
@@ -1035,7 +1040,11 @@ trainer.controller('TransactionSearchUserCtrl', function($scope, $timeout, $fire
         $scope.params.end = Date.now();
     }
 
-    $scope.transactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByChild("userID").equalTo($stateParams.userID));
+    if($stateParams.username){
+        $scope.transactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByChild("userName").equalTo($stateParams.username));
+    } else if($stateParams.userID) {
+        $scope.transactions = $firebaseArray(Transactions.ref().child(appFactory.user.$id).orderByChild("userID").equalTo($stateParams.userID));
+    }
 
     $scope.transactions.$loaded(function(){
         console.log($scope.transactions);
@@ -1047,7 +1056,7 @@ trainer.controller('TransactionSearchUserCtrl', function($scope, $timeout, $fire
 
         angular.forEach($scope.transactions, function(value, key){
             console.log(value);
-            $scope.total += value.tokens * 4.9;
+            $scope.total += value.amount | value.tokens * appConfig.tokenRate;
 
             var tdate = new Date(parseInt(value.starttime));
             var yearMonth = tdate.getFullYear() + "-" + (tdate.getMonth() + 1);
@@ -1062,14 +1071,14 @@ trainer.controller('TransactionSearchUserCtrl', function($scope, $timeout, $fire
                 if($scope.monthlyTransactions[i].yearMonth == yearMonth){
                     found = true;
                     $scope.monthlyTransactions[i].transactions.push(value);
-                    $scope.monthlyTransactions[i].total += value.tokens * 4.9;
+                    $scope.monthlyTransactions[i].total += value.amount | value.tokens * appConfig.tokenRate;
                 }
             }
             if(!found){
                 $scope.monthlyTransactions.push({
                     yearMonth: yearMonth,
                     transactions: [value],
-                    total: value.tokens * 4.9
+                    total: value.amount | value.tokens * appConfig.tokenRate
                 });
             }
         });
@@ -1115,7 +1124,7 @@ trainer.controller('TransactionMonthlySearchCtrl', function($scope, $timeout, $f
         $scope.params.username = $scope.transactions[0].username;
         angular.forEach($scope.transactions, function(value, key){
             console.log(value);
-            $scope.total += value.tokens * 4.9;
+            $scope.total += value.amount | value.tokens * appConfig.tokenRate;
             var tdate = new Date(parseInt(value.starttime));
             var yearMonth = tdate.getFullYear() + "-" + tdate.getMonth();
             value.yearMonth = tdate.getFullYear() + "-" + tdate.getMonth();
@@ -1125,14 +1134,14 @@ trainer.controller('TransactionMonthlySearchCtrl', function($scope, $timeout, $f
                 if($scope.monthlyTransactions[i].yearMonth == yearMonth){
                     found = true;
                     $scope.monthlyTransactions[i].transactions.push(value);
-                    $scope.monthlyTransactions[i].total += value.tokens * 4.9;
+                    $scope.monthlyTransactions[i].total += value.amount | value.tokens * appConfig.tokenRate;
                 }
             }
             if(!found){
                 $scope.monthlyTransactions.push({
                     yearMonth: yearMonth,
                     transactions: [value],
-                    total: value.tokens * 4.9
+                    total: value.amount | value.tokens * appConfig.tokenRate
                 });
             }
         })
@@ -1180,31 +1189,42 @@ trainer.controller('TransactionDetailCtrl', function($scope, $state, $timeout, $
     $scope.transaction.$loaded(function(){
         console.log($scope.transaction);
 
-        $scope.center = {
-            lat: $scope.transaction.location[0],
-            lng: $scope.transaction.location[1],
-            zoom: 13
-        };
+        if($scope.transaction.location){
+            $scope.center = {
+                lat: $scope.transaction.location[0],
+                lng: $scope.transaction.location[1],
+                zoom: 13
+            };
+        }
 
-        var showmessage = " Address: " + $scope.transaction.address
+        var showmessage = " Address: " + $scope.transaction.address;
         if($scope.transaction.commentlocation){
             showmessage = $scope.transaction.commentlocation + " " + showmessage;
         }
 
-        $scope.markers = {
-            trainingMarker: {
-                lat: $scope.transaction.location[0],
-                lng: $scope.transaction.location[1],
-                message: showmessage
-            }
-        };
+        if($scope.transaction.location) {
+            $scope.markers = {
+                trainingMarker: {
+                    lat: $scope.transaction.location[0],
+                    lng: $scope.transaction.location[1],
+                    message: showmessage
+                }
+            };
+        }
 
-        $scope.user = $firebaseObject(Users.ref().child($scope.transaction.userID));
+        if($scope.transaction.userID){
+            $scope.user = $firebaseObject(Users.ref().child($scope.transaction.userID));
+        }
         console.log($scope.user);
     });
 
     $scope.accountingThisUser = function(){
-        $state.go('menu.transaction-search-user', {userID: $scope.transaction.userID});
+        if($scope.transaction.userID){
+            $state.go('menu.transaction-search-user', {userID: $scope.transaction.userID});
+        } else {
+            $state.go('menu.transaction-search-user', {username: $scope.transaction.username});
+        }
+
     };
 
     $scope.accountingThisMonth = function(){
@@ -1464,9 +1484,17 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
                 starttime: startTimestamp,
                 emails: [$scope.selectedTrainer.email, appFactory.user.email],
                 timezone: timezone.name(),
+                source: 'web',
                 scanned: false,
                 reviewed: false
             };
+
+            if (ionic.Platform.isAndroid()) {
+                transaction.source = "android";
+            }
+            if (ionic.Platform.isIOS()) {
+                transaction.source = "ios";
+            }
 
             if($scope.selectedTrainer.address){
                 transaction.address = $scope.selectedTrainer.address;
@@ -1603,6 +1631,136 @@ trainer.controller('TrainerScheduleCtrl', function($scope, $timeout, $firebaseOb
     }
 });
 
+trainer.controller('EditTransactionCtrl', function($scope, $state, $timeout, $firebaseObject, Trainers, appFactory, appConfig, Schedule, $firebaseArray, Transactions, $ionicPopup, $stateParams) {
+    console.log($stateParams);
+    var startHour = Math.floor($stateParams.start/2);
+    var startMinutes = ($stateParams.start%2==1)? "30":"00";
+    var intStartMinutes = ($stateParams.start%2==1)? 30:0;
+    console.log(startHour);
+    console.log(startMinutes);
+
+    var endHour = Math.floor($stateParams.end/2);
+    var endMinutes = ($stateParams.end%2==1)? "30":"00";
+    console.log(endHour);
+    console.log(endMinutes);
+
+    var start = new Date();
+    start.setFullYear($stateParams.year);
+    start.setMonth($stateParams.month);
+    start.setDate($stateParams.day);
+    start.setHours(startHour, intStartMinutes, 0, 0);
+
+    console.log(start);
+
+    $scope.newTransaction = {
+        duration: (parseInt($stateParams.end) - parseInt($stateParams.start) + 1) * 30
+    };
+
+    var daySchedule = $firebaseObject(Schedule.ref().child(appFactory.user.$id).child($stateParams.year).child($stateParams.month).child($stateParams.day));
+    daySchedule.$loaded(function(){
+        console.log(daySchedule);
+        if(daySchedule.active){
+            for(var i=$stateParams.start;i<=$stateParams.end;i++){
+                console.log(i);
+                console.log(daySchedule.active[i]);
+                if(daySchedule.active[i].status == 1){
+                    alert("timeslot already taken: " + i/2 + "" + ((i%2==1) ? ":30": ":00"));
+                    break;
+                }
+            }
+        } else {
+            daySchedule.active = [];
+            for(var i=0;i<48;i++){
+                daySchedule.active.push({
+                    status: -1,
+                    prime: false
+                });
+            }
+        }
+    });
+
+    $scope.starttime = $stateParams.year + "-" + (parseInt($stateParams.month)+1) + "-" + $stateParams.day + "T" + startHour + ":" + startMinutes + ":00";
+
+    $scope.confirm = function() {
+        var timezone = jstz.determine();
+        if(!$scope.newTransaction.username){
+            alert("Username cannot be empty");
+            return;
+        }
+
+        var transaction = {
+            userName: $scope.newTransaction.username,
+            trainerID: appFactory.user.$id,
+            sessionID: appFactory.user.$id,
+            trainerName: appFactory.user.username,
+            tokens: -1,
+            amount: $scope.newTransaction.amount,
+            type: "Users",
+            created: Firebase.ServerValue.TIMESTAMP,
+            duration: $scope.newTransaction.duration/30,
+            starttimeString: $scope.starttime,
+            starttime: start.getTime(),
+            emails: [appFactory.user.email],
+            timezone: timezone.name(),
+            source: 'self',
+            scanned: false,
+            reviewed: false,
+            valid: true
+        };
+
+        if (ionic.Platform.isAndroid()) {
+            transaction.source = "android";
+        }
+        if (ionic.Platform.isIOS()) {
+            transaction.source = "ios";
+        }
+
+        if($scope.newTransaction.address){
+            transaction.address = $scope.newTransaction.address;
+        }
+
+        if($scope.newTransaction.description){
+            transaction.description = $scope.newTransaction.description;
+        }
+
+        var proceed = -1;
+        for(var i=parseInt($stateParams.start);i<parseInt($stateParams.start) + transaction.duration;i++){
+            console.log(i);
+            console.log(daySchedule.active[i]);
+            if(daySchedule.active[i].status == 1){
+                proceed = i;
+                alert("timeslot already taken: " + proceed/2 + "" + ((proceed%2==1) ? ":30": ":00"));
+                break;
+            } else {
+                daySchedule.active[i].status = 1;
+                daySchedule.active[i].starttime = transaction.starttime;
+                daySchedule.active[i].startslot = parseInt($stateParams.start);
+                daySchedule.active[i].username = transaction.userName;
+                daySchedule.active[i].duration = transaction.duration;
+            }
+        }
+        console.log(daySchedule);
+
+        if(proceed == -1){
+            daySchedule.$save().then(function(){
+                var transactionRef = Transactions.ref().child(appFactory.user.$id).push(transaction, function(error){
+                    transactionRef.setPriority(start.getTime());
+                    if(error){
+                        alert(error);
+                    } else {
+                        alert("Transaction saved");
+                        $state.go("menu.my-schedule", {year: $stateParams.year, month: $stateParams.month, day: $stateParams.day}, {reload: true});
+                    }
+                });
+            }, function(error){
+                alert(error);
+            });
+        }
+        console.log(transaction);
+    };
+
+});
+
 trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $state, $location, $ionicScrollDelegate, MyTransactions, Transactions, $timeout, appFactory, $firebaseArray, $firebaseObject, Schedule, appConfig, $ionicModal, $state, $ionicHistory, $stateParams){
     $ionicModal.fromTemplateUrl('js/trainer/templates/trainer-schedule-modal.html', {
         scope: $scope,
@@ -1613,6 +1771,7 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $state, $loca
 
     $scope.meridiem = 'am';
     $scope.showOnly = -2;
+
     $scope.sidebar = [0,1,2,3,4,5,6,7,8,9,10,11];
     $scope.edit = {};
     $scope.edit.time = 0;
@@ -1645,6 +1804,60 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $state, $loca
         } else {
             return "ob-button-dark";
         }
+    };
+
+    $scope.selectTimeSlot = function(id){
+        if($scope.active[id].status == 1){
+            alert("this time slot is already booked");
+        }
+
+        if($scope.active[id].selected && $scope.active[id+1].selected && $scope.active[id-1].selected){
+            for(var i=0; i<$scope.active.length; i++) {
+                $scope.active[i].selected = false;
+            }
+            return;
+        }
+
+        if($scope.active[id].selected){
+            $scope.active[id].selected = false;
+            return;
+        }
+
+        if(id > 0 && $scope.active[id-1].selected){
+            $scope.active[id].selected = true;
+            return;
+        }
+
+        if(id < $scope.active.length -1 && $scope.active[id+1].selected){
+            $scope.active[id].selected = true;
+            return;
+        }
+
+        for(var i=0; i<$scope.active.length; i++) {
+            $scope.active[i].selected = false;
+        }
+        $scope.active[id].selected = true;
+    };
+
+    $scope.editTransaction = function(){
+        var first = false;
+        var start = -1;
+        var end = -1;
+        for(var i=0; i<$scope.active.length; i++) {
+            if($scope.active[i].selected && !first){
+                first = true;
+                console.log($scope.active[i]);
+                start = i;
+            }
+            if(!$scope.active[i].selected && first){
+                end = i-1;
+                break;
+            }
+        }
+
+        console.log(start);
+        console.log(end);
+        $state.go('menu.edit-transaction', {start: start, end: end, day: $stateParams.day, month: $stateParams.month, year: $stateParams.year});
     };
 
     $scope.gotoTransactionPage = function(time){
@@ -1771,6 +1984,9 @@ trainer.controller('MyScheduleCtrl', function($scope, $ionicPopup, $state, $loca
         if($scope.rules[index] && $scope.rules[index][$scope.dt.getDay()] == -1){
             return false;
         } else {
+            if($scope.active[index].startslot && $scope.active[index].startslot != index){
+                return false;
+            }
             return true;
         }
     };
@@ -2011,15 +2227,29 @@ trainer.directive('scheduleSelect', function($timeout, User){
 });
 
 trainer.filter('displayTime', function(Time) {
-    return function(time) {
-        console.log(time);
+    return function(time, args) {
         if(time == undefined){
             return "";
         }
-        var endtime = time+30;
-        if (endtime%100 == 60){
-            endtime = time + 100 - 30;
+        var endtime = time;
+        if(args && args.timeslot.startslot == args.index){
+            console.log(time);
+            console.log(args);
+
+            for (var i=0; i<args.timeslot.duration; i++){
+                endtime += 30;
+                if (endtime%100 == 60){
+                    endtime = time + 100 - 30;
+                }
+            }
+            console.log(endtime);
+        } else {
+            endtime += 30;
+            if (endtime%100 == 60){
+                endtime = time + 100 - 30;
+            }
         }
+
         var stringtime = "";
         if(endtime.toString().length == 1){
             stringtime =  "00:0" + endtime;

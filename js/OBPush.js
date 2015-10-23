@@ -73,6 +73,7 @@ angular.module('OBPushModule', ['ionic', 'starter', 'firebase'])
                     push.on('notification', function(data) {
                         console.log("notification event");
                         console.log(JSON.stringify(data));
+                        alert(JSON.stringify(data));
 
                         if (ionic.Platform.isIOS()) {
                             push.setApplicationIconBadgeNumber(successHandler,
