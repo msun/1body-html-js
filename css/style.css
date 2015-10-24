@@ -991,7 +991,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 .ob-form-light .ob-form-row {
-    background-color: rgba(0.384, 0.384, 0.384, 0.48);
+    background-color: rgba(98,98,98,0.48);
     border-bottom: 1px solid #555;
 }
 
@@ -1628,6 +1628,10 @@ input.ob-form-text-input[type="search"] {
     margin: 20px 12px;
 }
 
+.ob-list-emptytext-light {
+    color: #555;
+}
+
 .ob-list-row {
     display: -webkit-flex;
     display: flex;
@@ -1687,6 +1691,7 @@ input.ob-form-text-input[type="search"] {
     font-size: 16.5px;
     color: white;
     text-decoration: none;
+    text-align: left;
 }
 
 .ob-list-text-soft {
@@ -1699,6 +1704,7 @@ input.ob-form-text-input[type="search"] {
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 14px;
     color: white;
+    text-align: left;
 }
 
 .ob-list-checkbox {
@@ -1748,6 +1754,11 @@ input.ob-form-text-input[type="search"] {
     max-height: 500px;
     /* this fixes the overflow:hidden in Chrome */
     -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
+
+.ob-scroll-light {
+    background-color: rgba(98,98,98,0.48);
+    border: 1px solid #888;
 }
 
 .ob-scroll-emptytext {
@@ -3856,7 +3867,6 @@ input.ob-form-text-input[type="search"] {
 .ob-block {
     text-align: center;
     margin: 12px auto;
-    border: 1px solid transparent;
 }
 
 .ob-text {

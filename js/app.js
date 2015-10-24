@@ -719,11 +719,11 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             window.location.href = url;
         };
 
-        $scope.rootGoTo = function(url, params){
-            console.log("rootGoTo " + url);
-//            $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
+        $scope.rootGoTo = function(state, params){
+            console.log("rootGoTo " + state);
+            $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
 //            window.location.href = url;
-            $state.go(url, params);
+            $state.go(state, params);
         }
 
         $scope.alert = function(msg){
