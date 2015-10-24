@@ -2527,7 +2527,8 @@ input.ob-form-text-input[type="search"] {
 /* ********** ********** ********** ********** ***********/
 
 .ob-map-list {
-    padding-top: 120px;
+    padding-top: 82px;
+    /*padding-top: 120px;*/
 }
 
 .ob-map-radiusinput {
