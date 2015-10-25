@@ -418,6 +418,10 @@ ion-popover-view.fit ion-content {
     text-align: center;
 }
 
+.ob-instructions-light {
+    color: #555;
+}
+
 /* ********** ********** ********** ********** ***********/
 /* nav-bar */
 /* ********** ********** ********** ********** ***********/
@@ -475,6 +479,8 @@ ion-popover-view.fit ion-content {
 /* ********** ********** ********** ********** ***********/
 
 .ob-form {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
     width: 93.75%; /* 300px / 320px */
     min-width: 300px;
     max-width: 500px;
@@ -926,7 +932,7 @@ input.ob-form-text-input[type="search"] {
 }
 
 /* ********** ********** ********** ********** ***********/
-/* ob-form-button */
+/* ob-form-row-button */
 /* to be used as an ob-form-row */
 /* ********** ********** ********** ********** ***********/
 
@@ -942,6 +948,32 @@ input.ob-form-text-input[type="search"] {
     background-color: #808080;
 }
 
+/* ********** ********** ********** ********** ***********/
+/* ob-form-buttongroup */
+/* to be used as an ob-form-row */
+/* ********** ********** ********** ********** ***********/
+
+.ob-form-row-buttongroup {
+    display: -webkit-flex;
+    display: flex;
+    border: none;
+}
+
+.ob-form-row-buttongroup-button {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    text-align: center;
+    line-height: 44px;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-right: 1px solid #70727f;
+}
+
+.ob-form-row-buttongroup-button:last-child {
+    border-right: none;
+}
 
 /* ********** ********** ********** ********** ***********/
 /* ob-form-section */
@@ -2227,6 +2259,11 @@ input.ob-form-text-input[type="search"] {
 
 .purchase-credits-row:nth-child(odd) {
     background: rgba(0, 0, 0, 0.33);
+    color: white;
+}
+
+.purchase-credits-row:nth-child(even) {
+    color: #555;
 }
 
 .purchase-credits-value {
@@ -2246,12 +2283,21 @@ input.ob-form-text-input[type="search"] {
     color: white;
 }
 
+.purchase-credits-row:nth-child(odd) .purchase-credits-value {
+    border: 1px solid white;
+    color: white;
+}
+
+.purchase-credits-row:nth-child(even) .purchase-credits-value {
+    border: 1px solid #555 !important;
+    color: #555;
+}
+
 .purchase-credits-count {
     -webkit-flex: 99 99 auto;
     flex: 99 99 auto;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 18px;
-    color: white;
     margin-left: 12px;
 }
 
@@ -4007,7 +4053,7 @@ input.ob-form-text-input[type="search"] {
 .ob-image-message {
     font-family: 'Avenir Next LT Pro', sans-serif;
     font-size: 16px;
-    color: white;
+    color: #555;
 }
 
 .ob-vertical-spacing {
@@ -4022,7 +4068,10 @@ input.ob-form-text-input[type="search"] {
     color: white;
     text-align: center;
     margin: 20px 12px;
-    border
+}
+
+.ob-images-emptytext-light {
+    color: #555;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
