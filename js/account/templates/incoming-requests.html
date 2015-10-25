@@ -3,14 +3,14 @@
       <button class="button button-icon ion-plus"
               ng-click="goTo('#/menu/Mobile-Trainer-Request')"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header ob-bg1">
+    <ion-content class="ob-page">
         <div class="ob-content ob-sections-vertical">
-            <div class="ob-block-switch2 ob-button-shadow ob-section-0-0">
+            <div class="ob-block ob-block-switch2 ob-section-0-0">
                 <button class="ob-block-switch2-button ob-block-switch2-button-selected">Inbox</button>
                 <button class="ob-block-switch2-button"
-                        ng-click="rootGoTo('#/menu/my-requests')">Sent</button>
+                        ng-click="rootGoTo('menu.my-requests')">Sent</button>
             </div>
-            <ion-scroll class="ob-scroll ob-section-6" direction="y">
+            <ion-scroll class="ob-block ob-scroll ob-scroll-light ob-section-6" direction="y">
                 <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">
                     You have received no mobile requests yet
                 </div>

@@ -1,43 +1,37 @@
 <ion-view view-title="Edit Transaction">
-    <ion-content>
-        <ul class="list">
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Start time: {{starttime}}</span>
-            </label>
-                <!--<h2 class="title">{{header}}</h2>-->
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Name of Client</span>
-                <input type="text" ng-model="newTransaction.username" placeholder="Name of Client">
-            </label>
-
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    Amount
+    <ion-content class="ob-page">
+        <div class="ob-content">
+            <div class="ob-form ob-form-light">
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Start time</span>
+                    <span class="ob-form-text ob-form-text-informational">{{starttime}}</span>
                 </div>
-                $<input type="number" ng-model="newTransaction.amount" placeholder="Income for this transaction">
-            </label>
-
-            <div class="item range range-positive">
-                <span class="input-label">Duration {{newTransaction.duration}}min</span>
-                <input class="ob-form-range" type="range" name="volume"
-                       min="0" max="240" step="30" ng-model="newTransaction.duration">
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Name of Client</span>
+                    <input class="ob-form-text-input" type="text" ng-model="newTransaction.username" placeholder="Name of Client"/>
+                </div>
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Amount $</span>
+                    <input class="ob-form-text-input" type="number" ng-model="newTransaction.amount" placeholder="Income for this transaction"/>
+                </div>
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Duration</span>
+                    <span class="ob-form-text">{{newTransaction.duration}}min</span>
+                    <input class="ob-form-range" type="range" name="volume"
+                           min="0" max="240" step="30" ng-model="newTransaction.duration">
+                </div>
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Address</span>
+                    <textarea class="ob-form-textarea ob-form-textarea-small" ng-model="newTransaction.address"
+                              placeholder="Training Location"></textarea>
+                </div>
+                <div class="ob-form-row ob-form-flex-row">
+                    <span class="ob-form-prompt">Description</span>
+                    <textarea class="ob-form-textarea ob-form-textarea-small" ng-model="newTransaction.description"
+                              placeholder="Description"></textarea>
+                </div>
             </div>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Address</span>
-                <textarea type="text" rows="3" ng-model="newTransaction.address" placeholder="Training Location">
-                </textarea>
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Description</span>
-                <textarea type="text" rows="8" ng-model="newTransaction.description" placeholder="Description">
-                </textarea>
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <button ng-click="confirm()" class="button button-calm">Confirm</button>
-            </label>
-        </ul>
+            <div class="ob-block-button ob-button-blue" ng-click="confirm()">Confirm</div>
+        </div>
     </ion-content>
 </ion-view>

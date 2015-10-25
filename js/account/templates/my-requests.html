@@ -3,41 +3,39 @@
       <button class="button button-icon ion-plus"
               ng-click="goTo('#/menu/Mobile-Trainer-Request')"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header ob-bg1">
+    <ion-content class="ob-page">
         <div class="ob-content ob-sections-vertical">
-            <div class="ob-block-switch2 ob-button-shadow ob-section-0-0" ng-show="$root.user.group == 'Trainers'">
+            <div class="ob-block ob-block-switch2 ob-section-0-0" ng-show="$root.user.group == 'Trainers'">
                 <button class="ob-block-switch2-button"
-                        ng-click="rootGoTo('#/menu/requested-sessions')">Inbox</button>
+                        ng-click="rootGoTo('menu.requested-sessions')">Inbox</button>
                 <button class="ob-block-switch2-button ob-block-switch2-button-selected">Sent</button>
             </div>
-            <div class="ob-content ob-sections-vertical ob-section-1z">
-                <ion-scroll class="ob-scroll ob-section" direction="y">
-                    <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">
-                        You have made no mobile requests!<br/><br/>
-                        Some trainers can travel to your location for training sessions.<br/><br/>
-                        Tap the + at the top right to request a mobile trainer now!
+            <ion-scroll class="ob-block ob-scroll ob-scroll-light ob-section-1z" direction="y">
+                <div ng-show="requests.length <= 0" class="ob-scroll-emptytext">
+                    You have made no mobile requests!<br/><br/>
+                    Some trainers can travel to your location for training sessions.<br/><br/>
+                    Tap the + at the top right to request a mobile trainer now!
+                </div>
+                <a class="ob-scroll-row" ng-repeat="item in requests | orderBy: '-created'" href="#/menu/Trainers/{{item.trainerID}}">
+                    <div class="ob-scroll-col-img">
+                        <img class="ob-scroll-img"
+                             src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.trainerID | htmlEncode}}/profilepic.jpg"
+                             onerror="this.src='img/emptypic-user.png'"
+                             ng-click="window.location.href = '#/menu/{{item.group}}/{{item.$id}}'"/>
                     </div>
-                    <a class="ob-scroll-row" ng-repeat="item in requests | orderBy: '-created'" href="#/menu/Trainers/{{item.trainerID}}">
-                        <div class="ob-scroll-col-img">
-                            <img class="ob-scroll-img"
-                                 src="https://s3.amazonaws.com/com.onebody.profile/Users/{{item.trainerID | htmlEncode}}/profilepic.jpg"
-                                 onerror="this.src='img/emptypic-user.png'"
-                                 ng-click="window.location.href = '#/menu/{{item.group}}/{{item.$id}}'"/>
+                    <div class="ob-scroll-col-flex">
+                        <div ng-click="showOnMap(item)">
+                            <div class="ob-scroll-demi">{{item.username}}{{item.name}}{{item.trainer}}</div>
+                            <div class="ob-scroll-text">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                         </div>
-                        <div class="ob-scroll-col-flex">
-                            <div ng-click="showOnMap(item)">
-                                <div class="ob-scroll-demi">{{item.username}}{{item.name}}{{item.trainer}}</div>
-                                <div class="ob-scroll-text">Start Time: {{item.starttime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            </div>
-                            <div>
-                                <div class="ob-scroll-text-demi" ng-show="item.expired && !item.trainerAccecpted">Expired</div>
-                                <div class="ob-scroll-text-demi" ng-show="item.trainerAccecpted">Accepted</div>
-                                <div class="ob-scroll-text-demi" ng-hide="item.trainerAccecpted || item.expired">Waiting...</div>
-                            </div>
+                        <div>
+                            <div class="ob-scroll-text-demi" ng-show="item.expired && !item.trainerAccecpted">Expired</div>
+                            <div class="ob-scroll-text-demi" ng-show="item.trainerAccecpted">Accepted</div>
+                            <div class="ob-scroll-text-demi" ng-hide="item.trainerAccecpted || item.expired">Waiting...</div>
                         </div>
-                    </a>
-                </ion-scroll>
-            </div>
+                    </div>
+                </a>
+            </ion-scroll>
         </div>
     </ion-content>
 </ion-view>

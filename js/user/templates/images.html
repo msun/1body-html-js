@@ -1,7 +1,7 @@
 <ion-view view-title="Images">
-    <ion-content class="has-header ob-bg1">
+    <ion-content class="ob-page">
         <div class="ob-content">
-            <a class="ob-block-button ob-button-blue ob-button-shadow"
+            <a class="ob-block-button ob-button-blue"
                ng-show="userID == myID"
                href="#/menu/add-image/{{type}}/{{id}}">Add image</a>
             <div class="ob-form" ng-show="userID == myID">
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ob-images-emptytext" ng-show="images.length <= 0">There are no images!</div>
+            <div class="ob-images-emptytext ob-images-emptytext-light" ng-show="images.length <= 0">There are no images!</div>
             <div class="row">
                 <div class="col col-33" ng-repeat="item in images | orderBy:'-created'">
                     <img src="{{item.hdurl}}" width="100%" ng-click="openImageModal(item)"/>

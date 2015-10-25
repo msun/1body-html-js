@@ -1,14 +1,8 @@
-<ion-view view-title="My Conversations" style="display: flex;" cache-view="false">
-    <!--
-    <ion-nav-buttons side="right">
-        <button class="button button-icon ion-plus"
-                ng-click="goTo('#/menu/map')"></button>
-    </ion-nav-buttons>
-    -->
-    <ion-content class="has-header ob-bg1">
+<ion-view view-title="My Conversations" cache-view="false">
+    <ion-content class="ob-page">
         <div class="ob-content">
-            <div class="ob-list">
-                <div class="ob-list-emptytext" ng-show="myConversations.length <= 0">
+            <div class="ob-block ob-list">
+                <div class="ob-list-emptytext ob-list-emptytext-light" ng-show="myConversations.length <= 0">
                     You have no conversations!<br/>
                     Open another user's profile and tap the conversation button to start!<br/>
                 </div>
