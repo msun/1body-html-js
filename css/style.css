@@ -1031,28 +1031,48 @@ input.ob-form-text-input[type="search"] {
     border-bottom: none;
 }
 
+.ob-form-light .ob-form-prompt {
+	color: #3376d4;
+}
+
 .ob-form-light .ob-form-text-input {
     color: #444 !important;
 }
 
+.ob-form-light .ob-form-text-informational {
+    color: #36d967;
+}
+
 .ob-form-light .ob-form-text-input::-webkit-input-placeholder {
-    color: white;
+    color: #dcdcdc;
 }
 
 .ob-form-light .ob-form-text-input:-moz-placeholder {
-    color: white;
+    color: #dcdcdc;
 }
 
 .ob-form-light .ob-form-text-input::-moz-placeholder {
-    color: white;
+    color: #dcdcdc;
 }
 
 .ob-form-light .ob-form-text-input:-ms-input-placeholder {
-    color: white;
+    color: #dcdcdc;
 }
 
-.ob-form-light .ob-form-prompt {
-	color: white;
+.ob-form-light .ob-form-textarea::-webkit-input-placeholder {
+    color: #dcdcdc;
+}
+
+.ob-form-light .ob-form-textarea:-moz-placeholder { /* Firefox 18- */
+    color: #dcdcdc;
+}
+
+.ob-form-light .ob-form-textarea::-moz-placeholder {  /* Firefox 19+ */
+    color: #dcdcdc;
+}
+
+.ob-form-light .ob-form-textarea:-ms-input-placeholder {
+    color: #dcdcdc;
 }
 
 /* ********** ********** ********** ********** ***********/
