@@ -24,11 +24,11 @@
                 <button class="buttongroup3-button"
                         ng-click="showOnly = (showOnly==-1)?-2:-1; scrollTo(0)"
                         ng-class="(showOnly==-1) ? 'buttongroup3-button-selected':''"
-                        >Open <span class="ion-ios-circle-outline ob-ionicon-xs"></span></button>
+                        >Not Open <span class="ion-close ob-ionicon-xs"></span></button>
                 <button class="buttongroup3-button"
                         ng-click="showOnly = (showOnly==0)?-2:0; scrollTo(0)"
                         ng-class="(showOnly==0) ? 'buttongroup3-button-selected':''"
-                        >Not Open <span class="ion-close ob-ionicon-xs"></span></button>
+                        >Open <span class="ion-ios-circle-outline ob-ionicon-xs"></span></button>
                 <button class="buttongroup3-button"
                         ng-click="showOnly = (showOnly==1)?-2:1; scrollTo(0)"
                         ng-class="(showOnly==1) ? 'buttongroup3-button-selected':''"
@@ -82,10 +82,10 @@
                                 </div>
                                 <div class="ob-form-button-ionicon">
                                     <span ng-show="active[$index].status == -1"
-                                          class="ion-ios-circle-outline ob-form-ionicon"
+                                          class="ion-close ob-form-ionicon"
                                           ng-click="selectTime($index, $event)"></span>
                                     <span ng-show="active[$index].status == 0"
-                                          class="ion-close ob-form-ionicon"
+                                          class="ion-ios-circle-outline ob-form-ionicon"
                                           ng-click="selectTime($index, $event)"></span>
                                     <span ng-show="active[$index].status == 1"
                                           class="ion-android-calendar ob-form-ionicon"

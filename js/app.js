@@ -919,15 +919,66 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
 
         });
 
-        $scope.myGoBack = function(){
-            if($ionicHistory.currentView().stateName == "menu.calendar"){
-//                $ionicHistory.goBack();
-//                $ionicHistory.clearHistory();
-                console.log($ionicHistory.viewHistory());
-                $ionicSideMenuDelegate.toggleLeft();
-            } else {
-                $ionicHistory.goBack();
+        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+
+            console.log('stateChangeSuccess');
+            console.log('State change from: ' + fromState.name + ' to: ' + toState.name);
+
+            switch(toState.name) {
+                case 'menu.my-transactions':
+                case 'menu.requested-sessions':
+                case 'menu.my-conversations':
+                case 'menu.buy-tokens':
+                case 'menu.calendar':
+                case 'menu.set-location':
+                case 'menu.scan':
+                case 'menu.my-requests':
+                    console.log("should clear history?");
+                    break;
+                default:
+
             }
+            //$timeout(function() {
+            //    console.log('$timeout after 1 sec $ionicHistory.backView().stateName');
+            //    console.log($ionicHistory.backView() === null ? "<null>" : $ionicHistory.backView().stateName);
+            //}, 1000);
+        });
+
+        $scope.myGoBack = function(){
+
+
+            $ionicHistory.goBack();
+
+            console.log($ionicHistory.currentView().stateName);
+
+            var history = $ionicHistory.viewHistory();
+            angular.forEach(history.views, function(view, index){
+                console.log('views: ' + view.stateName);
+            });
+            angular.forEach(history.histories[$ionicHistory.currentHistoryId()].stack, function(view, index){
+                console.log('history stack:' + view.stateName);
+            });
+
+//            $ionicHistory.clearHistory();
+//
+//            history = $ionicHistory.viewHistory();
+//            angular.forEach(history.views, function(view, index){
+//                console.log('views: ' + view.stateName);
+//            });
+//            angular.forEach(history.histories[$ionicHistory.currentHistoryId()].stack, function(view, index){
+//                console.log('history stack:' + view.stateName);
+//            });
+//
+//            $ionicHistory.goBack();
+
+//            if($ionicHistory.currentView().stateName == "menu.calendar"){
+////                $ionicHistory.goBack();
+////                $ionicHistory.clearHistory();
+//                console.log($ionicHistory.viewHistory());
+//                $ionicSideMenuDelegate.toggleLeft();
+//            } else {
+//                $ionicHistory.goBack();
+//            }
 
         };
 

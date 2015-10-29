@@ -1,5 +1,13 @@
 var calendar = angular.module('calendarModule', ['ionic', 'accountModule', 'starter', 'eventModule', 'react']);
-calendar.controller( 'CalendarController', function( $scope, $interval, $stateParams, $state, Schedule, $firebaseObject, $firebaseArray ) {
+calendar.controller( 'CalendarController', function( $scope, $interval, $ionicLoading, $stateParams, $state, Schedule, $firebaseObject, $firebaseArray ) {
+    $ionicLoading.show({
+        content: '<i class="icon ion-looping"></i> Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
+
     $scope.type = "my-schedule";
     var userID = $stateParams.userID;
     var userName = $stateParams.userName;
@@ -93,6 +101,7 @@ calendar.controller( 'CalendarController', function( $scope, $interval, $statePa
 
         monthSchedule.$watch(function (event) {
             console.log(monthSchedule);
+            $ionicLoading.hide();
 //            $scope.slotsopen[now.getMonth()] = [];
 //            $scope.slotsbooked[now.getMonth()] = [];
             for (var i = 0; i < monthSchedule.length; i++) {
@@ -161,7 +170,15 @@ calendar.controller( 'CalendarController', function( $scope, $interval, $statePa
     }
 });
 
-calendar.controller( 'TrainerScheduleController', function( $scope, $interval, $stateParams, $state, Schedule, $firebaseObject, $firebaseArray ) {
+calendar.controller( 'TrainerScheduleController', function( $scope, $interval, $ionicLoading, $stateParams, $state, Schedule, $firebaseObject, $firebaseArray ) {
+    $ionicLoading.show({
+        content: '<i class="icon ion-looping"></i> Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
+
     $scope.type = "trainer-schedule";
     var userID = $stateParams.userID;
     var userName = $stateParams.userName;
@@ -192,8 +209,7 @@ calendar.controller( 'TrainerScheduleController', function( $scope, $interval, $
         var monthSchedule = $firebaseArray(Schedule.monthRef(userID, now));
         var rules = $firebaseArray(Schedule.ref().child(userID).child("rules"));
 
-        rules.$watch(function(event) {
-            console.log(rules);
+        rules.$loaded(function(event) {
             $scope.rulesopen[now.getMonth()] = [];
 
             for (var i = 0; i < rules.length; i++) {
@@ -210,11 +226,15 @@ calendar.controller( 'TrainerScheduleController', function( $scope, $interval, $
                     }
                 }
             }
+            console.log($scope.rulesopen);
             render();
         });
 
-        monthSchedule.$watch(function (event) {
+        monthSchedule.$loaded(function (event) {
+            $ionicLoading.hide();
             for (var i = 0; i < monthSchedule.length; i++) {
+                console.log(monthSchedule[i].$id);
+                console.log(monthSchedule[i].active);
                 $scope.slotsopen[now.getMonth()][monthSchedule[i].$id] = 0;
                 for (var j = 0; j < monthSchedule[i].active.length; j++) {
                     if (monthSchedule[i].active[j].status == 0) {
@@ -222,6 +242,7 @@ calendar.controller( 'TrainerScheduleController', function( $scope, $interval, $
                     }
                 }
             }
+            console.log($scope.slotsopen);
             render();
         });
     };

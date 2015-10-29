@@ -113,7 +113,7 @@ var Week = React.createClass({displayName: "Week",
                 beforeToday: date < new Date(),
                 date: date
             };
-            if(this.props.slotsopen[day.date.month()][day.number]){
+            if(!isNaN(this.props.slotsopen[day.date.month()][day.number])){
                 day.slotsopen = this.props.slotsopen[day.date.month()][day.number];
             } else {
                 day.slotsopen = this.props.rulesopen[day.date.month()][day.number];
