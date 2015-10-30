@@ -719,6 +719,7 @@ angular.module('starter', ['ionic', 'accountModule', 'mapModule', 'trainerModule
             window.location.href = url;
         };
 
+        // This clears history and sets the new url to the root of history
         $scope.rootGoTo = function(state, params){
             console.log("rootGoTo " + state);
             $ionicHistory.nextViewOptions({ disableAnimate: true, disableBack: true, historyRoot: true });
